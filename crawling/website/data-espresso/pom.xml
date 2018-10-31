@@ -96,12 +96,12 @@
 		<dependency>
 			<groupId>com.digitalpebble.stormcrawler</groupId>
 			<artifactId>storm-crawler-core</artifactId>
-			<version>1.11-SNAPSHOT</version>
+			<version>1.11</version>
 		</dependency>
 		<dependency>
 			<groupId>com.digitalpebble.stormcrawler</groupId>
 			<artifactId>storm-crawler-elasticsearch</artifactId>
-			<version>1.11-SNAPSHOT</version>
+			<version>1.11</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.storm</groupId>

@@ -145,58 +145,23 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/index -H 'Content-Type: application/json' -
 					"index": "true",
 					"store": true
 				},
-				"domain": {
-					"type": "keyword",
-					"index": "true",
-					"store": true
-				},
-				"keywords": {
-					"type": "text",
-					"index": "true",
-					"store": true
-				},
-				"description": {
-					"type": "text",
-					"index": "true",
-					"store": true
-				},
 				"tieu_de": {
 					"type": "text",
 					"index": "true",
 					"store": true
 				},
 				"gia": {
+					"type": "keyword",
+					"index": "true",
+					"store": true
+				},
+				"tieu_de_thoi_trang": {
 					"type": "text",
 					"index": "true",
 					"store": true
 				},
-				"quan_huyen": {
-					"type": "text",
-					"index": "true",
-					"store": true
-				},
-				"so_phong": {
-					"type": "text",
-					"index": "true",
-					"store": true
-				},
-				"dien_tich": {
-					"type": "text",
-					"index": "true",
-					"store": true
-				},
-				"mieu_ta": {
-					"type": "text",
-					"index": "true",
-					"store": true
-				},
-				"ngay_dang": {
-					"type": "text",
-					"index": "true",
-					"store": true
-				},
-				"ngay_cap_nhat": {
-					"type": "text",
+				"gia_thoi_trang": {
+					"type": "keyword",
 					"index": "true",
 					"store": true
 				}

@@ -34,7 +34,7 @@ config:
    - isSitemap
    - isFeed
 
-  http.agent.name: "Data espresso web crawler"
+  http.agent.name: "Anonymous Coward"
   http.agent.version: "1.0"
   http.agent.description: "built with StormCrawler Archetype 1.11"
   http.agent.url: "http://someorganization.com/"
@@ -80,12 +80,8 @@ config:
   - parse.description=description
   - parse.tieu_de=tieu_de
   - parse.gia=gia
-  - parse.quan_huyen=quan_huyen
-  - parse.so_phong=so_phong
-  - parse.dien_tich=dien_tich
-  - parse.mieu_ta=mieu_ta
-  - parse.ngay_dang=ngay_dang
-  - parse.ngay_cap_nhat=ngay_cap_nhat
+  - parse.tieu_de_thoi_trang=tieu_de_thoi_trang
+  - parse.gia_thoi_trang=gia_thoi_trang
   - domain=domain
 
   # Metrics consumers:
