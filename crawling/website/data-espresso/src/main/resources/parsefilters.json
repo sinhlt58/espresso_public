@@ -19,7 +19,8 @@
           "//H2[@class=\"mbn-title\"]/text()",
           "//H1[@class=\"color111 size18\"]/text()",
           "//DIV[@class=\"vip-title\"]/a/text()",
-          "//DIV[@class=\"title\"]/h1/text()"
+          "//DIV[@class=\"title\"]/h1/text()",
+          "//DIV[@class=\"dv-txt\"]/h4/a/text()"
         ],
         "parse.gia":[
           "//DIV[@class=\"col-md-3 text-right listing-price\"]/text()",
@@ -31,11 +32,19 @@
         ],
         "parse.tieu_de_thoi_trang":[
           "//DIV[@class=\"c16H9d\"]/A/text()",
-          "//H1[@class=\"pdp-product-title\"]/text()"
+          "//H1[@class=\"pdp-product-title\"]/text()",
+          "//SPAN[@class=\"title\"]/text()",
+          "//H1[@id=\"product-name\"]/text()",
+          "//DIVV[@class=\"th-product-info full left\"]/h3/a/text()",
+          "//H1[@class=\"full left tr-prd-name2\"]/text()"
         ],
         "parse.gia_thoi_trang":[
           "//SPAN[@class=\"c13VH6\"]/text()",
-          "//SPAN[@class=\"pdp-price pdp-price_type_normal pdp-price_color_orange pdp-price_size_xl\"]/text()"
+          "//SPAN[@class=\"pdp-price pdp-price_type_normal pdp-price_color_orange pdp-price_size_xl\"]/text()",
+          "//A[@class=\"search-a-product-item\"]//SPAN[@class=\"final-price\"]/text()",
+          "//SPAN[@id=\"span-price\"]/text()",
+          "//SPAN[@class=\"th-product-price-new\"]/text()",
+          "//LI[@class=\"th-detail-price\"]/text()"
         ]
       }
     },
