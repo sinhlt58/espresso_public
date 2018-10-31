@@ -1,0 +1,317 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>gr.iti.mklab</groupId>
+    <artifactId>mklab-stream-manager</artifactId>
+    <version>0.3-SNAPSHOT</version>
+    <packaging>jar</packaging>
+	
+    <name>mklab-stream-manager</name>
+    <url>https://github.com/MKLab-ITI/mklab-stream-manager</url>
+    <description> Monitors a set of social streams (e.g. Twitter status updates) and collects the incoming content.
+    </description>
+    
+  	<developers>
+        <developer>
+            <id>manosetro</id>
+            <name>Manos Schinas</name>
+            <email>manosetro@iti.gr</email>
+        </developer>
+    </developers>
+    
+    <licenses>
+    	<license>
+      		<name>The Apache Software License, Version 2.0</name>
+      		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      		<distribution>repo</distribution>
+    	</license>
+  	</licenses>
+  	
+  	<scm>
+		<connection>scm:git:git@github.com:MKLab-ITI/mklab-stream-manager.git</connection>
+        <developerConnection>scm:git:git@github.com:MKLab-ITI/mklab-stream-manager.git</developerConnection>
+        <url>git@github.com:MKLab-ITI/mklab-stream-manager.git</url>
+      	<tag>HEAD</tag>
+  	</scm>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+   
+    <dependencies>
+    	<!-- MKLAB projects -->
+        <dependency>
+            <groupId>gr.iti.mklab</groupId>
+            <artifactId>mklab-framework-common</artifactId>
+            <version>0.3-SNAPSHOT</version>
+        </dependency>
+        
+        <dependency>
+  			<groupId>gr.iti.mklab</groupId>
+  			<artifactId>mklab-socialmedia-abstractions</artifactId>
+  			<version>0.3-SNAPSHOT</version>
+  			<exclusions>
+  				<exclusion>
+  					<artifactId>log4j</artifactId>
+  					<groupId>log4j</groupId>
+  				</exclusion>
+  			</exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>gr.iti.mklab</groupId>
+            <artifactId>mklab-framework-client</artifactId>
+            <version>0.3-SNAPSHOT</version>
+        </dependency>
+        
+       	<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>4.10.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>4.10.2</version>
+		</dependency>
+
+  		<dependency>
+    		<groupId>com.google.guava</groupId>
+        	<artifactId>guava</artifactId>
+        	<version>19.0</version>
+  		</dependency>
+  	
+  	  	<dependency>
+  			<groupId>edu.cmu.cs</groupId>
+  			<artifactId>ark-tweet-nlp</artifactId>
+  			<version>0.3.2</version>
+  			<exclusions>
+  				<exclusion>
+  					<artifactId>stanford-corenlp</artifactId>
+  					<groupId>edu.stanford.nlp</groupId>
+  				</exclusion>
+  			</exclusions>
+  		</dependency>
+  	
+        <dependency>
+        	<groupId>com.thinkaurelius.titan</groupId>
+        	<artifactId>titan-hbase</artifactId>
+        	<version>0.4.4</version>
+        	<exclusions>
+        		<exclusion>  
+       				<!-- declare the exclusion here -->
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+        		</exclusion>
+        		<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+        		</exclusion>
+        		<exclusion>
+        			<artifactId>log4j</artifactId>
+        			<groupId>log4j</groupId>
+        		</exclusion>
+        	</exclusions> 
+        </dependency>
+        
+        <dependency>
+        	<groupId>com.sun.jersey</groupId>
+        	<artifactId>jersey-client</artifactId>
+        	<version>1.9</version>
+        </dependency>
+        
+        <dependency>
+        	<groupId>com.cybozu.labs</groupId>
+        	<artifactId>langdetect</artifactId>
+        	<version>1.1-20120112</version>
+        </dependency>
+
+  		<dependency>
+    		<groupId>edu.stanford.nlp</groupId>
+    		<artifactId>stanford-corenlp</artifactId>
+    		<version>3.2.0</version>
+		</dependency>
+
+  		<dependency>
+  			<groupId>edu.stanford.nlp</groupId>
+  			<artifactId>stanford-corenlp</artifactId>
+  			<version>3.2.0</version>
+  			<classifier>models</classifier>
+  		</dependency>
+  		
+        <dependency>
+        	<groupId>com.rabbitmq</groupId>
+        	<artifactId>amqp-client</artifactId>
+        	<version>3.4.2</version>
+        </dependency>
+        <dependency>
+        	<groupId>redis.clients</groupId>
+        	<artifactId>jedis</artifactId>
+        	<version>2.6.1</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.apache.logging.log4j</groupId>
+        	<artifactId>log4j-core</artifactId>
+        	<version>2.2</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.graylog2.log4j2</groupId>
+        	<artifactId>log4j2-gelf</artifactId>
+        	<version>1.0.1</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.apache.commons</groupId>
+        	<artifactId>commons-collections4</artifactId>
+        	<version>4.0</version>
+        </dependency>
+        <dependency>
+        	<groupId>gr.iti.mklab</groupId>
+        	<artifactId>environmental-classification</artifactId>
+        	<version>0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    
+   	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
+    <pluginRepositories />
+    
+    <distributionManagement>
+  		<snapshotRepository>
+    		<id>ossrh</id>
+    		<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+  		</snapshotRepository>
+	</distributionManagement>
+    
+    <build>
+     <pluginManagement>
+        	<plugins>
+           		<plugin>
+                     <groupId>org.apache.maven.plugins</groupId>
+                     <artifactId>maven-release-plugin</artifactId>
+                     <version>2.5</version>
+                     <configuration>
+                     	  <autoVersionSubmodules>true</autoVersionSubmodules>
+                          <useReleaseProfile>false</useReleaseProfile>
+                          <releaseProfiles>release</releaseProfiles>
+                          <goals>deploy</goals>
+                     </configuration>
+                </plugin>
+          	</plugins>
+		</pluginManagement>
+		
+        <plugins>
+        	<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+		
+            </plugin>
+      
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.7.1</version>
+                <executions>
+                    <execution>
+                    	<id>StreamCollector</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                        	<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>with-dependencies</shadedClassifierName>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>                                       
+                                    </excludes>
+                                </filter>		
+                            </filters>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <manifestEntries>
+                                        <Main-Class>gr.iti.mklab.sfc.StreamsManagerApp</Main-Class>
+                                        <Build-Number>123</Build-Number>
+                                    </manifestEntries>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+            	</executions>
+            </plugin>
+      
+        </plugins>
+    </build>
+</project>

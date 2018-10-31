@@ -1,0 +1,3 @@
+[submodule "libs/storm_crawler"]
+	path = libs/storm_crawler
+	url = https://github.com/DigitalPebble/storm-crawler

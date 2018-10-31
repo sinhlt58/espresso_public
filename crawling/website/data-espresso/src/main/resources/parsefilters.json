@@ -1,0 +1,74 @@
+{
+  "com.digitalpebble.stormcrawler.parse.ParseFilters": [
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.XPathFilter",
+      "name": "XPathFilter",
+      "params": {
+        "canonical": "//*[@rel=\"canonical\"]/@href",
+        "parse.description": [
+            "//*[@name=\"description\"]/@content",
+            "//*[@name=\"Description\"]/@content"
+         ],
+        "parse.title": [
+            "//TITLE",
+            "//META[@name=\"title\"]/@content"
+         ],
+        "parse.keywords": "//META[@name=\"keywords\"]/@content",
+        "parse.tieu_de": [
+          "//A[@class=\"title-filter-link\"]/text()"
+        ],
+        "parse.gia": [
+          "//DIV[@class=\"col-md-3 text-right listing-price\"]/text()"
+        ],
+        "parse.quan_huyen": [
+          "//DIV[@class=\"col-md-3 col-xs-6 text-right\"]/text()"
+        ],
+        "parse.so_phong": [
+          "//DIV[@class=\"col-xs-12 lline\"]/span[@class=\"rooms\"]/text()"
+        ],
+        "parse.dien_tich": [
+          "//DIV[@class=\"col-xs-12 lline\"]/span[@class=\"rooms\"]/text()"
+        ],
+        "parse.mieu_ta": [
+          "//DIV[@class=\"col-xs-12 hidden-xs hidden-sm cusshort\"]/text()"
+        ],
+        "parse.ngay_dang": [
+          "//DIV[@class=\"col-lg-4 lline hidden-xs\"]/text()"
+        ],
+        "parse.ngay_cap_nhat": [
+          "//DIV[@class=\"col-lg-6 lline col-xs-9 hidden-xs\"]/text()"
+        ]
+      }
+    },
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.ContentFilter",
+      "name": "ContentFilter",
+      "params": {
+        "pattern": "//DIV[@id=\"maincontent\"]",
+        "pattern2": "//DIV[@itemprop=\"articleBody\"]",
+        "pattern3": "//ARTICLE"
+       }
+    },
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.DomainParseFilter",
+      "name": "DomainParseFilter",
+      "params": {
+        "key": "domain",
+        "byHost": false
+       }
+    },
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.DebugParseFilter",
+      "name": "DebugParseFilter",
+      "params": {
+       }
+    },
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.CommaSeparatedToMultivaluedMetadata",
+      "name": "CommaSeparatedToMultivaluedMetadata",
+      "params": {
+        "keys": ["parse.keywords"]
+       }
+    }
+  ]
+}
