@@ -5,15 +5,21 @@
             "name": "XPathFilter",
             "params": {
                 "bds.tieu_de": {
-                    "alonhadat.com.vn": [],
+                    "alonhadat.com.vn": [
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//DIV[@class=\"title\"]/H1/text()"
+                    ],
                     "www.muabannhadat.vn": []
                 },
                 "bds.gia": {
-                    "alonhadat.com.vn": [],
+                    "alonhadat.com.vn": [
+                        "//SPAN[@class=\"price\"]/SPAN[@class=\"value\"]/text()"
+                    ],
                     "www.muabannhadat.vn": []
                 },
                 "bds.dien_tich": {
-                    "alonhadat.com.vn": [],
+                    "alonhadat.com.vn": [
+                        "//SPAN[@class=\"square\"]/SPAN[@class=\"value\"]/text()"
+                    ],
                     "www.muabannhadat.vn": []
                 },
                 "bds.dia_chi": {
@@ -93,7 +99,9 @@
                     "www.muabannhadat.vn": []
                 },
                 "bds.ngay_dang": {
-                    "alonhadat.com.vn": [],
+                    "alonhadat.com.vn": [
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//DIV[@class=\"title\"]/SPAN[@class=\"date\"]/text()"
+                    ],
                     "www.muabannhadat.vn": []
                 },
                 "bds.ngay_cap_nhat": {
