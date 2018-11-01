@@ -1,0 +1,193 @@
+{
+    "settings": {
+        "index": {
+            "number_of_shards": 5,
+            "number_of_replicas": 1,
+            "refresh_interval": "60s"
+        }
+    },
+    "mappings": {
+        "doc": {
+            "_source": {
+                "enabled": false
+            },
+            "properties": {
+                "content": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "host": {
+                    "type": "keyword",
+                    "index": "true",
+                    "store": true
+                },
+                "title": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "description": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "url": {
+                    "type": "keyword",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_tieu_de": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_gia": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_dien_tich": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_dia_chi": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_loai_tin": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_loai_bds": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_chieu_ngang": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_chieu_dai": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_thuoc_du_an": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_huong": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_so_tang": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_duong_truoc_nha": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_phap_ly": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_so_lau": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_so_phong_ngu": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_so_phong_tam": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_phong_an": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_nha_bep": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_san_thuong": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_cho_de_xe_hoi": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_chinh_chu": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_mieu_ta": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_ngay_dang": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_ngay_cap_nhat": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "ttn_tieu_de": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "ttn_gia": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "ttn_thuong_hieu": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "ttn_kich_co": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "ttn_mieu_ta": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "ttn_ngay_dang": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                }
+            }
+        }
+    }
+}

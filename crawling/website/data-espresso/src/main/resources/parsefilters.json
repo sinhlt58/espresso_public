@@ -1,67 +1,166 @@
 {
-  "com.digitalpebble.stormcrawler.parse.ParseFilters": [
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.XPathFilter",
-      "name": "XPathFilter",
-      "params": {
-        "canonical": "//*[@rel=\"canonical\"]/@href",
-        "parse.description": [
-            "//*[@name=\"description\"]/@content",
-            "//*[@name=\"Description\"]/@content"
-         ],
-        "parse.title": [
-            "//TITLE",
-            "//META[@name=\"title\"]/@content"
-        ],
-        "parse.keywords": "//META[@name=\"keywords\"]/@content",
-        "parse.tieu_de":[
-          "//A[@class=\"title-filter-link\"]/text()",
-          "//H2[@class=\"mbn-title\"]/text()",
-          "//H1[@class=\"color111 size18\"]/text()",
-          "//DIV[@class=\"vip-title\"]/a/text()",
-          "//DIV[@class=\"title\"]/h1/text()"
-        ],
-        "parse.gia":[
-          "//DIV[@class=\"col-md-3 text-right listing-price\"]/text()",
-          "//SPAN[@class=\"mbn-price\"]/text()",
-          "//DIV[@class=\"col-md-10 col-sm-10 col-xs-9 price-value\"]/span/text()",
-          "//DIV[@class=\"vip-price\"]/text()",
-          "//SPAN[@class=\"price\"]/span[@class=\"value\"]/text()",
-          "//SPAN[@class=\"price\"]/text()"
-        ],
-        "parse.tieu_de_thoi_trang":[
-          "//DIV[@class=\"c16H9d\"]/A/text()",
-          "//H1[@class=\"pdp-product-title\"]/text()"
-        ],
-        "parse.gia_thoi_trang":[
-          "//SPAN[@class=\"c13VH6\"]/text()",
-          "//SPAN[@class=\"pdp-price pdp-price_type_normal pdp-price_color_orange pdp-price_size_xl\"]/text()"
-        ]
-      }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.ContentFilter",
-      "name": "ContentFilter",
-      "params": {
-        "pattern": "//DIV[@id=\"maincontent\"]",
-        "pattern2": "//DIV[@itemprop=\"articleBody\"]",
-        "pattern3": "//ARTICLE"
-       }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.DomainParseFilter",
-      "name": "DomainParseFilter",
-      "params": {
-        "key": "domain",
-        "byHost": false
-       }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.CommaSeparatedToMultivaluedMetadata",
-      "name": "CommaSeparatedToMultivaluedMetadata",
-      "params": {
-        "keys": ["parse.keywords"]
-       }
-    }
-  ]
+    "com.digitalpebble.stormcrawler.parse.ParseFilters": [
+        {
+            "class": "com.digitalpebble.stormcrawler.parse.filter.XPathFilter",
+            "name": "XPathFilter",
+            "params": {
+                "bds.tieu_de": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.gia": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.dien_tich": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.dia_chi": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.loai_tin": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.loai_bds": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.chieu_ngang": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.chieu_dai": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.thuoc_du_an": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.huong": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.so_tang": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.duong_truoc_nha": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.phap_ly": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.so_lau": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.so_phong_ngu": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.so_phong_tam": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.phong_an": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.nha_bep": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.san_thuong": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.cho_de_xe_hoi": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.chinh_chu": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.mieu_ta": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.ngay_dang": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "bds.ngay_cap_nhat": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": []
+                },
+                "ttn.tieu_de": {
+                    "www.lazada.vn": [],
+                    "tiki.vn": []
+                },
+                "ttn.gia": {
+                    "www.lazada.vn": [],
+                    "tiki.vn": []
+                },
+                "ttn.thuong_hieu": {
+                    "www.lazada.vn": [],
+                    "tiki.vn": []
+                },
+                "ttn.kich_co": {
+                    "www.lazada.vn": [],
+                    "tiki.vn": []
+                },
+                "ttn.mieu_ta": {
+                    "www.lazada.vn": [],
+                    "tiki.vn": []
+                },
+                "ttn.ngay_dang": {
+                    "www.lazada.vn": [],
+                    "tiki.vn": []
+                },
+                "canonical": "//*[@rel=\"canonical\"]/@href",
+                "parse.title": [
+                    "//TITLE",
+                    "//META[@name=\"title\"]/@content"
+                ],
+                "parse.description": [
+                    "//*[@name=\"description\"]/@content",
+                    "//*[@name=\"Description\"]/@content"
+                ],
+                "parse.keywords": "//META[@name=\"keywords\"]/@content"
+            }
+        },
+        {
+            "class": "com.digitalpebble.stormcrawler.parse.filter.ContentFilter",
+            "name": "ContentFilter",
+            "params": {
+                "pattern": "//DIV[@id=\"maincontent\"]",
+                "pattern2": "//DIV[@itemprop=\"articleBody\"]",
+                "pattern3": "//ARTICLE"
+            }
+        },
+        {
+            "class": "com.digitalpebble.stormcrawler.parse.filter.DomainParseFilter",
+            "name": "DomainParseFilter",
+            "params": {
+                "key": "domain",
+                "byHost": false
+            }
+        },
+        {
+            "class": "com.digitalpebble.stormcrawler.parse.filter.CommaSeparatedToMultivaluedMetadata",
+            "name": "CommaSeparatedToMultivaluedMetadata",
+            "params": {
+                "keys": [
+                    "parse.keywords"
+                ]
+            }
+        }
+    ]
 }

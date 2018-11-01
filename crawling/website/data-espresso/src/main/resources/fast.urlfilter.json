@@ -1,0 +1,20 @@
+[{
+    "scope": "GLOBAL",
+    "patterns": [
+        "DenyPathQuery \\.jpg"
+    ]
+},
+{
+    "scope": "domain:alonhadat.com.vn",
+    "patterns": [
+        "DenyPath /digitalpebble/",
+        "AllowPath .+"
+    ]
+},
+{
+    "scope": "metadata:key=value",
+    "patterns": [
+       "DenyPath .+"
+    ]
+}
+]

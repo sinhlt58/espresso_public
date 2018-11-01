@@ -1,0 +1,58 @@
+[{
+    "name": "bds",
+    "fields": [
+        "tieu_de",
+        "gia",
+        "dien_tich",
+        "dia_chi",
+        "loai_tin",
+        "loai_bds",
+        "chieu_ngang",
+        "chieu_dai",
+        "thuoc_du_an",
+        "huong",
+        "so_tang",
+        "duong_truoc_nha",
+        "phap_ly",
+        "so_lau",
+        "so_phong_ngu",
+        "so_phong_tam",
+        "phong_an",
+        "nha_bep",
+        "san_thuong",
+        "cho_de_xe_hoi",
+        "chinh_chu",
+        "mieu_ta",
+        "ngay_dang",
+        "ngay_cap_nhat"
+    ],
+    "seed_urls": [
+        "https://alonhadat.com.vn/",
+        "http://www.muabannhadat.vn/nha-dat-3490"
+    ],
+    "group_urls": [
+        "alonhadat.com.vn",
+        "www.muabannhadat.vn"
+    ]
+},
+{
+    "name": "ttn",
+    "fields": [
+        "tieu_de",
+        "gia",
+        "thuong_hieu",
+        "kich_co",
+        "mieu_ta",
+        "ngay_dang"
+    ],
+    "seed_urls": [
+        "https://www.lazada.vn/trang-phuc-nu/?spm=a2o4n.searchlist.cate_8.1.767e5d98E11Y4g",
+        "https://tiki.vn/thoi-trang/c914?q=ao%20nu&ref=categorySearch",
+        "https://tiki.vn/thoi-trang/c914?q=quan%20nu&ref=categorySearch",
+        "https://tiki.vn/thoi-trang/c914?q=vay%20nu&ref=categorySearch"
+    ],
+    "group_urls": [
+        "www.lazada.vn",
+        "tiki.vn"
+    ]
+}]
