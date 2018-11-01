@@ -1,5 +1,7 @@
 #!/bin/bash
 
+crr_dir=$(echo $PWD)
+
 if [ "$1" = "index" ]
 then
     ./change_fields.sh
@@ -8,6 +10,13 @@ fi
 if [ "$1" = "build" ]
 then
     mvn clean package
+fi
+
+if [ "$1" = "build_libs" ]
+then
+    cd ../../../libs/storm_crawler
+    mvn clean package install
+    cd $crr_dir
 fi
 
 if [ "$1" = "inject" ]

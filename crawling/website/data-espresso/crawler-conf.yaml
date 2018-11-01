@@ -1,5 +1,4 @@
 config:
-  bdsfilters.config.file: bdsfilters.json
   fetchInterval.default: 1440
   fetchInterval.error: -1
   fetchInterval.fetch.error: 120
@@ -55,6 +54,7 @@ config:
   - isSitemap
   - isSitemap
   - isFeed
+  parsefilters.config.file: parsefilters.json
   topology.debug: false
   topology.kryo.register:
   - com.digitalpebble.stormcrawler.Metadata

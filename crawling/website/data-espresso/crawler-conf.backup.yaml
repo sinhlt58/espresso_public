@@ -51,7 +51,7 @@ config:
   # the FetcherBolt will log the content of its internal queues to the logs
   # fetcherbolt.queue.debug.filepath: "/tmp/fetcher-dump-{port}"
 
-  bdsfilters.config.file: "bdsfilters.json"
+  parsefilters.config.file: "parsefilters.json"
   urlfilters.config.file: "urlfilters.json"
 
   # revisit a page daily (value in minutes)
