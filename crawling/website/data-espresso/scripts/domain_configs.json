@@ -10,11 +10,14 @@
         "chieu_ngang",
         "chieu_dai",
         "thuoc_du_an",
+        "chu_dau_tu",
+        "quy_mo",
         "huong",
         "so_tang",
         "duong_truoc_nha",
         "phap_ly",
         "so_lau",
+        "so_toilet",
         "so_phong_ngu",
         "so_phong_tam",
         "phong_an",
@@ -22,17 +25,28 @@
         "san_thuong",
         "cho_de_xe_hoi",
         "chinh_chu",
+        "lh_ten",
+        "lh_dia_chi",
+        "lh_sdt",
+        "lh_email",
         "mieu_ta",
         "ngay_dang",
-        "ngay_cap_nhat"
+        "ngay_cap_nhat",
+        "ngay_het_han"
     ],
     "seed_urls": [
         "https://alonhadat.com.vn/",
-        "http://www.muabannhadat.vn/nha-dat-3490"
+        "http://www.muabannhadat.vn/nha-dat-3490",
+        "https://batdongsan.com.vn",
+        "https://muaban.net/mua-ban-nha-dat-cho-thue-toan-quoc-l0-c3",
+        "https://nhadat24h.net/"
     ],
     "group_urls": [
         "alonhadat.com.vn",
-        "www.muabannhadat.vn"
+        "www.muabannhadat.vn",
+        "batdongsan.com.vn",
+        "muban.net",
+        "nhadat24h.net"
     ]
 },
 {

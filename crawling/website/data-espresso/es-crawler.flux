@@ -21,10 +21,10 @@ spouts:
 bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 1
+    parallelism: 2
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 1
+    parallelism: 4
     properties:
       - name: "filteredJsUrlFile"
         value: "filtered-js-url-file.json" 
@@ -32,22 +32,22 @@ bolts:
         value: "http://localhost:3000/api/v1/viewDom?url="
   - id: "sitemap"
     className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
-    parallelism: 1
+    parallelism: 2
   - id: "feed"
     className: "com.digitalpebble.stormcrawler.bolt.FeedParserBolt"
     parallelism: 1
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 1
+    parallelism: 4
   - id: "index"
     className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.IndexerBolt"
-    parallelism: 1
+    parallelism: 2
   - id: "status"
     className: "com.digitalpebble.stormcrawler.elasticsearch.persistence.StatusUpdaterBolt"
-    parallelism: 1
+    parallelism: 2
   - id: "status_metrics"
     className: "com.digitalpebble.stormcrawler.elasticsearch.metrics.StatusMetricsBolt"
-    parallelism: 1
+    parallelism: 2
 
 streams:
   - from: "spout"

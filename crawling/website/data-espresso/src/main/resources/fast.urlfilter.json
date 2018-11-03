@@ -5,10 +5,17 @@
     ]
 },
 {
-    "scope": "domain:alonhadat.com.vn",
+    "scope": "domain:batdongsan.com.vn",
     "patterns": [
-        "DenyPath /digitalpebble/",
-        "AllowPath .+"
+        "AllowPathQuery \/ban-|\/cho-thue-|\/mua-|\/can-thue-",
+        "DenyPathQuery .+"
+    ]
+},
+{
+    "scope": "domain:lazada.vn",
+    "patterns": [
+        "AllowPathQuery searchlist",
+        "DenyPathQuery .+"
     ]
 },
 {

@@ -82,6 +82,16 @@
                     "index": "true",
                     "store": true
                 },
+                "bds_chu_dau_tu": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_quy_mo": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
                 "bds_huong": {
                     "type": "text",
                     "index": "true",
@@ -103,6 +113,11 @@
                     "store": true
                 },
                 "bds_so_lau": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_so_toilet": {
                     "type": "text",
                     "index": "true",
                     "store": true
@@ -142,6 +157,26 @@
                     "index": "true",
                     "store": true
                 },
+                "bds_lh_ten": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_lh_dia_chi": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_lh_sdt": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_lh_email": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
                 "bds_mieu_ta": {
                     "type": "text",
                     "index": "true",
@@ -153,6 +188,11 @@
                     "store": true
                 },
                 "bds_ngay_cap_nhat": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_ngay_het_han": {
                     "type": "text",
                     "index": "true",
                     "store": true

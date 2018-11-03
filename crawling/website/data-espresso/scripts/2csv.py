@@ -4,8 +4,76 @@ import datetime
 
 class ConvertManager:
 
-    fields = ['tieu_de', 'quan_huyen', 'gia', 'mieu_ta', 'ngay_dang', 'ngay_cap_nhat']
-    headers = ["Tiêu đề", "Quận huyện", "Giá", "Miêu tả", "Ngày đăng", "Ngày cập nhật", 'Từ url']
+    fields = [
+        "tieu_de",
+        "gia",
+        "dien_tich",
+        "dia_chi",
+        "loai_tin",
+        "loai_bds",
+        "chieu_ngang",
+        "chieu_dai",
+        "thuoc_du_an",
+        "chu_dau_tu",
+        "quy_mo",
+        "huong",
+        "so_tang",
+        "duong_truoc_nha",
+        "phap_ly",
+        "so_lau",
+        "so_toilet",
+        "so_phong_ngu",
+        "so_phong_tam",
+        "phong_an",
+        "nha_bep",
+        "san_thuong",
+        "cho_de_xe_hoi",
+        "chinh_chu",
+        "lh_ten",
+        "lh_dia_chi",
+        "lh_sdt",
+        "lh_email",
+        "mieu_ta",
+        "ngay_dang",
+        "ngay_cap_nhat",
+        "ngay_het_han",
+        "url"
+    ]
+    headers = [
+        "Tiêu đề",
+        "Giá",
+        "Diện tích",
+        "Địa chỉ",
+        "Loại tin",
+        "Loại bđs",
+        "Chiều ngang",
+        "Chiều dài",
+        "Thuộc dự án",
+        "Chủ đầu tư",
+        "Quy mô",
+        "Hướng",
+        "Số tầng",
+        "Đường trước nhà",
+        "Pháp lý",
+        "Số lầu",
+        "Số toilet",
+        "Số phòng ngủ",
+        "Số phòng tắm",
+        "Phòng ăn",
+        "Phòng bếp",
+        "Sân thượng",
+        "Chỗ để xe hơi",
+        "Chính chủ",
+        "Liện hệ tên",
+        "Liên hệ địa chỉ",
+        "Liên hệ sđt",
+        "Liên hệ email",
+        "Miêu tả",
+        "Ngày đăng",
+        "Ngày cập nhật",
+        "Ngày hết hạn",
+        "Từ URL"
+    ]
 
     @classmethod
     def json_to_exel(cls, file_path, file_format='csv'):
@@ -30,33 +98,48 @@ class ConvertManager:
             writer = pd.ExcelWriter(out_file_name + '.xls', engine='xlsxwriter')
             df.to_excel(writer, sheet_name='Sheet1', index=False, header=True)
 
+        print ("Len fields: ", len(cls.fields))
+        print ("Len headers: ", len(cls.headers))
+        print ("Len data: ", len(data_set))
+
         print ('Done write to file {}'.format(out_file_name))
 
     @classmethod
-    def log_object_dict_to_rows(cls, dict_obj):
+    def log_object_dict_to_rows(cls, dict_obj): # 1 row now
         fields_data = []
         fields_dict = dict_obj.get('fields')
         max_num_rows = 0
+        row = []
+
+        is_at_least_no_empty = False
         for field in cls.fields:
-            field_data = fields_dict.get(field, [])
-            fields_data.append(field_data)
-            n = len(field_data)
-            if n > max_num_rows:
-                max_num_rows = n
+            es_field = "bds_{}".format(field)
+            
+            if field == "tieu_de":
+                es_field = "title"
 
-        rows = []
-        if max_num_rows > 1:
-            for i in range(0, max_num_rows):
-                row = []
-                for field_data in fields_data:
-                    if i < len(field_data):
-                        row.append(field_data[i])
-                    else:
-                        row.append("")
-                row.append(fields_dict.get('url')[0])
-                rows.append(row)
+            if field == "url":
+                es_field = "url"
+            
+            field_data = fields_dict.get(es_field, [])
 
-        return rows
+            if len(field_data) > 0:
+                if es_field[:3] == 'bds':
+                    is_at_least_no_empty = True
+                row_data = field_data[0]
+                if es_field == 'bds_mieu_ta':
+                    row_data = ''
+                    for m in field_data:
+                        row_data += m + ' '
+                    row_data = row_data.strip()
+                row.append(row_data)
+            else:
+                row.append('')
+
+        if is_at_least_no_empty:
+            return [row]
+        else:
+            return []
 
 if __name__ == '__main__':
     ConvertManager.json_to_exel('index.json', 'xls')

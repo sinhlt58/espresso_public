@@ -16,14 +16,33 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/api/v1/viewDom', function(req, res) {
   if (req.query.url == null)
-    return res.status(500);
+    return res.send('no url');
+
   let URL = decodeURIComponent(req.query.url);
   console.log('After decode: ' + URL);
   puppeteer.launch().then(async browser => {
     const page = await browser.newPage();
-    await page.goto(URL, {waitUntil: 'networkidle0'});
-    let html = await page.content()
-    res.send(html);
+    try {
+      // 1. Intercept network requests.
+      await page.setRequestInterception(true);
+
+      page.on('request', req => {
+        // 2. Ignore reqs that don't produce DOM (img/css/media)
+        const whiteList = ['document', 'script', 'xhr', 'fetch'];
+
+        if (!whiteList.includes(req.resourceType())) {
+          return req.abort();
+        }
+        req.continue(); // 3. Pass through all other requests.
+      });
+
+      await page.goto(URL, {waitUntil: 'networkidle0'});
+      let html = await page.content()
+      res.send(html);
+    }catch(error) {
+      console.log('error: ', error);
+      res.send('error')
+    }
     await browser.close();
   });
 })
