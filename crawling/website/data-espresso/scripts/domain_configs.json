@@ -63,10 +63,12 @@
         "https://www.lazada.vn/trang-phuc-nu/?spm=a2o4n.searchlist.cate_8.1.767e5d98E11Y4g",
         "https://tiki.vn/thoi-trang/c914?q=ao%20nu&ref=categorySearch",
         "https://tiki.vn/thoi-trang/c914?q=quan%20nu&ref=categorySearch",
-        "https://tiki.vn/thoi-trang/c914?q=vay%20nu&ref=categorySearch"
+        "https://tiki.vn/thoi-trang/c914?q=vay%20nu&ref=categorySearch",
+        "https://shopee.vn/Áo-cat.77.1871"
     ],
     "group_urls": [
         "www.lazada.vn",
-        "tiki.vn"
+        "tiki.vn",
+        "shopee.vn"
     ]
 }]

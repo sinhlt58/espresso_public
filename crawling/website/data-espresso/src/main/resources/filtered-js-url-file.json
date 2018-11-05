@@ -1,8 +1,17 @@
 {
     "urls": [
-        "www.shopee.vn",
-        "www.lazada.vn",
-        "nhadat24h.net",
-        "batdongsan.com.vn"
+        {
+            "hostname": "shopee.vn",
+            "scopes": "scroll"
+        },
+        {
+            "hostname": "www.lazada.vn"
+        },
+        {
+            "hostname": "nhadat24h.net"
+        },
+        {
+            "hostname": "batdongsan.com.vn"
+        }
     ]
 }

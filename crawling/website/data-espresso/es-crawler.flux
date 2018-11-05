@@ -21,7 +21,7 @@ spouts:
 bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 2
+    parallelism: 3
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
     parallelism: 4
@@ -39,15 +39,18 @@ bolts:
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
     parallelism: 4
+    properties:
+      - name: "importeLinkHostnames"
+        value: ["shopee.vn"]
   - id: "index"
     className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.IndexerBolt"
-    parallelism: 2
+    parallelism: 3
   - id: "status"
     className: "com.digitalpebble.stormcrawler.elasticsearch.persistence.StatusUpdaterBolt"
-    parallelism: 2
+    parallelism: 3
   - id: "status_metrics"
     className: "com.digitalpebble.stormcrawler.elasticsearch.metrics.StatusMetricsBolt"
-    parallelism: 2
+    parallelism: 3
 
 streams:
   - from: "spout"

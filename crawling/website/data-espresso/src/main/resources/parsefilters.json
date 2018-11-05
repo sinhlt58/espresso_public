@@ -276,35 +276,51 @@
                     "www.lazada.vn": [
                         "//*[@id=\"module_product_title_1\"]/h1/text()"
                     ],
-                    "tiki.vn": []
+                    "tiki.vn": [],
+                    "shopee.vn": [
+                        "//DIV[@class='qaNIZv']/text()"
+                    ]
                 },
                 "ttn.gia": {
                     "www.lazada.vn": [
                         "//*[@id=\"module_product_price_1\"]/DIV/DIV/span/text()[2]"
                     ],
-                    "tiki.vn": []
+                    "tiki.vn": [],
+                    "shopee.vn": [
+                        "//DIV[@class='_3n5NQx']/text()"
+                    ]
                 },
                 "ttn.thuong_hieu": {
                     "www.lazada.vn": [
                         "//*[@id=\"module_product_brand_1\"]/DIV/a[1]/text()"
                     ],
-                    "tiki.vn": []
+                    "tiki.vn": [],
+                    "shopee.vn": [
+                        "//A[@class='_2H-513']/text()"
+                    ]
                 },
                 "ttn.kich_co": {
                     "www.lazada.vn": [
                         "//*[@id=\"module_sku-select\"]/DIV/DIV[1]/DIV/DIV/DIV[2]/span[@class=\"sku-variable-size-selected\"]/text()"
                     ],
-                    "tiki.vn": []
+                    "tiki.vn": [],
+                    "shopee.vn": [
+                    ]
                 },
                 "ttn.mieu_ta": {
                     "www.lazada.vn": [
                         "//DIV[@class=\"html-content detail-content\"]//p/text()"
                     ],
-                    "tiki.vn": []
+                    "tiki.vn": [],
+                    "shopee.vn": [
+                        "//DIV[@class='_2u0jt9']/SPAN/text()"
+                    ]
                 },
                 "ttn.ngay_dang": {
                     "www.lazada.vn": [],
-                    "tiki.vn": []
+                    "tiki.vn": [],
+                    "shopee.vn": [
+                    ]
                 },
                 "canonical": "//*[@rel=\"canonical\"]/@href",
                 "parse.title": [

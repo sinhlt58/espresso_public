@@ -14,7 +14,16 @@
 {
     "scope": "domain:lazada.vn",
     "patterns": [
-        "AllowPathQuery searchlist",
+        "AllowPathQuery products(.*)search=1",
+        "AllowPathQuery page=",
+        "DenyPathQuery .+"
+    ]
+},
+{
+    "scope": "domain:shopee.vn",
+    "patterns": [
+        "AllowPathQuery ([0-9]{2,})\\.([0-9]{2,})",
+        "AllowPathQuery page=",
         "DenyPathQuery .+"
     ]
 },

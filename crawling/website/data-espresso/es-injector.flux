@@ -17,7 +17,7 @@ components:
   - id: "scheme"
     className: "com.digitalpebble.stormcrawler.util.StringTabScheme"
     constructorArgs:
-      - DISCOVERED
+      - DISCOVEREDDISCOVERED
 
 spouts:
   - id: "spout"
