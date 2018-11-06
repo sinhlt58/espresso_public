@@ -14,6 +14,7 @@ const options = {
 
 const SCOPE_OP_REQUEST = 'opreq'
 const SCOPE_OP_SCROLL  = 'scroll'
+const SCOPE_SHOPEE_COMMENT = 'shopeec'
 
 let _browser = null;
 puppeteer.launch({
@@ -80,6 +81,13 @@ app.get('/api/v1/viewDom', async function(req, res) {
       await page.evaluate(_ => {
         window.scrollBy(0, window.innerHeight);
       });
+      if (scopes.includes(SCOPE_SHOPEE_COMMENT)) {
+        console.log("Get comments and change DOM for shopee");
+        await Promise.all([
+          page.waitFor(2000),
+          page.click('div.product-rating-overview__filter--with-comment'),
+        ]);
+      }
     }
     
     let html = await page.content()

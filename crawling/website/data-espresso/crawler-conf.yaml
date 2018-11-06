@@ -49,6 +49,8 @@ config:
   - ttn.kich_co=ttn_kich_co
   - ttn.mieu_ta=ttn_mieu_ta
   - ttn.ngay_dang=ttn_ngay_dang
+  - ttn.bl_noi_dung=ttn_bl_noi_dung
+  - ttn.bl_diem=ttn_bl_diem
   - parse.title=title
   - parse.keywords=keywords
   - parse.description=description

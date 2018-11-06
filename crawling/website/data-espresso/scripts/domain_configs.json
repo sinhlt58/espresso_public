@@ -57,7 +57,9 @@
         "thuong_hieu",
         "kich_co",
         "mieu_ta",
-        "ngay_dang"
+        "ngay_dang",
+        "bl_noi_dung",
+        "bl_diem"
     ],
     "seed_urls": [
         "https://www.lazada.vn/trang-phuc-nu/?spm=a2o4n.searchlist.cate_8.1.767e5d98E11Y4g",

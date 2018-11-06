@@ -35,7 +35,7 @@ bolts:
     parallelism: 2
   - id: "feed"
     className: "com.digitalpebble.stormcrawler.bolt.FeedParserBolt"
-    parallelism: 1
+    parallelism: 2
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
     parallelism: 4

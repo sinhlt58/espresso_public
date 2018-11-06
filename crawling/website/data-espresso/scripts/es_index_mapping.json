@@ -226,6 +226,16 @@
                     "type": "text",
                     "index": "true",
                     "store": true
+                },
+                "ttn_bl_noi_dung": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "ttn_bl_diem": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
                 }
             }
         }
