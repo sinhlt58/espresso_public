@@ -186,6 +186,16 @@
                     "type": "text",
                     "index": "true",
                     "store": true
+                },
+                "test_tieu_de": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "test_gia": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
                 }
             }
         }
