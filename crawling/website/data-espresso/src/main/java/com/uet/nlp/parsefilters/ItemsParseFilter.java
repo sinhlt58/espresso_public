@@ -20,102 +20,119 @@ import org.w3c.dom.DocumentFragment;
 
 public class ItemsParseFilter extends ParseFilter {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ItemsParseFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ItemsParseFilter.class);
 
-    private final Map<String, ArrayList<String>> selectorsChildrentMap = new HashMap<>();
-    private Map<String, ArrayList<String>> selectorItemsMap = new HashMap<>();
+    private final Map<String, String> selectorChildrentMap = new HashMap<>();
+    private Map<String, String> selectorItemsMap = new HashMap<>();
 
     @Override
     public void filter(String URL, byte[] content, DocumentFragment doc, ParseResult parse) {
         ParseData parseData = parse.get(URL);
         Metadata metadata = parseData.getMetadata();
         String html = metadata.getFirstValue("html");
+        Entry<String, String> selectorItemsEntry = selectorItemsMap.entrySet().iterator().next();
+
         try {
             Document docJsoup = Jsoup.parse(html);
-            Iterator<Entry<String, ArrayList<String>>> iterItems = selectorItemsMap.entrySet().iterator();
-            Entry<String, ArrayList<String>> selectorItemsEntry = iterItems.next();
 //            LOG.info("selectorItemsEntry: {}", selectorItemsEntry.getValue());
+            Elements elementItems = docJsoup.select(selectorItemsEntry.getValue());
 
+            if (elementItems != null && !elementItems.isEmpty()) {
 
-            // Bat dau loc ra cac items cha
-            for (String selectorItem: selectorItemsEntry.getValue()) {
-//                LOG.info("@@@@@@@@@selectorItem: {}", selectorItem);
-                try {
-                    // Cac items cha
-                    Elements elementItems = docJsoup.select(selectorItem);
-                    if (elementItems != null && !elementItems.isEmpty()) {
-                        ArrayList<String> objectStringArray = new ArrayList<>();
-                        for (Element elementItem: elementItems) {
-//                            LOG.info("@@@@@@@@@elementItem: {}", elementItem);
-                            // metadata value moi key dang la string, can sua lai dang metadata neu muon dung json
-                            String jsonObjectString = "{";
-                            Iterator<Entry<String, ArrayList<String>>> iterChildrent = selectorsChildrentMap.entrySet().iterator();
-                            while (iterChildrent.hasNext()){
-                                Entry<String, ArrayList<String>> selectorChildEntry = iterChildrent.next();
-                                ArrayList<String> selectorChildrent = selectorChildEntry.getValue();
-                                String jsonPropertyString = "\"" + selectorChildEntry.getKey()+ "\":\"";
-                                for (int i = 0; i < selectorChildrent.size(); i++) {
-                                    String selectorChild = selectorChildrent.get(i);
-                                    String contentChild = "";
-                                    try {
-                                        if (selectorChild.contains("|")){
-                                            String[] arrayConcatText = selectorChild.split("|");
-                                            for (int j = 0; j < arrayConcatText.length; j++) {
-                                                Elements contentElements = elementItem.select(arrayConcatText[j]);
-                                                if (contentElements != null && !contentElements.isEmpty()){
-                                                    String tmp = contentElements.first().text();
-                                                    contentChild = contentChild + " " + tmp;
-                                                }
-                                            }
-                                        } else {
-                                            Elements contentElements = elementItem.select(selectorChild);
-                                            if (contentElements != null && !contentElements.isEmpty()){
-                                                contentChild = contentElements.first().text();
-                                            }
+                ArrayList<String> objectStringArray = new ArrayList<>();
+
+                for (Element elementItem: elementItems) {
+
+                    LOG.info("@@@@@@@@@elementItem: {}", elementItem);
+                    // metadata value moi key dang la string, can sua lai dang metadata neu muon dung json
+                    String jsonObjectString = "{";
+                    int initLengthOfObject = jsonObjectString.length();
+                    Iterator<Entry<String, String>> iterSelectorChildrentMap = selectorChildrentMap.entrySet().iterator();
+
+                    while (iterSelectorChildrentMap.hasNext()){
+
+                        Entry<String, String> selectorChildrentEntry = iterSelectorChildrentMap.next();
+                        String jsonPropertyString = "\"" + selectorChildrentEntry.getKey()+ "\":\"";
+                        int initLengthOfProperty = jsonPropertyString.length();
+                        String selectorChildrent = selectorChildrentEntry.getValue();
+                        String contentChild = "";
+                        LOG.info("@@@@@@@@@selectorChildrent: {}", selectorChildrent);
+
+                        try {
+
+                            if (selectorChildrent.contains("&")){
+                                String[] selectorChildrentArray = selectorChildrent.split(",");
+                                for (int j = 0; j < selectorChildrentArray.length; j++) {
+                                    if(selectorChildrentArray[j].contains("&")){
+                                        String[] concatSelectors = selectorChildrentArray[j].split("&");
+                                        for (String concatSelector: concatSelectors) {
+                                            contentChild = getContentChild(concatSelector, " ", contentChild, elementItem);
                                         }
-                                        if(contentChild != null && !contentChild.isEmpty()){
-                                            jsonPropertyString += contentChild + "\"";
+                                        if (contentChild != null || contentChild.length() > 0){
                                             break;
+                                        } else {
+                                            selectorChildrent = String.join(",", removeIndexInArray(selectorChildrentArray, j));
+                                            contentChild = getContentChild(selectorChildrent, "", contentChild, elementItem);
                                         }
-                                    } catch (Selector.SelectorParseException e) {
-                                        LOG.error("Error evaluating selector child of items {}: {}", selectorChildEntry.getKey(), e);
                                     }
-                                    LOG.info("@@@@@@@@@@contentChild: {}", contentChild);
                                 }
-                                if(jsonPropertyString.length() >=  selectorChildEntry.getKey().length() + 4){
-                                    jsonObjectString += jsonPropertyString + ",";
-                                }
+                            } else {
+                                contentChild = getContentChild(selectorChildrent, "", contentChild, elementItem);
                             }
-                            if(jsonObjectString.length() > 1){
-                                jsonObjectString = jsonObjectString.substring(0, jsonObjectString.length()-1);
-                                jsonObjectString += "}";
-                                LOG.info("@@@@@@@@@String Object Json: {}", jsonObjectString);
-                                objectStringArray.add(jsonObjectString);
+
+                            contentChild = contentChild.trim().replaceAll("\\s{2,}", " ");
+
+                            if(contentChild != null && !contentChild.isEmpty()) {
+                                jsonPropertyString += contentChild + "\"";
                             }
+
+                        } catch (Selector.SelectorParseException e) {
+                            LOG.error("Error evaluating selector child of items {}: {}", selectorChildrentEntry.getKey(), e);
                         }
-                        if(objectStringArray.size() > 0){
-                            LOG.info("Array String Object Json: {}", objectStringArray);
-                            metadata.addValues(selectorItemsEntry.getKey(), objectStringArray);
+
+                        LOG.info("@@@@@@@@@@contentChild: {}", contentChild);
+                        if(jsonPropertyString.length() >  initLengthOfProperty){
+                            jsonObjectString += jsonPropertyString + ",";
                         }
-                        break;
                     }
-                } catch (Selector.SelectorParseException e) {
-                    LOG.error("Error evaluating selector {}: {}", selectorItemsEntry.getKey(), e);
+
+                    if(jsonObjectString.length() > initLengthOfObject){
+                        jsonObjectString = jsonObjectString.substring(0, jsonObjectString.length()-1);
+                        jsonObjectString += "}";
+                        LOG.info("@@@@@@@@@String Object Json: {}", jsonObjectString);
+                        objectStringArray.add(jsonObjectString);
+                    }
+
                 }
+
+                if(objectStringArray.size() > 0){
+                    LOG.info("Array String Object Json: {}", objectStringArray);
+                    metadata.addValues(selectorItemsEntry.getKey(), objectStringArray);
+                }
+
             }
+        } catch (Selector.SelectorParseException e) {
+            LOG.error("Error evaluating selector {}: {}", selectorItemsEntry.getKey(), e);
         } catch (Exception error){
             LOG.error("Error filter items of: {} , error: {}", URL, error);
         }
         metadata.remove("html");
     }
 
-    // chu y, jsoup selector se loi neu trong query co dau gach noi
-//    int start = pos;
-//         while (!isEmpty() && (matchesWord() || matchesAny('-', '_')))
-//    pos++;
-//
-//    return queue.substring(start, pos);
+    private String[] removeIndexInArray(String[] array, int index){
+        String [] newArray = new String[array.length];
+        System.arraycopy(array, 0, newArray, 0, index);
+        System.arraycopy(array, index+1, newArray, index, array.length-index-1);
+        return newArray;
+    }
+
+    private String getContentChild(String selectorChildrent, String text, String contentChild, Element elementItem){
+        Elements contentElements = elementItem.select(selectorChildrent);
+        if (contentElements != null && !contentElements.isEmpty()){
+            contentChild += text + contentElements.first().text();
+        }
+        return contentChild;
+    }
 
     @SuppressWarnings("rawtypes")
     @Override
@@ -153,20 +170,22 @@ public class ItemsParseFilter extends ParseFilter {
 
     private void addSelector(String key, JsonNode selector) {
         String jsoupSelector = selector.asText();
-        ArrayList<String> selectorList = selectorItemsMap.get(key);
-        if (selectorItemsMap.size() == 0){
-            selectorList = new ArrayList<>();
-            selectorList.add(jsoupSelector);
-            selectorItemsMap.put(key, selectorList);
-        } else if (selectorList != null) {
-            selectorItemsMap.put(key, selectorList);
-        } else {
-            selectorList = selectorsChildrentMap.get(key);
-            if (selectorList == null) {
-                selectorList = new ArrayList<>();
-                selectorsChildrentMap.put(key, selectorList);
+        if (jsoupSelector != null && jsoupSelector.length() > 0){
+            String selectorList = selectorItemsMap.get(key);
+            if (selectorItemsMap.size() == 0){
+                selectorItemsMap.put(key, jsoupSelector);
+            } else if (selectorList != null) {
+                selectorList += ", " + jsoupSelector;
+                selectorItemsMap.replace(key, selectorList);
+            } else {
+                selectorList = selectorChildrentMap.get(key);
+                if (selectorList == null) {
+                    selectorChildrentMap.put(key, jsoupSelector);
+                } else {
+                    selectorList += ", " + jsoupSelector;
+                    selectorChildrentMap.replace(key, selectorList);
+                }
             }
-            selectorList.add(jsoupSelector);
         }
         LOG.info("@@@@@@@@@@@@@@@@@@@@@key: {}, value: {}", key, jsoupSelector);
     }
