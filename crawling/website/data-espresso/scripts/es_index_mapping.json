@@ -187,12 +187,7 @@
                     "index": "true",
                     "store": true
                 },
-                "test_tieu_de": {
-                    "type": "text",
-                    "index": "true",
-                    "store": true
-                },
-                "test_gia": {
+                "tests": {
                     "type": "text",
                     "index": "true",
                     "store": true

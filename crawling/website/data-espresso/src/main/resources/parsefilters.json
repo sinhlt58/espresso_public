@@ -1,20 +1,24 @@
 {
     "com.digitalpebble.stormcrawler.parse.ParseFilters": [
         {
-            "class": "com.uet.nlp.parsefilters.ItemsParseFilter",
-            "name": "ItemsParseFilter",
+            "class": "com.uet.nlp.parsefilters.FieldsParseFilter",
+            "name": "FieldsParseFilter",
             "params":{
-                "test.items": {
-                    "muaban.net": "div.mbn-content, div#dvContent",
-                    "test": "div.dv-txt, div.dv-ct-detail"
-                },
-                "test.tieu_de": {
-                    "muaban.net": "h2.mbn-title, h1.color111.size18",
-                    "test": "h4>a, h1>a"
-                },
-                "test.gia": {
-                    "muaban.net": "span.mbn-price, p.size18.price.bold.arial",
-                    "test": "lable.a-txt-cl1, label#ContentPlaceHolder2_lbGiaTien"
+                "tests": {
+                    "selectorParent": {
+                        "muaban.net": "div.mbn-content, div#dvContent",
+                        "nhadat24h.net": "div.dv-txt, div.dv-ct-detail"
+                    },
+                    "selectorChildrent":{
+                        "tieu_de": {
+                            "muaban.net": "h2.mbn-title, h1.color111.size18",
+                            "nhadat24h.net": "h4>a, h1>a"
+                        },
+                        "gia": {
+                            "muaban.net": "span.mbn-price, p.size18.price.bold.arial",
+                            "nhadat24h.net": "lable.a-txt-cl1, label#ContentPlaceHolder2_lbGiaTien"
+                        }
+                    }
                 }
             }
         }, 

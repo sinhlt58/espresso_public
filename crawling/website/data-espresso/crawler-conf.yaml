@@ -45,6 +45,7 @@ config:
   - parse.keywords=keywords
   - parse.description=description
   - domain=domain
+  - tests=tests
   indexer.text.fieldname: content
   indexer.url.fieldname: url
   metadata.persist:
