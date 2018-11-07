@@ -15,6 +15,9 @@ config:
   - bds.gia=bds_gia
   - bds.dien_tich=bds_dien_tich
   - bds.dia_chi=bds_dia_chi
+  - bds.tinh_thanh=bds_tinh_thanh
+  - bds.quan_huyen=bds_quan_huyen
+  - bds.vi_tri=bds_vi_tri
   - bds.loai_tin=bds_loai_tin
   - bds.loai_bds=bds_loai_bds
   - bds.chieu_ngang=bds_chieu_ngang

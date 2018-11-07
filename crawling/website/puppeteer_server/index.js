@@ -2,6 +2,9 @@ const express = require('express');
 // const bodyParser = require('body-parser');
 const puppeteer = require('puppeteer');
 const app = express();
+
+const utils = require('./utils');
+
 const PORT = process.env.PORT || 3000;
 const options = {
   width: 1920,
@@ -9,6 +12,7 @@ const options = {
   viewPortW: 1920,
   viewPortH: 1080,
   scrollHeightFactor: 2000,
+  buttonClickWaitTime: 1000,
   agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
 }
 
@@ -52,6 +56,15 @@ app.get('/api/v1/viewDom', async function(req, res) {
     
     const page = await _browser.newPage();
 
+    // Print log inside the page's evaluate function
+    page.on('console', msg => {
+      let txt = msg._text;
+      let logType = msg._type;
+      if (txt[0] !== '[' && logType === 'log') {
+        console.log(msg._text);
+      }
+    });
+
     if (scopes.includes(SCOPE_OP_REQUEST)) {
       // 1. Intercept network requests.
       await page.setRequestInterception(true);
@@ -83,10 +96,20 @@ app.get('/api/v1/viewDom', async function(req, res) {
       });
       if (scopes.includes(SCOPE_SHOPEE_COMMENT)) {
         console.log("Get comments and change DOM for shopee");
-        await Promise.all([
-          page.waitFor(2000),
-          page.click('div.product-rating-overview__filter--with-comment'),
-        ]);
+        try {
+          // Click on review which has comments.
+          await utils.click(page,
+                            'div.product-rating-overview__filter--with-comment',
+                            options.buttonClickWaitTime);
+          page.evaluate(() => {
+            var t = document.getElementsByClassName('shopee-product-rating__content');
+            console.log(t.innerHTML)
+            return 1;
+          });
+
+        }catch(error) {
+          console.log("Can't find the element");
+        }
       }
     }
     

@@ -57,6 +57,21 @@
                     "index": "true",
                     "store": true
                 },
+                "bds_tinh_thanh": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_quan_huyen": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_vi_tri": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
                 "bds_loai_tin": {
                     "type": "text",
                     "index": "true",
