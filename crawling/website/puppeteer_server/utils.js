@@ -7,3 +7,10 @@ exports.click = async function(page, selector, clickTimeWait) {
         page.click(selector)
     ]);
 }
+
+exports.clickButton = async function(page, button, clickTimeWait) {
+    return Promise.all([
+        page.waitFor(clickTimeWait),
+        button.click()
+    ]);
+}
