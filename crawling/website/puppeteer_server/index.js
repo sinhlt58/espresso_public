@@ -48,13 +48,17 @@ app.get('/api/v1/viewDom', async function(req, res) {
   let decodedUrl = decodeURIComponent(url);
   console.log('Decoded url: ' + decodedUrl);
   console.log('Scopes: ', scopes);
+  
+  const page = await _browser.newPage();
 
   try {
     if (!_browser) {
       return res.send('The browser have not started yet.');
     }
-    
-    const page = await _browser.newPage();
+
+    if (!page) {
+      return res.send('Can not create page');
+    }
 
     // Print log inside the page's evaluate function
     page.on('console', msg => {
@@ -116,11 +120,15 @@ app.get('/api/v1/viewDom', async function(req, res) {
     let html = await page.content()
     res.send(html);
 
-    await page.close();
-    console.log('Close page');
+    
   }catch(error) {
     console.log('error: ', error);
     res.send('Error')
+  }
+
+  if (page) {
+     await page.close();
+     console.log('Closed page');
   }
   // await browser.close();
 })
