@@ -1,167 +1,108 @@
 import json
-import pandas as pd
-import datetime
+from utils import *
+from es_record import EsRecord
 
 class ConvertManager:
 
-    fields = [
-        "tieu_de",
-        "gia",
-        "dien_tich",
-        "dia_chi",
-        "loai_tin",
-        "loai_bds",
-        "chieu_ngang",
-        "chieu_dai",
-        "thuoc_du_an",
-        "chu_dau_tu",
-        "quy_mo",
-        "huong",
-        "so_tang",
-        "duong_truoc_nha",
-        "phap_ly",
-        "so_lau",
-        "so_toilet",
-        "so_phong_ngu",
-        "so_phong_tam",
-        "phong_an",
-        "nha_bep",
-        "san_thuong",
-        "cho_de_xe_hoi",
-        "chinh_chu",
-        "lh_ten",
-        "lh_dia_chi",
-        "lh_sdt",
-        "lh_email",
-        "mieu_ta",
-        "ngay_dang",
-        "ngay_cap_nhat",
-        "ngay_het_han",
-        "url"
-    ]
-    headers = [
-        "Tiêu đề",
-        "Giá",
-        "Diện tích",
-        "Địa chỉ",
-        "Loại tin",
-        "Loại bđs",
-        "Chiều ngang",
-        "Chiều dài",
-        "Thuộc dự án",
-        "Chủ đầu tư",
-        "Quy mô",
-        "Hướng",
-        "Số tầng",
-        "Đường trước nhà",
-        "Pháp lý",
-        "Số lầu",
-        "Số toilet",
-        "Số phòng ngủ",
-        "Số phòng tắm",
-        "Phòng ăn",
-        "Phòng bếp",
-        "Sân thượng",
-        "Chỗ để xe hơi",
-        "Chính chủ",
-        "Liện hệ tên",
-        "Liên hệ địa chỉ",
-        "Liên hệ sđt",
-        "Liên hệ email",
-        "Miêu tả",
-        "Ngày đăng",
-        "Ngày cập nhật",
-        "Ngày hết hạn",
-        "Từ URL"
-    ]
+    bds_out_files = {
+        'bds_mua': 'Mua',
+        'bds_ban': 'Bán',
+        'bds_can_thue': 'Cần_thuê',
+        'bds_cho_thue': 'Cho_thuê'
+    }
 
-    mua_file = 'Cần_mua_thuê'
-    ban_file = 'Cho_bán_thuê'
+    def __init__(self):
+        self.fields = []
+        self.headers = []
+        for f in EsRecord.csv_fields:
+            self.fields.append(f[0])
+            self.headers.append(f[1])
 
-    @classmethod
-    def json_to_exel(cls, file_path, file_format='csv'):
+    def json_to_exel(self, file_path, file_format='csv'):
+        es_records = self.to_es_record(get_json_data(file_path))
+        print ('Number of es records: {}'.format(len(es_records)))
 
-        data_set = []
-        data_set_mua = []
-        data_set_ban = []
+        # remove untitle records
+        es_records = EsRecord.remove_untitle_record(es_records)
+        print ('Number of es records after removing untitle: {}'.format(len(es_records)))
 
-        with open(file_path, 'r', encoding='utf-8') as f:
-            for line in f.readlines():
-                line = line.strip()
-                log_object_dict = json.loads(line)
-                rows = cls.log_object_dict_to_rows(log_object_dict)
-                data_set += rows
-                if len(rows) > 0:
-                    if (cls.is_mua(rows[0])):
-                        data_set_mua.append(rows[0])
-                    else:
-                        data_set_ban.append(rows[0])
+        # remove duplicate by title
+        es_records = EsRecord.remove_duplicate(es_records)
+        print ('Number of es records after removing duplicate: {}'.format(len(es_records)))
 
-        print ("Len fields: ", len(cls.fields))
-        print ("Len headers: ", len(cls.headers))
-
-        cls.wirte_to_xls(file_path.split('.')[0], data_set, file_format)
-        cls.wirte_to_xls(cls.mua_file, data_set_mua, file_format)
-        cls.wirte_to_xls(cls.ban_file, data_set_ban, file_format)
-
-    @classmethod
-    def wirte_to_xls(cls, file_name, data, file_format):
-        str_datetime = '_{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
-        out_file_name = file_name + str_datetime
-
-        df = pd.DataFrame(data=data, columns=cls.headers)
-
-        if file_format == 'csv':
-            df.to_csv(out_file_name + '.csv', sep='\t', encoding='utf-8')
-        elif file_format == 'xls':
-            writer = pd.ExcelWriter(out_file_name + '.xls', engine='xlsxwriter')
-            df.to_excel(writer, sheet_name='Sheet1', index=False, header=True)
-
-        print ('Len data for file {} is {}'.format(file_name, len(data)))
-        print ('Done write to file {}'.format(out_file_name))
+        # classify records to their domains
+        records_by_domain = self.classify_records_to_domain(es_records)
         
-    @classmethod
-    def is_mua(cls, row):
-        contain_keywords = ['/can-thue', '/mua-']
-        for keyword in contain_keywords:
-            if keyword in row[-1] and '/ban-' not in row[-1]:
-                return True
-        return False
+        domain_responses = {}
+        # process each record for each domain
+        for domain, records in records_by_domain.items():
+            print ('Domain {} has {} records'.format(domain, len(records)))
+            if not domain == 'unknow':
+                domain_responses[domain] = []
+                for record in records:
+                    domain_responses[domain].append(record.process())
 
-    @classmethod
-    def log_object_dict_to_rows(cls, dict_obj): # 1 row now
-        fields_dict = dict_obj.get('fields')
-        row = []
+        for domain, responses in domain_responses.items():
+            getattr(self, 'out_{}_domain'.format(domain))(responses)
 
-        is_at_least_no_empty = False
-        for field in cls.fields:
-            es_field = "bds_{}".format(field)
-            
-            if field == "tieu_de":
-                es_field = "title"
+    def out_bds_domain(self, records_res):
+        records_rows_by_type = {}
+        for record_res in records_res:
+            bds_type = record_res['bds_type'] 
+            if bds_type not in records_rows_by_type:
+                records_rows_by_type[bds_type] = []
+            records_rows_by_type[bds_type].append(record_res['bds_row'])
+        
+        # write to each xls file for each bds type
+        for bds_type, rows in records_rows_by_type.items():
+            wirte_to_xls(self.headers, 'tmp/' + self.bds_out_files[bds_type], rows)
 
-            if field == "url":
-                es_field = "url"
-            
-            field_data = fields_dict.get(es_field, [])
+    def out_ttn_domain(self, records_res):
+        print ('not yet!')
+        pass
 
-            if len(field_data) > 0:
-                if es_field[:3] == 'bds':
-                    is_at_least_no_empty = True
-                row_data = field_data[0]
-                if es_field == 'bds_mieu_ta':
-                    row_data = ''
-                    for m in field_data:
-                        row_data += m + ' '
-                    row_data = row_data.strip()
-                row.append(row_data)
-            else:
-                row.append('')
+    def classify_records_to_domain(self, records):
+        res = {}
+        for record in records:
+            domain = record.get_domain()
+            if domain not in res:
+                res[domain] = []
+            res[domain].append(record)
+        return res
 
-        if is_at_least_no_empty:
-            return [row]
-        else:
-            return []
+    def preprocess_index(self, file_path, new_file_name):
+        data = []
+        for line in self.read_big_file_by_line(file_path):
+            object_dict = json.loads(line)
+            if 'content' in object_dict['fields']:
+                del object_dict['fields']['content']
+            data.append(object_dict)
+        write_json_data(new_file_name, data)
+
+    def read_big_file_by_line(self, file_path):
+        with open(file_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                yield line
+
+    def merge_2_json_records(self, fp1, fp2, fp_name):
+        records1 = EsRecord.remove_untitle_record(self.to_es_record(get_json_data(fp1)))
+        records2 = EsRecord.remove_untitle_record(self.to_es_record(get_json_data(fp2)))
+        records1 = EsRecord.remove_duplicate(records1)
+        records2 = EsRecord.remove_duplicate(records2)
+
+        records = records1 + records2
+        write_json_data(fp_name, EsRecord.to_json(records))
+
+    def to_es_record(self, dict_objs):
+        res = []
+        for dict_obj in dict_objs:
+            res.append(EsRecord(dict_obj))
+        return res
 
 if __name__ == '__main__':
-    ConvertManager.json_to_exel('index.json', 'xls')
+    conver_manager = ConvertManager()
+
+    # conver_manager.merge_2_json_records('preprocessed_index_o_nha.json', 'preprocessed_index.json', 'index_final.json')
+    # conver_manager.preprocess_index('index.json', 'preprocessed_index.json')
+    conver_manager.json_to_exel('index_final.json', 'xls')
