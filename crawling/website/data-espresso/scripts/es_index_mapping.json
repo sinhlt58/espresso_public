@@ -12,8 +12,8 @@
                 "enabled": false
             },
             "properties": {
-                "content": {
-                    "type": "text",
+                "created_time": {
+                    "type": "date",
                     "index": "true",
                     "store": true
                 },

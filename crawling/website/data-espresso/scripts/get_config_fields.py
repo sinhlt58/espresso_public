@@ -19,7 +19,7 @@ class Generator:
     ]
 
     default_es_preperties = [
-        "content", "host", "title", "url", "description"
+        "created_date", "host", "title", "url", "description"
     ]
     es_index_mapping_file = 'es_index_mapping.json'
 
