@@ -11,6 +11,8 @@ class ConvertManager:
         'bds_cho_thue': 'Cho_thuê'
     }
 
+    ttn_out_file = 'tmp/ttn_data.json'
+
     def __init__(self):
         self.fields = []
         self.headers = []
@@ -37,7 +39,7 @@ class ConvertManager:
         # process each record for each domain
         for domain, records in records_by_domain.items():
             print ('Domain {} has {} records'.format(domain, len(records)))
-            if not domain == 'unknow':
+            if not domain in ['unknow', 'bds']:
                 domain_responses[domain] = []
                 for record in records:
                     domain_responses[domain].append(record.process())
@@ -58,8 +60,7 @@ class ConvertManager:
             wirte_to_xls(self.headers, 'tmp/' + self.bds_out_files[bds_type], rows)
 
     def out_ttn_domain(self, records_res):
-        print ('not yet!')
-        pass
+        write_json_data(self.ttn_out_file, records_res, 2, True)
 
     def classify_records_to_domain(self, records):
         res = {}
@@ -105,4 +106,5 @@ if __name__ == '__main__':
 
     # conver_manager.merge_2_json_records('preprocessed_index_o_nha.json', 'preprocessed_index.json', 'index_final.json')
     # conver_manager.preprocess_index('index.json', 'preprocessed_index.json')
-    conver_manager.json_to_exel('index_final.json', 'xls')
+    # conver_manager.json_to_exel('index_final.json', 'xls')
+    conver_manager.json_to_exel('preprocessed_index.json', 'xls')

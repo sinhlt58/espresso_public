@@ -7,6 +7,10 @@ import pandas as pd
 
 from random import randint
 
+def get_current_as_str():
+    str_datetime = '_{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
+    return str_datetime
+
 def to_json(self):
     res = {}
     for attr, value in self.__dict__.items():
@@ -19,9 +23,12 @@ def get_abs_path(*args):
 def get_json_data(path):
     return json.load(open(path, encoding="utf-8"))
 
-def write_json_data(path, data):
+def write_json_data(path, data, indent=4, append_date=False):
+    if append_date:
+        path = path + get_current_as_str()
+
     with io.open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+        json.dump(data, f, ensure_ascii=False, indent=indent)
 
 def get_yaml_data(path):
     with open(path, 'r') as stream:
@@ -33,8 +40,7 @@ def write_yaml_data(path, data):
         yaml.dump(data, outfile, default_flow_style=False, allow_unicode=True)
 
 def wirte_to_xls(headers, file_name, data, file_format='xls'):
-    str_datetime = '_{0:%Y-%m-%d %H:%M:%S}'.format(datetime.datetime.now())
-    out_file_name = file_name + str_datetime
+    out_file_name = file_name + get_current_as_str()
 
     df = pd.DataFrame(data=data, columns=headers)
 

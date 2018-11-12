@@ -8,7 +8,7 @@ class EsRecord:
             'important_fields': ['bds_lh_sdt']
         },
         'ttn': {
-            'important_fields': ['ttn_tieu_de']
+            'important_fields': ['ttn_tieu_de', 'ttn_bl_diem']
         }
     }
 
@@ -62,9 +62,9 @@ class EsRecord:
 
     def process(self):
         domain = self.get_domain()
-        return getattr(self, 'process_{}_domain'.format(domain))()
+        return getattr(self, 'process_domain_{}'.format(domain))()
 
-    def process_bds_domain(self):
+    def process_domain_bds(self):
         res = {
             'domain_type': 'bds'
         }
@@ -77,6 +77,22 @@ class EsRecord:
 
         # get as a row in csv file
         res['bds_row'] = EsRecord.get_bds_row(self)
+
+        return res
+
+    def process_domain_ttn(self):
+        res = {
+            'domain_type': 'ttn'
+        }
+
+        for field in self.data['fields'].keys():
+            if field[:3] == 'ttn' or field == 'url':
+                field_data = self.get(field, [])
+                if field == 'ttn_mieu_ta':
+                    field_data = utils.strs_to_str(field_data)
+                elif field not in ['ttn_bl_noi_dung', 'ttn_bl_diem']:
+                    field_data = field_data[0]
+                res[field] = field_data
 
         return res
 
