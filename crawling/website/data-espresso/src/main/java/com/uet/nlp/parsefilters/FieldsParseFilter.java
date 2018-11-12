@@ -19,7 +19,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.w3c.dom.DocumentFragment;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.Strings;
 
 public class FieldsParseFilter extends ParseFilter {
 
@@ -44,20 +43,24 @@ public class FieldsParseFilter extends ParseFilter {
         Iterator<Entry<String, FiledElasticsearch>> iterFieldMap= fieldMap.entrySet().iterator();
         try {
             Document docJsoup = Jsoup.parse(html);
-
+            XContentBuilder builder = jsonBuilder().startObject();
             while (iterFieldMap.hasNext()){
                 Entry<String, FiledElasticsearch> filedElasticsearchEntry = iterFieldMap.next();
                 String keyField = filedElasticsearchEntry.getKey();
+
+                builder.startArray(keyField);
+
                 String selectorParent = filedElasticsearchEntry.getValue().selectorParent;
                 Map<String, String> selectorChildrentMap = filedElasticsearchEntry.getValue().selectorChildrentMap;
 
                 try{
                     Elements elementParents = docJsoup.select(selectorParent);
                     if (elementParents != null && !elementParents.isEmpty()) {
-                        ArrayList<String> objectStringArray = new ArrayList<>();
+
 
                         for (Element elementParent: elementParents) {
-                            XContentBuilder builder = jsonBuilder().startObject();
+                            builder.startObject();
+
                             Iterator<Entry<String, String>> iterSelectorChildrentMap = selectorChildrentMap.entrySet().iterator();
                             while (iterSelectorChildrentMap.hasNext()){
                                 Entry<String, String> selectorChildEntry = iterSelectorChildrentMap.next();
@@ -73,19 +76,16 @@ public class FieldsParseFilter extends ParseFilter {
                                     builder.field(keySelectorChild, contentChild);
                                 }
                             }
-                            String objectJson = Strings.toString(builder.endObject());
-                            if(objectJson.length()>2){
-                                objectStringArray.add(objectJson);
-                            }
-
+                            builder.endObject();
                         }
-                        LOG.info("@@@@@@@@ Array String object: {}", objectStringArray);
-                        metadata.addValues(keyField, objectStringArray);
+
                     }
                 } catch (Selector.SelectorParseException e) {
                   LOG.error("Error evaluating selector {}: {}", keyField, e);
                 }
+                builder.endArray();
             }
+            metadata.setBuilder(builder);
         } catch (Exception error){
             LOG.error("Error filter element parent of: {} , error: {}", URL, error);
         }

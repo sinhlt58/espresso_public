@@ -188,9 +188,64 @@
                     "store": true
                 },
                 "tests": {
-                    "type": "text",
-                    "index": "true",
-                    "store": true
+                    "type": "nested",
+                    "properties": {
+                        "tieu_de": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "gia": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "dien_tich": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "ma_bds": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "tinh_thanh": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "loai_tin": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "ngay_dang": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "quan_huyen": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "vi_tri": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "loai_bds": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        },
+                        "huong": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true 
+                        }
+                    }
                 }
             }
         }

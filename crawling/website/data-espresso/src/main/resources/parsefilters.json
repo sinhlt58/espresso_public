@@ -21,7 +21,7 @@
                         "dien_tich": {
                             "nhadat24h.net": "label#ContentPlaceHolder2_lbDienTich"
                         },
-                        "ma_Bds": {
+                        "ma_bds": {
                             "nhadat24h.net": "div.dv-tb-tsbds tr:nth-child(10n-7)"
                         },
                         "tinh_thanh": {
@@ -39,7 +39,7 @@
                         "vi_tri": {
                             "nhadat24h.net": "label#ContentPlaceHolder2_lbVitri"
                         },
-                        "loai_Bds": {
+                        "loai_bds": {
                             "nhadat24h.net": "label#ContentPlaceHolder2_lbLoaiBDS"
                         },
                         "huong": {
