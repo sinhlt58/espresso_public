@@ -5,7 +5,7 @@ class EsRecord:
 
     domain_data = {
         'bds': {
-            'important_fields': ['bds_lh_sdt']
+            'important_fields': ['bds_lh_sdt', 'bds_gia', 'bds_dien_tich', 'bds_ngay_dang']
         },
         'ttn': {
             'important_fields': ['ttn_tieu_de', 'ttn_bl_diem']
@@ -13,45 +13,90 @@ class EsRecord:
     }
 
     csv_fields = [
-        ["ngay_dang", "Ngày đăng"],
-        ["tieu_de", "Tiêu đề"],
-        ["gia", "Giá"],
-        ["dien_tich", "Diện tích"],
-        ["gia_chuan_hoa", "Giá chuẩn hóa (triệu/m2)"],
-        ["dia_chi", "Địa chỉ"],
-        ["lh_ten", "Liện hệ tên"],
-        ["lh_dia_chi", "Liên hệ địa chỉ"],
-        ["lh_sdt", "Liên hệ sđt"],
-        ["lh_email", "Liên hệ email"],
-        ["loai_tin", "Loại tin"],
-        ["loai_bds", "Loại bđs"],
-        ["chieu_ngang", "Chiều ngang"],
-        ["chieu_dai", "Chiều dài"],
-        ["thuoc_du_an", "Thuộc dự án"],
-        ["chu_dau_tu", "Chủ đầu tư"],
-        ["quy_mo", "Quy mô"],
-        ["huong", "Hướng"],
-        ["so_tang", "Số tầng"],
-        ["duong_truoc_nha", "Đường trước nhà"],
-        ["phap_ly", "Pháp lý"],
-        ["so_lau", "Số lầu"],
-        ["so_toilet", "Số toilet"],
-        ["so_phong_ngu", "Số phòng ngủ"],
-        ["so_phong_tam", "Số phòng tắm"],
-        ["phong_an", "Phòng ăn"],
-        ["nha_bep", "Phòng bếp"],
-        ["san_thuong", "Sân thượng"],
-        ["cho_de_xe_hoi", "Chỗ để xe hơi"],
-        ["chinh_chu", "Chính chủ"],
-        ["mieu_ta", "Miêu tả"],
-        ["ngay_cap_nhat", "Ngày cập nhật"],
-        ["ngay_het_han", "Ngày hết hạn"],
-        ["url", "Từ URL"],
+        ["stt", "STT", "cc,nd,dn"],
+        ["ngay_dang", "Thời gian đăng", "cc,nd,dn"],
+        ["dia_chi", "Địa chỉ", "dn"],
+        ["cc_phong", "Phòng", "cc"],
+        ["cc_tang", "Tầng", "cc"],
+        ["cc_toa_nha", "Tòa Nhà", "cc"],
+        ["dc_so_nha", "Số Nhà", "nd"],
+        ["dc_ngo", "Ngõ", "nd,dn"],
+        ["dc_pho_duong", "Phố", "cc,nd,dn"],
+        ["dc_quan_huyen", "Quận", "cc,nd,dn"],
+        ["dien_tich", "Diện Tích", "cc,nd,dn"],
+        ["gia_chuan_hoa", "Giá/m2", "cc,nd,dn"],
+        ["loai_dat", "Loại Đất", "dn"],
+        ["huong", "Hướng cửa vào", "cc"],
+        ["huong", "Hướng", "nd,dn"],
+        ["duong_vao", "Đường vào", "nd,dn"],
+        ["mat_tien", "Mặt tiền", "nd,dn"],
+        ["co_cua_hau_khong", "Có cửa hậu không", "nd"],
+        ["oto_dau_cua", "Ô tô đậu cửa", "nd,dn"],
+        ["nha_xay_lau_chua", "Nhà xây lâu chưa", "nd"],
+        ["so_tang", "Số tầng", "nd"],
+        ["so_phong", "Số phòng", "nd"],
+        ["thuoc_du_an", "Dự án", "cc,dn"],
+        ["chu_dau_tu", "Chủ đầu tư", "cc"],
+        ["huong_ban_cong", "Hướng ban công", "cc"],
+        ["huong_vao_cua", "Hướng cửa vào", "cc"],
+        ["vi_tri_can_ho", "Vị trí căn hộ", "cc"],
+        ["cho_de_xe", "Chỗ đỗ xe", "cc"],
+        ["noi_that", "Nội thất", "cc,nd"],
+        ["cc_mini", "CC Mini", "cc"],
+        ["so_phong_ngu", "Phòng ngủ", "cc"],
+        ["so_toilet", "Số nhà WC", "cc"],
+        ["lh_sdt", "Điện thoại", "cc,nd,dn"],
+        ["lh_ten", "Tên người đăng", "cc,nd,dn"],
+
+        ["gia", "", ""],
+        ["dc_thanh_pho", "", ""],
+        ["vi_tri", "", ""], # d/c duong, pho cho trang nhadat24h 
+        ["chieu_ngang", "", ""],
+        ["chieu_dai", "", ""],
+        ["quy_mo", "", ""],
+        ["duong_truoc_nha", "", ""],
+        ["phap_ly", "", ""],
+        ["so_lau", "", ""],
+        ["so_phong_tam", "", ""],
+        ["phong_an", "", ""],
+        ["nha_bep", "", ""],
+        ["san_thuong", "", ""],
+        ["chinh_chu", "", ""],
+        ["lh_dia_chi", "", ""],
+        ["lh_email", "", ""],
+        ["tieu_de", "", ""],
+        ["mieu_ta", "", ""],
+        ["loai_tin", "", ""],
+        ["loai_bds", "", ""],
+        ["ngay_cap_nhat", "", ""],
+        ["ngay_het_han", "", ""],
+        ["url", "Từ URL", "cc,nd,dn"],
     ]
+
+    bds_csv_fields_by_house_type = {}
+    bds_sheet_names = {
+        'cc': 'Chung Cư',
+        'nd': 'Nhà đất thổ cư',
+        'dn': 'Đất Nền'
+    }
+
+    @classmethod
+    def init(cls):
+        for field in cls.csv_fields:
+            house_types = field[2].split(',')
+            for house_type in house_types:
+                if house_type not in cls.bds_csv_fields_by_house_type:
+                    cls.bds_csv_fields_by_house_type[house_type] = {
+                        'headers': [],
+                        'es_fields': []
+                    }
+                cls.bds_csv_fields_by_house_type[house_type]['headers'].append(field[1])
+                cls.bds_csv_fields_by_house_type[house_type]['es_fields'].append(field[0])
 
     def __init__(self, data):
         self.data = data
         self.domain = None
+        self.is_keep = True
 
     def __hash__(self):
         return hash(('title', self.get_title()))
@@ -73,10 +118,17 @@ class EsRecord:
         bds_type = EsRecord.get_bds_type(self)
         res['bds_type'] = bds_type
 
+        # get loại nhà (trung cử, nhà đất, đất nền)
+        bds_house_type = EsRecord.get_bds_house_type(self)
+        res['bds_house_type'] = bds_house_type
+
         # normalize dien tich
 
         # get as a row in csv file
-        res['bds_row'] = EsRecord.get_bds_row(self)
+        res['bds_row'] = EsRecord.get_bds_row(self, bds_type, bds_house_type)
+
+        # decid to keep this record or not
+        res['is_keep'] = self.is_keep
 
         return res
 
@@ -112,23 +164,33 @@ class EsRecord:
         return 'bds_ban'
 
     @classmethod
-    def get_bds_row(cls, record):
+    def get_bds_house_type(cls, record):
+        # For now default is trung cư, later will might use kywords, ml
+        return 'cc'
+
+    @classmethod
+    def get_bds_row(cls, record, bds_type, bds_house_type):
         row = []
 
         is_at_least_no_empty = False
-        for field in cls.csv_fields:
-            es_field = "bds_{}".format(field[0])
+        for field in cls.bds_csv_fields_by_house_type[bds_house_type]['es_fields']:
+            es_field = "bds_{}".format(field)
             
-            if field[0] == "tieu_de":
+            if field == "tieu_de":
                 bds_title = record.get_first_value(es_field, None)
                 if bds_title is None:
                     es_field = "title"
 
-            if field[0] == "url":
+            if field == "url":
                 es_field = "url"
             
-            if field[0] == "gia_chuan_hoa":
-                field_data = EsRecord.normalize_bds_price(record)
+            if field == "gia_chuan_hoa":
+                normalized_price_arr = EsRecord.normalize_bds_price(record)
+                if len(normalized_price_arr[0]) == 0:
+                    record.is_keep = False
+                    break
+
+                field_data = normalized_price_arr
             else:
                 field_data = record.get(es_field, [])
 
@@ -140,12 +202,67 @@ class EsRecord:
                 
                 if es_field == 'bds_mieu_ta':
                     row_data = utils.strs_to_str(field_data)
+
+                if es_field == 'bds_dien_tich':
+                    row_data = EsRecord.normalize_s(row_data)
+
+                if es_field == 'bds_so_phong_ngu':
+                    row_data = EsRecord.normalize_so_phong(row_data)
+                
+                if es_field == 'bds_ngay_dang':
+                    row_data = EsRecord.normalize_date(row_data)
+
+                if not row_data:
+                    record.is_keep = False
+                    break
                 
                 row.append(row_data)
             else:
                 row.append('')
 
         return row
+
+    @classmethod
+    def normalize_so_phong(cls, s):
+        so_phong_rule = r'\d{1,}'
+        match = re.match(so_phong_rule, s)
+        if match:
+            return match.group()
+
+        return '' # we dont ignore this field
+
+    @classmethod
+    def normalize_s(cls, s_str):
+        # TODO: we will remove later for not duplicate code
+        dien_tich_rule = r'(([0-9]*[.])?[0-9]+)'
+        match_s = re.match(dien_tich_rule, s_str)
+        if match_s:
+            return match_s.group()
+
+        return None
+
+    @classmethod
+    def normalize_date(cls, date_str):
+        # With hôm nay date we will use created_time later
+        # for now just ignore the record
+
+        date_rule = r'\d{1,}[\-\/]\d{1,}[\-\/]\d{4,}'
+        match_date = re.match(date_rule, date_str)
+        if match_date:
+            found_date = match_date.group() # just get the first match
+            found_date = found_date.replace('-', '/')
+            parts = found_date.split('/')
+            parts[0] = cls.normalize_day_month(parts[0]) # 1/1/2018 -> 01/01/2018
+            parts[1] = cls.normalize_day_month(parts[1]) # 1/1/2018 -> 01/01/2018
+            found_date = '/'.join(parts)
+            return found_date
+
+        return None
+
+    @classmethod
+    def normalize_day_month(cls, str_d):
+        res = '0' + str_d if len(str_d) == 1 else str_d
+        return res
 
     @classmethod
     def normalize_bds_price(cls, record):
@@ -200,7 +317,7 @@ class EsRecord:
         if num_dien_tich == 0:
             num_dien_tich = 1
         normalized_price = num_gia / num_dien_tich
-        return "%.3f" % normalized_price
+        return "%.1f" % normalized_price
 
     def process_ttn_domain(self):
         return {}

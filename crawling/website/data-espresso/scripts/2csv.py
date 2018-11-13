@@ -16,9 +16,7 @@ class ConvertManager:
     def __init__(self):
         self.fields = []
         self.headers = []
-        for f in EsRecord.csv_fields:
-            self.fields.append(f[0])
-            self.headers.append(f[1])
+        EsRecord.init()
 
     def json_to_exel(self, file_path, file_format='csv'):
         es_records = self.to_es_record(get_json_data(file_path))
@@ -39,7 +37,7 @@ class ConvertManager:
         # process each record for each domain
         for domain, records in records_by_domain.items():
             print ('Domain {} has {} records'.format(domain, len(records)))
-            if not domain in ['unknow', 'bds']:
+            if not domain in ['unknow', 'ttn']:
                 domain_responses[domain] = []
                 for record in records:
                     domain_responses[domain].append(record.process())
@@ -47,17 +45,50 @@ class ConvertManager:
         for domain, responses in domain_responses.items():
             getattr(self, 'out_{}_domain'.format(domain))(responses)
 
+    def count_num_field_bds_record_res(self, record_res):
+        res = 0
+        for d in record_res['bds_row']:
+            if d and len(d) > 0:
+                res += 1
+        return res
+
     def out_bds_domain(self, records_res):
         records_rows_by_type = {}
+
+        # sort by the number of existing fields
+        records_res.sort(key=lambda record_res: -self.count_num_field_bds_record_res(record_res))
+
         for record_res in records_res:
-            bds_type = record_res['bds_type'] 
+            bds_type = record_res['bds_type']
+            bds_house_type = record_res['bds_house_type']
+
+            # just skip unwanted records
+            if not record_res['is_keep']:
+                continue
+
             if bds_type not in records_rows_by_type:
-                records_rows_by_type[bds_type] = []
-            records_rows_by_type[bds_type].append(record_res['bds_row'])
+                records_rows_by_type[bds_type] = {}
+
+            if bds_house_type not in records_rows_by_type[bds_type]:
+                records_rows_by_type[bds_type][bds_house_type] = {
+                    'sheet_name': EsRecord.bds_sheet_names[bds_house_type],
+                    'headers': EsRecord.bds_csv_fields_by_house_type[bds_house_type]['headers'],
+                    'data': []
+                }
+
+            record_res['bds_row'][0] = str(len(records_rows_by_type[bds_type][bds_house_type]['data']) + 1)
+            records_rows_by_type[bds_type][bds_house_type]['data'].append(record_res['bds_row'])
         
         # write to each xls file for each bds type
-        for bds_type, rows in records_rows_by_type.items():
-            wirte_to_xls(self.headers, 'tmp/' + self.bds_out_files[bds_type], rows)
+        for bds_type, bds_type_data in records_rows_by_type.items():
+            dfs_data = []
+            for bds_house_type, bds_house_type_data in bds_type_data.items():
+                df_data = bds_house_type_data
+                dfs_data.append(df_data)
+                print ('Bds {}, {} has {} records'.format(bds_type, \
+                            EsRecord.bds_sheet_names[bds_house_type], len(df_data['data'])))
+            
+            write_to_xls('tmp/' + self.bds_out_files[bds_type], dfs_data, True)
 
     def out_ttn_domain(self, records_res):
         write_json_data(self.ttn_out_file, records_res, 2, True)
