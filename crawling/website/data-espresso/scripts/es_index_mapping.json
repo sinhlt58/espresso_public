@@ -9,7 +9,7 @@
     "mappings": {
         "doc": {
             "_source": {
-                "enabled": false
+                "enabled": true
             },
             "properties": {
                 "created_time": {
@@ -37,7 +37,52 @@
                     "index": "true",
                     "store": true
                 },
-                "bds_tieu_de": {
+                "bds_ngay_dang": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_dia_chi": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_cc_phong": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_cc_tang": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_cc_toa_nha": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_dc_so_nha": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_dc_ngo": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_dc_pho_duong": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_dc_quan_huyen": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_dc_thanh_pho": {
                     "type": "text",
                     "index": "true",
                     "store": true
@@ -52,42 +97,47 @@
                     "index": "true",
                     "store": true
                 },
-                "bds_dia_chi": {
+                "bds_loai_dat": {
                     "type": "text",
                     "index": "true",
                     "store": true
                 },
-                "bds_tinh_thanh": {
+                "bds_huong": {
                     "type": "text",
                     "index": "true",
                     "store": true
                 },
-                "bds_quan_huyen": {
+                "bds_duong_vao": {
                     "type": "text",
                     "index": "true",
                     "store": true
                 },
-                "bds_vi_tri": {
+                "bds_mat_tien": {
                     "type": "text",
                     "index": "true",
                     "store": true
                 },
-                "bds_loai_tin": {
+                "bds_co_cua_hau_khong": {
                     "type": "text",
                     "index": "true",
                     "store": true
                 },
-                "bds_loai_bds": {
+                "bds_oto_dau_cua": {
                     "type": "text",
                     "index": "true",
                     "store": true
                 },
-                "bds_chieu_ngang": {
+                "bds_nha_xay_lau_chua": {
                     "type": "text",
                     "index": "true",
                     "store": true
                 },
-                "bds_chieu_dai": {
+                "bds_so_tang": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_so_phong": {
                     "type": "text",
                     "index": "true",
                     "store": true
@@ -102,17 +152,72 @@
                     "index": "true",
                     "store": true
                 },
+                "bds_huong_ban_cong": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_huong_vao_cua": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_vi_tri_can_ho": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_cho_de_xe": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_noi_that": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_cc_mini": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_so_phong_ngu": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_so_toilet": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_lh_sdt": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_lh_ten": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_vi_tri": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_chieu_ngang": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_chieu_dai": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
                 "bds_quy_mo": {
-                    "type": "text",
-                    "index": "true",
-                    "store": true
-                },
-                "bds_huong": {
-                    "type": "text",
-                    "index": "true",
-                    "store": true
-                },
-                "bds_so_tang": {
                     "type": "text",
                     "index": "true",
                     "store": true
@@ -128,16 +233,6 @@
                     "store": true
                 },
                 "bds_so_lau": {
-                    "type": "text",
-                    "index": "true",
-                    "store": true
-                },
-                "bds_so_toilet": {
-                    "type": "text",
-                    "index": "true",
-                    "store": true
-                },
-                "bds_so_phong_ngu": {
                     "type": "text",
                     "index": "true",
                     "store": true
@@ -162,17 +257,7 @@
                     "index": "true",
                     "store": true
                 },
-                "bds_cho_de_xe_hoi": {
-                    "type": "text",
-                    "index": "true",
-                    "store": true
-                },
                 "bds_chinh_chu": {
-                    "type": "text",
-                    "index": "true",
-                    "store": true
-                },
-                "bds_lh_ten": {
                     "type": "text",
                     "index": "true",
                     "store": true
@@ -182,12 +267,12 @@
                     "index": "true",
                     "store": true
                 },
-                "bds_lh_sdt": {
+                "bds_lh_email": {
                     "type": "text",
                     "index": "true",
                     "store": true
                 },
-                "bds_lh_email": {
+                "bds_tieu_de": {
                     "type": "text",
                     "index": "true",
                     "store": true
@@ -197,7 +282,12 @@
                     "index": "true",
                     "store": true
                 },
-                "bds_ngay_dang": {
+                "bds_loai_tin": {
+                    "type": "text",
+                    "index": "true",
+                    "store": true
+                },
+                "bds_loai_bds": {
                     "type": "text",
                     "index": "true",
                     "store": true

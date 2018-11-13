@@ -2,7 +2,7 @@
     "urls": [
         {
             "hostname": "shopee.vn",
-            "scopes": "scroll"
+            "scopes": "scroll,shopeec"
         },
         {
             "hostname": "www.lazada.vn"

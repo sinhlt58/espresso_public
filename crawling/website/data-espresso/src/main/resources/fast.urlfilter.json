@@ -7,7 +7,7 @@
 {
     "scope": "domain:batdongsan.com.vn",
     "patterns": [
-        "AllowPathQuery \/ban-|\/cho-thue-|\/mua-|\/can-thue-",
+        "AllowPathQuery \/ban-|\/cho-thue-|\/mua-|\/can-thue-|-mua|-thue",
         "DenyPathQuery .+"
     ]
 },

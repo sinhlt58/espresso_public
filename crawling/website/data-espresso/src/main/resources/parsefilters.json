@@ -4,19 +4,90 @@
             "class": "com.digitalpebble.stormcrawler.parse.filter.XPathFilter",
             "name": "XPathFilter",
             "params": {
-                "bds.tieu_de": {
+                "bds.ngay_dang": {
                     "alonhadat.com.vn": [
-                        "//DIV[@id=\"ctl00_content_pc_content\"]//DIV[@class=\"title\"]/H1/text()"
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//DIV[@class=\"title\"]/SPAN[@class=\"date\"]/text()"
                     ],
-                    "www.muabannhadat.vn": [
-                        "//DIV[@class=\"col-md-10 col-sm-8 col-xs-12 nav-title\"]/H1/text()"
-                    ],
+                    "www.muabannhadat.vn": [],
                     "batdongsan.com.vn": [
-                        "//DIV[@class=\"pm-title\"]/H1/text()"
+                        "//*[@id=\"product-detail\"]/DIV[9]/DIV[3]/text()[2]",
+                        "//*[@id=\"product-detail\"]/DIV[7]/TABLE/TBODY/TR/TD[1]/DIV/DIV[2]/DIV[4]/DIV[2]/text()"
                     ],
                     "muban.net": [],
                     "nhadat24h.net": [
-                        "//A[@id=\"txtcontenttieudetin\"]/text()"
+                        "//*[@id=\"ContentPlaceHolder2_lbDate\"]/text()"
+                    ]
+                },
+                "bds.dia_chi": {
+                    "alonhadat.com.vn": [
+                        "//DIV[@class=\"address\"]/SPAN[@class=\"value\"]/text()"
+                    ],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"product-detail\"]/DIV[8]/DIV/DIV[1]/DIV/DIV[2]/DIV[2]/DIV[2]/text()",
+                        "//*[@id=\"product-detail\"]/DIV[7]/TABLE/TBODY/TR/TD[1]/DIV/DIV[2]/DIV[1]/DIV[2]/text()"
+                    ],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.cc_phong": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.cc_tang": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.cc_toa_nha": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.dc_so_nha": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.dc_ngo": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.dc_pho_duong": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.dc_quan_huyen": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": [
+                        "//*[@id=\"ContentPlaceHolder2_lbVitri\"]//A/text()"
+                    ]
+                },
+                "bds.dc_thanh_pho": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": [
+                        "//*[@id=\"ContentPlaceHolder2_lbTinhThanh\"]/text()"
                     ]
                 },
                 "bds.gia": {
@@ -45,34 +116,187 @@
                         "//*[@id=\"ContentPlaceHolder2_lbDienTich\"]/strong/text()"
                     ]
                 },
-                "bds.dia_chi": {
+                "bds.loai_dat": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.huong": {
                     "alonhadat.com.vn": [
-                        "//DIV[@class=\"address\"]/SPAN[@class=\"value\"]/text()"
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[1]/TD[4]/text()"
                     ],
                     "www.muabannhadat.vn": [],
                     "batdongsan.com.vn": [
-                        "//*[@id=\"product-detail\"]/DIV[8]/DIV/DIV[1]/DIV/DIV[2]/DIV[2]/DIV[2]/text()",
-                        "//*[@id=\"product-detail\"]/DIV[7]/TABLE/TBODY/TR/TD[1]/DIV/DIV[2]/DIV[1]/DIV[2]/text()"
+                        "//*[@id=\"LeftMainContent__productDetail_direction\"]/DIV[2]/text()"
                     ],
                     "muban.net": [],
                     "nhadat24h.net": []
                 },
-                "bds.tinh_thanh": {
+                "bds.duong_vao": {
                     "alonhadat.com.vn": [],
                     "www.muabannhadat.vn": [],
                     "batdongsan.com.vn": [],
                     "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.mat_tien": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.co_cua_hau_khong": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.oto_dau_cua": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.nha_xay_lau_chua": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.so_tang": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.so_phong": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.thuoc_du_an": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [
+                        "//*[@id=\"project\"]/DIV[2]/DIV[1]/DIV[2]/text()"
+                    ],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"project\"]/DIV[2]/DIV[1]/DIV[2]/text()"
+                    ],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.chu_dau_tu": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"LeftMainContent__productDetail_projectOwner\"]/DIV[2]/text()"
+                    ],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.huong_ban_cong": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"LeftMainContent__productDetail_balcony\"]/DIV[2]/text()"
+                    ],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.huong_vao_cua": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.vi_tri_can_ho": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.cho_de_xe": {
+                    "alonhadat.com.vn": [
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[4]/TD[6]/text()"
+                    ],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.noi_that": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"LeftMainContent__productDetail_interior\"]/DIV[2]/text()"
+                    ],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.cc_mini": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.so_phong_ngu": {
+                    "alonhadat.com.vn": [
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[5]/TD[4]/text()"
+                    ],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"LeftMainContent__productDetail_roomNumber\"]/DIV[2]/text()"
+                    ],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.so_toilet": {
+                    "alonhadat.com.vn": [],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"LeftMainContent__productDetail_toilet\"]/DIV[2]/text()"
+                    ],
+                    "muban.net": [],
+                    "nhadat24h.net": []
+                },
+                "bds.lh_sdt": {
+                    "alonhadat.com.vn": [
+                        "//DIV[@class=\"contact-info\"]//DIV[@class=\"content\"]//DIV[@class=\"fone\"]/A/text()"
+                    ],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"LeftMainContent__productDetail_contactMobile\"]/DIV[2]/text()",
+                        "//*[@id=\"LeftMainContent__detail_contactMobile\"]/DIV[2]/text()"
+                    ],
+                    "muban.net": [],
                     "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_lbTinhThanh\"]/text()"
+                        "//*[@id=\"viewmobinumber\"]/text()"
                     ]
                 },
-                "bds.quan_huyen": {
-                    "alonhadat.com.vn": [],
+                "bds.lh_ten": {
+                    "alonhadat.com.vn": [
+                        "//DIV[@class=\"contact-info\"]//DIV[@class=\"content\"]/DIV[@class=\"name\"]/text()"
+                    ],
                     "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [],
+                    "batdongsan.com.vn": [
+                        "//*[@id=\"LeftMainContent__productDetail_contactName\"]/DIV[2]/text()",
+                        "//*[@id=\"LeftMainContent__detail_contactName\"]/DIV[2]/text()"
+                    ],
                     "muban.net": [],
                     "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_lbVitri\"]//A/text()"
+                        "//*[@id=\"ContentPlaceHolder2_viewInfo1_lbHoTen\"]/A/text()"
                     ]
                 },
                 "bds.vi_tri": {
@@ -82,31 +306,6 @@
                     "muban.net": [],
                     "nhadat24h.net": [
                         "//*[@id=\"ContentPlaceHolder2_lbTinhThanh\"]/text()"
-                    ]
-                },
-                "bds.loai_tin": {
-                    "alonhadat.com.vn": [
-                        "//DIV[@id=\"ctl00_content_pc_content\"]//DIV[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[2]/TD[2]/text()"
-                    ],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [
-                        "//*[@id=\"product-detail\"]/DIV[8]/DIV/DIV[1]/DIV/DIV[2]/DIV[1]/DIV[2]/text()",
-                        "//*[@id=\"product-detail\"]/DIV[7]/TABLE/TBODY/TR/TD[1]/DIV/DIV[2]/DIV[3]/DIV[2]/text()"
-                    ],
-                    "muban.net": [],
-                    "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_lbLoaiTin\"]/text()"
-                    ]
-                },
-                "bds.loai_bds": {
-                    "alonhadat.com.vn": [
-                        "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[3]/TD[2]/text()"
-                    ],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [],
-                    "muban.net": [],
-                    "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_lbLoaiBDS\"]/a/text()"
                     ]
                 },
                 "bds.chieu_ngang": {
@@ -127,46 +326,12 @@
                     "muban.net": [],
                     "nhadat24h.net": []
                 },
-                "bds.thuoc_du_an": {
-                    "alonhadat.com.vn": [],
-                    "www.muabannhadat.vn": [
-                        "//*[@id=\"project\"]/DIV[2]/DIV[1]/DIV[2]/text()"
-                    ],
-                    "batdongsan.com.vn": [],
-                    "muban.net": [],
-                    "nhadat24h.net": []
-                },
-                "bds.chu_dau_tu": {
-                    "alonhadat.com.vn": [],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [
-                        "//*[@id=\"LeftMainContent__productDetail_projectOwner\"]/DIV[2]/text()"
-                    ],
-                    "muban.net": [],
-                    "nhadat24h.net": []
-                },
                 "bds.quy_mo": {
                     "alonhadat.com.vn": [],
                     "www.muabannhadat.vn": [],
                     "batdongsan.com.vn": [
                         "//*[@id=\"LeftMainContent__productDetail_projectSize\"]/DIV[2]"
                     ],
-                    "muban.net": [],
-                    "nhadat24h.net": []
-                },
-                "bds.huong": {
-                    "alonhadat.com.vn": [
-                        "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[1]/TD[4]/text()"
-                    ],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [],
-                    "muban.net": [],
-                    "nhadat24h.net": []
-                },
-                "bds.so_tang": {
-                    "alonhadat.com.vn": [],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [],
                     "muban.net": [],
                     "nhadat24h.net": []
                 },
@@ -194,26 +359,6 @@
                     ],
                     "www.muabannhadat.vn": [],
                     "batdongsan.com.vn": [],
-                    "muban.net": [],
-                    "nhadat24h.net": []
-                },
-                "bds.so_toilet": {
-                    "alonhadat.com.vn": [],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [
-                        "//*[@id=\"LeftMainContent__productDetail_toilet\"]/DIV[2]/text()"
-                    ],
-                    "muban.net": [],
-                    "nhadat24h.net": []
-                },
-                "bds.so_phong_ngu": {
-                    "alonhadat.com.vn": [
-                        "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[5]/TD[4]/text()"
-                    ],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [
-                        "//*[@id=\"LeftMainContent__productDetail_roomNumber\"]/DIV[2]/text()"
-                    ],
                     "muban.net": [],
                     "nhadat24h.net": []
                 },
@@ -251,15 +396,6 @@
                     "muban.net": [],
                     "nhadat24h.net": []
                 },
-                "bds.cho_de_xe_hoi": {
-                    "alonhadat.com.vn": [
-                        "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[4]/TD[6]/text()"
-                    ],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [],
-                    "muban.net": [],
-                    "nhadat24h.net": []
-                },
                 "bds.chinh_chu": {
                     "alonhadat.com.vn": [
                         "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[5]/TD[6]/text()"
@@ -268,20 +404,6 @@
                     "batdongsan.com.vn": [],
                     "muban.net": [],
                     "nhadat24h.net": []
-                },
-                "bds.lh_ten": {
-                    "alonhadat.com.vn": [
-                        "//DIV[@class=\"contact-info\"]//DIV[@class=\"content\"]/DIV[@class=\"name\"]/text()"
-                    ],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [
-                        "//*[@id=\"LeftMainContent__productDetail_contactName\"]/DIV[2]/text()",
-                        "//*[@id=\"LeftMainContent__detail_contactName\"]/DIV[2]/text()"
-                    ],
-                    "muban.net": [],
-                    "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_viewInfo1_lbHoTen\"]/A/text()"
-                    ]
                 },
                 "bds.lh_dia_chi": {
                     "alonhadat.com.vn": [],
@@ -295,20 +417,6 @@
                         "//*[@id=\"content\"]/DIV/DIV[1]/DIV[2]/DIV/DIV[2]/DIV[1]/DIV[2]/P/label[2]/A/text()"
                     ]
                 },
-                "bds.lh_sdt": {
-                    "alonhadat.com.vn": [
-                        "//DIV[@class=\"contact-info\"]//DIV[@class=\"content\"]//DIV[@class=\"fone\"]/A/text()"
-                    ],
-                    "www.muabannhadat.vn": [],
-                    "batdongsan.com.vn": [
-                        "//*[@id=\"LeftMainContent__productDetail_contactMobile\"]/DIV[2]/text()",
-                        "//*[@id=\"LeftMainContent__detail_contactMobile\"]/DIV[2]/text()"
-                    ],
-                    "muban.net": [],
-                    "nhadat24h.net": [
-                        "//*[@id=\"viewmobinumber\"]/text()"
-                    ]
-                },
                 "bds.lh_email": {
                     "alonhadat.com.vn": [],
                     "www.muabannhadat.vn": [],
@@ -318,6 +426,21 @@
                     ],
                     "muban.net": [],
                     "nhadat24h.net": []
+                },
+                "bds.tieu_de": {
+                    "alonhadat.com.vn": [
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//DIV[@class=\"title\"]/H1/text()"
+                    ],
+                    "www.muabannhadat.vn": [
+                        "//DIV[@class=\"col-md-10 col-sm-8 col-xs-12 nav-title\"]/H1/text()"
+                    ],
+                    "batdongsan.com.vn": [
+                        "//DIV[@class=\"pm-title\"]/H1/text()"
+                    ],
+                    "muban.net": [],
+                    "nhadat24h.net": [
+                        "//A[@id=\"txtcontenttieudetin\"]/text()"
+                    ]
                 },
                 "bds.mieu_ta": {
                     "alonhadat.com.vn": [
@@ -329,21 +452,32 @@
                     ],
                     "muban.net": [],
                     "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_divContent\"]/p/text()"
+                        "//*[@id=\"ContentPlaceHolder2_divContent\"]/P/text()"
                     ]
                 },
-                "bds.ngay_dang": {
+                "bds.loai_tin": {
                     "alonhadat.com.vn": [
-                        "//DIV[@id=\"ctl00_content_pc_content\"]//DIV[@class=\"title\"]/SPAN[@class=\"date\"]/text()"
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//DIV[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[2]/TD[2]/text()"
                     ],
                     "www.muabannhadat.vn": [],
                     "batdongsan.com.vn": [
-                        "//*[@id=\"product-detail\"]/DIV[9]/DIV[3]/text()[2]",
-                        "//*[@id=\"product-detail\"]/DIV[7]/TABLE/TBODY/TR/TD[1]/DIV/DIV[2]/DIV[4]/DIV[2]/text()"
+                        "//*[@id=\"product-detail\"]/DIV[8]/DIV/DIV[1]/DIV/DIV[2]/DIV[1]/DIV[2]/text()",
+                        "//*[@id=\"product-detail\"]/DIV[7]/TABLE/TBODY/TR/TD[1]/DIV/DIV[2]/DIV[3]/DIV[2]/text()"
                     ],
                     "muban.net": [],
                     "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_lbDate\"]/text()"
+                        "//*[@id=\"ContentPlaceHolder2_lbLoaiTin\"]/text()"
+                    ]
+                },
+                "bds.loai_bds": {
+                    "alonhadat.com.vn": [
+                        "//DIV[@id=\"ctl00_content_pc_content\"]//*[@id=\"left\"]/DIV[1]/DIV[5]/DIV[2]/TABLE/TBODY/TR[3]/TD[2]/text()"
+                    ],
+                    "www.muabannhadat.vn": [],
+                    "batdongsan.com.vn": [],
+                    "muban.net": [],
+                    "nhadat24h.net": [
+                        "//*[@id=\"ContentPlaceHolder2_lbLoaiBDS\"]/a/text()"
                     ]
                 },
                 "bds.ngay_cap_nhat": {
@@ -414,12 +548,16 @@
                 "ttn.bl_noi_dung": {
                     "www.lazada.vn": [],
                     "tiki.vn": [],
-                    "shopee.vn": []
+                    "shopee.vn": [
+                        "//DIV[@class=\"espresso-review-content\"]/text()"
+                    ]
                 },
                 "ttn.bl_diem": {
                     "www.lazada.vn": [],
                     "tiki.vn": [],
-                    "shopee.vn": []
+                    "shopee.vn": [
+                        "//DIV[@class=\"espresso-review-rate\"]/text()"
+                    ]
                 },
                 "canonical": "//*[@rel=\"canonical\"]/@href",
                 "parse.title": [
