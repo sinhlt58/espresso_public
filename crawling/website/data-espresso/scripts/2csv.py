@@ -71,7 +71,7 @@ class ConvertManager:
 
             if bds_house_type not in records_rows_by_type[bds_type]:
                 records_rows_by_type[bds_type][bds_house_type] = {
-                    'sheet_name': EsRecord.bds_sheet_names[bds_house_type],
+                    'sheet_name': EsRecord.bds_house_type_data[bds_house_type]['name'],
                     'headers': EsRecord.bds_csv_fields_by_house_type[bds_house_type]['headers'],
                     'data': []
                 }
@@ -86,7 +86,7 @@ class ConvertManager:
                 df_data = bds_house_type_data
                 dfs_data.append(df_data)
                 print ('Bds {}, {} has {} records'.format(bds_type, \
-                            EsRecord.bds_sheet_names[bds_house_type], len(df_data['data'])))
+                            EsRecord.bds_house_type_data[bds_house_type]['name'], len(df_data['data'])))
             
             write_to_xls('tmp/' + self.bds_out_files[bds_type], dfs_data, True)
 

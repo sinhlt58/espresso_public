@@ -13,71 +13,80 @@ class EsRecord:
     }
 
     csv_fields = [
-        ["stt", "STT", "cc,nd,dn"],
-        ["ngay_dang", "Thời gian đăng", "cc,nd,dn"],
-        ["dia_chi", "Địa chỉ", "dn"],
-        ["cc_phong", "Phòng", "cc"],
-        ["cc_tang", "Tầng", "cc"],
-        ["cc_toa_nha", "Tòa Nhà", "cc"],
-        ["dc_so_nha", "Số Nhà", "nd"],
-        ["dc_ngo", "Ngõ", "nd,dn"],
-        ["dc_pho_duong", "Phố", "cc,nd,dn"],
-        ["dc_quan_huyen", "Quận", "cc,nd,dn"],
-        ["dien_tich", "Diện Tích", "cc,nd,dn"],
-        ["gia_chuan_hoa", "Giá/m2", "cc,nd,dn"],
-        ["loai_dat", "Loại Đất", "dn"],
-        ["huong", "Hướng cửa vào", "cc"],
-        ["huong", "Hướng", "nd,dn"],
-        ["duong_vao", "Đường vào", "nd,dn"],
-        ["mat_tien", "Mặt tiền", "nd,dn"],
-        ["co_cua_hau_khong", "Có cửa hậu không", "nd"],
-        ["oto_dau_cua", "Ô tô đậu cửa", "nd,dn"],
-        ["nha_xay_lau_chua", "Nhà xây lâu chưa", "nd"],
-        ["so_tang", "Số tầng", "nd"],
-        ["so_phong", "Số phòng", "nd"],
-        ["thuoc_du_an", "Dự án", "cc,dn"],
-        ["chu_dau_tu", "Chủ đầu tư", "cc"],
-        ["huong_ban_cong", "Hướng ban công", "cc"],
-        ["huong_vao_cua", "Hướng cửa vào", "cc"],
-        ["vi_tri_can_ho", "Vị trí căn hộ", "cc"],
-        ["cho_de_xe", "Chỗ đỗ xe", "cc"],
-        ["noi_that", "Nội thất", "cc,nd"],
-        ["cc_mini", "CC Mini", "cc"],
-        ["so_phong_ngu", "Phòng ngủ", "cc"],
-        ["so_toilet", "Số nhà WC", "cc"],
-        ["lh_sdt", "Điện thoại", "cc,nd,dn"],
-        ["lh_ten", "Tên người đăng", "cc,nd,dn"],
+        ['stt', 'STT', 'cc,nd,dn'],
+        ['ngay_dang', 'Thời gian đăng', 'cc,nd,dn'],
+        ['dia_chi', 'Địa chỉ', 'dn'],
+        ['cc_phong', 'Phòng', 'cc'],
+        ['cc_tang', 'Tầng', 'cc'],
+        ['cc_toa_nha', 'Tòa Nhà', 'cc'],
+        ['dc_so_nha', 'Số Nhà', 'nd'],
+        ['dc_ngo', 'Ngõ', 'nd,dn'],
+        ['dc_pho_duong', 'Phố', 'cc,nd,dn'],
+        ['dc_quan_huyen', 'Quận', 'cc,nd,dn'],
+        ['dien_tich', 'Diện Tích', 'cc,nd,dn'],
+        ['gia_chuan_hoa', 'Giá/m2', 'cc,nd,dn'],
+        ['loai_dat', 'Loại Đất', 'dn'],
+        ['huong', 'Hướng cửa vào', 'cc'],
+        ['huong', 'Hướng', 'nd,dn'],
+        ['duong_vao', 'Đường vào', 'nd,dn'],
+        ['mat_tien', 'Mặt tiền', 'nd,dn'],
+        ['co_cua_hau_khong', 'Có cửa hậu không', 'nd'],
+        ['oto_dau_cua', 'Ô tô đậu cửa', 'nd,dn'],
+        ['nha_xay_lau_chua', 'Nhà xây lâu chưa', 'nd'],
+        ['so_tang', 'Số tầng', 'nd'],
+        ['so_phong', 'Số phòng', 'nd'],
+        ['thuoc_du_an', 'Dự án', 'cc,dn'],
+        ['chu_dau_tu', 'Chủ đầu tư', 'cc'],
+        ['huong_ban_cong', 'Hướng ban công', 'cc'],
+        ['huong_vao_cua', 'Hướng cửa vào', 'cc'],
+        ['vi_tri_can_ho', 'Vị trí căn hộ', 'cc'],
+        ['cho_de_xe', 'Chỗ đỗ xe', 'cc'],
+        ['noi_that', 'Nội thất', 'cc,nd'],
+        ['cc_mini', 'CC Mini', 'cc'],
+        ['so_phong_ngu', 'Phòng ngủ', 'cc'],
+        ['so_toilet', 'Số nhà WC', 'cc'],
+        ['lh_sdt', 'Điện thoại', 'cc,nd,dn'],
+        ['lh_ten', 'Tên người đăng', 'cc,nd,dn'],
 
-        ["gia", "", ""],
-        ["dc_thanh_pho", "", ""],
-        ["vi_tri", "", ""], # d/c duong, pho cho trang nhadat24h 
-        ["chieu_ngang", "", ""],
-        ["chieu_dai", "", ""],
-        ["quy_mo", "", ""],
-        ["duong_truoc_nha", "", ""],
-        ["phap_ly", "", ""],
-        ["so_lau", "", ""],
-        ["so_phong_tam", "", ""],
-        ["phong_an", "", ""],
-        ["nha_bep", "", ""],
-        ["san_thuong", "", ""],
-        ["chinh_chu", "", ""],
-        ["lh_dia_chi", "", ""],
-        ["lh_email", "", ""],
-        ["tieu_de", "", ""],
-        ["mieu_ta", "", ""],
-        ["loai_tin", "", ""],
-        ["loai_bds", "", ""],
-        ["ngay_cap_nhat", "", ""],
-        ["ngay_het_han", "", ""],
-        ["url", "Từ URL", "cc,nd,dn"],
+        ['gia', '', ''],
+        ['dc_thanh_pho', '', ''],
+        ['vi_tri', '', ''], # d/c duong, pho cho trang nhadat24h 
+        ['chieu_ngang', '', ''],
+        ['chieu_dai', '', ''],
+        ['quy_mo', '', ''],
+        ['duong_truoc_nha', '', ''],
+        ['phap_ly', '', ''],
+        ['so_lau', '', ''],
+        ['so_phong_tam', '', ''],
+        ['phong_an', '', ''],
+        ['nha_bep', '', ''],
+        ['san_thuong', '', ''],
+        ['chinh_chu', '', ''],
+        ['lh_dia_chi', '', ''],
+        ['lh_email', '', ''],
+        ['tieu_de', '', ''],
+        ['mieu_ta', '', ''],
+        ['loai_tin', '', ''],
+        ['loai_bds', '', ''],
+        ['ngay_cap_nhat', '', ''],
+        ['ngay_het_han', '', ''],
+        ['url', 'Từ URL', 'cc,nd,dn'],
     ]
 
     bds_csv_fields_by_house_type = {}
-    bds_sheet_names = {
-        'cc': 'Chung Cư',
-        'nd': 'Nhà đất thổ cư',
-        'dn': 'Đất Nền'
+    bds_house_type_data = {
+        'cc': {
+            'name': 'Chung Cư',
+            'url_rules': [r'/ban-can-ho-chung-cu']
+        },
+        'nd': {
+            'name': 'Nhà đất thổ cư',
+            'url_rules': []
+        },
+        'dn': {
+            'name': 'Đất Nền',
+            'url_rules': [r'/ban-dat']
+        }
     }
 
     @classmethod
@@ -97,6 +106,14 @@ class EsRecord:
         self.data = data
         self.domain = None
         self.is_keep = True
+        self.bds_house_type = None
+        self.dc_pho_duong = None
+        self.dc_quan_huyen = None
+
+        dia_chi = self.get_first_value('bds_dia_chi')
+        self.dia_chi_parts = None
+        if dia_chi and len(dia_chi) > 0:
+            self.dia_chi_parts = [part.strip() for part in dia_chi.split(',')]
 
     def __hash__(self):
         return hash(('title', self.get_title()))
@@ -121,6 +138,7 @@ class EsRecord:
         # get loại nhà (trung cử, nhà đất, đất nền)
         bds_house_type = EsRecord.get_bds_house_type(self)
         res['bds_house_type'] = bds_house_type
+        self.bds_house_type = bds_house_type
 
         # normalize dien tich
 
@@ -166,7 +184,17 @@ class EsRecord:
     @classmethod
     def get_bds_house_type(cls, record):
         # For now default is trung cư, later will might use kywords, ml
-        return 'cc'
+        default_when_not_found = 'nd'
+        url = record.get_first_value('url')
+
+        if url:
+            for bds_house_type, data in cls.bds_house_type_data.items():
+                for url_rule in data['url_rules']:
+                    match = re.search(url_rule, url)
+                    if match:
+                        return bds_house_type
+
+        return default_when_not_found
 
     @classmethod
     def get_bds_row(cls, record, bds_type, bds_house_type):
@@ -174,31 +202,49 @@ class EsRecord:
 
         is_at_least_no_empty = False
         for field in cls.bds_csv_fields_by_house_type[bds_house_type]['es_fields']:
-            es_field = "bds_{}".format(field)
+            es_field = 'bds_{}'.format(field)
             
-            if field == "tieu_de":
+            if field == 'tieu_de':
                 bds_title = record.get_first_value(es_field, None)
                 if bds_title is None:
-                    es_field = "title"
+                    es_field = 'title'
 
-            if field == "url":
-                es_field = "url"
+            if field == 'url':
+                es_field = 'url'
+
+            field_data = record.get(es_field, [])
             
-            if field == "gia_chuan_hoa":
+            if field == 'gia_chuan_hoa':
                 normalized_price_arr = EsRecord.normalize_bds_price(record)
                 if len(normalized_price_arr[0]) == 0:
                     record.is_keep = False
                     break
 
                 field_data = normalized_price_arr
-            else:
-                field_data = record.get(es_field, [])
+
+            if len(field_data) == 0:
+                if field == 'dc_quan_huyen':
+                    dc_quan_huyen = EsRecord.get_quan_huyen(record)
+                    record.dc_quan_huyen = dc_quan_huyen
+                    field_data = [dc_quan_huyen]
+                if field == 'dc_pho_duong':
+                    dc_pho_duong = EsRecord.get_pho_duong(record)
+                    record.dc_pho_duong = dc_pho_duong
+                    field_data = [dc_pho_duong]
+                if field == 'cc_toa_nha':
+                    cc_toa_nha = EsRecord.get_cc_toa_nha(record)
+                    field_data = [cc_toa_nha]
 
             if len(field_data) > 0:
                 if es_field[:3] == 'bds':
                     is_at_least_no_empty = True
                 
                 row_data = field_data[0]
+
+                if es_field == 'bds_dia_chi' and\
+                    record.bds_house_type == 'dn' and row_data:
+                    row_data = row_data.lower()
+                    row_data = row_data.replace('dự án', '').strip().title()
                 
                 if es_field == 'bds_mieu_ta':
                     row_data = utils.strs_to_str(field_data)
@@ -212,7 +258,10 @@ class EsRecord:
                 if es_field == 'bds_ngay_dang':
                     row_data = EsRecord.normalize_date(row_data)
 
-                if not row_data:
+                if row_data in ['_']:
+                    row_data = ''
+
+                if row_data is None:
                     record.is_keep = False
                     break
                 
@@ -223,9 +272,63 @@ class EsRecord:
         return row
 
     @classmethod
+    def get_cc_toa_nha(cls, record):
+        if record.bds_house_type == 'cc':
+            dc_quan_huyen = EsRecord.get_quan_huyen(record)
+            dc_pho_duong = EsRecord.get_pho_duong(record)
+            dc_parts = record.dia_chi_parts
+            if len(dc_parts) > 0:
+                cc_toa_nha = dc_parts[0].lower()
+                cc_toa_nha = cc_toa_nha.replace('dự án', '', 1)
+                cc_toa_nha = cc_toa_nha.strip()
+
+            cc_toa_nha_lower = cc_toa_nha.lower()
+            
+            if dc_pho_duong.lower() not in cc_toa_nha_lower and\
+                   dc_quan_huyen.lower() not in cc_toa_nha_lower:
+                cc_toa_nha = cc_toa_nha.title()
+                return cc_toa_nha
+
+        return ''
+
+    @classmethod
+    def get_pho_duong(cls, record):
+        if not record.dc_quan_huyen is None:
+            return record.dc_quan_huyen
+
+        dia_chi_parts = record.dia_chi_parts
+        for part in dia_chi_parts:
+            if 'đường' in part.lower():
+                for to_replace in ['đường', 'Đường']:
+                    part = part.replace(to_replace, '', 1)
+                part = part.strip()
+                part =  ' '.join(part.split()).title()
+                return part
+        if len(dia_chi_parts) > 0:
+            if 'dự án' not in dia_chi_parts[0].lower():
+                return dia_chi_parts[0]
+        return ''
+
+    @classmethod
+    def get_quan_huyen(cls, record):
+        if not record.dc_quan_huyen is None:
+            return record.dc_quan_huyen
+
+        dia_chi_parts = record.dia_chi_parts
+        if dia_chi_parts and len(dia_chi_parts) > 1:
+            quan_huyen = dia_chi_parts[-2]
+            thanh_pho_huyen_str = ['thành phố', 'huyện']
+            for s in thanh_pho_huyen_str:
+                if s in quan_huyen.lower():
+                    quan_huyen = quan_huyen[len(s):]
+                    break
+            return quan_huyen
+        return ''
+
+    @classmethod
     def normalize_so_phong(cls, s):
         so_phong_rule = r'\d{1,}'
-        match = re.match(so_phong_rule, s)
+        match = re.search(so_phong_rule, s)
         if match:
             return match.group()
 
@@ -235,7 +338,7 @@ class EsRecord:
     def normalize_s(cls, s_str):
         # TODO: we will remove later for not duplicate code
         dien_tich_rule = r'(([0-9]*[.])?[0-9]+)'
-        match_s = re.match(dien_tich_rule, s_str)
+        match_s = re.search(dien_tich_rule, s_str)
         if match_s:
             return match_s.group()
 
@@ -247,7 +350,7 @@ class EsRecord:
         # for now just ignore the record
 
         date_rule = r'\d{1,}[\-\/]\d{1,}[\-\/]\d{4,}'
-        match_date = re.match(date_rule, date_str)
+        match_date = re.search(date_rule, date_str)
         if match_date:
             found_date = match_date.group() # just get the first match
             found_date = found_date.replace('-', '/')
@@ -304,7 +407,7 @@ class EsRecord:
                 for i in range(0, len_match_gia):
                     normalized_price.append(EsRecord.get_normalized_gia(match_gia[i], match_dien_tich[i]))
             
-        return [" - ".join(normalized_price)]
+        return [' - '.join(normalized_price)]
 
     @classmethod
     def get_normalized_gia(cls, gia_str, dien_tich_str):
@@ -317,7 +420,7 @@ class EsRecord:
         if num_dien_tich == 0:
             num_dien_tich = 1
         normalized_price = num_gia / num_dien_tich
-        return "%.1f" % normalized_price
+        return '%.1f' % normalized_price
 
     def process_ttn_domain(self):
         return {}
