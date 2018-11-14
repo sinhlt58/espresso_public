@@ -100,7 +100,7 @@
                     ],
                     "muban.net": [],
                     "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_lbGiaTien\"]/strong/text()"
+                        "//*[@id=\"ContentPlaceHolder2_lbGiaTien\"]/STRONG/text()"
                     ]
                 },
                 "bds.dien_tich": {
@@ -113,7 +113,7 @@
                     ],
                     "muban.net": [],
                     "nhadat24h.net": [
-                        "//*[@id=\"ContentPlaceHolder2_lbDienTich\"]/strong/text()"
+                        "//*[@id=\"ContentPlaceHolder2_lbDienTich\"]/STRONG/text()"
                     ]
                 },
                 "bds.loai_dat": {
