@@ -140,12 +140,12 @@ public class IndexerBolt extends AbstractIndexerBolt {
         }
 
         try {
-//            XContentBuilder builder = jsonBuilder().startObject();
+            // XContentBuilder builder = jsonBuilder().startObject();
             // conganh add
             XContentBuilder builder = (XContentBuilder) metadata.getMetadataBuilderObject();
             // end conganh
 
-            // display text of the document?s
+            // display text of the document?
             if (fieldNameForText() != null) {
                 builder.field(fieldNameForText(), trimText(text));
             }
@@ -154,6 +154,12 @@ public class IndexerBolt extends AbstractIndexerBolt {
             if (fieldNameForURL() != null) {
                 builder.field(fieldNameForURL(), normalisedurl);
             }
+
+            // sinh.luutruong added
+            if (fieldNameForTimeCreated() != null) {
+                builder.field(fieldNameForTimeCreated(), System.currentTimeMillis());
+            }
+            // sinh.luutruong end
 
             // which metadata to display?
             Map<String, String[]> keyVals = filterMetadata(metadata);
@@ -170,11 +176,6 @@ public class IndexerBolt extends AbstractIndexerBolt {
             }
 
             builder.endObject();
-
-            // conganh add
-//            String build = Strings.toString(builder);
-//            LOG.info("JSON@@@@@@@@@@@: {}", build);
-            // end conganh
 
             String sha256hex = org.apache.commons.codec.digest.DigestUtils
                     .sha256Hex(normalisedurl);

@@ -40,32 +40,23 @@ public class FieldsParseFilter extends ParseFilter {
         ParseData parseData = parse.get(URL);
         Metadata metadata = parseData.getMetadata();
         String html = metadata.getFirstValue("html");
-        Iterator<Entry<String, FiledElasticsearch>> iterFieldMap= fieldMap.entrySet().iterator();
         try {
             Document docJsoup = Jsoup.parse(html);
             XContentBuilder builder = jsonBuilder().startObject();
-            while (iterFieldMap.hasNext()){
-                Entry<String, FiledElasticsearch> filedElasticsearchEntry = iterFieldMap.next();
-                String keyField = filedElasticsearchEntry.getKey();
+            for (String keyField : fieldMap.keySet()){
 
-                builder.startArray(keyField);
+                ArrayList<Map<String, String>> objectBuilderArray = new ArrayList<>();
 
-                String selectorParent = filedElasticsearchEntry.getValue().selectorParent;
-                Map<String, String> selectorChildrentMap = filedElasticsearchEntry.getValue().selectorChildrentMap;
-
+                String selectorParent = fieldMap.get(keyField).selectorParent;
+                Map<String, String> selectorChildrentMap = fieldMap.get(keyField).selectorChildrentMap;
                 try{
                     Elements elementParents = docJsoup.select(selectorParent);
                     if (elementParents != null && !elementParents.isEmpty()) {
 
-
-                        for (Element elementParent: elementParents) {
-                            builder.startObject();
-
-                            Iterator<Entry<String, String>> iterSelectorChildrentMap = selectorChildrentMap.entrySet().iterator();
-                            while (iterSelectorChildrentMap.hasNext()){
-                                Entry<String, String> selectorChildEntry = iterSelectorChildrentMap.next();
-                                String keySelectorChild = selectorChildEntry.getKey();
-                                String selectorChild = selectorChildEntry.getValue();
+                        for (Element elementParent : elementParents) {
+                            Map<String, String> objectBuilder = new HashMap<>();
+                            for (String keySelectorChild : selectorChildrentMap.keySet()){
+                                String selectorChild = selectorChildrentMap.get(keySelectorChild);
                                 String contentChild = "";
                                 try {
                                     contentChild = getContentChild(selectorChild, elementParent);
@@ -73,17 +64,28 @@ public class FieldsParseFilter extends ParseFilter {
                                     LOG.error("Error evaluating selector child of items {}: {}", keySelectorChild, e);
                                 }
                                 if(contentChild != null && contentChild.length() > 0){
-                                    builder.field(keySelectorChild, contentChild);
+                                    objectBuilder.put(keySelectorChild, contentChild);
                                 }
                             }
-                            builder.endObject();
+                            if(!objectBuilder.keySet().isEmpty()){
+                                objectBuilderArray.add(objectBuilder);
+                            }
                         }
-
                     }
                 } catch (Selector.SelectorParseException e) {
                   LOG.error("Error evaluating selector {}: {}", keyField, e);
                 }
-                builder.endArray();
+                if(objectBuilderArray.size() > 0){
+                    builder.startArray(keyField);
+                    for (Map<String, String> objectBuilder: objectBuilderArray) {
+                        builder.startObject();
+                        for (String key: objectBuilder.keySet()) {
+                            builder.field(key, objectBuilder.get(key));
+                        }
+                        builder.endObject();
+                    }
+                    builder.endArray();
+                }
             }
             metadata.setBuilder(builder);
         } catch (Exception error){

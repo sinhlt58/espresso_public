@@ -75,7 +75,7 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
     // conganh add
     public String filteredJsUrlFile = null;
     public String apiJsUrl = null;
-    private ArrayList<String> filteredJsUrls = new ArrayList<>();
+    private ArrayList<JsonNode> filteredJsUrls = new ArrayList<>();
     // conganh end
 
     private static final org.slf4j.Logger LOG = LoggerFactory
@@ -565,16 +565,27 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
                     long timeInQueues = start - fit.creationTime;
 
                     //conganh add
+                    LOG.info("Hostname: {}", metadata.getFirstValue("hostname"));
+
                     ProtocolResponse response;
                     boolean isFilteredJsUrl = false;
-                    for (int i = 0; i < filteredJsUrls.size(); i++) {
-                        if(filteredJsUrls.contains(metadata.getFirstValue("hostname"))){
+                    String scopes = null;
+                    for (JsonNode node : filteredJsUrls) {
+                        String hostname = node.get("hostname").asText();
+                        JsonNode nodeScopes = node.get("scopes");
+                        if (hostname.equalsIgnoreCase(metadata.getFirstValue("hostname"))) {
                             isFilteredJsUrl = true;
+                            if (nodeScopes != null) {
+                                scopes = nodeScopes.asText();
+                            }
                             break;
                         }
                     }
                     if (isFilteredJsUrl) {
                         String urlServer = apiJsUrl + URLEncoder.encode(fit.url, "UTF-8");
+                        if (scopes != null) {
+                            urlServer += "&scopes=" + scopes;
+                        }
                         response = protocol.getProtocolOutput(urlServer, metadata);
                     } else {
                         response = protocol.getProtocolOutput(fit.url, metadata);
@@ -949,7 +960,7 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
         Iterator<JsonNode> filterIter = jsonJsUrl.get("urls").elements();
         while (filterIter.hasNext()){
             JsonNode node = filterIter.next();
-            this.filteredJsUrls.add(node.asText());
+            this.filteredJsUrls.add(node);
         }
         LOG.info("Load json resources: {}", jsonJsUrl.toString());
         LOG.info("Load array json resources: {}", this.filteredJsUrls);

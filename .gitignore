@@ -7,3 +7,7 @@ target/
 .settings/
 .idea/
 *.iml
+index.json
+*.xls
+log.txt
+debug.html

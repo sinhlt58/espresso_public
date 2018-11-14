@@ -7,6 +7,13 @@ then
     ./change_fields.sh
 fi
 
+if [ "$1" = "add_host" ]
+then
+    cd scripts
+    python3 get_config_fields.py
+    cd ..
+fi
+
 if [ "$1" = "build" ]
 then
     mvn clean package

@@ -2,51 +2,83 @@ config:
   fetchInterval.default: 1440
   fetchInterval.error: -1
   fetchInterval.fetch.error: 120
-  fetcher.threads.number: 50
+  fetcher.threads.number: 200
   http.agent.description: built with StormCrawler Archetype 1.11
   http.agent.email: someone@someorganization.com
   http.agent.name: Anonymous Coward
   http.agent.url: http://someorganization.com/
   http.agent.version: '1.0'
   http.content.limit: -1
+  http.timeout: 60000
   indexer.canonical.name: canonical
+  indexer.created_time: created_time
   indexer.md.mapping:
-  - bds.tieu_de=bds_tieu_de
+  - bds.ngay_dang=bds_ngay_dang
+  - bds.dia_chi=bds_dia_chi
+  - bds.cc_phong=bds_cc_phong
+  - bds.cc_tang=bds_cc_tang
+  - bds.cc_toa_nha=bds_cc_toa_nha
+  - bds.dc_so_nha=bds_dc_so_nha
+  - bds.dc_ngo=bds_dc_ngo
+  - bds.dc_pho_duong=bds_dc_pho_duong
+  - bds.dc_quan_huyen=bds_dc_quan_huyen
+  - bds.dc_thanh_pho=bds_dc_thanh_pho
   - bds.gia=bds_gia
   - bds.dien_tich=bds_dien_tich
-  - bds.dia_chi=bds_dia_chi
-  - bds.loai_tin=bds_loai_tin
-  - bds.loai_bds=bds_loai_bds
+  - bds.loai_dat=bds_loai_dat
+  - bds.huong=bds_huong
+  - bds.duong_vao=bds_duong_vao
+  - bds.mat_tien=bds_mat_tien
+  - bds.co_cua_hau_khong=bds_co_cua_hau_khong
+  - bds.oto_dau_cua=bds_oto_dau_cua
+  - bds.nha_xay_lau_chua=bds_nha_xay_lau_chua
+  - bds.so_tang=bds_so_tang
+  - bds.so_phong=bds_so_phong
+  - bds.thuoc_du_an=bds_thuoc_du_an
+  - bds.chu_dau_tu=bds_chu_dau_tu
+  - bds.huong_ban_cong=bds_huong_ban_cong
+  - bds.huong_vao_cua=bds_huong_vao_cua
+  - bds.vi_tri_can_ho=bds_vi_tri_can_ho
+  - bds.cho_de_xe=bds_cho_de_xe
+  - bds.noi_that=bds_noi_that
+  - bds.cc_mini=bds_cc_mini
+  - bds.so_phong_ngu=bds_so_phong_ngu
+  - bds.so_toilet=bds_so_toilet
+  - bds.lh_sdt=bds_lh_sdt
+  - bds.lh_ten=bds_lh_ten
+  - bds.vi_tri=bds_vi_tri
   - bds.chieu_ngang=bds_chieu_ngang
   - bds.chieu_dai=bds_chieu_dai
-  - bds.thuoc_du_an=bds_thuoc_du_an
-  - bds.huong=bds_huong
-  - bds.so_tang=bds_so_tang
+  - bds.quy_mo=bds_quy_mo
   - bds.duong_truoc_nha=bds_duong_truoc_nha
   - bds.phap_ly=bds_phap_ly
   - bds.so_lau=bds_so_lau
-  - bds.so_phong_ngu=bds_so_phong_ngu
   - bds.so_phong_tam=bds_so_phong_tam
   - bds.phong_an=bds_phong_an
   - bds.nha_bep=bds_nha_bep
   - bds.san_thuong=bds_san_thuong
-  - bds.cho_de_xe_hoi=bds_cho_de_xe_hoi
   - bds.chinh_chu=bds_chinh_chu
+  - bds.lh_dia_chi=bds_lh_dia_chi
+  - bds.lh_email=bds_lh_email
+  - bds.tieu_de=bds_tieu_de
   - bds.mieu_ta=bds_mieu_ta
-  - bds.ngay_dang=bds_ngay_dang
+  - bds.loai_tin=bds_loai_tin
+  - bds.loai_bds=bds_loai_bds
   - bds.ngay_cap_nhat=bds_ngay_cap_nhat
+  - bds.ngay_het_han=bds_ngay_het_han
   - ttn.tieu_de=ttn_tieu_de
   - ttn.gia=ttn_gia
   - ttn.thuong_hieu=ttn_thuong_hieu
   - ttn.kich_co=ttn_kich_co
   - ttn.mieu_ta=ttn_mieu_ta
   - ttn.ngay_dang=ttn_ngay_dang
+  - ttn.bl_noi_dung=ttn_bl_noi_dung
+  - ttn.bl_diem=ttn_bl_diem
   - parse.title=title
   - parse.keywords=keywords
   - parse.description=description
   - domain=domain
   - tests=tests
-  indexer.text.fieldname: content
   indexer.url.fieldname: url
   metadata.persist:
   - _redirTo

@@ -5,10 +5,48 @@
     ]
 },
 {
+    "scope": "domain:batdongsan.com.vn",
+    "patterns": [
+        "AllowPathQuery \/ban-|\/cho-thue-|\/mua-|\/can-thue-|-mua|-thue",
+        "DenyPathQuery .+"
+    ]
+},
+{
     "scope": "domain:alonhadat.com.vn",
     "patterns": [
-        "DenyPath /digitalpebble/",
-        "AllowPath .+"
+        "AllowPathQuery ban|thue|mua",
+        "DenyPathQuery .+"
+    ]
+},
+{
+    "scope": "domain:muabannhadat.vn",
+    "patterns": [
+        "AllowPathQuery ban|thue|mua",
+        "DenyPathQuery .+"
+    ]
+},
+{
+    "scope": "domain:nhadat24h.net",
+    "patterns": [
+        "AllowPathQuery ban|thue|mua",
+        "AllowPathQuery ID([0-9]{2,})",
+        "DenyPathQuery .+"
+    ]
+},
+{
+    "scope": "domain:lazada.vn",
+    "patterns": [
+        "AllowPathQuery products(.*)search=1",
+        "AllowPathQuery page=",
+        "DenyPathQuery .+"
+    ]
+},
+{
+    "scope": "domain:shopee.vn",
+    "patterns": [
+        "AllowPathQuery ([0-9]{2,})\\.([0-9]{2,})",
+        "AllowPathQuery page=",
+        "DenyPathQuery .+"
     ]
 },
 {

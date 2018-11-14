@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,6 +70,10 @@ import com.digitalpebble.stormcrawler.util.RobotsTags;
  */
 @SuppressWarnings("serial")
 public class JSoupParserBolt extends StatusEmitterBolt {
+
+    // sinh.luutruong added
+    public ArrayList<String> importeLinkHostnames = new ArrayList<>();
+    // sinh.luutruong end
 
     /** Metadata key name for tracking the anchors */
     public static final String ANCHORS_KEY_NAME = "anchors";
@@ -224,6 +229,17 @@ public class JSoupParserBolt extends StatusEmitterBolt {
                 slinks = new HashMap<>(0);
             } else {
                 Elements links = jsoupDoc.select("a[href]");
+
+                // sinh.luutruong added
+                // Harde code for shopee's next page.
+                // We will change later
+                if (importeLinkHostnames.contains(metadata.getFirstValue("hostname"))) {
+                    Elements importLinks = jsoupDoc.select("link[href]");
+                    links.addAll(importLinks);
+                    LOG.info("Import links: {}", importLinks.toString());
+                }
+                // sinh.luutruong end
+
                 slinks = new HashMap<>(links.size());
                 for (Element link : links) {
                     // abs:href tells jsoup to return fully qualified domains
