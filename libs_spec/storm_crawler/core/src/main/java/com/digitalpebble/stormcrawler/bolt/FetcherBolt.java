@@ -835,8 +835,8 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
         // conganh add
         try {
             loadJSONResources();
-            LOG.info("@@@filteredJsUrlFile: {}", this.filteredJsUrlFile);
-            LOG.info("@@@Api Js Url: {}", this.apiJsUrl);
+            LOG.info("FilteredJsUrlFile: {}", this.filteredJsUrlFile);
+            LOG.info("Api Js Url: {}", this.apiJsUrl);
         } catch (Exception error){
             LOG.error("Can't read file Exception: {}", error);
             LOG.error("Can't read file : {}", this.filteredJsUrlFile);
