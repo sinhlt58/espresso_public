@@ -215,12 +215,12 @@ class EsRecord:
             field_data = record.get(es_field, [])
             
             if field == 'gia_chuan_hoa':
-                normalized_price_arr = EsRecord.normalize_bds_price(record)
-                if len(normalized_price_arr[0]) == 0:
+                normalized_price = EsRecord.normalize_bds_price(record)
+                if len(normalized_price) == 0:
                     record.is_keep = False
                     break
 
-                field_data = normalized_price_arr
+                field_data = [normalized_price]
 
             if len(field_data) == 0:
                 if field == 'dc_quan_huyen':
@@ -378,8 +378,10 @@ class EsRecord:
 
         if gia and dien_tich and\
             len(gia) > 0 and len(dien_tich) > 0:
-            if '/m²' in gia:
-                return [gia.split()[0]]
+            if 'triệu/' in ''.join(gia.lower().split()):
+                m = re.search(gia_rule, gia.lower())
+                if m:
+                    return str(EsRecord.get_gia_from_str(m.group()))
 
             gia = gia.lower()
             gia = gia.replace(',', '.')
@@ -405,22 +407,30 @@ class EsRecord:
             if len_match_gia == len_match_dien_tich\
                 and len_match_gia > 0:
                 for i in range(0, len_match_gia):
-                    normalized_price.append(EsRecord.get_normalized_gia(match_gia[i], match_dien_tich[i]))
+                    normalized_price.append(EsRecord.get_normalized_gia(match_gia[i], match_dien_tich[i], record))
             
-        return [' - '.join(normalized_price)]
+        return ' - '.join(normalized_price)
 
     @classmethod
-    def get_normalized_gia(cls, gia_str, dien_tich_str):
-        gia_tokens = gia_str.split(' ')
-        num_gia = float(gia_tokens[0])
-        
-        if gia_tokens[1] == 'tỷ':
-            num_gia *= 1000
+    def get_normalized_gia(cls, gia_str, dien_tich_str, record):
+        num_gia = EsRecord.get_gia_from_str(gia_str)
+
+        if 'alonhadat' in record.get_first_value('url'):
+            dien_tich_str = dien_tich_str.replace('.', '')
+
         num_dien_tich = float(dien_tich_str)
         if num_dien_tich == 0:
             num_dien_tich = 1
         normalized_price = num_gia / num_dien_tich
         return '%.1f' % normalized_price
+
+    @classmethod
+    def get_gia_from_str(cls, gia_str):
+        tokens = gia_str.split()
+        num = float(tokens[0])
+        if tokens[1] == 'tỷ':
+            num *= 1000
+        return num
 
     def process_ttn_domain(self):
         return {}

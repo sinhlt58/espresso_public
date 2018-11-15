@@ -88,10 +88,10 @@ class ConvertManager:
                 print ('Bds {}, {} has {} records'.format(bds_type, \
                             EsRecord.bds_house_type_data[bds_house_type]['name'], len(df_data['data'])))
             
-            write_to_xls('tmp/' + self.bds_out_files[bds_type], dfs_data, True)
+            write_to_xls('tmp/' + self.bds_out_files[bds_type], dfs_data, False)
 
     def out_ttn_domain(self, records_res):
-        write_json_data(self.ttn_out_file, records_res, 2, True)
+        write_json_data(self.ttn_out_file, records_res, 2, False)
 
     def classify_records_to_domain(self, records):
         res = {}
