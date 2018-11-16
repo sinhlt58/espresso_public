@@ -24,16 +24,7 @@ public class FieldsParseFilter extends ParseFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(FieldsParseFilter.class);
 
-    private final Map<String, FiledElasticsearch> fieldMap = new HashMap<>();
-
-    class FiledElasticsearch {
-        public String selectorParent;
-        public Map<String, String> selectorChildrentMap;
-        FiledElasticsearch(String selectorParent, Map<String, String> selectorChildrentMap){
-            this.selectorParent = selectorParent;
-            this.selectorChildrentMap = selectorChildrentMap;
-        }
-    }
+    private final Map<String, Map<String, String>> fieldMap = new HashMap<>();
 
     @Override
     public void filter(String URL, byte[] content, DocumentFragment doc, ParseResult parse) {
@@ -46,35 +37,28 @@ public class FieldsParseFilter extends ParseFilter {
             for (String keyField : fieldMap.keySet()){
 
                 ArrayList<Map<String, String>> objectBuilderArray = new ArrayList<>();
-
-                String selectorParent = fieldMap.get(keyField).selectorParent;
-                Map<String, String> selectorChildrentMap = fieldMap.get(keyField).selectorChildrentMap;
+                Map<String, String> seletorsMap = fieldMap.get(keyField);
                 try{
-                    Elements elementParents = docJsoup.select(selectorParent);
-                    if (elementParents != null && !elementParents.isEmpty()) {
-
-                        for (Element elementParent : elementParents) {
-                            Map<String, String> objectBuilder = new HashMap<>();
-                            for (String keySelectorChild : selectorChildrentMap.keySet()){
-                                String selectorChild = selectorChildrentMap.get(keySelectorChild);
-                                String contentChild = "";
-                                try {
-                                    contentChild = getContentChild(selectorChild, elementParent);
-                                } catch (Selector.SelectorParseException e) {
-                                    LOG.error("Error evaluating selector child of items {}: {}", keySelectorChild, e);
-                                }
-                                if(contentChild != null && contentChild.length() > 0){
-                                    objectBuilder.put(keySelectorChild, contentChild);
-                                }
-                            }
-                            if(!objectBuilder.keySet().isEmpty()){
-                                objectBuilderArray.add(objectBuilder);
-                            }
+                    Map<String, String> objectBuilder = new HashMap<>();
+                    for (String selectorsKey: seletorsMap.keySet()) {
+                        String selector = seletorsMap.get(selectorsKey);
+                        String contentChild = "";
+                        try {
+                            contentChild = getContentChild(selector, docJsoup);
+                        } catch (Selector.SelectorParseException e) {
+                            LOG.error("Error evaluating selector: {}", selector);
+                        }
+                        if(contentChild != null && contentChild.length() > 0){
+                            objectBuilder.put(selectorsKey, contentChild);
                         }
                     }
+                    if(!objectBuilder.keySet().isEmpty()){
+                        objectBuilderArray.add(objectBuilder);
+                    }
                 } catch (Selector.SelectorParseException e) {
-                  LOG.error("Error evaluating selector {}: {}", keyField, e);
+                    LOG.error("Error evaluating selector {}: {}", keyField, e);
                 }
+
                 if(objectBuilderArray.size() > 0){
                     builder.startArray(keyField);
                     for (Map<String, String> objectBuilder: objectBuilderArray) {
@@ -139,27 +123,19 @@ public class FieldsParseFilter extends ParseFilter {
     public void configure(Map stormConf, JsonNode filterParams) {
         Iterator<Entry<String, JsonNode>> iterParams = filterParams.fields();
         while (iterParams.hasNext()) {
-
             Entry<String, JsonNode> fieldES = iterParams.next();
             String keyFieldES = fieldES.getKey();
-
             Iterator<Entry<String, JsonNode>> iterSelectors = fieldES.getValue().fields();
-            Entry<String, JsonNode> selectorParentNode = iterSelectors.next();
-            String selectorParent = addSelector(selectorParentNode.getValue().fields());
-
-            Map<String, String> selectorChildrentMap = new HashMap<>();
-            Entry<String, JsonNode> selectorChildrentNode = iterSelectors.next();
-            Iterator<Entry<String, JsonNode>> iterSelectorChildrentNode = selectorChildrentNode.getValue().fields();
-            while(iterSelectorChildrentNode.hasNext()){
-                Entry<String, JsonNode> selectorChildNode = iterSelectorChildrentNode.next();
-                String keySelectorChild = selectorChildNode.getKey();
-                String selectorChild = addSelector(selectorChildNode.getValue().fields());
-                selectorChildrentMap.put(keySelectorChild, selectorChild);
+            Map<String, String> selectorsMap = new HashMap<>();
+            while(iterSelectors.hasNext()){
+                Entry<String, JsonNode> selectorNode = iterSelectors.next();
+                String keySelector = selectorNode.getKey();
+                String selector = addSelector(selectorNode.getValue().fields());
+                if(selector != null && selector.length() > 0){
+                    selectorsMap.put(keySelector, selector);
+                }
             }
-
-            FiledElasticsearch filedElasticsearch = new FiledElasticsearch(selectorParent, selectorChildrentMap);
-
-            fieldMap.put(keyFieldES, filedElasticsearch);
+            fieldMap.put(keyFieldES, selectorsMap);
         }
     }
 
@@ -167,9 +143,14 @@ public class FieldsParseFilter extends ParseFilter {
         String selectors = "";
         while (iter.hasNext()) {
             Entry<String, JsonNode> entryNode = iter.next();
-            selectors += entryNode.getValue().asText() + ",";
+            String select = entryNode.getValue().asText();
+            if(select != null && select.length() > 0){
+                selectors += select + ",";
+            }
         }
-        selectors = selectors.substring(0, selectors.length()-1);
+        if(selectors.length() > 1){
+            selectors = selectors.substring(0, selectors.length()-1);
+        }
         LOG.info("selectors: {}", selectors);
         return selectors;
     }
