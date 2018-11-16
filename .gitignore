@@ -11,3 +11,4 @@ index.json
 *.xls
 log.txt
 debug.html
+__pycache__/
