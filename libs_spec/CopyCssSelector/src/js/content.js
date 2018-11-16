@@ -47,22 +47,31 @@ chrome.runtime.onMessage.addListener((request) => {
         let selector = selectorGenerator.getSelector(clickedElement);
         highlight(clickedElement);
         copyToClipboard(selector);
-        // sinh.luutruong added
-        writeRuleToFile(selector, request['menuItemTitle'], request['currentUrl'])
-        // sinh.luutruong end
+        if (selector && selector.length > 0) {
+            // sinh.luutruong added
+            writeRuleToFile(selector, request['menuItemTitle'], request['currentUrl'])
+            // sinh.luutruong end
+        }
     }
 });
 
+// sinh.luutruong added
 function writeRuleToFile(rule, menuItemTitle, currentUrl) {
     const menuItemTitleTokens = menuItemTitle.split('@');
+    const domain = menuItemTitleTokens[0];
+    const field = menuItemTitleTokens[1];
+    const host  = getLocation(currentUrl).hostname
     const ruleData = {
-        domain: menuItemTitleTokens[0],
-        field: menuItemTitleTokens[1],
-        host: getLocation(currentUrl).hostname,
+        domain: domain,
+        field: field,
+        host: host,
         rule: rule
     };
     postData(`http://localhost:1111/api/v1/domains`, ruleData)
-        .then(res => console.log(res))
+        .then(_ => {
+            const ruleInnerText = document.querySelector(rule).innerText;
+            console.log(`domain: ${domain}\nfield: ${field}\nhost: ${host}\nrule: ${rule}\nruleInnerText: ${ruleInnerText}`);
+        })
         .catch(error => console.log(error));
 }
 
@@ -89,3 +98,4 @@ var getLocation = function(href) {
     l.href = href;
     return l;
 };
+// sinh.luutruong end

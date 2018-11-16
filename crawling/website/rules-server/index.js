@@ -1,7 +1,14 @@
 const fs = require('fs');
+const httpx = require('./httpx');
+
 const express = require('express');
 const app = express();
+
 const PORT = process.env.PORT || 1111;
+const httpsOptions = {
+    key: fs.readFileSync('./key.pem'),
+    cert: fs.readFileSync('./cert.pem')
+}
 
 app.use(express.json());
 
@@ -31,7 +38,10 @@ function updateJsoupRules(domain, field, host, rule) {
             const fieldData = jsoupData[domain]['selectorChildrent'][field];
             if (fieldData.hasOwnProperty(host)) {
                 if (!fieldData[host].includes(rule)) {
-                    const rules = fieldData[host].split(', ');
+                    let rules = fieldData[host].split(', ');
+                    rules = rules.filter(r => {
+                        return r.length > 0;
+                    });
                     rules.push(rule);
                     fieldData[host] = rules.join(', ');
                 }
@@ -70,12 +80,17 @@ app.post('/api/v1/domains', async function(req, res) {
     const field = json['field'];
     const host = json['host'];
     const rule = json['rule'];
-
-    updateJsoupRules(domain, field, host, rule);
-
+    
+    try{
+        updateJsoupRules(domain, field, host, rule);
+    }catch(error){
+        return res.send(500, 'Internal error');
+    }
+    
     return res.send('Ok');
 });
 
-app.listen(PORT, () => {
+let server = httpx.createServer(httpsOptions, app);
+server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });
