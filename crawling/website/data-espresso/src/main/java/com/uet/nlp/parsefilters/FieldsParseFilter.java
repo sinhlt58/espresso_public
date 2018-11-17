@@ -24,135 +24,183 @@ public class FieldsParseFilter extends ParseFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(FieldsParseFilter.class);
 
-    private final Map<String, Map<String, String>> fieldMap = new HashMap<>();
+    private final Map<String, Map<String, ArrayList<CustomRule>>> domainFieldRulesMap = new HashMap<>();
+
+    public enum RuleType {
+        NORMAL, CONCAT, ATTRIBUTE
+    }
+
+    public class CustomRule {
+        private String selectorExpression;
+        private RuleType type;
+        
+        public CustomRule(String selector) {
+            selectorExpression = selector.trim();
+            type = getType(selector);
+        }
+
+        private RuleType getType(String selector) {
+            if (selector.contains("&")) {
+                return RuleType.CONCAT;
+            } else if (selector.contains("@")) {
+                return RuleType.ATTRIBUTE;
+            } else {
+                return RuleType.NORMAL;
+            }
+        }
+
+        public ArrayList<String> evaluate(Document docJsoup) {
+            if (type == RuleType.CONCAT) {
+                return evaluateConcat(docJsoup);
+            }
+
+            if (type == RuleType.ATTRIBUTE) {
+                return evaluateAttribute(docJsoup);
+            }
+
+            return evaluateNormal(docJsoup);
+        }
+
+        public ArrayList<String> evaluateNormal(Document docJsoup) {
+            LOG.info("Inside evaluateNormal: {}", selectorExpression);
+            Elements els = docJsoup.select(selectorExpression);
+            ArrayList<String> res = new ArrayList<>();
+            for (Element e : els) {
+                res.add(e.text());
+            }
+            return res;
+        }
+
+        public ArrayList<String> evaluateConcat(Document docJsoup) {
+            List<String> selectors = Arrays.asList(selectorExpression.split("&"));
+            ArrayList<String> res = new ArrayList<>();
+            ArrayList<String> values = new ArrayList<>();
+
+            for (String selector : selectors) {
+                Elements els = docJsoup.select(selector.trim());
+                if (els != null && !els.isEmpty()){
+                    values.add(els.first().text());
+                }
+            }
+            res.add(String.join(" ", values));
+            return res;
+        }
+
+        public ArrayList<String> evaluateAttribute(Document docJsoup) {
+            String[] tokens = selectorExpression.split("@");
+            String selector = tokens[0].trim();
+            String attr     = tokens[1].trim();
+
+            Elements els = docJsoup.select(selector);
+            ArrayList<String> res = new ArrayList<>();
+            for (Element e : els) {
+                res.add(e.attr(attr));
+            }
+            return res;
+        }
+
+        public String toString() {
+            return selectorExpression;
+        }
+    };
 
     @Override
     public void filter(String URL, byte[] content, DocumentFragment doc, ParseResult parse) {
         ParseData parseData = parse.get(URL);
         Metadata metadata = parseData.getMetadata();
         String html = metadata.getFirstValue("html");
+
         try {
             Document docJsoup = Jsoup.parse(html);
             XContentBuilder builder = jsonBuilder().startObject();
-            for (String keyField : fieldMap.keySet()){
+            LOG.info("inside XContentBuilder builder = jsonBuilder().startObject();");
+            // for each domain
+            for (String domainName : domainFieldRulesMap.keySet()){
+                LOG.info("domainName: {}", domainName);
+                Map<String, ArrayList<CustomRule>> fieldRulesMap = domainFieldRulesMap.get(domainName);
 
-                ArrayList<Map<String, String>> objectBuilderArray = new ArrayList<>();
-                Map<String, String> seletorsMap = fieldMap.get(keyField);
-                try{
-                    Map<String, String> objectBuilder = new HashMap<>();
-                    for (String selectorsKey: seletorsMap.keySet()) {
-                        String selector = seletorsMap.get(selectorsKey);
-                        String contentChild = "";
-                        try {
-                            contentChild = getContentChild(selector, docJsoup);
-                        } catch (Selector.SelectorParseException e) {
-                            LOG.error("Error evaluating selector: {}", selector);
-                        }
-                        if(contentChild != null && contentChild.length() > 0){
-                            objectBuilder.put(selectorsKey, contentChild);
+                // for each field
+                boolean isFoundAnyField = false;
+                for (String fieldName : fieldRulesMap.keySet()) {
+                    LOG.info("fieldName: {}", fieldName);
+                    ArrayList<CustomRule> rules = fieldRulesMap.get(fieldName);
+                    LOG.info("rules: {}", rules);
+
+                    for (CustomRule rule : rules) {
+                        ArrayList<String> values = rule.evaluate(docJsoup);
+                        LOG.info("values: {}", values);
+                        int l = values.size();
+                        if (l > 0) {
+                            if (!isFoundAnyField) {
+                                builder.startArray(domainName);
+                                builder.startObject();
+                                isFoundAnyField = true;
+                            }
+                            if (l == 1) {
+                                builder.field(fieldName, values.get(0));
+                            }
+                            if (l == 2) {
+                                builder.field(fieldName, values.toArray());
+                            }
                         }
                     }
-                    if(!objectBuilder.keySet().isEmpty()){
-                        objectBuilderArray.add(objectBuilder);
-                    }
-                } catch (Selector.SelectorParseException e) {
-                    LOG.error("Error evaluating selector {}: {}", keyField, e);
                 }
 
-                if(objectBuilderArray.size() > 0){
-                    builder.startArray(keyField);
-                    for (Map<String, String> objectBuilder: objectBuilderArray) {
-                        builder.startObject();
-                        for (String key: objectBuilder.keySet()) {
-                            builder.field(key, objectBuilder.get(key));
-                        }
-                        builder.endObject();
-                    }
+                if (isFoundAnyField) {
+                    builder.endObject();
                     builder.endArray();
                 }
             }
+
             metadata.setBuilder(builder);
         } catch (Exception error){
             LOG.error("Error filter element parent of: {} , error: {}", URL, error);
         }
+
         metadata.remove("html");
-    }
-
-    private String getContentChild(String selectorChild, Element elementParent){
-        String contentChild = "";
-        if (selectorChild.contains("&")){
-            String[] selectorChildArray = selectorChild.split(",");
-            for (int i = 0; i < selectorChildArray.length; i++) {
-                if(selectorChildArray[i].contains("&")){
-                    String[] concatSelectors = selectorChildArray[i].split("&");
-                    for (String concatSelector: concatSelectors) {
-                        contentChild = getTextContentChild(concatSelector, " ", contentChild, elementParent);
-                    }
-                    if (contentChild != null || contentChild.length() > 0){
-                        break;
-                    } else {
-                        selectorChild = String.join(",", removeIndexInArray(selectorChildArray, i));
-                        contentChild = getTextContentChild(selectorChild, "", contentChild, elementParent);
-                    }
-                }
-            }
-        } else {
-            contentChild = getTextContentChild(selectorChild, "", contentChild, elementParent);
-        }
-        contentChild = contentChild.trim().replaceAll("\\s{2,}", " ");
-        return contentChild;
-    }
-
-    private String[] removeIndexInArray(String[] array, int index){
-        String [] newArray = new String[array.length];
-        System.arraycopy(array, 0, newArray, 0, index);
-        System.arraycopy(array, index+1, newArray, index, array.length-index-1);
-        return newArray;
-    }
-
-    private String getTextContentChild(String selectorChildrent, String text, String contentChild, Element elementParent){
-        Elements contentElements = elementParent.select(selectorChildrent);
-        if (contentElements != null && !contentElements.isEmpty()){
-            contentChild += text + contentElements.first().text();
-        }
-        return contentChild;
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     public void configure(Map stormConf, JsonNode filterParams) {
         Iterator<Entry<String, JsonNode>> iterParams = filterParams.fields();
-        while (iterParams.hasNext()) {
-            Entry<String, JsonNode> fieldES = iterParams.next();
-            String keyFieldES = fieldES.getKey();
-            Iterator<Entry<String, JsonNode>> iterSelectors = fieldES.getValue().fields();
-            Map<String, String> selectorsMap = new HashMap<>();
-            while(iterSelectors.hasNext()){
-                Entry<String, JsonNode> selectorNode = iterSelectors.next();
-                String keySelector = selectorNode.getKey();
-                String selector = addSelector(selectorNode.getValue().fields());
-                if(selector != null && selector.length() > 0){
-                    selectorsMap.put(keySelector, selector);
-                }
-            }
-            fieldMap.put(keyFieldES, selectorsMap);
-        }
-    }
 
-    private String addSelector(Iterator<Entry<String, JsonNode>> iter) {
-        String selectors = "";
-        while (iter.hasNext()) {
-            Entry<String, JsonNode> entryNode = iter.next();
-            String select = entryNode.getValue().asText();
-            if(select != null && select.length() > 0){
-                selectors += select + ",";
+        // Iterate each domain
+        while (iterParams.hasNext()) {
+            Entry<String, JsonNode> domainEntry = iterParams.next();
+            String domainKey = domainEntry.getKey();
+            Iterator<Entry<String, JsonNode>> iterFields = domainEntry.getValue().fields();
+            LOG.info("Domain name: {}", domainKey);
+            
+            Map<String, ArrayList<CustomRule>> fieldRulesMap = new HashMap<>();
+            domainFieldRulesMap.put(domainKey, fieldRulesMap);
+
+            // Iterate each field
+            while(iterFields.hasNext()){
+                Entry<String, JsonNode> fieldEntry = iterFields.next();
+                String fieldKey = fieldEntry.getKey();
+                Iterator<Entry<String, JsonNode>> iterHostRules = fieldEntry.getValue().fields();
+                LOG.info("Field: {}", fieldKey);
+
+                ArrayList<CustomRule> rules = new ArrayList<>();
+                // Iterate each host name rules
+                while(iterHostRules.hasNext()){
+                    Entry<String, JsonNode> hostRuleEntry = iterHostRules.next();
+                    String selectorsByHostStr = hostRuleEntry.getValue().asText();
+                    List<String> selectorsByHost = Arrays.asList(selectorsByHostStr.split(", "));
+
+                    for (String selector : selectorsByHost) {
+                        if (selector.length() > 0){
+                            rules.add(new CustomRule(selector));
+                        }
+                    }
+
+                    LOG.info("Host {}: {}", hostRuleEntry.getKey(), selectorsByHostStr);
+                }
+
+                fieldRulesMap.put(fieldKey, rules);
+                LOG.info("Rules: {}", rules.toString());
             }
         }
-        if(selectors.length() > 1){
-            selectors = selectors.substring(0, selectors.length()-1);
-        }
-        LOG.info("selectors: {}", selectors);
-        return selectors;
     }
-    
 }
