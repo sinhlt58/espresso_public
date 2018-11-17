@@ -1,3 +1,6 @@
 [submodule "libs/storm_crawler"]
 	path = libs/storm_crawler
 	url = https://github.com/DigitalPebble/storm-crawler
+[submodule "libs/CopyCssSelector"]
+	path = libs/CopyCssSelector
+	url = https://github.com/flamencist/CopyCssSelector

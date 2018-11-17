@@ -1,6 +1,7 @@
 #!/bin/bash
 
 storm_crawler_version="846ef776517b733f14f21ee371f9b8264503e6ae"  #v1.11
+CopyCssSelector_version="31cb2f3e02538d17bd9de4b19bfab0b0eed6c754" #v0.5.3
 
 root_dir=$(echo $PWD)/..
 libs_dir=$root_dir/libs
@@ -11,7 +12,7 @@ then
 	source $root_dir/../bin/activate
 fi
 
-for lib in storm_crawler; do
+for lib in storm_crawler CopyCssSelector; do
 	version=${lib}_version
 	version="${!version}"
 	if [ "$1" = "apply_patches" ]

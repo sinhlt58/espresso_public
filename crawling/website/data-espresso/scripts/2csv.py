@@ -71,7 +71,7 @@ class ConvertManager:
 
             if bds_house_type not in records_rows_by_type[bds_type]:
                 records_rows_by_type[bds_type][bds_house_type] = {
-                    'sheet_name': EsRecord.bds_sheet_names[bds_house_type],
+                    'sheet_name': EsRecord.bds_house_type_data[bds_house_type]['name'],
                     'headers': EsRecord.bds_csv_fields_by_house_type[bds_house_type]['headers'],
                     'data': []
                 }
@@ -86,12 +86,12 @@ class ConvertManager:
                 df_data = bds_house_type_data
                 dfs_data.append(df_data)
                 print ('Bds {}, {} has {} records'.format(bds_type, \
-                            EsRecord.bds_sheet_names[bds_house_type], len(df_data['data'])))
+                            EsRecord.bds_house_type_data[bds_house_type]['name'], len(df_data['data'])))
             
-            write_to_xls('tmp/' + self.bds_out_files[bds_type], dfs_data, True)
+            write_to_xls('tmp/' + self.bds_out_files[bds_type], dfs_data, False)
 
     def out_ttn_domain(self, records_res):
-        write_json_data(self.ttn_out_file, records_res, 2, True)
+        write_json_data(self.ttn_out_file, records_res, 2, False)
 
     def classify_records_to_domain(self, records):
         res = {}

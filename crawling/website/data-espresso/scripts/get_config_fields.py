@@ -19,7 +19,7 @@ class Generator:
     ]
 
     default_es_preperties = [
-        "created_time", "host", "title", "url", "description"
+        "created_time", "host", "title", "url", "description", "tests"
     ]
     es_index_mapping_file = 'es_index_mapping.json'
 
@@ -39,10 +39,10 @@ class Generator:
         # xpath class
         parse_filters_dict = get_json_data(cls.parse_filter_file)
         old_xpath_params = parse_filters_dict['com.digitalpebble.stormcrawler.parse.ParseFilters']\
-                       [0]['params']
+                       [1]['params']
         new_xpath_params = cls.gen_new_param_parse_filters(old_xpath_params, domain_configs_dict)
         parse_filters_dict['com.digitalpebble.stormcrawler.parse.ParseFilters']\
-                       [0]['params'] = new_xpath_params
+                       [1]['params'] = new_xpath_params
         write_json_data(cls.parse_filter_file, parse_filters_dict)
         print ("done gen for parsefilters.json")
 
