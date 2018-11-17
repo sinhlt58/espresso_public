@@ -5,7 +5,7 @@ config:
   fetcher.threads.number: 200
   http.agent.description: built with StormCrawler Archetype 1.11
   http.agent.email: someone@someorganization.com
-  http.agent.name: Anonymous Coward
+  http.agent.name: Espresso crawler
   http.agent.url: http://someorganization.com/
   http.agent.version: '1.0'
   http.content.limit: -1
@@ -13,11 +13,12 @@ config:
   indexer.canonical.name: canonical
   indexer.created_time: created_time
   indexer.md.mapping:
+  - bds=bds
+  - ttn=ttn
   - parse.title=title
   - parse.keywords=keywords
   - parse.description=description
   - domain=domain
-  - bds=bds
   indexer.url.fieldname: url
   metadata.persist:
   - _redirTo

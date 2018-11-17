@@ -397,6 +397,16 @@
                         "www.muabannhadat.vn": "",
                         "batdongsan.com.vn": ""
                     }
+                },
+                "ttn": {
+                    "tieu_de": {},
+                    "gia": {},
+                    "thuong_hieu": {},
+                    "kich_co": {},
+                    "mieu_ta": {},
+                    "ngay_dang": {},
+                    "bl_noi_dung": {},
+                    "bl_diem": {}
                 }
             }
         }, 

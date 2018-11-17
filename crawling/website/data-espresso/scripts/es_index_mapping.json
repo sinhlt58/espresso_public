@@ -322,6 +322,52 @@
                             "store": true
                         }
                     }
+                },
+                "ttn": {
+                    "type": "nested",
+                    "include_in_parent": true,
+                    "properties": {
+                        "tieu_de": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true
+                        },
+                        "gia": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true
+                        },
+                        "thuong_hieu": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true
+                        },
+                        "kich_co": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true
+                        },
+                        "mieu_ta": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true
+                        },
+                        "ngay_dang": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true
+                        },
+                        "bl_noi_dung": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true
+                        },
+                        "bl_diem": {
+                            "type": "text",
+                            "index": "true",
+                            "store": true
+                        }
+                    }
                 }
             }
         }
