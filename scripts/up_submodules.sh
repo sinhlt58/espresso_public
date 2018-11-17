@@ -12,7 +12,7 @@ then
 	source $root_dir/../bin/activate
 fi
 
-for lib in storm_crawler; CopyCssSelector do
+for lib in storm_crawler CopyCssSelector; do
 	version=${lib}_version
 	version="${!version}"
 	if [ "$1" = "apply_patches" ]
