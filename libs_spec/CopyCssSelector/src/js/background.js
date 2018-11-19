@@ -18,16 +18,28 @@ fetch(domainsDataUrl)
 
 function createContextMenus(domainsData) {
     domainsData.forEach(domainData => {
+        let domainName = domainData['name'];
+        createContextMenu(domainName, domainName);
         domainData['fields'].forEach(field => {
-            const id_title = `${domainData['name']}@${field}`;
-            chrome.contextMenus.create({
-                id: id_title,
-                title: id_title,
-                contexts: ["all"],
-                "onclick": onCopy
-            });
+            const id_title = `${domainName}@${field}`;
+            createContextMenu(id_title, id_title, domainName);
         })
     });
+}
+
+function createContextMenu(id, title, parentId=null) {
+    options = {
+        id: id,
+        title: title,
+        contexts: ["all"],
+        "onclick": onCopy
+    }
+    
+    if (parentId) {
+        options['parentId'] = parentId
+    }
+
+    chrome.contextMenus.create(options);   
 }
 
 // sinh.luutruong end

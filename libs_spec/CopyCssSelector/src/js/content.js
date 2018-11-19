@@ -49,13 +49,19 @@ chrome.runtime.onMessage.addListener((request) => {
         copyToClipboard(selector);
         if (selector && selector.length > 0) {
             // sinh.luutruong added
-            writeRuleToFile(selector, request['menuItemTitle'], request['currentUrl'])
+            handleDomain(selector, request['menuItemTitle'], request['currentUrl'])
             // sinh.luutruong end
         }
     }
 });
 
 // sinh.luutruong added
+function handleDomain(rule, menuItemTitle, currentUrl) {
+    if (menuItemTitle.includes('@')){
+        writeRuleToFile(rule, menuItemTitle, currentUrl);
+    }
+}
+
 function writeRuleToFile(rule, menuItemTitle, currentUrl) {
     const menuItemTitleTokens = menuItemTitle.split('@');
     const domain = menuItemTitleTokens[0];
@@ -76,7 +82,7 @@ function writeRuleToFile(rule, menuItemTitle, currentUrl) {
 }
 
 function postData(url = ``, data = {}) {
-  // Default options are marked with *
+    // Default options are marked with *
     return fetch(url, {
         method: "POST", // *GET, POST, PUT, DELETE, etc.
         mode: "cors", // no-cors, cors, *same-origin
