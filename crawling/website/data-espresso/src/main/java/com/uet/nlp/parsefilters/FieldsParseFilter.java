@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import org.jsoup.Jsoup;
+import org.jsoup.parser.Parser;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,12 +63,13 @@ public class FieldsParseFilter extends ParseFilter {
         }
 
         public ArrayList<String> evaluateNormal(Document docJsoup) {
-            LOG.info("Inside evaluateNormal: {}", selectorExpression);
             Elements els = docJsoup.select(selectorExpression);
+            
             ArrayList<String> res = new ArrayList<>();
             for (Element e : els) {
                 res.add(e.text());
             }
+
             return res;
         }
 
@@ -82,7 +84,10 @@ public class FieldsParseFilter extends ParseFilter {
                     values.add(els.first().text());
                 }
             }
-            res.add(String.join(" ", values));
+            String joinedValue = String.join(" ", values);
+            if (!joinedValue.isEmpty()){
+                res.add(joinedValue);
+            }
             return res;
         }
 
@@ -111,24 +116,20 @@ public class FieldsParseFilter extends ParseFilter {
         String html = metadata.getFirstValue("html");
 
         try {
-            Document docJsoup = Jsoup.parse(html);
+            Document docJsoup = Parser.htmlParser().parseInput(html, URL);
             XContentBuilder builder = jsonBuilder().startObject();
-            LOG.info("inside XContentBuilder builder = jsonBuilder().startObject();");
+
             // for each domain
             for (String domainName : domainFieldRulesMap.keySet()){
-                LOG.info("domainName: {}", domainName);
                 Map<String, ArrayList<CustomRule>> fieldRulesMap = domainFieldRulesMap.get(domainName);
 
                 // for each field
                 boolean isFoundAnyField = false;
                 for (String fieldName : fieldRulesMap.keySet()) {
-                    LOG.info("fieldName: {}", fieldName);
                     ArrayList<CustomRule> rules = fieldRulesMap.get(fieldName);
-                    LOG.info("rules: {}", rules);
 
                     for (CustomRule rule : rules) {
                         ArrayList<String> values = rule.evaluate(docJsoup);
-                        LOG.info("values: {}", values);
                         int l = values.size();
                         if (l > 0) {
                             if (!isFoundAnyField) {
@@ -139,7 +140,7 @@ public class FieldsParseFilter extends ParseFilter {
                             if (l == 1) {
                                 builder.field(fieldName, values.get(0));
                             }
-                            if (l == 2) {
+                            if (l > 1) {
                                 builder.field(fieldName, values.toArray());
                             }
                         }

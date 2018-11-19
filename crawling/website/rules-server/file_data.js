@@ -14,18 +14,18 @@ exports.getJsoupData = function(rules) {
 }
 
 exports.getJsoupRulesData = function() {
-    const rules = getRules(FILE_RULES);
-    const params = getJsoupData(rules);
+    const rules = exports.getRules(FILE_RULES);
+    const params = exports.getJsoupData(rules);
     return params;
 }
 
 exports.updateJsoupRules = function(domain, field, host, rule) {
-    const rules = getRules(FILE_RULES);
-    const jsoupData = getJsoupData(rules);
+    const rules = exports.getRules(FILE_RULES);
+    const jsoupData = exports.getJsoupData(rules);
 
     if (jsoupData.hasOwnProperty(domain)){
-        if (jsoupData[domain]['selectorChildrent'].hasOwnProperty(field)){
-            const fieldData = jsoupData[domain]['selectorChildrent'][field];
+        if (jsoupData[domain].hasOwnProperty(field)){
+            const fieldData = jsoupData[domain][field];
             if (fieldData.hasOwnProperty(host)) {
                 if (!fieldData[host].includes(rule)) {
                     let rules = fieldData[host].split(', ');

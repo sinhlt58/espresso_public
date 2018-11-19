@@ -22,7 +22,7 @@ app.get('/api/v1/domains', async function(req, res) {
             name: domain,
             fields: []
         };
-        for (let field in jsoupRulesData[domain]['selectorChildrent']) {
+        for (let field in jsoupRulesData[domain]) {
             domainData.fields.push(field);
         }
         domainsData.push(domainData);
