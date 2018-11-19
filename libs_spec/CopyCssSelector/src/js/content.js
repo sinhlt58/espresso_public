@@ -56,9 +56,49 @@ chrome.runtime.onMessage.addListener((request) => {
 });
 
 // sinh.luutruong added
+const prefixUrl = 'http://localhost:1111/api/v1';
+
 function handleDomain(rule, menuItemTitle, currentUrl) {
+    const hostname  = getLocation(currentUrl).hostname;
+    
     if (menuItemTitle.includes('@')){
         writeRuleToFile(rule, menuItemTitle, currentUrl);
+    }
+
+    if (menuItemTitle.includes('add_to_url_rules')) {
+        addHostnameUrlRule(hostname);
+    }
+
+    if (menuItemTitle.includes('remove_from_url_rules')) {
+        removeHostnameUrlRule(hostname);
+    }
+
+    if (menuItemTitle.includes('add_to_js_rules')) {
+        addHostnameJsRule(hostname);
+    }
+
+    if (menuItemTitle.includes('remove_from_js_rules')) {
+        removeHostnameJsRule(hostname);        
+    }
+
+    if (menuItemTitle.includes('add_url_to_es')) {
+        addUrlToEs(currentUrl, hostname);
+    }
+
+    if (menuItemTitle.includes('remove_url_from_es')) {
+        removeUrlFromEs(currentUrl);
+    }
+
+    if (menuItemTitle.includes('remove_urls_by_host_from_es')) {
+        removeUrlsByHostFromEs(hostname);
+    }
+
+    if (menuItemTitle.includes('remove_record_from_es')) {
+        removeRecordFromEs(currentUrl);
+    }
+
+    if (menuItemTitle.includes('remove_records_by_host_from_es')) {
+        removeRecordsByHostFromEs(hostname);
     }
 }
 
@@ -73,12 +113,93 @@ function writeRuleToFile(rule, menuItemTitle, currentUrl) {
         host: host,
         rule: rule
     };
-    postData(`http://localhost:1111/api/v1/domains`, ruleData)
+    postData(`${prefixUrl}/domains`, ruleData)
         .then(_ => {
             const ruleInnerText = document.querySelector(rule).innerText;
             console.log(`domain: ${domain}\nfield: ${field}\nhost: ${host}\nrule: ${rule}\nruleInnerText: ${ruleInnerText}`);
         })
         .catch(error => console.log(error));
+}
+
+function addHostnameUrlRule(hostname) {
+    postData(`${prefixUrl}/urlrules`, {hostname: hostname})
+    .then(_ => {
+        console.log(`Added default url rules for ${hostname}`);
+    })
+    .catch(error => console.log(error));
+}
+
+function removeHostnameUrlRule(hostname) {
+    deleteData(`${prefixUrl}/urlrules/${hostname}`)
+    .then(_ => {
+        console.log(`Removed url rules for ${hostname}`);
+    })
+    .catch(error => console.log(error));
+}
+
+function addHostnameJsRule(hostname) {
+    postData(`${prefixUrl}/jsrules`, {hostname: hostname})
+    .then(_ => {
+        console.log(`Added default js rules for ${hostname}`);
+    })
+    .catch(error => console.log(error));
+}
+
+function removeHostnameJsRule(hostname) {
+    deleteData(`${prefixUrl}/jsrules/${hostname}`)
+    .then(_ => {
+        console.log(`Removed js rules for ${hostname}`);
+    })
+    .catch(error => console.log(error));
+}
+
+function addUrlToEs(url, hostname) {
+    const data = {
+        url: url,
+        hostname: hostname
+    }
+
+    postData(`${prefixUrl}/es/status`, data)
+    .then(_ => {
+        console.log(`Added ${url} to es status`);
+    })
+    .catch(error => console.log(error));
+}
+
+function removeUrlFromEs(url) {
+    const encodedUrl = encodeURIComponent(url);
+
+    deleteData(`${prefixUrl}/es/status/${encodedUrl}`)
+    .then(_ => {
+        console.log(`Removed ${url} from es status`);
+    })
+    .catch(error => console.log(error));
+}
+ 
+function removeUrlsByHostFromEs(hostname) {
+    deleteData(`${prefixUrl}/es/status_byhost/${hostname}`)
+    .then(_ => {
+        console.log(`Removed urls by host ${hostname} from es status`);
+    })
+    .catch(error => console.log(error));
+}
+
+function removeRecordFromEs(url) {
+    const encodedUrl = encodeURIComponent(url);
+
+    deleteData(`${prefixUrl}/es/index/${encodedUrl}`)
+    .then(_ => {
+        console.log(`Removed ${url} from es index`);
+    })
+    .catch(error => console.log(error));
+}
+
+function removeRecordsByHostFromEs(hostname) {
+    deleteData(`${prefixUrl}/es/index_byhost/${hostname}`)
+    .then(_ => {
+        console.log(`Removed records by host ${hostname} from es index`);
+    })
+    .catch(error => console.log(error));
 }
 
 function postData(url = ``, data = {}) {
@@ -97,6 +218,13 @@ function postData(url = ``, data = {}) {
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     })
     .then(response => response); // already a json object
+}
+
+function deleteData(url) {
+    return fetch(url,{
+        method: "DELETE",
+    })
+    .then(response => response);
 }
 
 var getLocation = function(href) {

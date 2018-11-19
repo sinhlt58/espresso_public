@@ -11,12 +11,54 @@ let onCopy = function (info, tab) {
 
 // sinh.luutruong add
 const domainsDataUrl = 'http://localhost:1111/api/v1/domains';
+const systemMenus = [
+    {
+        id: 'add_to_url_rules',
+        title: 'add_to_url_rules (fast.urlfilter.json)'
+    },
+    {
+        id: 'remove_from_url_rules',
+        title: 'remove_from_url_rules (fast.urlfilter.json)'
+    },
+    {
+        id: 'add_to_js_rules',
+        title: 'add_to_js_rules (filtered-js-url-file.json)'
+    },
+    {
+        id: 'remove_from_js_rules',
+        title: 'remove_from_js_rules (filtered-js-url-file.json)'
+    },
+    {
+        id: 'add_url_to_es',
+        title: 'add_url_to_es'
+    },
+    {
+        id: 'remove_url_from_es',
+        title: 'remove_url_from_es'
+    },
+    {
+        id: 'remove_urls_by_host_from_es',
+        title: 'remove_urls_by_host_from_es'
+    },
+    {
+        id: 'remove_record_from_es',
+        title: 'remove_record_from_es'
+    },
+    {
+        id: 'remove_records_by_host_from_es',
+        title: 'remove_records_by_host_from_es'
+    }
+]
 
 fetch(domainsDataUrl)
     .then(res => res.json())
     .then(json => createContextMenus(json));
 
 function createContextMenus(domainsData) {
+    systemMenus.forEach(d => {
+        createContextMenu(d.id, d.title);
+    })
+    
     domainsData.forEach(domainData => {
         let domainName = domainData['name'];
         createContextMenu(domainName, domainName);
