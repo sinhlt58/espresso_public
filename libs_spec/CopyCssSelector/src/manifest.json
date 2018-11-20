@@ -16,7 +16,7 @@
   "author": "Alexander Chermyanin (flamencist)",
   "offline_enabled": true,
   "permissions": ["contextMenus", "activeTab", "clipboardWrite",
-                  "tabs", "http://*/", "https://*/"],
+                  "tabs", "http://*/", "https://*/", "*://*/*"],
   "content_scripts": [{
     "all_frames": true,
     "matches": ["*://*/*"],
