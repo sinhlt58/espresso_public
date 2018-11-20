@@ -1,9 +1,11 @@
 var exports = module.exports;
 
 const shopee_vn = require('./shopee_vn');
+const mubannhadat_vn = require('./muabannhadat_vn');
 
 exports.scopeFunctionsMap = {
-    'shopeec': shopee_vn.doActions
+    'shopeec': shopee_vn.doActions,
+    'mubannhadat': mubannhadat_vn.doActions
 };
 
 exports.getDomainFuncActionsByScopes = (scopes) => {

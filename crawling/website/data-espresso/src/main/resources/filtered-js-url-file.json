@@ -1,17 +1,25 @@
 {
-    "urls": [
-        {
-            "hostname": "shopee.vn",
-            "scopes": "scroll,shopeec"
-        },
-        {
-            "hostname": "www.lazada.vn"
-        },
-        {
-            "hostname": "nhadat24h.net"
-        },
-        {
-            "hostname": "batdongsan.com.vn"
-        }
-    ]
+  "urls": [
+    {
+      "hostname": "shopee.vn",
+      "scopes": "scroll,shopeec"
+    },
+    {
+      "hostname": "www.lazada.vn"
+    },
+    {
+      "hostname": "nhadat24h.net"
+    },
+    {
+      "hostname": "batdongsan.com.vn"
+    },
+    {
+      "hostname": "www.muabannhadat.vn",
+      "scopes": "opreq,mubannhadat"
+    },
+    {
+      "hostname": "homedy.com",
+      "scopes": "opreq"
+    }
+  ]
 }
