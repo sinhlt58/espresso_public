@@ -1,5 +1,7 @@
 var exports = module.exports;
 
+const crypto = require('crypto');
+
 const elasticsearch = require('elasticsearch');
 const client = new elasticsearch.Client({
   host: 'localhost:9200'
@@ -10,6 +12,7 @@ exports.addUrlToEsStatus = async function(url, hostname) {
         const res =  await client.index({
             index: 'status',
             type: 'status',
+            id: crypto.createHash('sha256').update(url).digest('hex'),
             body: {
                 url: url,
                 status: 'DISCOVERED',
@@ -17,7 +20,9 @@ exports.addUrlToEsStatus = async function(url, hostname) {
                     hostname: hostname
                 },
                 nextFetchDate: new Date().toISOString()
-            }
+            },
+            refresh: 'true',
+            routing: hostname // magic here @@
         });
         return res;
     } catch (error) {
