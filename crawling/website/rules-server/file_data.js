@@ -7,9 +7,31 @@ PREFIX_RES = '../data-espresso/src/main/resources/';
 FILE_PARSE_RULES = `${PREFIX_RES}parsefilters.json`;
 FILE_URL_RULES = `${PREFIX_RES}fast.urlfilter.json`;
 FILE_JS_RULES = `${PREFIX_RES}filtered-js-url-file.json`;
+FILE_SEEDS = `${PREFIX_RES}../../../seeds.txt`;
 
-getRules = function (file) {
+function getRules (file) {
     return JSON.parse(fs.readFileSync(file, 'utf8'));
+}
+
+function getLines (file) {
+    let lines = fs.readFileSync(file).toString().split('\n');
+    lines = lines.filter(line => {
+        return line !== '\n' && line.length > 0;
+    });
+    lines = lines.sort((a, b) => {
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
+    });
+    return lines;
+}
+
+function writeLines (file, lines) {
+    const f = fs.createWriteStream(file);
+    lines.forEach(line => {
+        f.write(`${line}\n`);
+    });
+    f.end();
 }
 
 function writeToFile(file, data) {
@@ -114,5 +136,24 @@ exports.removeHostnameJsRule = function(hostname) {
     });
 
     writeToFile(FILE_JS_RULES, jsRules);
+}
+
+exports.addUrlToSeeds = function(url, hostname) {
+    const lines = getLines(FILE_SEEDS);
+    const inUrl = lines.find(line => {
+        return line.includes(url);
+    });
+    if (inUrl == undefined) {
+        lines.push(url);
+    }
+    writeLines(FILE_SEEDS, lines);
+}
+
+exports.removeUrlFromSeeds = function(url, hostname) {
+    let lines = getLines(FILE_SEEDS);
+    lines = lines.filter(line => {
+        return !line.includes(url);
+    });
+    writeLines(FILE_SEEDS, lines);
 }
 // URL rules end

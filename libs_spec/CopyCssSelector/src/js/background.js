@@ -33,6 +33,10 @@ const systemMenus = [
         title: 'add_url_to_es'
     },
     {
+        id: 'add_url_to_seeds',
+        title: 'add_url_to_seeds'
+    },
+    {
         id: 'remove_url_from_es',
         title: 'remove_url_from_es'
     },
@@ -47,6 +51,10 @@ const systemMenus = [
     {
         id: 'remove_records_by_host_from_es',
         title: 'remove_records_by_host_from_es'
+    },
+    {
+        id: 'remove_url_from_seeds',
+        title: 'remove_url_from_seeds'
     }
 ]
 

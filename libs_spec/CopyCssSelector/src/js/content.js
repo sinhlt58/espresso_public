@@ -100,6 +100,14 @@ function handleDomain(rule, menuItemTitle, currentUrl) {
     if (menuItemTitle.includes('remove_records_by_host_from_es')) {
         removeRecordsByHostFromEs(hostname);
     }
+
+    if (menuItemTitle.includes('add_url_to_seeds')) {
+        addUrlToSeeds(currentUrl, hostname);
+    }
+
+    if (menuItemTitle.includes('remove_url_from_seeds')) {
+        removeUrlFromSeeds(currentUrl);
+    }
 }
 
 function writeRuleToFile(rule, menuItemTitle, currentUrl) {
@@ -198,6 +206,29 @@ function removeRecordsByHostFromEs(hostname) {
     deleteData(`${prefixUrl}/es/index_byhost/${hostname}`)
     .then(_ => {
         console.log(`Removed records by host ${hostname} from es index`);
+    })
+    .catch(error => console.log(error));
+}
+
+function addUrlToSeeds(url, hostname) {
+    const data = {
+        url: url,
+        hostname: hostname
+    }
+
+    postData(`${prefixUrl}/seeds`, data)
+    .then(_ => {
+        console.log(`Added ${url} to seeds`);
+    })
+    .catch(error => console.log(error));
+}
+
+function removeUrlFromSeeds(url) {
+    const encodedUrl = encodeURIComponent(url);
+
+    deleteData(`${prefixUrl}/seeds/${encodedUrl}`)
+    .then(_ => {
+        console.log(`Removed ${url} from seeds`);
     })
     .catch(error => console.log(error));
 }

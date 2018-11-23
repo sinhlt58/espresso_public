@@ -40,3 +40,10 @@ if [ "$1" = "remote" ]
 then
     storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawler.flux
 fi
+
+if [ "$1" = "patch" ]
+then
+    cd ../../../scripts
+    ./up_submodules.sh apply_patches
+    cd $crr_dir
+fi

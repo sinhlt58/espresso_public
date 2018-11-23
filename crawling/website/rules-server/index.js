@@ -108,6 +108,20 @@ router.post('/es/status', async (req, res) => {
     return sendOk(res);
 });
 
+
+router.post('/seeds', async (req, res) => {
+    const json = req.body;
+    const url = json['url'];
+    const hostname = json['hostname'];
+
+    try {
+        await file_data.addUrlToSeeds(url, hostname);
+    } catch (error) {
+        return sendError(res);
+    }
+    return sendOk(res);
+});
+
 router.delete('/es/status/:url', async (req, res) => {
     const url = req.params.url;
 
@@ -146,6 +160,17 @@ router.delete('/es/index_byhost/:hostname', async (req, res) => {
 
     try {
         await es.removeRecordsByHostname(hostname);
+    } catch (error) {
+        return sendError(res);
+    }
+    return sendOk(res);
+});
+
+router.delete('/seeds/:url', async (req, res) => {
+    const url = req.params.url;
+
+    try {
+        await file_data.removeUrlFromSeeds(url);
     } catch (error) {
         return sendError(res);
     }
