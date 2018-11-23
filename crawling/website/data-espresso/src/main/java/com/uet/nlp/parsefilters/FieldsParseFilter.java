@@ -63,7 +63,10 @@ public class FieldsParseFilter extends ParseFilter {
             
             ArrayList<String> res = new ArrayList<>();
             for (Element e : els) {
-                res.add(e.text());
+                String value = e.text();
+                if (!value.isEmpty()){
+                    res.add(e.text());
+                }
             }
 
             return res;
@@ -95,7 +98,10 @@ public class FieldsParseFilter extends ParseFilter {
             Elements els = docJsoup.select(selector);
             ArrayList<String> res = new ArrayList<>();
             for (Element e : els) {
-                res.add(e.attr(attr));
+                String value = e.attr(attr);
+                if (!value.isEmpty()){
+                    res.add(value);
+                }
             }
             return res;
         }
@@ -135,7 +141,9 @@ public class FieldsParseFilter extends ParseFilter {
                                 fieldValues = new ArrayList<>();
                                 record.put(fieldName, fieldValues);
                             }
+                            LOG.info("Rule {}, Values: {}", rule, values);
                             fieldValues.addAll(values);
+                            break; // We use only the first matching rule
                         }
                     }
                 }
