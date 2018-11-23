@@ -3,12 +3,10 @@ package com.uet.nlp.parsefilters;
 import java.util.*;
 import java.util.Map.Entry;
 
-import org.jsoup.Jsoup;
 import org.jsoup.parser.Parser;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.jsoup.select.Selector;
 import org.jsoup.select.Elements;
 import org.jsoup.nodes.Element;
 
@@ -18,8 +16,6 @@ import com.digitalpebble.stormcrawler.parse.ParseFilter;
 import com.digitalpebble.stormcrawler.parse.ParseResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.w3c.dom.DocumentFragment;
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 
 public class FieldsParseFilter extends ParseFilter {
 
@@ -117,14 +113,13 @@ public class FieldsParseFilter extends ParseFilter {
 
         try {
             Document docJsoup = Parser.htmlParser().parseInput(html, URL);
-            XContentBuilder builder = jsonBuilder().startObject();
 
             // for each domain
             for (String domainName : domainFieldRulesMap.keySet()){
                 Map<String, ArrayList<CustomRule>> fieldRulesMap = domainFieldRulesMap.get(domainName);
 
                 // for each field
-                boolean isFoundAnyField = false;
+                Map<String, ArrayList<String>> record = null;
                 for (String fieldName : fieldRulesMap.keySet()) {
                     ArrayList<CustomRule> rules = fieldRulesMap.get(fieldName);
 
@@ -132,28 +127,23 @@ public class FieldsParseFilter extends ParseFilter {
                         ArrayList<String> values = rule.evaluate(docJsoup);
                         int l = values.size();
                         if (l > 0) {
-                            if (!isFoundAnyField) {
-                                builder.startArray(domainName);
-                                builder.startObject();
-                                isFoundAnyField = true;
+                            if (record == null) {
+                                record = new HashMap<>();
                             }
-                            if (l == 1) {
-                                builder.field(fieldName, values.get(0));
+                            ArrayList<String> fieldValues = record.get(fieldName);
+                            if (fieldValues == null) {
+                                fieldValues = new ArrayList<>();
+                                record.put(fieldName, fieldValues);
                             }
-                            if (l > 1) {
-                                builder.field(fieldName, values.toArray());
-                            }
+                            fieldValues.addAll(values);
                         }
                     }
                 }
-
-                if (isFoundAnyField) {
-                    builder.endObject();
-                    builder.endArray();
+                if (record != null) {
+                    metadata.addRecordToDomainData(domainName, record);
                 }
             }
 
-            metadata.setBuilder(builder);
         } catch (Exception error){
             LOG.error("Error filter element parent of: {} , error: {}", URL, error);
         }

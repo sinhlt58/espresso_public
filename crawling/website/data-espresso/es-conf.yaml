@@ -31,8 +31,8 @@ config:
   # needed by the spout implementations
   es.status.routing.fieldname: "metadata.hostname"
   es.status.bulkActions: 500
-  es.status.flushInterval: "5s"
-  es.status.concurrentRequests: 1
+  es.status.flushInterval: "1s"
+  es.status.concurrentRequests: 10
   es.status.settings:
     cluster.name: "elasticsearch"
   
@@ -47,7 +47,7 @@ config:
   spout.ttl.purgatory: 30
   
   # Min time (in msecs) to allow between 2 successive queries to ES
-  spout.min.delay.queries: 2000
+  spout.min.delay.queries: 500
 
   # Delay since previous query date (in secs) after which the nextFetchDate value will be reset to the current time
   # Setting this to -1 or a large value means that the ES will cache the results but also that less and less results
@@ -55,7 +55,7 @@ config:
   spout.reset.fetchdate.after: 120
 
   es.status.max.buckets: 100
-  es.status.max.urls.per.bucket: 5
+  es.status.max.urls.per.bucket: 20
   # field to group the URLs into buckets
   es.status.bucket.field: "metadata.hostname"
   # field to sort the URLs within a bucket

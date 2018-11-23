@@ -20,6 +20,7 @@ package com.digitalpebble.stormcrawler.elasticsearch.bolt;
 import static com.digitalpebble.stormcrawler.Constants.StatusStreamName;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -31,6 +32,7 @@ import org.apache.storm.tuple.Values;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.common.xcontent.XContentBuilder;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -140,10 +142,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
         }
 
         try {
-            // XContentBuilder builder = jsonBuilder().startObject();
-            // conganh add
-            XContentBuilder builder = (XContentBuilder) metadata.getMetadataBuilderObject();
-            // end conganh
+            XContentBuilder builder = jsonBuilder().startObject();
 
             // display text of the document?
             if (fieldNameForText() != null) {
@@ -174,6 +173,32 @@ public class IndexerBolt extends AbstractIndexerBolt {
                     builder.array(fieldName, values);
                 }
             }
+
+            // conganh add
+            // read domains data from metadata
+            Map<String, ArrayList<Map<String, ArrayList<String>>>> domainsData = metadata.getDomainsData();
+            for (String domain : domainsData.keySet()) {
+                ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
+
+                if (records.size() > 0) {
+                    builder.startArray(domain);
+                    for (Map<String, ArrayList<String>> record : records) {
+                        builder.startObject();
+                        for (String field : record.keySet()) {
+                            ArrayList<String> values = record.get(field);
+                            if (values.size() == 1) {
+                                builder.field(field, values.get(0));
+                            }
+                            if (values.size() == 2) {
+                                builder.array(field, values.toArray());
+                            }
+                        }
+                        builder.endObject();
+                    }
+                    builder.endArray();
+                }
+            }
+            // end conganh
 
             builder.endObject();
 

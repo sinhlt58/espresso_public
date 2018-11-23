@@ -39,7 +39,7 @@ public class Metadata {
     private Map<String, String[]> md;
 
     // conganh add
-    private Object builder;
+    private Map<String, ArrayList<Map<String, ArrayList<String>>>> domainsData;
     // end conganh
 
     public final static Metadata empty = new Metadata(
@@ -47,6 +47,9 @@ public class Metadata {
 
     public Metadata() {
         md = new HashMap<>();
+        // conganh add
+        domainsData = new HashMap<>();
+        // end conganh
     }
 
     /**
@@ -186,11 +189,16 @@ public class Metadata {
     }
 
     // conganh add
-    public Object getMetadataBuilderObject(){
-        return builder;
+    public Map<String, ArrayList<Map<String, ArrayList<String>>>> getDomainsData(){
+        return domainsData;
     }
-    public void setBuilder(Object builder){
-        this.builder = builder;
+    public void addRecordToDomainData(String domain, Map<String, ArrayList<String>> record){
+        ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
+        if (records == null) {
+            records = new ArrayList<>();
+            domainsData.put(domain, records);
+        }
+        records.add(record);
     }
     // end conganh
 }
