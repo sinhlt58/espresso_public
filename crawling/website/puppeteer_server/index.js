@@ -1,8 +1,8 @@
 const express = require('express');
-// const bodyParser = require('body-parser');
-const puppeteer = require('puppeteer');
 const app = express();
+require('events').EventEmitter.prototype._maxListeners = 1000;
 
+const browser_instance = require('./browser_instance');
 const domains = require('./domains/domains');
 
 const PORT = process.env.PORT || 3000;
@@ -21,14 +21,8 @@ const options = {
 const SCOPE_OP_REQUEST = 'opreq';
 const SCOPE_OP_SCROLL  = 'scroll';
 
-let _browser = null;
-puppeteer.launch({
-	headless: true,
-	args: [`--window-size=${options.width},${options.height}`] 
-}).then(browser => {
-	console.log("Created browser instance successfully")
-	_browser = browser;
-});
+// Get the instance for the first time
+browser_instance.getBrowserInstance(options);
 
 app.get('/api/v1/viewDom', async function(req, res) {
 	const queries = req.query;
@@ -50,12 +44,14 @@ app.get('/api/v1/viewDom', async function(req, res) {
 	console.log('Decoded url: ' + decodedUrl);
 	console.log('Scopes: ', scopes);
 
-	const page = await _browser.newPage();
-
 	try {
-		if (!_browser) {
+		const browser = await browser_instance.getBrowserInstance(options);
+
+		if (!browser) {
 			return res.send('The browser have not started yet.');
 		}
+
+		const page = await browser.newPage();
 
 		if (!page) {
 			return res.send('Can not create page');
@@ -90,17 +86,17 @@ app.get('/api/v1/viewDom', async function(req, res) {
 			await domains.doFuncActions(page, options, funcActions);
 		}
 
-		let html = await page.content()
-		res.send(html);
+		let html = await page.content();
 
+		if (page) {
+			await page.close();
+			console.log('Closed page');
+		}
+
+		res.send(html);
 	} catch (error) {
 		console.log('error: ', error);
-		res.send('Error')
-	}
-
-	if (page) {
-		await page.close();
-		console.log('Closed page');
+		res.send('Error');		
 	}
 	// await browser.close();
 })
