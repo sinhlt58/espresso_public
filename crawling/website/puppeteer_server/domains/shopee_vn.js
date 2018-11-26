@@ -7,7 +7,7 @@ exports.doActions = (page, options) => {
         try {
             console.log("Get comments and change DOM for shopee");
             // Click on review which has comments and calcuate number of reviews.
-            const buttonBinhLuan = await page.$('div.product-rating-overview__filter--with-comment')
+            const buttonBinhLuan = await page.$('div.product-rating-overview__filter--with-comment');
             const buttonBinhLuanText = await (await buttonBinhLuan.getProperty('innerText')).jsonValue();
             const numBinhLuan = parseInt(buttonBinhLuanText.match(/\d+/)[0]);
             const numBinhLuanPage = parseInt(numBinhLuan / 6) + 1; // 6 review per page for shopee
@@ -62,8 +62,13 @@ exports.doActions = (page, options) => {
 
             resolve(true);
         } catch(error) {
-            console.log("Can't find the element or error while reading reviews");
-            reject(error);
+            if (error.name == 'TypeError') {
+                // when the comment button is null we will return true
+                console.log("Can't find the element or error while reading reviews");
+                resolve(true);
+            } else {
+                reject(error);
+            }
         }
     });
 };

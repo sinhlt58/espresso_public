@@ -5,7 +5,7 @@ const mubannhadat_vn = require('./muabannhadat_vn');
 
 exports.scopeFunctionsMap = {
     'shopeec': shopee_vn.doActions,
-    'mubannhadat': mubannhadat_vn.doActions
+    'muabannhadat': mubannhadat_vn.doActions
 };
 
 exports.getDomainFuncActionsByScopes = (scopes) => {

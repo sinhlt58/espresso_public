@@ -44,6 +44,7 @@ app.get('/api/v1/viewDom', async function(req, res) {
 	console.log('Decoded url: ' + decodedUrl);
 	console.log('Scopes: ', scopes);
 
+	let currentPage = null;
 	try {
 		const browser = await browser_instance.getBrowserInstance(options);
 
@@ -56,6 +57,8 @@ app.get('/api/v1/viewDom', async function(req, res) {
 		if (!page) {
 			return res.send('Can not create page');
 		}
+
+		currentPage = page;
 
 		// Print log inside the page's evaluate function
 		page.on('console', msg => {
@@ -80,6 +83,7 @@ app.get('/api/v1/viewDom', async function(req, res) {
 		await page.goto(decodedUrl, {waitUntil: 'networkidle0', timeout: options.pageTimeout});
 
 		const funcActions = await domains.getDomainFuncActionsByScopes(scopes);
+
 		if (scopes.includes(SCOPE_OP_SCROLL)) {
 			await domains.scrollAndFuncDoActions(page, options, funcActions);
 		} else {
@@ -88,15 +92,19 @@ app.get('/api/v1/viewDom', async function(req, res) {
 
 		let html = await page.content();
 
+		res.send(html);
+
 		if (page) {
 			await page.close();
 			console.log('Closed page');
 		}
-
-		res.send(html);
 	} catch (error) {
 		console.log('error: ', error);
-		res.send('Error');		
+		res.send('Error');
+		if (currentPage) {
+			await currentPage.close();
+			console.log('Closed page with error');
+		}
 	}
 	// await browser.close();
 })
