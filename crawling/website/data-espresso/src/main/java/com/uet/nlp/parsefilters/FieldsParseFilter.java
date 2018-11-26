@@ -141,7 +141,6 @@ public class FieldsParseFilter extends ParseFilter {
                                 fieldValues = new ArrayList<>();
                                 record.put(fieldName, fieldValues);
                             }
-                            LOG.info("Rule {}, Values: {}", rule, values);
                             fieldValues.addAll(values);
                             break; // We use only the first matching rule
                         }
@@ -169,7 +168,6 @@ public class FieldsParseFilter extends ParseFilter {
             Entry<String, JsonNode> domainEntry = iterParams.next();
             String domainKey = domainEntry.getKey();
             Iterator<Entry<String, JsonNode>> iterFields = domainEntry.getValue().fields();
-            LOG.info("Domain name: {}", domainKey);
             
             Map<String, ArrayList<CustomRule>> fieldRulesMap = new HashMap<>();
             domainFieldRulesMap.put(domainKey, fieldRulesMap);
@@ -179,7 +177,6 @@ public class FieldsParseFilter extends ParseFilter {
                 Entry<String, JsonNode> fieldEntry = iterFields.next();
                 String fieldKey = fieldEntry.getKey();
                 Iterator<Entry<String, JsonNode>> iterHostRules = fieldEntry.getValue().fields();
-                LOG.info("Field: {}", fieldKey);
 
                 ArrayList<CustomRule> rules = new ArrayList<>();
                 // Iterate each host name rules
@@ -193,12 +190,9 @@ public class FieldsParseFilter extends ParseFilter {
                             rules.add(new CustomRule(selector));
                         }
                     }
-
-                    LOG.info("Host {}: {}", hostRuleEntry.getKey(), selectorsByHostStr);
                 }
 
                 fieldRulesMap.put(fieldKey, rules);
-                LOG.info("Rules: {}", rules.toString());
             }
         }
     }

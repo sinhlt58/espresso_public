@@ -75,7 +75,7 @@
             "alonhadat.com.vn": "",
             "www.muabannhadat.vn": "span#MainContent_ctlDetailBox_lblStreet & span#MainContent_ctlDetailBox_lblWard",
             "batdongsan.com.vn": "",
-            "homedy.com": "div.address > a:nth-child(2) > span"
+            "homedy.com": "span[itemprop=streetAddress]"
           },
           "dc_quan_huyen": {
             "nhadat24h.net": "label#ContentPlaceHolder2_lbDiaChi",
@@ -83,7 +83,7 @@
             "alonhadat.com.vn": "",
             "www.muabannhadat.vn": "span#MainContent_ctlDetailBox_lblDistrict, span#MainContent_ctlDetailBox_lblDistrict > a",
             "batdongsan.com.vn": "",
-            "homedy.com": "div.address > a:nth-child(1) > span"
+            "homedy.com": "span[itemprop=addressLocality]"
           },
           "dien_tich": {
             "nhadat24h.net": "label#ContentPlaceHolder2_lbDienTich",
@@ -250,7 +250,7 @@
           },
           "lh_sdt": {
             "nhadat24h.net": "a#viewmobinumber",
-            "muaban.net": "div#dvContent div.contactmobile-desktop > b, div#dvContent div.col-md-10.col-sm-10.col-xs-9.contactmobile-desktop > b",
+            "muaban.net": "div#dvContent div.contactmobile-desktop > b",
             "alonhadat.com.vn": "div#left div.fone",
             "www.muabannhadat.vn": "span#MainContent_ctlDetailBox_lblContactPhone",
             "batdongsan.com.vn": "div#LeftMainContent__productDetail_contactMobile > div.right, div#LeftMainContent__detail_contactMobile > div.right",
@@ -263,7 +263,7 @@
           "lh_ten": {
             "nhadat24h.net": "label#ContentPlaceHolder2_viewInfo1_lbHoTen",
             "muaban.net": "div#dvContent div.ct-contact.clearfix > div.col-md-10.col-sm-10.col-xs-9",
-            "alonhadat.com.vn": "div#left div.name",
+            "alonhadat.com.vn": "div#left > div.name",
             "www.muabannhadat.vn": "span#MainContent_ctlDetailBox_lblContactName",
             "batdongsan.com.vn": "div#LeftMainContent__productDetail_contactName > div.right, div#LeftMainContent__detail_contactName > div.right",
             "nhadatso.com": "div#contact div.user-name > a",
@@ -274,7 +274,7 @@
           },
           "gia": {
             "nhadat24h.net": "label#ContentPlaceHolder2_lbGiaTien",
-            "muaban.net": "div#dvContent div.price-value > span, div#dvContent div.col-md-10.col-sm-10.col-xs-9.price-value > span",
+            "muaban.net": "div#dvContent div.price-value > span",
             "alonhadat.com.vn": "div#left span.price > span.value",
             "www.muabannhadat.vn": "span#MainContent_ctlDetailBox_lblPrice",
             "batdongsan.com.vn": "div#product-detail span.gia-title.mar-right-15 > strong",
@@ -289,7 +289,8 @@
             "muaban.net": "",
             "alonhadat.com.vn": "",
             "www.muabannhadat.vn": "span#MainContent_ctlDetailBox_lblCity, span#MainContent_ctlDetailBox_lblCity > a",
-            "batdongsan.com.vn": ""
+            "batdongsan.com.vn": "",
+            "homedy.com": "span[itemprop=addressRegion] > span"
           },
           "vi_tri": {
             "nhadat24h.net": "label#ContentPlaceHolder2_lbVitri",
@@ -447,9 +448,9 @@
             "muaban.net": "",
             "alonhadat.com.vn": "",
             "www.muabannhadat.vn": "",
+            "dothi.net": "table#tbl1 tr:nth-child(4) > td:nth-child(2)",
             "batdongsan.com.vn": "div#product-detail div.left-detail > div:nth-child(5) > div.right",
             "homedy.com": "div.product-detail > div:nth-child(4) > div:nth-child(2)",
-            "dothi.net": "table#tbl1 tr:nth-child(4) > td:nth-child(2)",
             "123nhadat.vn": "div.detail_khungxam > ul > li:nth-child(3)"
           },
           "url": {

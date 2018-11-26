@@ -42,4 +42,4 @@ config:
     parallelism.hint: 1
   topology.workers: 1
   urlfilters.config.file: urlfilters.json
-  worker.heap.memory.mb: 2048
+  worker.heap.memory.mb: 4096

@@ -21,10 +21,10 @@ spouts:
 bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 8
+    parallelism: 2
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 8
+    parallelism: 2
     properties:
       - name: "filteredJsUrlFile"
         value: "filtered-js-url-file.json" 
@@ -32,36 +32,28 @@ bolts:
         value: "http://localhost:3000/api/v1/viewDom?url="
   - id: "sitemap"
     className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
-    parallelism: 4
+    parallelism: 2
   - id: "feed"
     className: "com.digitalpebble.stormcrawler.bolt.FeedParserBolt"
-    parallelism: 4
+    parallelism: 2
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 8
+    parallelism: 2
     properties:
       - name: "importeLinkHostnames"
         value: ["shopee.vn"]
   - id: "index"
     className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.IndexerBolt"
-    parallelism: 6
+    parallelism: 2
   - id: "status"
     className: "com.digitalpebble.stormcrawler.elasticsearch.persistence.StatusUpdaterBolt"
-    parallelism: 6
-  - id: "status_metrics"
-    className: "com.digitalpebble.stormcrawler.elasticsearch.metrics.StatusMetricsBolt"
-    parallelism: 3
+    parallelism: 2
 
 streams:
   - from: "spout"
     to: "partitioner"
     grouping:
-      type: SHUFFLE
-      
-  - from: "spout"
-    to: "status_metrics"
-    grouping:
-      type: SHUFFLE     
+      type: SHUFFLE   
 
   - from: "partitioner"
     to: "fetcher"
