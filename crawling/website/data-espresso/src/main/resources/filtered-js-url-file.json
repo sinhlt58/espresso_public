@@ -20,6 +20,10 @@
     {
       "hostname": "homedy.com",
       "scopes": "opreq"
+    },
+    {
+      "hostname": "thethao.vnexpress.net",
+      "scopes": "opreq"
     }
   ]
 }

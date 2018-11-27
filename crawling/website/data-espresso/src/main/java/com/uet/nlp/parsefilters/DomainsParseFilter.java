@@ -1,8 +1,8 @@
 package com.uet.nlp.parsefilters;
 
 import java.util.*;
-import java.util.Map.Entry;
 
+import com.digitalpebble.stormcrawler.mongodb.collections.DomainEntity;
 import org.jsoup.parser.Parser;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -16,10 +16,14 @@ import com.digitalpebble.stormcrawler.parse.ParseFilter;
 import com.digitalpebble.stormcrawler.parse.ParseResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.w3c.dom.DocumentFragment;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 
-public class FieldsParseFilter extends ParseFilter {
+public class DomainsParseFilter extends ParseFilter {
 
-    private static final Logger LOG = LoggerFactory.getLogger(FieldsParseFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DomainsParseFilter.class);
+
+    private DomainEntity domainEntities;
 
     private final Map<String, Map<String, ArrayList<CustomRule>>> domainFieldRulesMap = new HashMap<>();
 
@@ -30,7 +34,7 @@ public class FieldsParseFilter extends ParseFilter {
     public class CustomRule {
         private String selectorExpression;
         private RuleType type;
-        
+
         public CustomRule(String selector) {
             selectorExpression = selector.trim();
             type = getType(selector);
@@ -60,13 +64,10 @@ public class FieldsParseFilter extends ParseFilter {
 
         public ArrayList<String> evaluateNormal(Document docJsoup) {
             Elements els = docJsoup.select(selectorExpression);
-            
+
             ArrayList<String> res = new ArrayList<>();
             for (Element e : els) {
-                String value = e.text();
-                if (!value.isEmpty()){
-                    res.add(e.text());
-                }
+                res.add(e.text());
             }
 
             return res;
@@ -98,10 +99,7 @@ public class FieldsParseFilter extends ParseFilter {
             Elements els = docJsoup.select(selector);
             ArrayList<String> res = new ArrayList<>();
             for (Element e : els) {
-                String value = e.attr(attr);
-                if (!value.isEmpty()){
-                    res.add(value);
-                }
+                res.add(e.attr(attr));
             }
             return res;
         }
@@ -118,39 +116,48 @@ public class FieldsParseFilter extends ParseFilter {
         String html = metadata.getFirstValue("html");
 
         try {
+            domainEntities = new DomainEntity("domain");
+            getRules(metadata.getFirstValue("hostname"));
+
             Document docJsoup = Parser.htmlParser().parseInput(html, URL);
+            XContentBuilder builder = jsonBuilder().startObject();
 
             // for each domain
             for (String domainName : domainFieldRulesMap.keySet()){
                 Map<String, ArrayList<CustomRule>> fieldRulesMap = domainFieldRulesMap.get(domainName);
 
                 // for each field
-                Map<String, ArrayList<String>> record = null;
+                boolean isFoundAnyField = false;
                 for (String fieldName : fieldRulesMap.keySet()) {
                     ArrayList<CustomRule> rules = fieldRulesMap.get(fieldName);
 
                     for (CustomRule rule : rules) {
                         ArrayList<String> values = rule.evaluate(docJsoup);
+
                         int l = values.size();
                         if (l > 0) {
-                            if (record == null) {
-                                record = new HashMap<>();
+                            if (!isFoundAnyField) {
+                                builder.startArray(domainName);
+                                builder.startObject();
+                                isFoundAnyField = true;
                             }
-                            ArrayList<String> fieldValues = record.get(fieldName);
-                            if (fieldValues == null) {
-                                fieldValues = new ArrayList<>();
-                                record.put(fieldName, fieldValues);
+                            if (l == 1) {
+                                builder.field(fieldName, values.get(0));
                             }
-                            fieldValues.addAll(values);
-                            break; // We use only the first matching rule
+                            if (l > 1) {
+                                builder.field(fieldName, values.toArray());
+                            }
                         }
                     }
                 }
-                if (record != null) {
-                    metadata.addRecordToDomainData(domainName, record);
+
+                if (isFoundAnyField) {
+                    builder.endObject();
+                    builder.endArray();
                 }
             }
 
+            metadata.setBuilder(builder);
         } catch (Exception error){
             LOG.error("Error filter element parent of: {} , error: {}", URL, error);
         }
@@ -158,42 +165,35 @@ public class FieldsParseFilter extends ParseFilter {
         metadata.remove("html");
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void configure(Map stormConf, JsonNode filterParams) {
-        Iterator<Entry<String, JsonNode>> iterParams = filterParams.fields();
+    public void getRules(String host){
+        for (JsonNode node :domainEntities.getDataByHost(host)) {
+            String domainKey = node.get("esname").asText();
+            JsonNode properties = node.get("properties");
+            LOG.info("Domain name: {}", domainKey);
 
-        // Iterate each domain
-        while (iterParams.hasNext()) {
-            Entry<String, JsonNode> domainEntry = iterParams.next();
-            String domainKey = domainEntry.getKey();
-            Iterator<Entry<String, JsonNode>> iterFields = domainEntry.getValue().fields();
-            
             Map<String, ArrayList<CustomRule>> fieldRulesMap = new HashMap<>();
             domainFieldRulesMap.put(domainKey, fieldRulesMap);
 
-            // Iterate each field
-            while(iterFields.hasNext()){
-                Entry<String, JsonNode> fieldEntry = iterFields.next();
-                String fieldKey = fieldEntry.getKey();
-                Iterator<Entry<String, JsonNode>> iterHostRules = fieldEntry.getValue().fields();
+            for (JsonNode property:properties) {
+                String fieldKey = property.get("label").asText();
+                LOG.info("Field: {}", fieldKey);
 
-                ArrayList<CustomRule> rules = new ArrayList<>();
-                // Iterate each host name rules
-                while(iterHostRules.hasNext()){
-                    Entry<String, JsonNode> hostRuleEntry = iterHostRules.next();
-                    String selectorsByHostStr = hostRuleEntry.getValue().asText();
-                    List<String> selectorsByHost = Arrays.asList(selectorsByHostStr.split(", "));
+                ArrayList<CustomRule> selectorList = new ArrayList<>();
+                String rule = property.get("rule").asText();
 
-                    for (String selector : selectorsByHost) {
-                        if (selector.length() > 0){
-                            rules.add(new CustomRule(selector));
-                        }
+                List<String> selectors = Arrays.asList(rule.split(", "));
+
+                for (String selector : selectors) {
+                    LOG.info("Selector: {}", selector);
+                    if (selector.length() > 0){
+                        selectorList.add(new CustomRule(selector));
                     }
                 }
 
-                fieldRulesMap.put(fieldKey, rules);
+                fieldRulesMap.put(fieldKey, selectorList);
+
             }
         }
     }
+
 }
