@@ -30,10 +30,12 @@ public class FieldsParseFilter extends ParseFilter {
     public class CustomRule {
         private String selectorExpression;
         private RuleType type;
+        public String hostname;
         
-        public CustomRule(String selector) {
+        public CustomRule(String selector, String hostname) {
             selectorExpression = selector.trim();
             type = getType(selector);
+            this.hostname = hostname;
         }
 
         private RuleType getType(String selector) {
@@ -116,6 +118,7 @@ public class FieldsParseFilter extends ParseFilter {
         ParseData parseData = parse.get(URL);
         Metadata metadata = parseData.getMetadata();
         String html = metadata.getFirstValue("html");
+        String hostname = metadata.getFirstValue("hostname");
 
         try {
             Document docJsoup = Parser.htmlParser().parseInput(html, URL);
@@ -130,24 +133,27 @@ public class FieldsParseFilter extends ParseFilter {
                     ArrayList<CustomRule> rules = fieldRulesMap.get(fieldName);
 
                     for (CustomRule rule : rules) {
-                        ArrayList<String> values = rule.evaluate(docJsoup);
-                        int l = values.size();
-                        if (l > 0) {
-                            if (record == null) {
-                                record = new HashMap<>();
+                        if (rule.hostname.equalsIgnoreCase(hostname)) {
+                            ArrayList<String> values = rule.evaluate(docJsoup);
+                            int l = values.size();
+                            if (l > 0) {
+                                if (record == null) {
+                                    record = new HashMap<>();
+                                }
+                                ArrayList<String> fieldValues = record.get(fieldName);
+                                if (fieldValues == null) {
+                                    fieldValues = new ArrayList<>();
+                                    record.put(fieldName, fieldValues);
+                                }
+                                fieldValues.addAll(values);
+                                break; // We use only the first matching rule
                             }
-                            ArrayList<String> fieldValues = record.get(fieldName);
-                            if (fieldValues == null) {
-                                fieldValues = new ArrayList<>();
-                                record.put(fieldName, fieldValues);
-                            }
-                            fieldValues.addAll(values);
-                            break; // We use only the first matching rule
                         }
                     }
                 }
                 if (record != null) {
                     metadata.addRecordToDomainData(domainName, record);
+                    LOG.info("record: {}", record);
                 }
             }
 
@@ -187,7 +193,7 @@ public class FieldsParseFilter extends ParseFilter {
 
                     for (String selector : selectorsByHost) {
                         if (selector.length() > 0){
-                            rules.add(new CustomRule(selector));
+                            rules.add(new CustomRule(selector, hostRuleEntry.getKey()));
                         }
                     }
                 }

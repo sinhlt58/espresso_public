@@ -24,11 +24,15 @@ exports.doActions = (page, options) => {
                         let data = [];
                         let cotentElements = document.getElementsByClassName('shopee-product-rating__content');
                         let rateElements = document.getElementsByClassName('shopee-product-rating__rating');
+                        let timeElements = document.getElementsByClassName('shopee-product-rating__time');
+                        let userNamesElements = document.getElementsByClassName('shopee-product-rating__author-name');
     
                         for (let i = 0; i < rateElements.length; i++){
                             data.push({
                                 content: cotentElements[i].textContent,
-                                rate: rateElements[i].getElementsByClassName('icon-rating-solid').length
+                                rate: rateElements[i].getElementsByClassName('icon-rating-solid').length,
+                                time: timeElements[i].textContent,
+                                userName: userNamesElements[i].textContent
                             })
                         }
     
@@ -55,7 +59,9 @@ exports.doActions = (page, options) => {
                         body.appendChild(div);
                     }
                     addDiv(reviewData.content, 'espresso-review-content');           
-                    addDiv(reviewData.rate, 'espresso-review-rate');           
+                    addDiv(reviewData.rate, 'espresso-review-rate');
+                    addDiv(reviewData.time, 'espresso-review-time');
+                    addDiv(reviewData.userName, 'espresso-review-user-name');
                 });
                 return true
             }, reviewsData);

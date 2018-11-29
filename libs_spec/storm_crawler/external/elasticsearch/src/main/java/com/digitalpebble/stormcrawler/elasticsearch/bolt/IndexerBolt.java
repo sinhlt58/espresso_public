@@ -189,7 +189,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
                             if (values.size() == 1) {
                                 builder.field(field, values.get(0));
                             }
-                            if (values.size() == 2) {
+                            if (values.size() > 1) {
                                 builder.array(field, values.toArray());
                             }
                         }
