@@ -8,7 +8,7 @@
   {
     "scope": "domain:batdongsan.com.vn",
     "patterns": [
-      "AllowPathQuery \/ban-|\/cho-thue-|\/mua-|\/can-thue-|-mua|-thue",
+      "AllowPathQuery /ban-|/cho-thue-|/mua-|/can-thue-|-mua|-thue",
       "DenyPathQuery .+"
     ]
   },
@@ -59,16 +59,16 @@
   {
     "scope": "domain:muaban.net",
     "patterns": [
-      "AllowPathQuery \/ban-dat|\/ban-nah|\/cho-thue-nha|\/can-mua-nha|cp=|id[0-9]{3,}",
-      "AllowPathQuery \/biet-thu|\/can-ho-chung-cu|\/nha-hem-ngo",
-      "AllowPathQuery \/dat-du-an|\/dat-nong-nghiep|\/dat-tho-cu",
+      "AllowPathQuery /ban-dat|/ban-nah|/cho-thue-nha|/can-mua-nha|cp=|id[0-9]{3,}",
+      "AllowPathQuery /biet-thu|/can-ho-chung-cu|/nha-hem-ngo",
+      "AllowPathQuery /dat-du-an|/dat-nong-nghiep|/dat-tho-cu",
       "DenyPathQuery .+"
     ]
   },
   {
     "scope": "domain:www.muabannhadat.vn",
     "patterns": [
-      "AllowPathQuery \/nha-dat|\/nha-ban|\/ban-dat|-cho-thue|[0-9]{5,}|p=",
+      "AllowPathQuery /nha-dat|/nha-ban|/ban-dat|-cho-thue|[0-9]{5,}|p=",
       "DenyPathQuery .+"
     ]
   },
@@ -82,29 +82,36 @@
   {
     "scope": "domain:homedy.com",
     "patterns": [
-      "AllowPathQuery \/du-an|\/ban-nha-dat|\/ban-can-ho|\/ban-nha-rieng|\/ban-dat|\/ban-nha-mat-pho|\/ban-nha-biet-thu|es[0-9]{5,}",
-      "AllowPathQuery \/cho-thue|p=",
+      "AllowPathQuery /du-an|/ban-nha-dat|/ban-can-ho|/ban-nha-rieng|/ban-dat|/ban-nha-mat-pho|/ban-nha-biet-thu|es[0-9]{5,}",
+      "AllowPathQuery /cho-thue|p=",
       "DenyPathQuery .+"
     ]
   },
   {
     "scope": "domain:dothi.net",
     "patterns": [
-      "AllowPathQuery \/nha-dat|\/ban-|\/cho-thue-|pr[0-9]{3,}|p[0-9]{1,}",
+      "AllowPathQuery /nha-dat|/ban-|/cho-thue-|pr[0-9]{3,}|p[0-9]{1,}",
       "DenyPathQuery .+"
     ]
   },
   {
     "scope": "domain:123nhadat.vn",
     "patterns": [
-      "AllowPathQuery \/ban-|\/cho-thue-|t[0-9]{3,}|\/[0-9]{1,}\/",
+      "AllowPathQuery /ban-|/cho-thue-|t[0-9]{3,}|/[0-9]{1,}/",
       "DenyPathQuery .+"
     ]
   },
   {
     "scope": "domain:kenhbds.vn",
     "patterns": [
-      "AllowPathQuery \/can-ban|\/cho-thue|\/can-mua|\/can-thue|[0-9]{5,}\\.html|per_page",
+      "AllowPathQuery /can-ban|/cho-thue|/can-mua|/can-thue|[0-9]{5,}\\.html|per_page",
+      "DenyPathQuery .+"
+    ]
+  },
+  {
+    "scope": "domain:tiki.vn",
+    "patterns": [
+      "AllowPathQuery src=tree|page=|src=category-page|p[0-9]{5,}",
       "DenyPathQuery .+"
     ]
   }

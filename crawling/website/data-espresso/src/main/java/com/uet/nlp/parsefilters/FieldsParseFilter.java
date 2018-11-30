@@ -146,6 +146,7 @@ public class FieldsParseFilter extends ParseFilter {
                                     record.put(fieldName, fieldValues);
                                 }
                                 fieldValues.addAll(values);
+
                                 break; // We use only the first matching rule
                             }
                         }

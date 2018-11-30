@@ -20,6 +20,10 @@
     {
       "hostname": "homedy.com",
       "scopes": "opreq"
+    },
+    {
+      "hostname": "tiki.vn",
+      "scopes": "scroll,tiki"
     }
   ]
 }
