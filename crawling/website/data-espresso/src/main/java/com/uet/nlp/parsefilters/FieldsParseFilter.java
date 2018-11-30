@@ -153,7 +153,6 @@ public class FieldsParseFilter extends ParseFilter {
                 }
                 if (record != null) {
                     metadata.addRecordToDomainData(domainName, record);
-                    LOG.info("record: {}", record);
                 }
             }
 

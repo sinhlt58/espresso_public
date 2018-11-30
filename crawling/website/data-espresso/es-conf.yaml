@@ -7,11 +7,14 @@ config:
   es.indexer.addresses: "localhost"
   es.indexer.index.name: "index"
   # es.indexer.pipeline: "_PIPELINE_"
-  es.indexer.doc.type: "doc"
+  es.indexer.doc.type: "_doc"
   es.indexer.create: false
   es.indexer.settings:
     cluster.name: "elasticsearch"
-  
+  # sinh.luutruong
+  es.indexer.domainfieldname: "domain_type"
+  # sinh.luutruong
+
   # ES metricsConsumer
   es.metrics.addresses: "http://localhost:9200"
   es.metrics.index.name: "metrics"

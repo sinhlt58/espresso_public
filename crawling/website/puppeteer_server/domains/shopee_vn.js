@@ -33,7 +33,7 @@ exports.doActions = (page, options) => {
                                 rate: rateElements[i].getElementsByClassName('icon-rating-solid').length,
                                 time: timeElements[i].textContent,
                                 userName: userNamesElements[i].textContent
-                            })
+                            });
                         }
     
                         return data;

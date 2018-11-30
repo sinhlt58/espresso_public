@@ -17,8 +17,6 @@ config:
   indexer.canonical.name: canonical
   indexer.created_time: created_time
   indexer.md.mapping:
-  - bds=bds
-  - ttn=ttn
   - parse.title=title
   - parse.keywords=keywords
   - parse.description=description
