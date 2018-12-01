@@ -45,6 +45,7 @@ app.get('/api/v1/viewDom', async function(req, res) {
 	console.log('Scopes: ', scopes);
 
 	let currentPage = null;
+	let isCurrentPageClosed = false;
 	try {
 		const browser = await browser_instance.getBrowserInstance(options);
 
@@ -59,6 +60,9 @@ app.get('/api/v1/viewDom', async function(req, res) {
 		}
 
 		currentPage = page;
+		page.once('close', () => {
+			isCurrentPageClosed = true;
+		});
 
 		// Print log inside the page's evaluate function
 		page.on('console', msg => {
@@ -92,19 +96,25 @@ app.get('/api/v1/viewDom', async function(req, res) {
 
 		let html = await page.content();
 
-		res.send(html);
-
 		if (page) {
 			await page.close();
 			console.log('Closed page');
 		}
+		console.log('isCurrentPageClosed: ', isCurrentPageClosed);
+
+		res.send(html);
 	} catch (error) {
 		console.log('error: ', error);
-		res.send('Error');
-		if (currentPage) {
-			await currentPage.close();
-			console.log('Closed page with error');
+		try {
+			if (currentPage && !isCurrentPageClosed) {
+				await currentPage.close();
+				console.log('Closed page with error');
+			}
+		} catch (error) {
+			console.log('Error while closing a page');	
 		}
+		
+		res.send('Error');
 	}
 	// await browser.close();
 })

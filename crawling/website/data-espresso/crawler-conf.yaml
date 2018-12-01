@@ -17,8 +17,6 @@ config:
   indexer.canonical.name: canonical
   indexer.created_time: created_time
   indexer.md.mapping:
-  - bds=bds
-  - ttn=ttn
   - parse.title=title
   - parse.keywords=keywords
   - parse.description=description
@@ -31,10 +29,12 @@ config:
   - isSitemap
   - isSitemap
   - isFeed
+  # conganh add
   mongo.domain.delay: 1.0
   mongo.jsRender.delay: 10.0
   mongo.legalUrl.delay: 10.0
   mongo.server.min.delay: 0.0
+  # end conganh add
   parsefilters.config.file: parsefilters.json
   topology.debug: false
   topology.kryo.register:

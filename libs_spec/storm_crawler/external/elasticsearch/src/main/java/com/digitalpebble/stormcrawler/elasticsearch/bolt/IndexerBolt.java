@@ -59,6 +59,10 @@ public class IndexerBolt extends AbstractIndexerBolt {
     private static final String ESCreateParamName = "es.indexer.create";
     private static final String ESIndexPipelineParamName = "es.indexer.pipeline";
 
+    // sinh.luutruong added
+    private static String ESDomainFieldTypeName = "es.indexer.domainfieldname";
+    // sinh.luutruong end
+
     private OutputCollector _collector;
 
     private String indexName;
@@ -73,6 +77,10 @@ public class IndexerBolt extends AbstractIndexerBolt {
     private MultiCountMetric eventCounter;
 
     private ElasticSearchConnection connection;
+
+    // sinh.luutruong added
+    private String domainFieldTypeName;
+    // sinh.luutruong end
 
     public IndexerBolt() {
     }
@@ -99,6 +107,11 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
         pipeline = ConfUtils.getString(conf,
                 IndexerBolt.ESIndexPipelineParamName);
+
+        // sinh.luutruong added
+        domainFieldTypeName = ConfUtils.getString(conf, IndexerBolt.ESDomainFieldTypeName,
+                             "domain_type");
+        // sinh.luutruong end
 
         try {
             connection = ElasticSearchConnection
@@ -176,53 +189,71 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
             // conganh add
             // read domains data from metadata
+            boolean shouldIndex = false;
             Map<String, ArrayList<Map<String, ArrayList<String>>>> domainsData = metadata.getDomainsData();
             for (String domain : domainsData.keySet()) {
                 ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
 
                 if (records.size() > 0) {
-                    builder.startArray(domain);
-                    for (Map<String, ArrayList<String>> record : records) {
-                        builder.startObject();
-                        for (String field : record.keySet()) {
-                            ArrayList<String> values = record.get(field);
-                            if (values.size() == 1) {
-                                builder.field(field, values.get(0));
-                            }
-                            if (values.size() == 2) {
-                                builder.array(field, values.toArray());
-                            }
+                    // builder.startArray(domain);
+                    // for (Map<String, ArrayList<String>> record : records) {
+                    //     builder.startObject();
+                    //     for (String field : record.keySet()) {
+                    //         ArrayList<String> values = record.get(field);
+                    //         if (values.size() == 1) {
+                    //             builder.field(field, values.get(0));
+                    //         }
+                    //         if (values.size() > 1) {
+                    //             builder.array(field, values.toArray());
+                    //         }
+                    //     }
+                    //     builder.endObject();
+                    // }
+                    // builder.endArray();
+                    builder.field(domainFieldTypeName, domain);
+                    for (String field : records.get(0).keySet()) {
+                        ArrayList<String> values = records.get(0).get(field);
+                        if (values.size() == 1) {
+                            builder.field(field, values.get(0));
                         }
-                        builder.endObject();
+                        if (values.size() > 1) {
+                            builder.array(field, values.toArray());
+                        }
+                        if (!shouldIndex) {
+                            shouldIndex = true;
+                        }
                     }
-                    builder.endArray();
                 }
             }
             // end conganh
 
             builder.endObject();
 
-            String sha256hex = org.apache.commons.codec.digest.DigestUtils
+            // sinh.luutruong added
+            if (shouldIndex) {
+                String sha256hex = org.apache.commons.codec.digest.DigestUtils
                     .sha256Hex(normalisedurl);
 
-            IndexRequest indexRequest = new IndexRequest(
-                    getIndexName(metadata), docType, sha256hex).source(builder);
+                IndexRequest indexRequest = new IndexRequest(
+                        getIndexName(metadata), docType, sha256hex).source(builder);
 
-            DocWriteRequest.OpType optype = DocWriteRequest.OpType.INDEX;
+                DocWriteRequest.OpType optype = DocWriteRequest.OpType.INDEX;
 
-            if (create) {
-                optype = DocWriteRequest.OpType.CREATE;
+                if (create) {
+                    optype = DocWriteRequest.OpType.CREATE;
+                }
+
+                indexRequest.opType(optype);
+
+                if (pipeline != null) {
+                    indexRequest.setPipeline(pipeline);
+                }
+
+                connection.getProcessor().add(indexRequest);
+
+                eventCounter.scope("Indexed").incrBy(1);
             }
-
-            indexRequest.opType(optype);
-
-            if (pipeline != null) {
-                indexRequest.setPipeline(pipeline);
-            }
-
-            connection.getProcessor().add(indexRequest);
-
-            eventCounter.scope("Indexed").incrBy(1);
+            // sinh.luutruong end
 
             _collector.emit(StatusStreamName, tuple, new Values(url, metadata,
                     Status.FETCHED));

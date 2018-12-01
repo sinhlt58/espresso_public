@@ -463,24 +463,55 @@
         },
         "ttn": {
           "tieu_de": {
-            "shopee.vn": "div#main div.qaNIZv"
+            "shopee.vn": "div#main div.qaNIZv",
+            "tiki.vn": "h1#product-name"
           },
           "gia": {
-            "shopee.vn": "div#main div._3n5NQx"
+            "shopee.vn": "div#main div._3n5NQx",
+            "tiki.vn": "span#span-price"
+          },
+          "nguoi_dang": {
+            "shopee.vn": "div#main div._3Lybjn"
           },
           "thuong_hieu": {
-            "shopee.vn": "div#main div._2aZyWI > div:nth-child(2) > a"
+            "shopee.vn": "div#main div._2aZyWI > div:nth-child(2) > a",
+            "tiki.vn": "table#chi-tiet a, table#chi-tiet tr:nth-child(3) > td.last"
+          },
+          "xuat_xu_thuong_hieu": {
+            "tiki.vn": "table#chi-tiet tr:nth-child(2) > td.last"
+          },
+          "noi_san_xuat": {},
+          "model": {
+            "tiki.vn": "table#chi-tiet tr:nth-child(4) > td.last"
           },
           "kich_co": {},
+          "chat_lieu": {
+            "shopee.vn": "div#main div._2aZyWI > div:nth-child(4) > div",
+            "tiki.vn": "table#chi-tiet span"
+          },
+          "gui_tu": {
+            "shopee.vn": "div#main div._2aZyWI > div:nth-child(5) > div"
+          },
           "mieu_ta": {
-            "shopee.vn": "div#main div.product-detail.page-product__detail > div:nth-child(2)"
+            "shopee.vn": "div#main div.product-detail.page-product__detail > div:nth-child(2)",
+            "tiki.vn": "div.left > div:nth-child(4)"
           },
           "ngay_dang": {},
+          "bl_nguoi_dang": {
+            "shopee.vn": "div.espresso-review-user-name",
+            "tiki.vn": "div.espresso-review-user-name"
+          },
           "bl_noi_dung": {
-            "shopee.vn": "div.espresso-review-content"
+            "shopee.vn": "div.espresso-review-content",
+            "tiki.vn": "div.espresso-review-content"
           },
           "bl_diem": {
-            "shopee.vn": "div.espresso-review-rate"
+            "shopee.vn": "div.espresso-review-rate",
+            "tiki.vn": "div.espresso-review-rate"
+          },
+          "bl_thoi_gian": {
+            "shopee.vn": "div.espresso-review-time",
+            "tiki.vn": "div.espresso-review-time"
           }
         }
       }

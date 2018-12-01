@@ -1,0 +1,4 @@
+{
+    "port": 2222,
+    "nlp_sentiment_url": "http://localhost:8501/v1/models/predict_score:predict"
+}

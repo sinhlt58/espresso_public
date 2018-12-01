@@ -22,8 +22,8 @@
       "scopes": "opreq"
     },
     {
-      "hostname": "thethao.vnexpress.net",
-      "scopes": "opreq"
+      "hostname": "tiki.vn",
+      "scopes": "scroll,tiki"
     }
   ]
 }

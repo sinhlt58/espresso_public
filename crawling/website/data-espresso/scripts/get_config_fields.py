@@ -29,14 +29,16 @@ class Generator:
         jsoup_rules_dict = list(filter(lambda d: d['name'] == 'DomainsParseFilter', rules_dict))[0]
 
         # generate mp mapping fields in crawler-conf.yaml file
+        '''
         crawler_config_dict = get_yaml_data(cls.cralwer_config_file)
         mdfields = cls.get_md_fields(jsoup_rules_dict)
         crawler_config_dict['config']['indexer.md.mapping'] = mdfields
         write_yaml_data(cls.cralwer_config_file, crawler_config_dict)
         print ("done gen for crawler-conf.yaml")
-
+        '''
 
         # generate mapping es for index
+        '''
         old_es_dict = get_json_data(cls.es_index_mapping_file)
         old_es_props = old_es_dict['mappings']['doc']['properties']
         not_default_props = []
@@ -50,6 +52,7 @@ class Generator:
         old_es_props.update(es_props)
         write_json_data(cls.es_index_mapping_file, old_es_dict)
         print ("done gen for es_index_mapping.json")
+        '''
 
     @classmethod
     def get_md_fields(cls, jsoup_rules_dict):

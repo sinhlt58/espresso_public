@@ -17,8 +17,6 @@ import com.digitalpebble.stormcrawler.parse.ParseData;
 import com.digitalpebble.stormcrawler.parse.ParseFilter;
 import com.digitalpebble.stormcrawler.parse.ParseResult;
 import org.w3c.dom.DocumentFragment;
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
-import org.elasticsearch.common.xcontent.XContentBuilder;
 
 public class DomainsParseFilter extends ParseFilter {
 
@@ -106,7 +104,7 @@ public class DomainsParseFilter extends ParseFilter {
         public String toString() {
             return selectorExpression;
         }
-    };
+    }
 
     @Override
     public void filter(String URL, byte[] content, DocumentFragment doc, ParseResult parse) {
@@ -117,17 +115,15 @@ public class DomainsParseFilter extends ParseFilter {
         try {
 
             getRules(metadata.getFirstValue("hostname"));
-            LOG.info("domainFieldRulesMap: {}", domainFieldRulesMap);
 
             Document docJsoup = Parser.htmlParser().parseInput(html, URL);
-            XContentBuilder builder = jsonBuilder().startObject();
 
             // for each domain
             for (String domainName : domainFieldRulesMap.keySet()){
                 Map<String, ArrayList<CustomRule>> fieldRulesMap = domainFieldRulesMap.get(domainName);
 
                 // for each field
-                boolean isFoundAnyField = false;
+                Map<String, ArrayList<String>> record = null;
                 for (String fieldName : fieldRulesMap.keySet()) {
                     ArrayList<CustomRule> rules = fieldRulesMap.get(fieldName);
 
@@ -136,28 +132,25 @@ public class DomainsParseFilter extends ParseFilter {
 
                         int l = values.size();
                         if (l > 0) {
-                            if (!isFoundAnyField) {
-                                builder.startArray(domainName);
-                                builder.startObject();
-                                isFoundAnyField = true;
+                            if (record == null) {
+                                record = new HashMap<>();
                             }
-                            if (l == 1) {
-                                builder.field(fieldName, values.get(0));
+                            ArrayList<String> fieldValues = record.get(fieldName);
+                            if (fieldValues == null) {
+                                fieldValues = new ArrayList<>();
+                                record.put(fieldName, fieldValues);
                             }
-                            if (l > 1) {
-                                builder.field(fieldName, values.toArray());
-                            }
+                            fieldValues.addAll(values);
+                            break; // We use only the first matching rule
+                            // can xem xet lai khi 1 host co nhieu esname
                         }
                     }
                 }
-
-                if (isFoundAnyField) {
-                    builder.endObject();
-                    builder.endArray();
+                if (record != null) {
+                    metadata.addRecordToDomainData(domainName, record);
                 }
             }
 
-            metadata.setBuilder(builder);
         } catch (Exception error){
             LOG.error("Error filter element parent of: {} , error: {}", URL, error);
         }
