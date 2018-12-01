@@ -30,12 +30,14 @@ public class MongoConnection {
             LOG.info("Starting Mongo");
             String urlDB = url + dbName;
 
-            MongoClientOptions.Builder options = MongoClientOptions.builder()
-                    .connectionsPerHost(4)
-                    .maxConnectionIdleTime((60 * 1_000))
-                    .maxConnectionLifeTime((120 * 1_000));
+//            MongoClientOptions.Builder options = MongoClientOptions.builder()
+//                    .connectionsPerHost(4)
+//                    .maxConnectionIdleTime((60 * 1000))
+//                    .maxConnectionLifeTime((120 * 1000));
 
-            MongoClientURI uri = new MongoClientURI(urlDB, options);
+//            MongoClientURI uri = new MongoClientURI(urlDB, options);
+
+            MongoClientURI uri = new MongoClientURI(urlDB);
 
             LOG.info("About to connect to MongoDB: {}", uri.toString());
 

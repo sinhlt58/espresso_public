@@ -2,12 +2,9 @@ package com.uet.nlp.parsefilters;
 
 import java.util.*;
 
-import com.digitalpebble.stormcrawler.mongodb.MongoConnection;
 import com.digitalpebble.stormcrawler.mongodb.models.DomainEntity;
 import com.digitalpebble.stormcrawler.mongodb.models.Rules;
-import com.digitalpebble.stormcrawler.mongodb.models.DomainEntity;
 import com.digitalpebble.stormcrawler.mongodb.services.DomainService;
-import com.digitalpebble.stormcrawler.util.ConfUtils;
 import org.jsoup.parser.Parser;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
@@ -19,7 +16,6 @@ import com.digitalpebble.stormcrawler.Metadata;
 import com.digitalpebble.stormcrawler.parse.ParseData;
 import com.digitalpebble.stormcrawler.parse.ParseFilter;
 import com.digitalpebble.stormcrawler.parse.ParseResult;
-import com.fasterxml.jackson.databind.JsonNode;
 import org.w3c.dom.DocumentFragment;
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -27,8 +23,6 @@ import org.elasticsearch.common.xcontent.XContentBuilder;
 public class DomainsParseFilter extends ParseFilter {
 
     private static final Logger LOG = LoggerFactory.getLogger(DomainsParseFilter.class);
-
-    //private static final DomainEntity domainEntities = new DomainEntity();
 
     private final Map<String, Map<String, ArrayList<CustomRule>>> domainFieldRulesMap = new HashMap<>();
 
@@ -123,7 +117,8 @@ public class DomainsParseFilter extends ParseFilter {
         try {
 
             getRules(metadata.getFirstValue("hostname"));
-            LOG.info("@@Rule: {}", domainFieldRulesMap);
+            LOG.info("domainFieldRulesMap: {}", domainFieldRulesMap);
+
             Document docJsoup = Parser.htmlParser().parseInput(html, URL);
             XContentBuilder builder = jsonBuilder().startObject();
 
@@ -170,46 +165,11 @@ public class DomainsParseFilter extends ParseFilter {
         metadata.remove("html");
     }
 
-//    public void getRules(String host){
-//        LOG.info("@@Get Rule");
-//        if(domainEntities.getDataByHost(host) != null){
-//            for (JsonNode node :domainEntities.getDataByHost(host)) {
-//                String domainKey = node.get("esname").asText();
-//                JsonNode properties = node.get("properties");
-//                LOG.info("Domain name: {}", domainKey);
-//
-//                Map<String, ArrayList<CustomRule>> fieldRulesMap = new HashMap<>();
-//                domainFieldRulesMap.put(domainKey, fieldRulesMap);
-//
-//                for (JsonNode property:properties) {
-//                    String fieldKey = property.get("label").asText();
-//                    LOG.info("Field: {}", fieldKey);
-//
-//                    ArrayList<CustomRule> selectorList = new ArrayList<>();
-//                    String rule = property.get("rule").asText();
-//
-//                    List<String> selectors = Arrays.asList(rule.split(", "));
-//
-//                    for (String selector : selectors) {
-//                        LOG.info("Selector: {}", selector);
-//                        if (selector.length() > 0){
-//                            selectorList.add(new CustomRule(selector));
-//                        }
-//                    }
-//
-//                    fieldRulesMap.put(fieldKey, selectorList);
-//
-//                }
-//            }
-//        }
-//    }
-
     public void getRules(String host){
-        LOG.info("@@Get Rule");
         List<DomainEntity> domainEntities = DomainService.getRulesByHost(host);
         for (DomainEntity domainEntity :domainEntities) {
             String domainKey = domainEntity.getEsname();
-            LOG.info("Domain name: {}", domainKey);
+            //LOG.info("Domain name: {}", domainKey);
 
             ArrayList<Rules> properties = domainEntity.getProperties();
 
@@ -218,14 +178,14 @@ public class DomainsParseFilter extends ParseFilter {
 
             for (Rules rule:properties) {
                 String fieldKey = rule.getLabel();
-                LOG.info("Field: {}", fieldKey);
+                //LOG.info("Field: {}", fieldKey);
 
                 ArrayList<CustomRule> selectorList = new ArrayList<>();
                 String ruleData = rule.getRule();
                 List<String> selectors = Arrays.asList(ruleData.split(", "));
 
                 for (String selector : selectors) {
-                    LOG.info("Selector: {}", selector);
+                    //LOG.info("Selector: {}", selector);
                     if (selector.length() > 0){
                         selectorList.add(new CustomRule(selector));
                     }
@@ -234,17 +194,6 @@ public class DomainsParseFilter extends ParseFilter {
 
             }
         }
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public void configure(Map stormConf, JsonNode filterParams){
-        long timeDelay = (long) (ConfUtils.getFloat(stormConf,
-                "mongo.domain.delay", 1.0f) * 1000);
-//        String collectionName = "domain";
-//        domainEntities.setCollectionName(collectionName);
-//        domainEntities.setTimeDelay(timeDelay);
-//        LOG.info("@@Time delay: {}", timeDelay);
     }
 
 }

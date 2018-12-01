@@ -47,3 +47,11 @@ then
     ./up_submodules.sh apply_patches
     cd $crr_dir
 fi
+
+if [ "$1" = "importMongo" ]
+then
+    cd ./scripts
+    mongo localhost:27017/test domain.js
+    mongo localhost:27017/test jsRender.js
+    mongo localhost:27017/test legalUrl.js
+fi

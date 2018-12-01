@@ -7,10 +7,6 @@ config:
   fetcher.server.min.delay: 0.0
   fetcher.threads.number: 200
   fetcher.threads.per.queue: 10
-  mongo.domain.delay: 1.0
-  mongo.jsRender.delay: 10.0
-  mongo.legalUrl.delay: 10.0
-  mongo.server.min.delay: 0.0
   http.agent.description: built with StormCrawler Archetype 1.11
   http.agent.email: someone@someorganization.com
   http.agent.name: Espresso crawler
@@ -35,6 +31,10 @@ config:
   - isSitemap
   - isSitemap
   - isFeed
+  mongo.domain.delay: 1.0
+  mongo.jsRender.delay: 10.0
+  mongo.legalUrl.delay: 10.0
+  mongo.server.min.delay: 0.0
   parsefilters.config.file: parsefilters.json
   topology.debug: false
   topology.kryo.register:
