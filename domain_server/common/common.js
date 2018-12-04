@@ -27,5 +27,9 @@ exports.getConfig = () => {
 };
 
 exports.sendError = (res) => {
-    return res.json({error: 'Internal error server'});
+    return res.status(500).json({error: 'Internal error server'});
 };
+
+exports.sendOk = (res) => {
+    return res.json({result: 'Ok'});
+}

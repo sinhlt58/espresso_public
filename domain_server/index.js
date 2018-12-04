@@ -10,10 +10,12 @@ app.config = common.getConfig();
 
 const PORT = app.config['port'] || 2222;
 const esClient = new elasticsearch.Client({
-    host: 'localhost:9200'
+    host: app.config['elasticsearch_url']
 });
 
 app.use(express.json());
+
+app.esClient = esClient;
 
 // include routes
 const apiV1 = require('./routes/v1');
