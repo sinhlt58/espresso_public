@@ -17,7 +17,10 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/status -H 'Content-Type: application/json' 
 		"index": {
 			"number_of_shards": 10,
 			"number_of_replicas": 1,
-			"refresh_interval": "5s"
+			"refresh_interval": "5s",
+      "blocks": {
+        "read_only_allow_delete": "false"
+      }
 		}
 	},
 	"mappings": {
@@ -66,7 +69,10 @@ curl $ESCREDENTIALS -s -XPOST $ESHOST/_template/storm-metrics-template -H 'Conte
   "settings": {
     "index": {
       "number_of_shards": 1,
-      "refresh_interval": "30s"
+      "refresh_interval": "30s",
+      "blocks": {
+        "read_only_allow_delete": "false"
+      }
     },
     "number_of_replicas" : 0
   },
