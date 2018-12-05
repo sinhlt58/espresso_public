@@ -1,4 +1,4 @@
-var arr = [
+[
   {
     "scope": "GLOBAL",
     "patterns": [
@@ -130,5 +130,3 @@ var arr = [
     ]
   }
 ]
-
-db.legalUrl.insert(arr);	
