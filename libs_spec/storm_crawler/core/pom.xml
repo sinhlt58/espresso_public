@@ -199,6 +199,7 @@
 			<version>${okhttp.version}</version>
 		</dependency>
 
+		<!-- conganh add -->
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>
@@ -210,6 +211,7 @@
 			<artifactId>core</artifactId>
 			<version>1.4.0</version>
 		</dependency>
+		<!-- end conganh -->
 
 	</dependencies>
 </project>
