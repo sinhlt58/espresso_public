@@ -1,0 +1,77 @@
+name: "nlp_analytics"
+
+config:
+  topology.workers: 1
+
+  spout.min.delay.queries: 10000
+
+  # we read from status :)) change name later
+  es.status.addresses: "http://data-espresso-es.localtunnel.me:80"
+  es.status.index.name: "index"
+  es.status.doc.type: "_doc"
+  #es.status.user: "USERNAME"
+  #es.status.password: "PASSWORD"
+  # the routing is done on the value of 'partition.url.mode'
+  es.status.routing: false
+  # stores the value used for the routing as a separate field
+  # needed by the spout implementations
+  es.status.routing.fieldname: "metadata.hostname"
+  es.status.bulkActions: 500
+  es.status.flushInterval: "2s"
+  es.status.concurrentRequests: 1
+  es.status.settings:
+    cluster.name: "elasticsearch"
+
+  es.status.max.buckets: 50
+  es.status.max.urls.per.bucket: 20
+  # field to group the URLs into buckets
+  es.status.bucket.field: "metadata.hostname"
+  # field to sort the URLs within a bucket
+  es.status.bucket.sort.field: "nextFetchDate"
+  # field to sort the buckets
+  es.status.global.sort.field: "nextFetchDate"
+
+  # CollapsingSpout : limits the deep paging by resetting the start offset for the ES query 
+  es.status.max.start.offset: 500
+  
+  # AggregationSpout : sampling improves the performance on large crawls
+  es.status.sample: false
+
+  # AggregationSpout (expert): adds this value in mins to the latest date returned in the results and
+  # use it as nextFetchDate
+  es.status.recentDate.increase: -1
+  es.status.recentDate.min.gap: -1
+
+spouts:
+  - id: "spout"
+    className: "com.uet.nlp.spout.AggregationSpout"
+    parallelism: 1
+
+bolts:
+  - id: "removeduplicate"
+    className: "com.uet.nlp.nlp_analytics.RemoveDuplicateReviewBolt"
+    parallelism: 1
+
+  - id: "splitreview"
+    className: "com.uet.nlp.nlp_analytics.SplitReviewBolt"
+    parallelism: 1
+
+  - id: "normalizer"
+    className: "com.uet.nlp.nlp_analytics.NormalizerBolt"
+    parallelism: 1
+
+streams:
+  - from: "spout"
+    to: "removeduplicate"
+    grouping:
+      type: SHUFFLE
+
+  - from: "removeduplicate"
+    to: "splitreview"
+    grouping:
+      type: SHUFFLE
+
+  - from: "splitreview"
+    to: "normalizer"
+    grouping:
+      type: SHUFFLE
