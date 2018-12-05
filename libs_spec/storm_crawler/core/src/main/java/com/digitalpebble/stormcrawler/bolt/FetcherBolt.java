@@ -831,6 +831,7 @@ public class FetcherBolt extends StatusEmitterBolt{
     @Override
     public void cleanup() {
         protocolFactory.cleanup();
+        MongoConnection.close();
     }
 
     @Override
