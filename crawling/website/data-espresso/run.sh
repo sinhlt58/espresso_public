@@ -48,11 +48,13 @@ then
     cd $crr_dir
 fi
 
+mongo_host=localhost:27017/crawling_rules
 if [ "$1" = "importMongo" ]
 then
     cd ./scripts
     node initMongodb.js
-    mongo localhost:27017/test domain.js
-    mongo localhost:27017/test jsRender.js
-    mongo localhost:27017/test legalUrl.js
+    mongo $mongo_host domain.js
+    mongo $mongo_host jsRender.js
+    mongo $mongo_host legalUrl.js
+    cd $crr_dir
 fi

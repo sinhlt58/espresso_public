@@ -17,7 +17,7 @@ public class MongoConnection {
 
     private static Morphia morphia = null;
 
-    private static final String dbName = "test";
+    private static final String dbName = "crawling_rules";
 
     private static final String url = "mongodb://localhost:27017/";
 
