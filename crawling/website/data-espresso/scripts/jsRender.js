@@ -1,0 +1,1 @@
+let jsRenderEntities=[{"hostname":"shopee.vn","scopes":"scroll,shopeec"},{"hostname":"www.lazada.vn"},{"hostname":"nhadat24h.net"},{"hostname":"batdongsan.com.vn"},{"hostname":"www.muabannhadat.vn","scopes":"opreq,muabannhadat"},{"hostname":"homedy.com","scopes":"opreq"},{"hostname":"tiki.vn","scopes":"scroll,tiki"}];db.jsRender.drop();db.jsRender.insert(jsRenderEntities);

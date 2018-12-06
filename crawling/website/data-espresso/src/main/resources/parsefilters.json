@@ -1,8 +1,8 @@
 {
   "com.digitalpebble.stormcrawler.parse.ParseFilters": [
     {
-      "class": "com.uet.nlp.parsefilters.FieldsParseFilter",
-      "name": "FieldsParseFilter",
+      "class": "com.uet.nlp.parsefilters.DomainsParseFilter",
+      "name": "DomainsParseFilter",
       "params": {
         "bds": {
           "stt": {

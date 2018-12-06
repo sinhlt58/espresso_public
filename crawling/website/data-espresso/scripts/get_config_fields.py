@@ -26,7 +26,7 @@ class Generator:
     @classmethod
     def generate_configs(cls):
         rules_dict = get_json_data(cls.parse_filter_file)['com.digitalpebble.stormcrawler.parse.ParseFilters']
-        jsoup_rules_dict = list(filter(lambda d: d['name'] == 'FieldsParseFilter', rules_dict))[0]
+        jsoup_rules_dict = list(filter(lambda d: d['name'] == 'DomainsParseFilter', rules_dict))[0]
 
         # generate mp mapping fields in crawler-conf.yaml file
         '''

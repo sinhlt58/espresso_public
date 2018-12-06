@@ -26,8 +26,6 @@ bolts:
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
     parallelism: 2
     properties:
-      - name: "filteredJsUrlFile"
-        value: "filtered-js-url-file.json" 
       - name: "apiJsUrl"
         value: "http://localhost:3000/api/v1/viewDom?url="
   - id: "sitemap"

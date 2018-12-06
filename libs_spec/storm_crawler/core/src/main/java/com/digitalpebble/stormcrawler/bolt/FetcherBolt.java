@@ -18,8 +18,6 @@
 package com.digitalpebble.stormcrawler.bolt;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,6 +27,9 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.digitalpebble.stormcrawler.mongodb.MongoConnection;
+import com.digitalpebble.stormcrawler.mongodb.models.JsRenderEntity;
+import com.digitalpebble.stormcrawler.mongodb.services.JsRenderService;
 import org.apache.commons.lang.StringUtils;
 import org.apache.storm.Config;
 import org.apache.storm.metric.api.IMetric;
@@ -57,25 +58,15 @@ import com.digitalpebble.stormcrawler.util.PerSecondReducer;
 import crawlercommons.domains.PaidLevelDomain;
 import crawlercommons.robots.BaseRobotRules;
 
-// conganh add
-import com.digitalpebble.stormcrawler.JSONResource;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-// conganh end
-
 /**
  * A multithreaded, queue-based fetcher adapted from Apache Nutch. Enforces the
  * politeness and handles the fetching threads itself.
  */
 @SuppressWarnings("serial")
-public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // conganh add JSONResource
+public class FetcherBolt extends StatusEmitterBolt{
 
     // conganh add
-    public String filteredJsUrlFile = null;
     public String apiJsUrl = null;
-    private ArrayList<JsonNode> filteredJsUrls = new ArrayList<>();
     // conganh end
 
     private static final org.slf4j.Logger LOG = LoggerFactory
@@ -568,21 +559,14 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
                     LOG.info("Hostname: {}", metadata.getFirstValue("hostname"));
 
                     ProtocolResponse response;
-                    boolean isFilteredJsUrl = false;
-                    String scopes = null;
-                    for (JsonNode node : filteredJsUrls) {
-                        String hostname = node.get("hostname").asText();
-                        JsonNode nodeScopes = node.get("scopes");
-                        if (hostname.equalsIgnoreCase(metadata.getFirstValue("hostname"))) {
-                            isFilteredJsUrl = true;
-                            if (nodeScopes != null) {
-                                scopes = nodeScopes.asText();
-                            }
-                            break;
-                        }
-                    }
-                    if (isFilteredJsUrl) {
+                    if (metadata.keySet().contains("jsRender")) {
+                        metadata.remove("jsRender");
                         String urlServer = apiJsUrl + URLEncoder.encode(fit.url, "UTF-8");
+                        String scopes = null;
+                        if(metadata.keySet().contains("scopes")){
+                            scopes = metadata.getFirstValue("scopes");
+                            metadata.remove("scopes");
+                        }
                         if (scopes != null) {
                             urlServer += "&scopes=" + scopes;
                         }
@@ -593,8 +577,8 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
                     // conganh end
 
                     // conganh comment
-//                    ProtocolResponse response = protocol.getProtocolOutput(
-//                            fit.url, metadata);
+                    // ProtocolResponse response = protocol.getProtocolOutput(
+                    //       fit.url, metadata);
 
 
                     long timeFetching = System.currentTimeMillis() - start;
@@ -833,15 +817,8 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
         }
 
         // conganh add
-        try {
-            loadJSONResources();
-            LOG.info("FilteredJsUrlFile: {}", this.filteredJsUrlFile);
-            LOG.info("Api Js Url: {}", this.apiJsUrl);
-        } catch (Exception error){
-            LOG.error("Can't read file Exception: {}", error);
-            LOG.error("Can't read file : {}", this.filteredJsUrlFile);
-        }
-        // conganh end
+        MongoConnection.init();
+        // end conganh
 
     }
 
@@ -854,6 +831,7 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
     @Override
     public void cleanup() {
         protocolFactory.cleanup();
+        MongoConnection.close();
     }
 
     @Override
@@ -896,12 +874,30 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
             return;
         }
 
+        // conganh add
+        Metadata metadata = (Metadata) input.getValueByField("metadata");
+        if (metadata!= null && metadata.keySet().contains("hostname")){
+            String hostname = metadata.getFirstValue("hostname");
+            JsRenderEntity jsRenderEntity = JsRenderService.getRuleByHost(hostname);
+            if(jsRenderEntity != null){
+                LOG.info("Hostname js render: {}", jsRenderEntity.getHostname());
+                metadata.setValue("jsRender", "1");
+                String scopes = jsRenderEntity.getScopes();
+                if (scopes != null){
+                    LOG.info("Scopes: {}", scopes);
+                    metadata.setValue("scopes", "scopes");
+                }
+            }
+        }
+        //end conganh
+
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
             LOG.error("{} is a malformed URL", urlString);
 
-            Metadata metadata = (Metadata) input.getValueByField("metadata");
+            // conganh comment
+            // Metadata metadata = (Metadata) input.getValueByField("metadata");
             if (metadata == null) {
                 metadata = new Metadata();
             }
@@ -951,24 +947,4 @@ public class FetcherBolt extends StatusEmitterBolt implements JSONResource { // 
         }
     }
 
-    // conganh add
-    @Override
-    public void loadJSONResources(InputStream inputStream)
-            throws JsonParseException, JsonMappingException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode jsonJsUrl = mapper.readValue(inputStream, JsonNode.class);
-        Iterator<JsonNode> filterIter = jsonJsUrl.get("urls").elements();
-        while (filterIter.hasNext()){
-            JsonNode node = filterIter.next();
-            this.filteredJsUrls.add(node);
-        }
-        LOG.info("Load json resources: {}", jsonJsUrl.toString());
-        LOG.info("Load array json resources: {}", this.filteredJsUrls);
-    }
-
-    @Override
-    public String getResourceFile() {
-        return this.filteredJsUrlFile;
-    }
-    // conganh end
 }

@@ -42,7 +42,7 @@ function writeToFile(file, data) {
 // Jsoup rules parser start
 exports.getJsoupData = function(rules) {
     return rules['com.digitalpebble.stormcrawler.parse.ParseFilters']
-    .find(obj => obj.name === 'FieldsParseFilter')['params'];
+    .find(obj => obj.name === 'DomainsParseFilter')['params'];
 }
 
 exports.getJsoupRulesData = function() {

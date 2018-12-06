@@ -6,6 +6,13 @@
     ]
   },
   {
+    "scope" : "domain:stormcrawler.net",
+    "patterns" : [ 
+        "AllowPath /digitalpebble/", 
+        "DenyPath .+"
+    ]
+  },
+  {
     "scope": "domain:batdongsan.com.vn",
     "patterns": [
       "AllowPathQuery /ban-|/cho-thue-|/mua-|/can-thue-|-mua|-thue",
@@ -112,6 +119,13 @@
     "scope": "domain:tiki.vn",
     "patterns": [
       "AllowPathQuery src=tree|page=|src=category-page|p[0-9]{5,}",
+      "DenyPathQuery .+"
+    ]
+  },
+  {
+    "scope": "domain:vnexpress.net",
+    "patterns": [
+      "AllowPathQuery vnexpress.net",
       "DenyPathQuery .+"
     ]
   }
