@@ -880,7 +880,7 @@ public class FetcherBolt extends StatusEmitterBolt{
                 String scopes = jsRenderEntity.getScopes();
                 if (scopes != null){
                     LOG.info("Scopes: {}", scopes);
-                    metadata.setValue("scopes", "scopes");
+                    metadata.setValue("scopes", scopes);
                 }
             }
         }
