@@ -815,11 +815,6 @@ public class FetcherBolt extends StatusEmitterBolt{
                     debugfiletriggerpattern.replaceAll("\\{port\\}",
                             Integer.toString(context.getThisWorkerPort())));
         }
-
-        // conganh add
-        MongoConnection.init();
-        // end conganh
-
     }
 
     @Override
