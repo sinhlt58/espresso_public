@@ -65,25 +65,13 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
     protected static final String StatusMinDelayParamName = "spout.min.delay.queries";
     protected long minDelayBetweenQueries = 2000;
 
-    /**
-     * Delay in seconds after which the nextFetchDate filter is set to the
-     * current time, default 120. Is used to prevent the search to be limited to
-     * a handful of sources.
-     **/
-    protected static final String resetFetchDateParamName = "spout.reset.fetchdate.after";
-    protected int resetFetchDateAfterNSecs = 120;
-
     protected long timeLastQuery = 0;
-
-    protected MultiCountMetric eventCounter;
 
     protected Queue<Values> buffer = new LinkedList<>();
     private SpoutOutputCollector _collector;
 
     /** Required for implementations doing asynchronous calls **/
     protected AtomicBoolean isInQuery = new AtomicBoolean(false);
-
-    protected CollectionMetric queryTimes;
 
     @Override
     public void open(Map stormConf, TopologyContext context,
@@ -95,36 +83,6 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
                 StatusMinDelayParamName, 2000);
 
         beingProcessed = new InProcessMap<>(ttlPurgatory, TimeUnit.SECONDS);
-
-        eventCounter = context.registerMetric("counters",
-                new MultiCountMetric(), 10);
-
-        context.registerMetric("buffer_size", new IMetric() {
-            @Override
-            public Object getValueAndReset() {
-                return buffer.size();
-            }
-        }, 10);
-
-        context.registerMetric("beingProcessed", new IMetric() {
-            @Override
-            public Object getValueAndReset() {
-                return beingProcessed.size();
-            }
-        }, 10);
-
-        context.registerMetric("inPurgatory", new IMetric() {
-            @Override
-            public Object getValueAndReset() {
-                return beingProcessed.inCache();
-            }
-        }, 10);
-
-        queryTimes = new CollectionMetric();
-        context.registerMetric("spout_query_time_msec", queryTimes, 10);
-
-        resetFetchDateAfterNSecs = ConfUtils.getInt(stormConf,
-                resetFetchDateParamName, resetFetchDateAfterNSecs);
 
         _collector = collector;
     }
@@ -186,7 +144,6 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
                 String docId = fields.get(0).toString();
                 this._collector.emit(fields, docId);
                 beingProcessed.put(docId, null);
-                eventCounter.scope("emitted").incrBy(1);
                 return;
             }
         }
@@ -235,13 +192,11 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
     @Override
     public void ack(Object msgId) {
         beingProcessed.remove(msgId);
-        eventCounter.scope("acked").incrBy(1);
     }
 
     @Override
     public void fail(Object msgId) {
         beingProcessed.remove(msgId);
-        eventCounter.scope("failed").incrBy(1);
     }
 
     // sinh.luutruong start

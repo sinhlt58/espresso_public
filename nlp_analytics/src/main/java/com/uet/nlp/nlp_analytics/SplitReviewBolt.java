@@ -26,12 +26,9 @@ public class SplitReviewBolt implements IRichBolt {
     }
 
     @Override
-    public void execute(Tuple input) {
-        System.out.println(input);
-        String docId = (String) input.getValueByField("docId");
-        Document doc = (Document) input.getValueByField("doc");
-
-        LOG.info("docId: {}", docId);
+    public void execute(Tuple tuple) {
+        String docId = (String) tuple.getValueByField("docId");
+        Document doc = (Document) tuple.getValueByField("doc");
     }
 
     @Override

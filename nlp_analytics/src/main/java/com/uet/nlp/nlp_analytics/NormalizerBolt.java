@@ -1,8 +1,10 @@
 package com.uet.nlp.nlp_analytics;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import com.uet.nlp.common.Document;
+import com.uet.nlp.common.item.Item;
 
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
@@ -10,6 +12,7 @@ import org.apache.storm.topology.IRichBolt;
 import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,12 +29,17 @@ public class NormalizerBolt implements IRichBolt {
     }
 
     @Override
-    public void execute(Tuple input) {
-        System.out.println(input);
-        String docId = (String) input.getValueByField("docId");
-        Document doc = (Document) input.getValueByField("doc");
+    public void execute(Tuple tuple) {
+        String docId = (String) tuple.getValueByField("docId");
+        Document doc = (Document) tuple.getValueByField("doc");
+        ArrayList<Item> items = (ArrayList<Item>) tuple.getValueByField("items");
 
-        LOG.info("docId: {}", docId);
+        for (Item item : items) {
+            item.normalize();
+        }
+
+        _collector.emit(tuple, new Values(docId, doc, items));
+        _collector.ack(tuple);
     }
 
     @Override
@@ -41,7 +49,7 @@ public class NormalizerBolt implements IRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("docId", "doc"));
+        declarer.declare(new Fields("docId", "doc", "items"));
 	}
 
 	@Override

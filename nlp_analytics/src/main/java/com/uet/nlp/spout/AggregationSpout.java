@@ -41,13 +41,6 @@ import org.slf4j.LoggerFactory;
 import com.digitalpebble.stormcrawler.util.ConfUtils;
 import com.uet.nlp.common.Document;
 
-/**
- * Spout which pulls URL from an ES index. Use a single instance unless you use
- * 'es.status.routing' with the StatusUpdaterBolt, in which case you need to
- * have exactly the same number of spout instances as ES shards. Guarantees a
- * good mix of URLs by aggregating them by an arbitrary field e.g.
- * metadata.hostname.
- **/
 @SuppressWarnings("serial")
 public class AggregationSpout extends AbstractSpout implements
         ActionListener<SearchResponse> {
@@ -55,29 +48,27 @@ public class AggregationSpout extends AbstractSpout implements
     private static final Logger LOG = LoggerFactory
             .getLogger(AggregationSpout.class);
 
-    private static final String ESStatusSampleParamName = "es.status.sample";
-    private static final String ESMostRecentDateIncreaseParamName = "es.status.recentDate.increase";
-    private static final String ESMostRecentDateMinGapParamName = "es.status.recentDate.min.gap";
+    private String ESAnalysisStatusFieldParamName = "es.analysis.status.field";
+    private String ESAnalysisStatusDoneParamName = "es.analysis.done";
+    private String ESAnalysisMaxHitParamName = "es.analysis.max.hit";
 
-    private boolean sample = false;
-
-    private int recentDateIncrease = -1;
-    private int recentDateMinGap = -1;
-
-    private String analysisStatusField = "analysis_status";
-    private String analysisStatusDone = "DONE";
+    private String analysisStatusField = "";
+    private String analysisStatusDone = "";
     private int analysisMaxHit = 30;
 
     @Override
     public void open(Map stormConf, TopologyContext context,
             SpoutOutputCollector collector) {
-        sample = ConfUtils.getBoolean(stormConf, ESStatusSampleParamName,
-                sample);
-        recentDateIncrease = ConfUtils.getInt(stormConf,
-                ESMostRecentDateIncreaseParamName, recentDateIncrease);
-        recentDateMinGap = ConfUtils.getInt(stormConf,
-                ESMostRecentDateMinGapParamName, recentDateMinGap);
         super.open(stormConf, context, collector);
+        
+        analysisStatusField = ConfUtils.getString(stormConf, ESAnalysisStatusFieldParamName,
+                                "analysis_status");
+
+        analysisStatusDone = ConfUtils.getString(stormConf, ESAnalysisStatusDoneParamName,
+                                "DONE");
+
+        analysisMaxHit = ConfUtils.getInt(stormConf, ESAnalysisMaxHitParamName,
+                                analysisMaxHit);
     }
 
     @Override
@@ -100,11 +91,7 @@ public class AggregationSpout extends AbstractSpout implements
                                                     .mustNot(QueryBuilders
                                                                 .existsQuery(analysisStatusField)));
 
-        if (filterQuery != null) {
-            queryBuilder = boolQuery().must(queryBuilder).filter(
-                    QueryBuilders.queryStringQuery(filterQuery));
-        }
-
+        LOG.info("indexName: {}", indexName);
         SearchRequest request = new SearchRequest(indexName).types(docType)
                 .searchType(SearchType.QUERY_THEN_FETCH);
 
@@ -116,12 +103,6 @@ public class AggregationSpout extends AbstractSpout implements
         sourceBuilder.trackTotalHits(true);
 
         request.source(sourceBuilder);
-
-        // https://www.elastic.co/guide/en/elasticsearch/reference/current/search-request-preference.html
-        // _shards:2,3
-        if (shardID != -1) {
-            request.preference("_shards:" + shardID);
-        }
 
         isInQuery.set(true);
         client.searchAsync(request, RequestOptions.DEFAULT, this);
@@ -160,11 +141,6 @@ public class AggregationSpout extends AbstractSpout implements
         LOG.info(
                 "{} ES query returned {} hits in {} msec with {} already being processed",
                 logIdprefix, numhits, timeTaken, alreadyprocessed);
-
-        queryTimes.addMeasurement(timeTaken);
-        eventCounter.scope("already_being_processed").incrBy(alreadyprocessed);
-        eventCounter.scope("ES_queries").incrBy(1);
-        eventCounter.scope("ES_docs").incrBy(numhits);
 
         // remove lock
         isInQuery.set(false);
