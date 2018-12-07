@@ -12,7 +12,7 @@ class BrowserHandler {
             this.browser = false;
             this.browser = await puppeteer.launch({
                 headless: true,
-                args: [`--window-size=${this.options.width},
+                args: [`--no-sandbox`, `--window-size=${this.options.width},
                                       ${this.options.height}`]
             });
             console.log('Created a new browser instance');
