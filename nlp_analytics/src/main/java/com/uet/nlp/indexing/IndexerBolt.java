@@ -25,7 +25,9 @@ import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.topology.base.BaseRichBolt;
+import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -68,10 +70,10 @@ public class IndexerBolt extends BaseRichBolt {
 
         _collector = collector;
 
-        indexName = ConfUtils.getString(conf, IndexerBolt.ESIndexNameParamName,
+        indexName = ConfUtils.getString(conf, ESIndexNameParamName,
                     "analysis");
 
-        docType = ConfUtils.getString(conf, IndexerBolt.ESDocTypeParamName,
+        docType = ConfUtils.getString(conf, ESDocTypeParamName,
                     "_doc");
 
         try {
@@ -109,7 +111,8 @@ public class IndexerBolt extends BaseRichBolt {
 
                 connection.getProcessor().add(indexRequest);
             }
-
+            
+            _collector.emit(tuple, new Values(docId, doc, items));
             _collector.ack(tuple);
 
         } catch (Exception e) {
@@ -121,7 +124,7 @@ public class IndexerBolt extends BaseRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-
+        declarer.declare(new Fields("docId", "doc", "items"));
 	}
 
 }

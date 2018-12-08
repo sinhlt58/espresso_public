@@ -39,6 +39,7 @@ public class RemoveDuplicateBolt implements IRichBolt {
 
             Map<String, String> map = new HashMap<>();
             ArrayList<Item> resItems = new ArrayList<>();
+
             for (Item item : items) {
                 if (!map.containsKey(item.id)) {
                     map.put(item.id, "");

@@ -19,7 +19,9 @@ package com.uet.nlp.indexing;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
@@ -28,8 +30,12 @@ import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Tuple;
 import org.elasticsearch.action.DocWriteRequest;
 import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.action.bulk.BulkProcessor;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import org.slf4j.Logger;
@@ -38,27 +44,39 @@ import org.slf4j.LoggerFactory;
 import com.digitalpebble.stormcrawler.elasticsearch.ElasticSearchConnection;
 import com.digitalpebble.stormcrawler.util.ConfUtils;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 import com.uet.nlp.common.Document;
 import com.uet.nlp.common.item.Item;
 
 
 @SuppressWarnings("serial")
-public class StatusUpdateBolt extends BaseRichBolt {
+public class StatusUpdateBolt extends BaseRichBolt implements
+                        RemovalListener<String, List<Tuple>>, BulkProcessor.Listener{
 
     private static final Logger LOG = LoggerFactory
             .getLogger(StatusUpdateBolt.class);
 
-    private static final String ESBoltType = "indexer";
+    private static final String ESBoltType = "status";
 
-    static final String ESIndexNameParamName = "es.indexer.index.name";
-    static final String ESDocTypeParamName = "es.indexer.doc.type";
+    static final String ESStatusNameParamName = "es.status.index.name";
+    static final String ESStatusDocTypeParamName = "es.status.doc.type";
 
-    private OutputCollector _collector;
+    private String ESAnalysisStatusFieldParamName = "es.analysis.status.field";
+    private String ESAnalysisStatusDoneParamName = "es.analysis.done";
+
+    private String analysisStatusField = "";
+    private String analysisStatusDone = "";
 
     private String indexName;
     private String docType;
-
+    
+    private OutputCollector _collector;
     private ElasticSearchConnection connection;
+
+    private Cache<String, List<Tuple>> waitAck;
 
     public StatusUpdateBolt() {
     }
@@ -70,15 +88,25 @@ public class StatusUpdateBolt extends BaseRichBolt {
 
         _collector = collector;
 
-        indexName = ConfUtils.getString(conf, IndexerBolt.ESIndexNameParamName,
-                    "analysis");
+        indexName = ConfUtils.getString(conf, ESStatusNameParamName,
+                    "index");
 
-        docType = ConfUtils.getString(conf, IndexerBolt.ESDocTypeParamName,
+        docType = ConfUtils.getString(conf, ESStatusDocTypeParamName,
                     "_doc");
+
+        analysisStatusField = ConfUtils.getString(conf, ESAnalysisStatusFieldParamName,
+                    "analysis_status");
+
+        analysisStatusDone = ConfUtils.getString(conf, ESAnalysisStatusDoneParamName,
+                    "DONE");
+
+        waitAck = CacheBuilder.newBuilder()
+                    .expireAfterWrite(60, TimeUnit.SECONDS).removalListener(this)
+                    .build();
 
         try {
             connection = ElasticSearchConnection
-                    .getConnection(conf, ESBoltType);
+                    .getConnection(conf, ESBoltType, this);
         } catch (Exception e1) {
             LOG.error("Can't connect to ElasticSearch", e1);
             throw new RuntimeException(e1);
@@ -95,24 +123,19 @@ public class StatusUpdateBolt extends BaseRichBolt {
     public void execute(Tuple tuple) {
 
         try {
+            LOG.info("inside status update bolt");
             String docId = (String) tuple.getValueByField("docId");
             Document doc = (Document) tuple.getValueByField("doc");
-            ArrayList<Item> items = (ArrayList<Item>) tuple.getValueByField("items");
+            
+            XContentBuilder builder = jsonBuilder().startObject();
+            builder.field(analysisStatusField, analysisStatusDone);
+            builder.endObject();
 
-            for (Item item : items) {
-                JsonNode jsonNode = Document.mapper.convertValue(item, JsonNode.class);
-                
-                IndexRequest indexRequest = new IndexRequest(
-                            indexName, docType, item.id).source(jsonNode.toString(), XContentType.JSON);
+            UpdateRequest updateRequest = new UpdateRequest(indexName, docType, docId)
+                                .doc(builder);
 
-                DocWriteRequest.OpType optype = DocWriteRequest.OpType.INDEX;
-                
-                indexRequest.opType(optype);
-
-                connection.getProcessor().add(indexRequest);
-            }
-
-            _collector.ack(tuple);
+            connection.getProcessor().add(updateRequest);
+            // _collector.ack(tuple);
 
         } catch (Exception e) {
             LOG.error("Error sending log tuple to ES", e);
@@ -124,6 +147,33 @@ public class StatusUpdateBolt extends BaseRichBolt {
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
 
+    }
+
+    @Override
+    public void onRemoval(RemovalNotification<String, List<Tuple>> removal) {
+        if (!removal.wasEvicted())
+            return;
+        LOG.error("Purged from waitAck {} with {} values", removal.getKey(),
+                removal.getValue().size());
+        for (Tuple t : removal.getValue()) {
+            _collector.fail(t);
+        }
+    }
+
+    @Override
+    public void beforeBulk(long executionId, BulkRequest request) {
+
+    }
+
+    @Override
+    public void afterBulk(long executionId, BulkRequest request, BulkResponse response) {
+        LOG.info("afterBulk successfull: {}", response.toString());
+        LOG.info("afterBulk successfull: {}", response.getItems()[0].toString());
+    }
+
+    @Override
+	public void afterBulk(long executionId, BulkRequest request, Throwable failure) {
+        LOG.info("afterBulk fail: {}", failure.toString());
 	}
 
 }
