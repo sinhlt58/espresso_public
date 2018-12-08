@@ -26,8 +26,6 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.storm.metric.api.IMetric;
-import org.apache.storm.metric.api.MultiCountMetric;
 import org.apache.storm.spout.SpoutOutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
@@ -36,7 +34,6 @@ import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Values;
 import org.apache.storm.utils.Utils;
 
-import com.digitalpebble.stormcrawler.util.CollectionMetric;
 import com.digitalpebble.stormcrawler.util.ConfUtils;
 import com.google.common.base.Optional;
 import com.google.common.cache.Cache;

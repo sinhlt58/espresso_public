@@ -32,9 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import com.digitalpebble.stormcrawler.Metadata;
 import com.digitalpebble.stormcrawler.elasticsearch.ElasticSearchConnection;
-// sinh.luutruong added
-// import com.uet.nlp.spout.AbstractQueryingSpout;
-// sinh.luutruong end
+
 import com.digitalpebble.stormcrawler.util.ConfUtils;
 
 public abstract class AbstractSpout extends AbstractQueryingSpout {

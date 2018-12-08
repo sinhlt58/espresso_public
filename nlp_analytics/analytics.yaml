@@ -3,11 +3,11 @@ name: "nlp_analytics"
 config:
   topology.workers: 1
 
-  # spout configs
-  spout.min.delay.queries: 100000
+  # spout read from ES
+  spout.min.delay.queries: 500000
   spout.ttl.purgatory: 30
 
-  es.analysis.addresses: "http://data-espresso-es.localtunnel.me:80"
+  es.analysis.addresses: "localhost:9200"
   es.analysis.index.name: "index"
   es.analysis.doc.type: "_doc"
   #es.analysis.user: "USERNAME"
@@ -16,6 +16,14 @@ config:
   es.analysis.status.field: "analysis_status"
   es.analysis.done: "DONE"
   es.analysis.max.hit: 35
+
+  # Write after analysis
+  es.indexer.addresses: "localhost:9200"
+  es.indexer.index.name: "analysis"
+  es.indexer.doc.type: "_doc"
+  es.indexer.bulkActions: 500
+  es.indexer.flushInterval: "2s"
+  es.indexer.concurrentRequests: 5
 
 spouts:
   - id: "spout"
@@ -31,6 +39,14 @@ bolts:
     className: "com.uet.nlp.nlp_analytics.NormalizerBolt"
     parallelism: 1
 
+  - id: "removeduplicate"
+    className: "com.uet.nlp.nlp_analytics.RemoveDuplicateBolt"
+    parallelism: 1
+
+  - id: "indexer"
+    className: "com.uet.nlp.indexing.IndexerBolt"
+    parallelism: 1
+
 streams:
   - from: "spout"
     to: "preprocessreview"
@@ -39,5 +55,15 @@ streams:
 
   - from: "preprocessreview"
     to: "normalizer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "normalizer"
+    to: "removeduplicate"
+    grouping:
+      type: SHUFFLE
+
+  - from: "removeduplicate"
+    to: "indexer"
     grouping:
       type: SHUFFLE

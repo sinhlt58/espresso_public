@@ -20,6 +20,6 @@ public class Review extends Item {
     }
 
     public void normalize() {
-
+        super.generateId(url + domain + author + rate + date);
     }
 }

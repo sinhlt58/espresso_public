@@ -17,8 +17,6 @@
 
 package com.uet.nlp.spout;
 
-import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
-
 import java.util.Date;
 import java.util.Map;
 

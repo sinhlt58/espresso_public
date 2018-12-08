@@ -1,6 +1,7 @@
 package com.uet.nlp.nlp_analytics;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.uet.nlp.common.Document;
@@ -16,10 +17,10 @@ import org.apache.storm.tuple.Values;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NormalizerBolt implements IRichBolt {
+public class RemoveDuplicateBolt implements IRichBolt {
 
     private static final Logger LOG = LoggerFactory
-            .getLogger(NormalizerBolt.class);
+            .getLogger(RemoveDuplicateBolt.class);
 
     private OutputCollector _collector;
 
@@ -36,11 +37,16 @@ public class NormalizerBolt implements IRichBolt {
             Document doc = (Document) tuple.getValueByField("doc");
             ArrayList<Item> items = (ArrayList<Item>) tuple.getValueByField("items");
 
+            Map<String, String> map = new HashMap<>();
+            ArrayList<Item> resItems = new ArrayList<>();
             for (Item item : items) {
-                item.normalize();
+                if (!map.containsKey(item.id)) {
+                    map.put(item.id, "");
+                    resItems.add(item);
+                }
             }
     
-            _collector.emit(tuple, new Values(docId, doc, items));
+            _collector.emit(tuple, new Values(docId, doc, resItems));
             _collector.ack(tuple);
 
         } catch (Exception e) {

@@ -38,7 +38,10 @@ public class PreprocessReviewBolt implements IRichBolt {
 
         ArrayList<Item> items = getItems(doc.jsonDoc);
 
-        _collector.emit(tuple, new Values(docId, doc, items));
+        if (!items.isEmpty()) {
+            _collector.emit(tuple, new Values(docId, doc, items));
+        }
+            
         _collector.ack(tuple);
     }
 
@@ -49,6 +52,7 @@ public class PreprocessReviewBolt implements IRichBolt {
 
         try {
             TTNItem ttnItem = Document.mapper.treeToValue(jsonNode, TTNItem.class);
+            ttnItem.generateId();
             items.add(ttnItem);
 
             if (blDiemNode != null) {
