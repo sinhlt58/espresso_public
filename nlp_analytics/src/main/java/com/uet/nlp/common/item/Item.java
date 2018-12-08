@@ -1,9 +1,7 @@
 package com.uet.nlp.common.item;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSetter;
 
 import org.apache.commons.codec.digest.DigestUtils;
 

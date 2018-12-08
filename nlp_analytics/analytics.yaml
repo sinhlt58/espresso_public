@@ -15,7 +15,7 @@ config:
 
   es.analysis.status.field: "analysis_status"
   es.analysis.done: "DONE"
-  es.analysis.max.hit: 35
+  es.analysis.max.hit: 1
 
   # Write after analysis
   es.indexer.addresses: "localhost:9200"

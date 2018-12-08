@@ -17,8 +17,8 @@
 
 package com.uet.nlp.indexing;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -29,10 +29,9 @@ import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Tuple;
 import org.elasticsearch.action.DocWriteRequest;
-import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.update.UpdateRequest;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkProcessor;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
@@ -43,14 +42,10 @@ import org.slf4j.LoggerFactory;
 
 import com.digitalpebble.stormcrawler.elasticsearch.ElasticSearchConnection;
 import com.digitalpebble.stormcrawler.util.ConfUtils;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
-import com.uet.nlp.common.Document;
-import com.uet.nlp.common.item.Item;
-
 
 @SuppressWarnings("serial")
 public class StatusUpdateBolt extends BaseRichBolt implements
@@ -125,7 +120,6 @@ public class StatusUpdateBolt extends BaseRichBolt implements
         try {
             LOG.info("inside status update bolt");
             String docId = (String) tuple.getValueByField("docId");
-            Document doc = (Document) tuple.getValueByField("doc");
             
             XContentBuilder builder = jsonBuilder().startObject();
             builder.field(analysisStatusField, analysisStatusDone);
@@ -135,12 +129,24 @@ public class StatusUpdateBolt extends BaseRichBolt implements
                                 .doc(builder);
 
             connection.getProcessor().add(updateRequest);
-            // _collector.ack(tuple);
+            ack(tuple, docId);
 
         } catch (Exception e) {
             LOG.error("Error sending log tuple to ES", e);
             // do not send to status stream so that it gets replayed
             _collector.fail(tuple);
+        }
+    }
+
+    public void ack(Tuple tuple, String id) {
+        synchronized(waitAck) {
+            List<Tuple> tt = waitAck.getIfPresent(id);
+            if (tt == null) {
+                tt = new LinkedList<>();
+            }
+            tt.add(tuple);
+            waitAck.put(id, tt);
+            LOG.debug("Added to waitAck with ID {} total {}", id, tt.size());
         }
     }
 
@@ -162,18 +168,85 @@ public class StatusUpdateBolt extends BaseRichBolt implements
 
     @Override
     public void beforeBulk(long executionId, BulkRequest request) {
-
+        LOG.debug("beforeBulk {} with {} actions", executionId,
+                request.numberOfActions());
     }
 
     @Override
     public void afterBulk(long executionId, BulkRequest request, BulkResponse response) {
-        LOG.info("afterBulk successfull: {}", response.toString());
-        LOG.info("afterBulk successfull: {}", response.getItems()[0].toString());
+        long msec = response.getTook().getMillis();
+        LOG.debug("afterBulk [{}] with {} responses, took {}ms", executionId,
+                request.numberOfActions(), msec);
+        Iterator<BulkItemResponse> bulkitemiterator = response.iterator();
+        int itemcount = 0;
+        int acked = 0;
+        int failurecount = 0;
+
+        synchronized (waitAck) {
+            while (bulkitemiterator.hasNext()) {
+                BulkItemResponse bir = bulkitemiterator.next();
+                itemcount++;
+                String id = bir.getId();
+                BulkItemResponse.Failure f = bir.getFailure();
+                boolean failed = false;
+                if (f != null) {
+                    failed = true;
+                }
+                List<Tuple> xx = waitAck.getIfPresent(id);
+                if (xx != null) {
+                    LOG.debug("Acked {} tuple(s) for ID {}", xx.size(), id);
+                    for (Tuple x : xx) {
+                        if (!failed) {
+                            acked++;
+                            _collector.ack(x);
+                        } else {
+                            failurecount++;
+                            _collector.fail(x);
+                        }
+                    }
+                    waitAck.invalidate(id);
+                } else {
+                    LOG.warn("Could not find unacked tuple for {}", id);
+                }
+            }
+
+            LOG.info(
+                    "Bulk response [{}] : items {}, waitAck {}, acked {}, failed {}",
+                    executionId, itemcount, waitAck.size(), acked, failurecount);
+            if (waitAck.size() > 0 && LOG.isDebugEnabled()) {
+                for (String kinaw : waitAck.asMap().keySet()) {
+                    LOG.debug(
+                            "Still in wait ack after bulk response [{}] => {}",
+                            executionId, kinaw);
+                }
+            }
+        }
     }
 
     @Override
-	public void afterBulk(long executionId, BulkRequest request, Throwable failure) {
-        LOG.info("afterBulk fail: {}", failure.toString());
+	public void afterBulk(long executionId, BulkRequest request, Throwable throwable) {
+        LOG.error("Exception with bulk {} - failing the whole lot ",
+                executionId, throwable);
+        synchronized (waitAck) {
+            // WHOLE BULK FAILED
+            // mark all the docs as fail
+            Iterator<DocWriteRequest> itreq = request.requests().iterator();
+            while (itreq.hasNext()) {
+                DocWriteRequest bir = itreq.next();
+                String id = bir.id();
+                List<Tuple> xx = waitAck.getIfPresent(id);
+                if (xx != null) {
+                    LOG.debug("Failed {} tuple(s) for ID {}", xx.size(), id);
+                    for (Tuple x : xx) {
+                        // fail it
+                        _collector.fail(x);
+                    }
+                    waitAck.invalidate(id);
+                } else {
+                    LOG.warn("Could not find unacked tuple for {}", id);
+                }
+            }
+        }
 	}
 
 }
