@@ -118,8 +118,8 @@ public class StatusUpdateBolt extends BaseRichBolt implements
     public void execute(Tuple tuple) {
 
         try {
-            LOG.info("inside status update bolt");
             String docId = (String) tuple.getValueByField("docId");
+            LOG.info("docId: {}", docId);
             
             XContentBuilder builder = jsonBuilder().startObject();
             builder.field(analysisStatusField, analysisStatusDone);

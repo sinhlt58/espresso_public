@@ -4,7 +4,7 @@ config:
   topology.workers: 1
 
   # spout read from ES
-  spout.min.delay.queries: 500000
+  spout.min.delay.queries: 1000
   spout.ttl.purgatory: 30
 
   es.analysis.addresses: "localhost:9200"
@@ -14,8 +14,8 @@ config:
   #es.analysis.password: "PASSWORD"
 
   es.analysis.status.field: "analysis_status"
-  es.analysis.done: "DONE"
-  es.analysis.max.hit: 1
+  es.analysis.done: "done"
+  es.analysis.max.hit: 30
 
   # Write after analysis
   es.indexer.addresses: "localhost:9200"

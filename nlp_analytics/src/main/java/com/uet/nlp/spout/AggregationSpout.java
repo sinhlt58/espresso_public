@@ -84,12 +84,12 @@ public class AggregationSpout extends AbstractSpout implements
         QueryBuilder queryBuilder = QueryBuilders.boolQuery()
                                         .should(QueryBuilders.boolQuery()
                                                     .must(QueryBuilders.existsQuery(analysisStatusField))
-                                                    .must(QueryBuilders.matchQuery(analysisStatusField, analysisStatusDone)))
+                                                    .must(QueryBuilders.boolQuery()
+                                                            .mustNot(QueryBuilders.termQuery(analysisStatusField, analysisStatusDone))))
                                         .should(QueryBuilders.boolQuery()
                                                     .mustNot(QueryBuilders
                                                                 .existsQuery(analysisStatusField)));
 
-        LOG.info("indexName: {}", indexName);
         SearchRequest request = new SearchRequest(indexName).types(docType)
                 .searchType(SearchType.QUERY_THEN_FETCH);
 
