@@ -1,5 +1,5 @@
 {
     "port": 2222,
     "nlp_sentiment_url": "http://localhost:8501/v1/models/predict_score:predict",
-    "elasticsearch_url": "http://data-espresso-es.localtunnel.me/"
+    "elasticsearch_url": "http://103.220.68.79:9200/"
 }
