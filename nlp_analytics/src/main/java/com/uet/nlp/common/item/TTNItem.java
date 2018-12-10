@@ -13,14 +13,14 @@ public class TTNItem extends Item {
     public String deliverFrom;
 
     // calculated fields
-    public String uploadTime;
+    public long uploadTime;
 
     public TTNItem() {
         itemType = "product";
     }
 
     public void normalize() {
-        
+        uploadTime = Long.parseLong(crawlTime);
     }
 
     public void generateId() {

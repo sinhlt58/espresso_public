@@ -20,6 +20,14 @@ public class Review extends Item {
     }
 
     public void normalize() {
+        date = normalizeDate(date);
+
         super.generateId(url + domain + author + rate + date);
+    }
+
+    public String normalizeDate(String date) {
+        /* YOUR CODE HERE */
+        return date;
+        /* YOUR CODE HERE */
     }
 }

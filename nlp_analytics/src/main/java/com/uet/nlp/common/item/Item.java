@@ -20,10 +20,10 @@ public class Item {
     // calculated fields
     public String id;
     public String itemType;
-    public String createdTime;
+    public long createdTime;
 
     public Item() {
-        
+        createdTime = System.currentTimeMillis();
     }
 
     public void normalize() {

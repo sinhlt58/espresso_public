@@ -119,7 +119,6 @@ public class StatusUpdateBolt extends BaseRichBolt implements
 
         try {
             String docId = (String) tuple.getValueByField("docId");
-            LOG.info("docId: {}", docId);
             
             XContentBuilder builder = jsonBuilder().startObject();
             builder.field(analysisStatusField, analysisStatusDone);
