@@ -36,7 +36,7 @@ config:
 spouts:
   - id: "spout"
     className: "com.uet.nlp.spout.AggregationSpout"
-    parallelism: 3
+    parallelism: 1
 
 bolts:
   - id: "preprocessreview"
