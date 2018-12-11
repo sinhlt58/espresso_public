@@ -28,6 +28,7 @@ bolts:
     properties:
       - name: "apiJsUrl"
         value: "http://localhost:3000/api/v1/viewDom?url="
+        
   - id: "sitemap"
     className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
     parallelism: 2
