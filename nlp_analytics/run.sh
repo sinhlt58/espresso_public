@@ -19,7 +19,7 @@ fi
 
 if [ "$1" = "local" ]
 then
-    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local analytics.yaml --sleep 864000000
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local analytics.local.yaml --sleep 864000000
 fi
 
 if [ "$1" = "remote" ]
