@@ -34,8 +34,8 @@ import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Values;
 import org.apache.storm.utils.Utils;
 
-import com.digitalpebble.stormcrawler.util.CollectionMetric;
-import com.digitalpebble.stormcrawler.util.ConfUtils;
+import com.uet.crawling.social.util.CollectionMetric;
+import com.uet.crawling.social.util.ConfUtils;
 import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

@@ -19,10 +19,10 @@ fi
 
 if [ "$1" = "local" ]
 then
-    storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local crawl_fb.yaml --sleep 864000000
+    storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawl-fb.flux --sleep 864000000
 fi
 
 if [ "$1" = "remote" ]
 then
-    storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote crawl_fb.yaml
+    storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawl-fb.flux
 fi

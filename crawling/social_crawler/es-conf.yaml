@@ -1,4 +1,3 @@
-name: "crawl_fb"
 
 config:
   # ES indexer bolt
@@ -48,9 +47,9 @@ config:
   spout.reset.fetchdate.after: 120
 
   es.status.max.buckets: 100
-  es.status.max.urls.per.bucket: 20
+  es.status.max.nodes.per.bucket: 20
   # field to group the URLs into buckets
-  es.status.bucket.field: "metadata.hostname"
+  es.status.bucket.field: "metadata.type"
   # field to sort the URLs within a bucket
   es.status.bucket.sort.field: "nextFetchDate"
   # field to sort the buckets
@@ -67,54 +66,3 @@ config:
   es.status.recentDate.increase: -1
   es.status.recentDate.min.gap: -1
 
-
-  topology.workers: 1
-  fb.access.token: 264533924376104%7C4xZUVgjCM0hQvNLkFQ-bxH9qtNU
-
-spouts:
-  - id: "spout"
-    className: "com.uet.crawling.social.spout.AggregationSpout"
-    parallelism: 1
-
-bolts:
-  - id: "fetcher"
-    className: "com.uet.crawling.social.PreprocessReviewBolt"
-    parallelism: 3
-
-  # - id: "parse"
-  #   className: "com.uet.crawling.social.NormalizerBolt"
-  #   parallelism: 3
-
-  # - id: "index"
-  #   className: "com.uet.crawling.social.RemoveDuplicateBolt"
-  #   parallelism: 3
-
-  # - id: "status"
-  #   className: "com.uet.crawling.social.IndexerBolt"
-  #   parallelism: 3
-
-streams:
-  - from: "spout"
-    to: "fetcher"
-    grouping:
-      type: SHUFFLE
-
-  # - from: "fetcher"
-  #   to: "parse"
-  #   grouping:
-  #     type: SHUFFLE
-
-  # - from: "parse"
-  #   to: "index"
-  #   grouping:
-  #     type: SHUFFLE
-
-  # - from: "removeduplicate"
-  #   to: "indexer"
-  #   grouping:
-  #     type: SHUFFLE
-
-  # - from: "indexer"
-  #   to: "status"
-  #   grouping:
-  #     type: SHUFFLE

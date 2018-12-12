@@ -18,7 +18,6 @@
 package com.uet.crawling.social.bolt;
 
 import java.io.File;
-import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
@@ -27,10 +26,12 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+// import com.digitalpebble.stormcrawler.protocol.ProtocolFactory;
+import com.restfb.*;
+import com.restfb.types.Page;
+import com.uet.crawling.social.facebook.entity.SearchPage;
 import org.apache.commons.lang.StringUtils;
 import org.apache.storm.Config;
-import org.apache.storm.metric.api.MultiCountMetric;
-import org.apache.storm.metric.api.MultiReducedMetric;
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
@@ -39,18 +40,12 @@ import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
 import org.slf4j.LoggerFactory;
 
-import com.digitalpebble.stormcrawler.Constants;
-import com.digitalpebble.stormcrawler.Metadata;
-import com.digitalpebble.stormcrawler.persistence.Status;
-import com.digitalpebble.stormcrawler.protocol.HttpHeaders;
-import com.digitalpebble.stormcrawler.protocol.Protocol;
-import com.digitalpebble.stormcrawler.protocol.ProtocolFactory;
-import com.digitalpebble.stormcrawler.protocol.ProtocolResponse;
-import com.digitalpebble.stormcrawler.protocol.RobotRules;
-import com.digitalpebble.stormcrawler.util.ConfUtils;
-
-import crawlercommons.domains.PaidLevelDomain;
-import crawlercommons.robots.BaseRobotRules;
+import com.uet.crawling.social.Constants;
+import com.uet.crawling.social.Metadata;
+import com.uet.crawling.social.facebook.FBClient;
+// can chinh lai neu dung voi restfb
+import com.uet.crawling.social.persistence.Status;
+import com.uet.crawling.social.util.ConfUtils;
 
 /**
  * A multithreaded, queue-based fetcher adapted from Apache Nutch. Enforces the
@@ -61,6 +56,10 @@ public class FetcherBolt extends StatusEmitterBolt{
 
     private static final org.slf4j.Logger LOG = LoggerFactory
             .getLogger(FetcherBolt.class);
+
+    // conganh add
+    private FBClient fbClient = null;
+    // end conganh
 
     // conganh comment
     // private static final String SITEMAP_DISCOVERY_PARAM_KEY = "sitemap.discovery";
@@ -74,7 +73,7 @@ public class FetcherBolt extends StatusEmitterBolt{
     // private MultiCountMetric eventCounter;
     // private MultiReducedMetric averagedMetrics;
 
-    private ProtocolFactory protocolFactory;
+    // private ProtocolFactory protocolFactory;
 
     private int taskID = -1;
 
@@ -85,7 +84,7 @@ public class FetcherBolt extends StatusEmitterBolt{
     private File debugfiletrigger;
 
     /** blocks the processing of new URLs if this value is reached **/
-    private int maxNumberURLsInQueues = -1;
+    private int maxNumberNodeInQueues = -1;
 
     private String[] beingFetched;
 
@@ -95,12 +94,12 @@ public class FetcherBolt extends StatusEmitterBolt{
     private static class FetchItem {
 
         String queueID;
-        String url;
+        String node;
         Tuple t;
         long creationTime;
 
-        public FetchItem(String url, Tuple t, String queueID) {
-            this.url = url;
+        public FetchItem(String node, Tuple t, String queueID) {
+            this.node = node;
             this.queueID = queueID;
             this.t = t;
             this.creationTime = System.currentTimeMillis();
@@ -112,54 +111,66 @@ public class FetcherBolt extends StatusEmitterBolt{
          * pair, protocol + IP address pair or protocol+domain pair.
          */
 
-        public static FetchItem create(URL u, Tuple t, String queueMode) {
+        public static FetchItem create(String node, Tuple t/*, String queueMode*/) {
 
-            String queueID;
+            String queueID = null;
 
-            String url = u.toExternalForm();
+            // conganh add
+            if(t.contains("metadata")){
+                Metadata metadata = (Metadata) t.getValueByField("metadata");
+                queueID = metadata.getFirstValue("type");
+            }
+            // end conganh
 
-            String key = null;
+
+            // conganh comment
+            // String key = null;
+
             // reuse any key that might have been given
             // be it the hostname, domain or IP
-            if (t.contains("key")) {
-                key = t.getStringByField("key");
-            }
-            if (StringUtils.isNotBlank(key)) {
-                queueID = key.toLowerCase(Locale.ROOT);
-                return new FetchItem(url, t, queueID);
-            }
+            // if (t.contains("key")) {
+            //     key = t.getStringByField("key");
+            // }
+            // if (StringUtils.isNotBlank(key)) {
+            //     queueID = key.toLowerCase(Locale.ROOT);
+            //     return new FetchItem(node, t, queueID);
+            // }
 
-            if (FetchItemQueues.QUEUE_MODE_IP.equalsIgnoreCase(queueMode)) {
-                try {
-                    final InetAddress addr = InetAddress.getByName(u.getHost());
-                    key = addr.getHostAddress();
-                } catch (final UnknownHostException e) {
-                    LOG.warn(
-                            "Unable to resolve IP for {}, using hostname as key.",
-                            u.getHost());
-                    key = u.getHost();
-                }
-            } else if (FetchItemQueues.QUEUE_MODE_DOMAIN
-                    .equalsIgnoreCase(queueMode)) {
-                key = PaidLevelDomain.getPLD(u.getHost());
-                if (key == null) {
-                    LOG.warn(
-                            "Unknown domain for url: {}, using hostname as key",
-                            url);
-                    key = u.getHost();
-                }
-            } else {
-                key = u.getHost();
-            }
+            // if (FetchItemQueues.QUEUE_MODE_IP.equalsIgnoreCase(queueMode)) {
+            //     try {
+            //         final InetAddress addr = InetAddress.getByName(u.getHost());
+            //         key = addr.getHostAddress();
+            //     } catch (final UnknownHostException e) {
+            //         LOG.warn(
+            //                 "Unable to resolve IP for {}, using hostname as key.",
+            //                 u.getHost());
+            //         key = u.getHost();
+            //     }
+            // } else if (FetchItemQueues.QUEUE_MODE_DOMAIN
+            //         .equalsIgnoreCase(queueMode)) {
+            //     key = PaidLevelDomain.getPLD(u.getHost());
+            //     if (key == null) {
+            //         LOG.warn(
+            //                 "Unknown domain for url: {}, using hostname as key",
+            //                 url);
+            //         key = u.getHost();
+            //     }
+            // } else {
+            //     key = u.getHost();
+            // }
 
-            if (key == null) {
-                LOG.warn("Unknown host for url: {}, using URL string as key",
-                        url);
-                key = u.toExternalForm();
-            }
+            // if (key == null) {
+            //     LOG.warn("Unknown host for url: {}, using URL string as key",
+            //             url);
+            //     key = u.toExternalForm();
+            // }
 
-            queueID = key.toLowerCase(Locale.ROOT);
-            return new FetchItem(url, t, queueID);
+            // queueID = key.toLowerCase(Locale.ROOT);
+
+            // conganh add
+            queueID = t.getStringByField("node");
+            // end conganh
+            return new FetchItem(node, t, queueID);
         }
 
     }
@@ -249,27 +260,30 @@ public class FetcherBolt extends StatusEmitterBolt{
 
         final Config conf;
 
-        public static final String QUEUE_MODE_HOST = "byHost";
-        public static final String QUEUE_MODE_DOMAIN = "byDomain";
-        public static final String QUEUE_MODE_IP = "byIP";
+        // conganh comment
+        // public static final String QUEUE_MODE_HOST = "byHost";
+        // public static final String QUEUE_MODE_DOMAIN = "byDomain";
+        // public static final String QUEUE_MODE_IP = "byIP";
 
-        String queueMode;
+        // String queueMode;
 
         public FetchItemQueues(Config conf) {
             this.conf = conf;
             this.defaultMaxThread = ConfUtils.getInt(conf,
                     "fetcher.threads.per.queue", 1);
-            queueMode = ConfUtils.getString(conf, "fetcher.queue.mode",
-                    QUEUE_MODE_HOST);
-            // check that the mode is known
-            if (!queueMode.equals(QUEUE_MODE_IP)
-                    && !queueMode.equals(QUEUE_MODE_DOMAIN)
-                    && !queueMode.equals(QUEUE_MODE_HOST)) {
-                LOG.error("Unknown partition mode : {} - forcing to byHost",
-                        queueMode);
-                queueMode = QUEUE_MODE_HOST;
-            }
-            LOG.info("Using queue mode : {}", queueMode);
+
+            // conganh comment
+            // queueMode = ConfUtils.getString(conf, "fetcher.queue.mode",
+            //         QUEUE_MODE_HOST);
+            // // check that the mode is known
+            // if (!queueMode.equals(QUEUE_MODE_IP)
+            //         && !queueMode.equals(QUEUE_MODE_DOMAIN)
+            //         && !queueMode.equals(QUEUE_MODE_HOST)) {
+            //     LOG.error("Unknown partition mode : {} - forcing to byHost",
+            //             queueMode);
+            //     queueMode = QUEUE_MODE_HOST;
+            // }
+            // LOG.info("Using queue mode : {}", queueMode);
 
             this.crawlDelay = (long) (ConfUtils.getFloat(conf,
                     "fetcher.server.delay", 1.0f) * 1000);
@@ -283,8 +297,8 @@ public class FetcherBolt extends StatusEmitterBolt{
         }
 
         /** @return true if the URL has been added, false otherwise **/
-        public synchronized boolean addFetchItem(URL u, Tuple input) {
-            FetchItem it = FetchItem.create(u, input, queueMode);
+        public synchronized boolean addFetchItem(String node, Tuple input) {
+            FetchItem it = FetchItem.create(node, input/*, queueMode*/);
             FetchItemQueue fiq = getFetchItemQueue(it.queueID);
             boolean added = fiq.addFetchItem(it);
             if (added) {
@@ -419,7 +433,7 @@ public class FetcherBolt extends StatusEmitterBolt{
 
                 activeThreads.incrementAndGet(); // count threads
 
-                beingFetched[threadNum] = fit.url;
+                beingFetched[threadNum] = fit.node;
 
                 LOG.debug(
                         "[Fetcher #{}] {}  => activeThreads={}, spinWaiting={}, queueID={}",
@@ -427,7 +441,7 @@ public class FetcherBolt extends StatusEmitterBolt{
                         fit.queueID);
 
                 LOG.debug("[Fetcher #{}] {} : Fetching {}", taskID, getName(),
-                        fit.url);
+                        fit.node);
 
                 Metadata metadata = null;
 
@@ -441,17 +455,18 @@ public class FetcherBolt extends StatusEmitterBolt{
                 boolean asap = false;
 
                 try {
-                    URL URL = new URL(fit.url);
-                    Protocol protocol = protocolFactory.getProtocol(URL);
 
-                    if (protocol == null)
-                        throw new RuntimeException(
-                                "No protocol implementation found for "
-                                        + fit.url);
+                    // conganh comments
+                    // URL URL = new URL(fit.url);
+                    // Protocol protocol = protocolFactory.getProtocol(URL);
 
-                    BaseRobotRules rules = protocol.getRobotRules(fit.url);
+                    // if (protocol == null)
+                    //     throw new RuntimeException(
+                    //             "No protocol implementation found for "
+                    //                     + fit.url);
 
-                    // conganh comment
+                    // BaseRobotRules rules = protocol.getRobotRules(fit.url);
+
                     // boolean fromCache = false;
                     // if (rules instanceof RobotRules
                     //         && ((RobotRules) rules).getContentLengthFetched().length == 0) {
@@ -507,60 +522,85 @@ public class FetcherBolt extends StatusEmitterBolt{
                     //     asap = true;
                     //     continue;
                     // }
+
+                    // conganh add
+                    String type = metadata.getFirstValue("type");
+                    switch (type) {
+                        case Constants.NodeTypeSearchPages:
+//                            SearchPage searchPage = new SearchPage();
+//                            fbClient.logToken();
+//                            searchPage.search(fbClient.getClient(), fit.node, 100);
+                            FacebookClient client = new DefaultFacebookClient("264533924376104|4xZUVgjCM0hQvNLkFQ-bxH9qtNU", Version.LATEST);
+                            Connection<Page> pagesConnection = client.fetchConnection("pages/search", Page.class,
+                                    Parameter.with("q", fit.node),
+                                    Parameter.with("limit", 100)
+                            );
+                            for (List<Page> pages : pagesConnection) {
+                                for (Page page : pages) {
+                                    LOG.info("ID page: {}, Name: {}", page.getId(), page.getName());
+                                }
+                            }
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                    // end conganh
+                    
                     
                     FetchItemQueue fiq = fetchQueues
                             .getFetchItemQueue(fit.queueID);
-                    if (rules.getCrawlDelay() > 0
-                            && rules.getCrawlDelay() != fiq.crawlDelay) {
-                        if (rules.getCrawlDelay() > maxCrawlDelay
-                                && maxCrawlDelay >= 0) {
-                            boolean force = false;
-                            String msg = "skipping";
-                            if (maxCrawlDelayForce) {
-                                force = true;
-                                msg = "using value of fetcher.max.crawl.delay instead";
-                            }
-                            LOG.info("Crawl-Delay for {} too long ({}), {}",
-                                    fit.url, rules.getCrawlDelay(), msg);
-                            if (force) {
-                                fiq.crawlDelay = maxCrawlDelay;
-                            } else {
-                                // pass the info about crawl delay
-                                metadata.setValue(Constants.STATUS_ERROR_CAUSE,
-                                        "crawl_delay");
-                                collector
-                                        .emit(com.digitalpebble.stormcrawler.Constants.StatusStreamName,
-                                                fit.t, new Values(fit.url,
-                                                        metadata, Status.ERROR));
-                                // no need to wait next time as we won't request
-                                // from that site
-                                asap = true;
-                                continue;
-                            }
-                        } else if (rules.getCrawlDelay() < fetchQueues.crawlDelay
-                                && crawlDelayForce) {
-                            fiq.crawlDelay = fetchQueues.crawlDelay;
-                            LOG.info(
-                                    "Crawl delay for {} too short ({}), set to fetcher.server.delay",
-                                    fit.url, rules.getCrawlDelay());
-                        } else {
-                            fiq.crawlDelay = rules.getCrawlDelay();
-                            LOG.info(
-                                    "Crawl delay for queue: {}  is set to {} as per robots.txt. url: {}",
-                                    fit.queueID, fiq.crawlDelay, fit.url);
-                        }
-                    }
+                    // if (rules.getCrawlDelay() > 0
+                    //         && rules.getCrawlDelay() != fiq.crawlDelay) {
+                    //     if (rules.getCrawlDelay() > maxCrawlDelay
+                    //             && maxCrawlDelay >= 0) {
+                    //         boolean force = false;
+                    //         String msg = "skipping";
+                    //         if (maxCrawlDelayForce) {
+                    //             force = true;
+                    //             msg = "using value of fetcher.max.crawl.delay instead";
+                    //         }
+                    //         LOG.info("Crawl-Delay for {} too long ({}), {}",
+                    //                 fit.node, rules.getCrawlDelay(), msg);
+                    //         if (force) {
+                    //             fiq.crawlDelay = maxCrawlDelay;
+                    //         } else {
+                    //             // pass the info about crawl delay
+                    //             metadata.setValue(Constants.STATUS_ERROR_CAUSE,
+                    //                     "crawl_delay");
+                    //             collector
+                    //                     .emit(com.digitalpebble.stormcrawler.Constants.StatusStreamName,
+                    //                             fit.t, new Values(fit.node,
+                    //                                     metadata, Status.ERROR));
+                    //             // no need to wait next time as we won't request
+                    //             // from that site
+                    //             asap = true;
+                    //             continue;
+                    //         }
+                    //     } else if (rules.getCrawlDelay() < fetchQueues.crawlDelay
+                    //             && crawlDelayForce) {
+                    //         fiq.crawlDelay = fetchQueues.crawlDelay;
+                    //         LOG.info(
+                    //                 "Crawl delay for {} too short ({}), set to fetcher.server.delay",
+                    //                 fit.node, rules.getCrawlDelay());
+                    //     } else {
+                    //         fiq.crawlDelay = rules.getCrawlDelay();
+                    //         LOG.info(
+                    //                 "Crawl delay for queue: {}  is set to {} as per robots.txt. url: {}",
+                    //                 fit.queueID, fiq.crawlDelay, fit.node);
+                    //     }
+                    // }
 
                     long start = System.currentTimeMillis();
                     long timeInQueues = start - fit.creationTime;
 
-                    ProtocolResponse response = protocol.getProtocolOutput(
-                           fit.url, metadata);
+                    // ProtocolResponse response = protocol.getProtocolOutput(
+                    //        fit.url, metadata);
 
 
                     long timeFetching = System.currentTimeMillis() - start;
 
-                    final int byteLength = response.getContent().length;
+                    // final int byteLength = response.getContent().length;
 
                     // conganh comment
                     // averagedMetrics.scope("fetch_time").update(timeFetching);
@@ -573,77 +613,81 @@ public class FetcherBolt extends StatusEmitterBolt{
                     // eventCounter.scope("fetched").incrBy(1);
                     // eventCounter.scope("bytes_fetched").incrBy(byteLength);
 
-                    LOG.info(
-                            "[Fetcher #{}] Fetched {} with status {} in msec {}",
-                            taskID, fit.url, response.getStatusCode(),
-                            timeFetching);
+//                    LOG.info(
+//                            "[Fetcher #{}] Fetched {} with status {} in msec {}",
+//                            taskID, fit.node, response.getStatusCode(),
+//                            timeFetching);
 
                     // merges the original MD and the ones returned by the
                     // protocol
-                    Metadata mergedMD = new Metadata();
-                    mergedMD.putAll(metadata);
-                    mergedMD.putAll(response.getMetadata());
 
-                    mergedMD.setValue("fetch.statusCode",
-                            Integer.toString(response.getStatusCode()));
 
-                    mergedMD.setValue("fetch.byteLength",
-                            Integer.toString(byteLength));
+                    // Metadata mergedMD = new Metadata();
+                    // mergedMD.putAll(metadata);
+                    // mergedMD.putAll(response.getMetadata());
 
-                    mergedMD.setValue("fetch.loadingTime",
-                            Long.toString(timeFetching));
+                    // mergedMD.setValue("fetch.statusCode",
+                    //         Integer.toString(response.getStatusCode()));
 
-                    mergedMD.setValue("fetch.timeInQueues",
-                            Long.toString(timeInQueues));
+                    // mergedMD.setValue("fetch.byteLength",
+                    //         Integer.toString(byteLength));
 
-                    // determine the status based on the status code
-                    final Status status = Status.fromHTTPCode(response
-                            .getStatusCode());
+                    // mergedMD.setValue("fetch.loadingTime",
+                    //         Long.toString(timeFetching));
 
-                    final Values tupleToSend = new Values(fit.url, mergedMD,
-                            status);
+                    // mergedMD.setValue("fetch.timeInQueues",
+                    //         Long.toString(timeInQueues));
 
-                    // if the status is OK emit on default stream
-                    if (status.equals(Status.FETCHED)) {
-                        if (response.getStatusCode() == 304) {
-                            // mark this URL as fetched so that it gets
-                            // rescheduled
-                            // but do not try to parse or index
-                            collector.emit(Constants.StatusStreamName, fit.t,
-                                    tupleToSend);
-                        } else {
-                            // send content for parsing
-                            collector.emit(fit.t,
-                                    new Values(fit.url, response.getContent(),
-                                            mergedMD));
-                        }
-                    } else if (status.equals(Status.REDIRECTION)) {
+                    // // determine the status based on the status code
+                    // final Status status = Status.fromHTTPCode(response
+                    //         .getStatusCode());
 
-                        // find the URL it redirects to
-                        String redirection = response.getMetadata()
-                                .getFirstValue(HttpHeaders.LOCATION);
+                    // final Values tupleToSend = new Values(fit.node, mergedMD,
+                    //         status);
 
-                        // stores the URL it redirects to
-                        // used for debugging mainly - do not resolve the target
-                        // URL
-                        if (StringUtils.isNotBlank(redirection)) {
-                            mergedMD.setValue("_redirTo", redirection);
-                        }
+                    // // if the status is OK emit on default stream
+                    // if (status.equals(Status.FETCHED)) {
+                    //     if (response.getStatusCode() == 304) {
+                    //         // mark this URL as fetched so that it gets
+                    //         // rescheduled
+                    //         // but do not try to parse or index
+                    //         collector.emit(Constants.StatusStreamName, fit.t,
+                    //                 tupleToSend);
+                    //     } else {
+                    //         // send content for parsing
+                    //         collector.emit(fit.t,
+                    //                 new Values(fit.node, response.getContent(),
+                    //                         mergedMD));
+                    //     }
+                    // } else if (status.equals(Status.REDIRECTION)) {
 
-                        // mark this URL as redirected
-                        collector.emit(Constants.StatusStreamName, fit.t,
-                                tupleToSend);
+                    //     // find the URL it redirects to
+                    //     String redirection = response.getMetadata()
+                    //             .getFirstValue(HttpHeaders.LOCATION);
 
-                        if (allowRedirs()
-                                && StringUtils.isNotBlank(redirection)) {
-                            emitOutlink(fit.t, URL, redirection, mergedMD);
-                        }
-                    }
-                    // error
-                    else {
-                        collector.emit(Constants.StatusStreamName, fit.t,
-                                tupleToSend);
-                    }
+                    //     // stores the URL it redirects to
+                    //     // used for debugging mainly - do not resolve the target
+                    //     // URL
+                    //     if (StringUtils.isNotBlank(redirection)) {
+                    //         mergedMD.setValue("_redirTo", redirection);
+                    //     }
+
+                    //     // mark this URL as redirected
+                    //     collector.emit(Constants.StatusStreamName, fit.t,
+                    //             tupleToSend);
+
+                    //     if (allowRedirs()
+                    //             && StringUtils.isNotBlank(redirection)) {
+                    //         emitOutlink(fit.t, URL, redirection, mergedMD);
+                    //     }
+                    // }
+                    // // error
+                    // else {
+                    //     collector.emit(Constants.StatusStreamName, fit.t,
+                    //             tupleToSend);
+                    // }
+
+                    LOG.info("node: {}", fit.node);
 
                 } catch (Exception exece) {
                     String message = exece.getMessage();
@@ -653,14 +697,14 @@ public class FetcherBolt extends StatusEmitterBolt{
                     // common exceptions for which we log only a short message
                     if (exece.getCause() instanceof java.util.concurrent.TimeoutException
                             || message.contains(" timed out")) {
-                        LOG.error("Socket timeout fetching {}", fit.url);
+                        LOG.error("Socket timeout fetching {}", fit.node);
                         message = "Socket timeout fetching";
                     } else if (exece.getCause() instanceof java.net.UnknownHostException
                             || exece instanceof java.net.UnknownHostException) {
-                        LOG.error("Unknown host {}", fit.url);
-                        message = "Unknown host";
+                        LOG.error("Unknown Node {}", fit.node);
+                        message = "Unknown Node";
                     } else {
-                        LOG.error("Exception while fetching {}", fit.url, exece);
+                        LOG.error("Exception while fetching {}", fit.node, exece);
                         message = exece.getClass().getName();
                     }
 
@@ -672,7 +716,7 @@ public class FetcherBolt extends StatusEmitterBolt{
 
                     // send to status stream
                     collector.emit(Constants.StatusStreamName, fit.t,
-                            new Values(fit.url, metadata, Status.FETCH_ERROR));
+                            new Values(fit.node, metadata, Status.FETCH_ERROR));
 
                     // conganh comment
                     // eventCounter.scope("exception").incrBy(1);
@@ -713,13 +757,21 @@ public class FetcherBolt extends StatusEmitterBolt{
 
         checkConfiguration(conf);
 
+        // conganh add
+
+        String access_token = ConfUtils.getString(conf,
+                Constants.FB_ACCESS_TOKEN_ParamName, Constants.FB_ACCESS_TOKEN);
+        fbClient = new FBClient(access_token);
+        // end conganh
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
                 Locale.ENGLISH);
         long start = System.currentTimeMillis();
         LOG.info("[Fetcher #{}] : starting at {}", taskID, sdf.format(start));
 
-        int metricsTimeBucketSecs = ConfUtils.getInt(conf,
-                "fetcher.metrics.time.bucket.secs", 10);
+        // conganh comment
+        // int metricsTimeBucketSecs = ConfUtils.getInt(conf,
+        //         "fetcher.metrics.time.bucket.secs", 10);
 
         // Register a "MultiCountMetric" to count different events in this bolt
         // Storm will emit the counts every n seconds to a special bolt via a
@@ -761,7 +813,7 @@ public class FetcherBolt extends StatusEmitterBolt{
         //         new MultiReducedMetric(new PerSecondReducer()),
         //         metricsTimeBucketSecs);
 
-        protocolFactory = new ProtocolFactory(conf);
+        // protocolFactory = new ProtocolFactory(conf);
 
         this.fetchQueues = new FetchItemQueues(conf);
 
@@ -780,7 +832,7 @@ public class FetcherBolt extends StatusEmitterBolt{
         // sitemapsAutoDiscovery = ConfUtils.getBoolean(stormConf,
         //         SITEMAP_DISCOVERY_PARAM_KEY, false);
 
-        maxNumberURLsInQueues = ConfUtils.getInt(conf,
+        maxNumberNodeInQueues = ConfUtils.getInt(conf,
                 "fetcher.max.urls.in.queues", -1);
 
         /**
@@ -802,22 +854,22 @@ public class FetcherBolt extends StatusEmitterBolt{
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         super.declareOutputFields(declarer);
-        declarer.declare(new Fields("url", "content", "metadata"));
+        declarer.declare(new Fields("node", "content", "metadata"));
     }
 
     @Override
     public void cleanup() {
-        protocolFactory.cleanup();
+        // protocolFactory.cleanup();
     }
 
     @Override
     public void execute(Tuple input) {
-        boolean toomanyurlsinqueues = false;
+        boolean tooManyNodeInQueues = false;
         do {
-            if (this.maxNumberURLsInQueues != -1
+            if (this.maxNumberNodeInQueues != -1
                     && (this.activeThreads.get() + this.fetchQueues.inQueues
-                            .get()) >= maxNumberURLsInQueues) {
-                toomanyurlsinqueues = true;
+                            .get()) >= maxNumberNodeInQueues) {
+                tooManyNodeInQueues = true;
                 try {
                     Thread.sleep(500);
                 } catch (InterruptedException e) {
@@ -829,7 +881,7 @@ public class FetcherBolt extends StatusEmitterBolt{
                     taskID, this.activeThreads.get(),
                     this.fetchQueues.queues.size(),
                     this.fetchQueues.inQueues.get());
-        } while (toomanyurlsinqueues);
+        } while (tooManyNodeInQueues);
         
         // detect whether there is a file indicating that we should
         // dump the content of the queues to the log
@@ -839,36 +891,39 @@ public class FetcherBolt extends StatusEmitterBolt{
             debugfiletrigger.delete();
         }
 
-        String urlString = input.getStringByField("url");
-        URL url;
+        String node = input.getStringByField("node");
 
-        if (StringUtils.isBlank(urlString)) {
-            LOG.info("[Fetcher #{}] Missing value for field url in tuple {}",
+        // conganh comment
+        // URL url;
+
+        if (StringUtils.isBlank(node)) {
+            LOG.info("[Fetcher #{}] Missing value for field node in tuple {}",
                     taskID, input);
             // ignore silently
             collector.ack(input);
             return;
         }
 
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-            LOG.error("{} is a malformed URL", urlString);
+        // conganh comment
+        // try {
+        //     url = new URL(urlString);
+        // } catch (MalformedURLException e) {
+        //     LOG.error("{} is a malformed URL", urlString);
 
-            Metadata metadata = (Metadata) input.getValueByField("metadata");
-            if (metadata == null) {
-                metadata = new Metadata();
-            }
-            // Report to status stream and ack
-            metadata.setValue(Constants.STATUS_ERROR_CAUSE, "malformed URL");
-            collector.emit(
-                    com.digitalpebble.stormcrawler.Constants.StatusStreamName,
-                    input, new Values(urlString, metadata, Status.ERROR));
-            collector.ack(input);
-            return;
-        }
+        //     Metadata metadata = (Metadata) input.getValueByField("metadata");
+        //     if (metadata == null) {
+        //         metadata = new Metadata();
+        //     }
+        //     // Report to status stream and ack
+        //     metadata.setValue(Constants.STATUS_ERROR_CAUSE, "malformed URL");
+        //     collector.emit(
+        //             com.digitalpebble.stormcrawler.Constants.StatusStreamName,
+        //             input, new Values(urlString, metadata, Status.ERROR));
+        //     collector.ack(input);
+        //     return;
+        // }
 
-        boolean added = fetchQueues.addFetchItem(url, input);
+        boolean added = fetchQueues.addFetchItem(node, input);
         if (!added) {
             collector.fail(input);
         }
@@ -886,9 +941,9 @@ public class FetcherBolt extends StatusEmitterBolt{
                 FetchItemQueue fiq = entry.getValue();
                 sb.append("\t size : ").append(fiq.getQueueSize());
                 sb.append("\t in progress : ").append(fiq.getInProgressSize());
-                Iterator<FetchItem> urlsIter = fiq.queue.iterator();
-                while (urlsIter.hasNext()) {
-                    sb.append("\n\t").append(urlsIter.next().url);
+                Iterator<FetchItem> nodesIter = fiq.queue.iterator();
+                while (nodesIter.hasNext()) {
+                    sb.append("\n\t").append(nodesIter.next().node);
                 }
             }
             LOG.info("Dumping queue content {}", sb.toString());

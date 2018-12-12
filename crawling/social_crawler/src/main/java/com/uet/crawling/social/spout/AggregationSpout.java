@@ -58,15 +58,15 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.digitalpebble.stormcrawler.Metadata;
-import com.digitalpebble.stormcrawler.util.ConfUtils;
+import com.uet.crawling.social.Metadata;
+import com.uet.crawling.social.util.ConfUtils;
 
 /**
- * Spout which pulls URL from an ES index. Use a single instance unless you use
+ * Spout which pulls Node from an ES index. Use a single instance unless you use
  * 'es.status.routing' with the StatusUpdaterBolt, in which case you need to
  * have exactly the same number of spout instances as ES shards. Guarantees a
- * good mix of URLs by aggregating them by an arbitrary field e.g.
- * metadata.hostname.
+ * good mix of Nodes by aggregating them by an arbitrary field e.g.
+ * metadata.type.
  **/
 @SuppressWarnings("serial")
 public class AggregationSpout extends AbstractSpout implements
@@ -131,7 +131,7 @@ public class AggregationSpout extends AbstractSpout implements
                 .terms("partition").field(partitionField).size(maxBucketNum);
 
         TopHitsAggregationBuilder tophits = AggregationBuilders.topHits("docs")
-                .size(maxURLsPerBucket).explain(false);
+                .size(maxNodesPerBucket).explain(false);
         // sort within a bucket
         if (StringUtils.isNotBlank(bucketSortField)) {
             FieldSortBuilder sorter = SortBuilders.fieldSort(bucketSortField)
@@ -152,8 +152,8 @@ public class AggregationSpout extends AbstractSpout implements
         if (sample) {
             DiversifiedAggregationBuilder sab = new DiversifiedAggregationBuilder(
                     "sample");
-            sab.field(partitionField).maxDocsPerValue(maxURLsPerBucket);
-            sab.shardSize(maxURLsPerBucket * maxBucketNum);
+            sab.field(partitionField).maxDocsPerValue(maxNodesPerBucket);
+            sab.shardSize(maxNodesPerBucket * maxBucketNum);
             sab.subAggregation(aggregations);
             sourceBuilder.aggregation(sab);
         } else {
@@ -210,8 +210,7 @@ public class AggregationSpout extends AbstractSpout implements
 
         synchronized (buffer) {
             // For each entry
-            Iterator<Terms.Bucket> iterator = (Iterator<Bucket>) agg
-                    .getBuckets().iterator();
+            Iterator<Terms.Bucket> iterator = (Iterator<Bucket>) agg.getBuckets().iterator();
             while (iterator.hasNext()) {
                 Terms.Bucket entry = iterator.next();
                 String key = (String) entry.getKey(); // bucket key
@@ -219,7 +218,7 @@ public class AggregationSpout extends AbstractSpout implements
 
                 int hitsForThisBucket = 0;
 
-                // filter results so that we don't include URLs we are already
+                // filter results so that we don't include Nodes we are already
                 // being processed
                 TopHits topHits = entry.getAggregations().get("docs");
                 for (SearchHit hit : topHits.getHits().getHits()) {
@@ -233,13 +232,11 @@ public class AggregationSpout extends AbstractSpout implements
                     // consider only the first document of the last bucket
                     // for optimising the nextFetchDate
                     if (hitsForThisBucket == 1 && !iterator.hasNext()) {
-                        String strDate = (String) keyValues
-                                .get("nextFetchDate");
+                        String strDate = (String) keyValues.get("nextFetchDate");
                         try {
                             mostRecentDateFound = formatter.parse(strDate);
                         } catch (ParseException e) {
-                            throw new RuntimeException("can't parse date :"
-                                    + strDate);
+                            throw new RuntimeException("can't parse date :" + strDate);
                         }
                     }
 
@@ -262,9 +259,8 @@ public class AggregationSpout extends AbstractSpout implements
                         key, hitsForThisBucket, docCount, alreadyprocessed);
             }
 
-            // Shuffle the URLs so that we don't get blocks of URLs from the
-            // same
-            // host or domain
+            // Shuffle the Nodes so that we don't get blocks of Nodes from the
+            // same type
             Collections.shuffle((List) buffer);
         }
 

@@ -1,24 +1,54 @@
 ESHOST="http://localhost:9200"
 ESCREDENTIALS="-u elastic:passwordhere"
 
-# deletes and recreates a analysis index with a bespoke schema
+# deletes and recreates a fb_status index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/analysis/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/fb_status/" >  /dev/null
 
-echo "Deleted analysis index"
+echo "Deleted status index"
 
-echo "Creating analysis index with mapping"
+# http://localhost:9200/fb_status/_mapping/status?pretty
 
-curl $ESCREDENTIALS -s -XPUT $ESHOST/analysis -H 'Content-Type: application/json' -d '
+echo "Creating fb_status index with mapping"
+
+curl $ESCREDENTIALS -s -XPUT $ESHOST/fb_status -H 'Content-Type: application/json' -d '
 {
 	"settings": {
 		"index": {
 			"number_of_shards": 10,
 			"number_of_replicas": 1,
 			"refresh_interval": "5s",
-            "blocks": {
-                "read_only_allow_delete": "false"
-            }
+      "blocks": {
+        "read_only_allow_delete": "false"
+      }
+		}
+	},
+	"mappings": {
+		"status": {
+			"dynamic_templates": [{
+				"metadata": {
+					"path_match": "metadata.*",
+					"match_mapping_type": "string",
+					"mapping": {
+						"type": "keyword"
+					}
+				}
+			}],
+			"_source": {
+				"enabled": true
+			},
+			"properties": {
+				"nextFetchDate": {
+					"type": "date",
+					"format": "dateOptionalTime"
+				},
+				"status": {
+					"type": "keyword"
+				},
+				"node": {
+					"type": "keyword"
+				}
+			}
 		}
 	}
 }'

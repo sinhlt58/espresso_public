@@ -30,10 +30,9 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.digitalpebble.stormcrawler.Metadata;
-import com.digitalpebble.stormcrawler.elasticsearch.ElasticSearchConnection;
-
-import com.digitalpebble.stormcrawler.util.ConfUtils;
+import com.uet.crawling.social.Metadata;
+import com.uet.crawling.social.elasticsearch.ElasticSearchConnection;
+import com.uet.crawling.social.util.ConfUtils;
 
 public abstract class AbstractSpout extends AbstractQueryingSpout {
 
@@ -47,10 +46,10 @@ public abstract class AbstractSpout extends AbstractQueryingSpout {
     /** Field name to use for aggregating **/
     protected static final String ESStatusBucketFieldParamName = "es.status.bucket.field";
     protected static final String ESStatusMaxBucketParamName = "es.status.max.buckets";
-    protected static final String ESStatusMaxURLsParamName = "es.status.max.urls.per.bucket";
+    protected static final String ESStatusMaxNodesParamName = "es.status.max.nodes.per.bucket";
 
     /**
-     * Field name to use for sorting the URLs within a bucket, not used if empty
+     * Field name to use for sorting the Nodes within a bucket, not used if empty
      * or null.
      **/
     protected static final String ESStatusBucketSortFieldParamName = "es.status.bucket.sort.field";
@@ -72,8 +71,7 @@ public abstract class AbstractSpout extends AbstractQueryingSpout {
 
     /**
      * when using multiple instances - each one is in charge of a specific shard
-     * useful when sharding based on host or domain to guarantee a good mix of
-     * URLs
+     * useful when sharding based node type
      */
     protected int shardID = -1;
 
@@ -83,7 +81,7 @@ public abstract class AbstractSpout extends AbstractQueryingSpout {
     /** Field name used for field collapsing e.g. metadata.hostname **/
     protected String partitionField;
 
-    protected int maxURLsPerBucket = 10;
+    protected int maxNodesPerBucket = 10;
 
     protected int maxBucketNum = 10;
 
@@ -155,7 +153,7 @@ public abstract class AbstractSpout extends AbstractQueryingSpout {
         }
 
         partitionField = ConfUtils.getString(stormConf,
-                ESStatusBucketFieldParamName, "metadata.hostname");
+                ESStatusBucketFieldParamName, "metadata.type");
 
         bucketSortField = ConfUtils.getString(stormConf,
                 ESStatusBucketSortFieldParamName, bucketSortField);
@@ -163,8 +161,8 @@ public abstract class AbstractSpout extends AbstractQueryingSpout {
         totalSortField = ConfUtils.getString(stormConf,
                 ESStatusGlobalSortFieldParamName);
 
-        maxURLsPerBucket = ConfUtils.getInt(stormConf,
-                ESStatusMaxURLsParamName, 1);
+        maxNodesPerBucket = ConfUtils.getInt(stormConf,
+                ESStatusMaxNodesParamName, 1);
         maxBucketNum = ConfUtils.getInt(stormConf, ESStatusMaxBucketParamName,
                 10);
 
