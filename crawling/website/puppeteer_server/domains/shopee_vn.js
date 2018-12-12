@@ -109,9 +109,9 @@ exports.doActionsV2 = (page, options) => {
                     flag: 1,
                     type: 0
                 };
-                console.log('addContentFunc: ' + addContentFunc);
                 const reviewsRes = await utils.callGet('https://shopee.vn/api/v2/item/get_ratings', params);
                 console.log('number of reviews: ' + reviewsRes.data.ratings.length);
+
                 // add to the dom
                 await utils.addReviewsToDomV2(page, reviewsRes.data.ratings,
                     addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
@@ -119,7 +119,7 @@ exports.doActionsV2 = (page, options) => {
 
             resolve(true);
         } catch(error) {
-            console.log('error: ' + error);
+            console.log('error while getting reviews: ' + error);
             resolve(true);
         }
     });

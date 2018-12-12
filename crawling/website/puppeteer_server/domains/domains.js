@@ -3,11 +3,13 @@ var exports = module.exports;
 const shopee_vn = require('./shopee_vn');
 const mubannhadat_vn = require('./muabannhadat_vn');
 const tiki_vn = require('./tiki_vn');
+const lazada_vn = require('./lazada_vn');
 
 exports.scopeFunctionsMap = {
     'shopee': shopee_vn.doActionsV2,
     'muabannhadat': mubannhadat_vn.doActions,
-    'tiki': tiki_vn.doActionsV2
+    'tiki': tiki_vn.doActionsV2,
+    'lazada': lazada_vn.doActions
 };
 
 exports.getDomainFuncActionsByScopes = (scopes) => {

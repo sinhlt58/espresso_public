@@ -140,6 +140,7 @@ public class DomainsParseFilter extends ParseFilter {
                                 fieldValues = new ArrayList<>();
                                 record.put(fieldName, fieldValues);
                             }
+                            LOG.info("rule: {}, values: {}", rule, values);
                             fieldValues.addAll(values);
                             break; // We use only the first matching rule
                             // can xem xet lai khi 1 host co nhieu esname

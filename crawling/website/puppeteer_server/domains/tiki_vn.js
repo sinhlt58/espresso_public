@@ -140,6 +140,7 @@ exports.doActionsV2 = (page, options) => {
                 };
                 const reviewsRes = await utils.callGet('https://tiki.vn/api/v2/reviews', params);
                 console.log('number of reviews: ' + reviewsRes.data.length);
+
                 // add to the dom
                 await utils.addReviewsToDomV2(page, reviewsRes.data,
                     addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
@@ -147,13 +148,8 @@ exports.doActionsV2 = (page, options) => {
 
             resolve(true);
         } catch(error) {
-            if (error.name == 'TypeError') {
-                // when the comment button is null we will return true
-                console.log("Can't find the element or error while reading reviews");
-                resolve(true);
-            } else {
-                reject(error);
-            }
+            console.log('error while getting reviews: ' + error);
+            resolve(true);
         }
     });
 };

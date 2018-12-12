@@ -1,12 +1,11 @@
 const fs = require('fs');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const express = require('express');
 const app = express();
 
 const file_data = require('./file_data');
 const httpx = require('./httpx');
 const es = require('./es');
-const config = require('config.json');
 
 const router = express.Router(); 
 app.use(express.json());
@@ -18,10 +17,10 @@ const httpsOptions = {
     cert: fs.readFileSync('./cert.pem')
 }
 
-mongoose.connect(config.db, { useNewUrlParser: true }).then(
-    () => { console.log('connected ' + config.db) },
-    err => { console.log(err) }
-);
+// mongoose.connect(config.db, { useNewUrlParser: true }).then(
+//     () => { console.log('connected ' + config.db) },
+//     err => { console.log(err) }
+// );
 
 router.get('/domains', async (req, res) => {
     jsoupRulesData = file_data.getJsoupRulesData();
