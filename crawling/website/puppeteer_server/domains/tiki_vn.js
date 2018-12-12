@@ -107,3 +107,53 @@ exports.doActions = (page, options) => {
         }
     });
 };
+
+let addContentFunc = (reviewData) => {
+    return reviewData.content;
+}
+
+let addRateFunc = (reviewData) => {
+    return reviewData.rating;
+}
+
+let addTimeFunc = (reviewData) => {
+    return reviewData.created_at;
+}
+
+let addUserNameFunc = (reviewData) => {
+    return reviewData.created_by.name;
+}
+
+exports.doActionsV2 = (page, options) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log("Get comments and change DOM for tiki V2");
+            const inputTagProductId = await page.$('#product_id');
+
+            if (inputTagProductId) {
+                const productId = await (await inputTagProductId.getProperty('value')).jsonValue();
+                console.log('productId: ' + productId);
+                const params = {
+                    product_id: productId,
+                    include: 'comments',
+                    limit: 1000
+                };
+                const reviewsRes = await utils.callGet('https://tiki.vn/api/v2/reviews', params);
+                console.log('number of reviews: ' + reviewsRes.data.length);
+                // add to the dom
+                await utils.addReviewsToDomV2(page, reviewsRes.data,
+                    addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+            }
+
+            resolve(true);
+        } catch(error) {
+            if (error.name == 'TypeError') {
+                // when the comment button is null we will return true
+                console.log("Can't find the element or error while reading reviews");
+                resolve(true);
+            } else {
+                reject(error);
+            }
+        }
+    });
+};

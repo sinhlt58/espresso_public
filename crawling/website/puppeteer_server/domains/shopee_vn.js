@@ -71,3 +71,56 @@ exports.doActions = (page, options) => {
         }
     });
 };
+
+let addContentFunc = (reviewData) => {
+    return reviewData.comment;
+}
+
+let addRateFunc= (reviewData) => {
+    return reviewData.rating_star;
+}
+
+let addTimeFunc = (reviewData) => {
+    return reviewData.ctime;
+}
+
+let addUserNameFunc = (reviewData) => {
+    return reviewData.author_username;
+}
+
+exports.doActionsV2 = (page, options) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log("Get comments and change DOM for shopee V2");
+            const urlTokens = page.url().split('.');
+            
+
+            if (urlTokens.length > 2) {
+                const productId = urlTokens[urlTokens.length - 1];
+                const shopId = urlTokens[urlTokens.length - 2];
+
+                console.log('productId: ' + productId);
+                console.log('shopId: ' + shopId);
+                const params = {
+                    itemid: productId,
+                    shopid: shopId,
+                    limit: 1000,
+                    filter: 1,
+                    flag: 1,
+                    type: 0
+                };
+                console.log('addContentFunc: ' + addContentFunc);
+                const reviewsRes = await utils.callGet('https://shopee.vn/api/v2/item/get_ratings', params);
+                console.log('number of reviews: ' + reviewsRes.data.ratings.length);
+                // add to the dom
+                await utils.addReviewsToDomV2(page, reviewsRes.data.ratings,
+                    addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+            }
+
+            resolve(true);
+        } catch(error) {
+            console.log('error: ' + error);
+            resolve(true);
+        }
+    });
+};

@@ -5,9 +5,9 @@ const mubannhadat_vn = require('./muabannhadat_vn');
 const tiki_vn = require('./tiki_vn');
 
 exports.scopeFunctionsMap = {
-    'shopeec': shopee_vn.doActions,
+    'shopee': shopee_vn.doActionsV2,
     'muabannhadat': mubannhadat_vn.doActions,
-    'tiki': tiki_vn.doActions
+    'tiki': tiki_vn.doActionsV2
 };
 
 exports.getDomainFuncActionsByScopes = (scopes) => {
