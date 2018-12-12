@@ -142,17 +142,20 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
         Metadata metadata = (Metadata) tuple.getValueByField("metadata");
         String text = tuple.getStringByField("text");
-
-        boolean keep = filterDocument(metadata);
-        if (!keep) {
-            eventCounter.scope("Filtered").incrBy(1);
-            // treat it as successfully processed even if
-            // we do not index it
-            _collector.emit(StatusStreamName, tuple, new Values(url, metadata,
-                    Status.FETCHED));
-            _collector.ack(tuple);
-            return;
-        }
+        
+        // sinh.luutruong comment out start
+        // we always index :DDDDDDDD
+        // boolean keep = filterDocument(metadata);
+        // if (!keep) {
+        //     eventCounter.scope("Filtered").incrBy(1);
+        //     // treat it as successfully processed even if
+        //     // we do not index it
+        //     _collector.emit(StatusStreamName, tuple, new Values(url, metadata,
+        //             Status.FETCHED));
+        //     _collector.ack(tuple);
+        //     return;
+        // }
+        // sinh.luutruong comment out end
 
         try {
             XContentBuilder builder = jsonBuilder().startObject();
