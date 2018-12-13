@@ -41,29 +41,8 @@
       }
     },
     {
-      "class": "com.digitalpebble.stormcrawler.filtering.regex.RegexURLNormalizer",
-      "name": "RegexURLNormalizer",
-      "params": {
-        "regexNormalizerFile": "default-regex-normalizers.xml"
-      }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.filtering.regex.RegexURLFilter",
-      "name": "RegexURLFilter",
-      "params": {
-        "regexFilterFile": "default-regex-filters.txt"
-      }
-    },
-    {
       "class": "com.digitalpebble.stormcrawler.filtering.basic.SelfURLFilter",
       "name": "SelfURLFilter"
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.filtering.metadata.MetadataFilter",
-      "name": "MetadataFilter",
-      "params": {
-        "isSitemap": "false"
-      }
     }
   ]
 }

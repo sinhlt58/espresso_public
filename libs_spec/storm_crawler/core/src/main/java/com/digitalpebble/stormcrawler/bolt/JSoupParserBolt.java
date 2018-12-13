@@ -205,12 +205,12 @@ public class JSoupParserBolt extends StatusEmitterBolt {
         try {
             String html = Charset.forName(charset)
                     .decode(ByteBuffer.wrap(content)).toString();
-            
-            // conganh add
-            metadata.addValue("html", html);
-            // end conganh
 
             jsoupDoc = Parser.htmlParser().parseInput(html, url);
+
+            // sinh.luutruong
+            metadata.setObjectValue("jsoupDoc", jsoupDoc);
+            // sinh.luutruong
 
             // extracts the robots directives from the meta tags
             Element robotelement = jsoupDoc
@@ -236,7 +236,6 @@ public class JSoupParserBolt extends StatusEmitterBolt {
                 if (importeLinkHostnames.contains(metadata.getFirstValue("hostname"))) {
                     Elements importLinks = jsoupDoc.select("link[href]");
                     links.addAll(importLinks);
-                    LOG.info("Import links: {}", importLinks.toString());
                 }
                 // sinh.luutruong end
 
@@ -350,6 +349,10 @@ public class JSoupParserBolt extends StatusEmitterBolt {
                 fragment = JSoupDOMBuilder.jsoup2HTML(jsoupDoc);
             }
             parseFilters.filter(url, content, fragment, parse);
+
+            // sinh.luutruong
+            metadata.removeObjectValue("jsoupDoc");
+            // sinh.luutruong
         } catch (RuntimeException e) {
             String errorMessage = "Exception while running parse filters on "
                     + url + ": " + e;

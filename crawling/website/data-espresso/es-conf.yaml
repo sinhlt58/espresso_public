@@ -58,7 +58,7 @@ config:
   spout.reset.fetchdate.after: 120
 
   es.status.max.buckets: 100
-  es.status.max.urls.per.bucket: 20
+  es.status.max.urls.per.bucket: 5
   # field to group the URLs into buckets
   es.status.bucket.field: "metadata.hostname"
   # field to sort the URLs within a bucket

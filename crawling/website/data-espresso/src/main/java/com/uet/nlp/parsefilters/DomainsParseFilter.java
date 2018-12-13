@@ -116,7 +116,7 @@ public class DomainsParseFilter extends ParseFilter {
 
             getRules(metadata.getFirstValue("hostname"));
 
-            Document docJsoup = Parser.htmlParser().parseInput(html, URL);
+            Document jsoupDoc = (Document) metadata.getObjectValue("jsoupDoc");
 
             // for each domain
             for (String domainName : domainFieldRulesMap.keySet()){
@@ -128,7 +128,7 @@ public class DomainsParseFilter extends ParseFilter {
                     ArrayList<CustomRule> rules = fieldRulesMap.get(fieldName);
 
                     for (CustomRule rule : rules) {
-                        ArrayList<String> values = rule.evaluate(docJsoup);
+                        ArrayList<String> values = rule.evaluate(jsoupDoc);
 
                         int l = values.size();
                         if (l > 0) {
@@ -140,7 +140,6 @@ public class DomainsParseFilter extends ParseFilter {
                                 fieldValues = new ArrayList<>();
                                 record.put(fieldName, fieldValues);
                             }
-                            LOG.info("rule: {}, values: {}", rule, values);
                             fieldValues.addAll(values);
                             break; // We use only the first matching rule
                             // can xem xet lai khi 1 host co nhieu esname

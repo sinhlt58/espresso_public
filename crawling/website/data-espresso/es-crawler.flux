@@ -24,16 +24,10 @@ bolts:
     parallelism: 2
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 2
+    parallelism: 1
     properties:
       - name: "apiJsUrl"
         value: "http://localhost:3000/api/v1/viewDom?url="
-  - id: "sitemap"
-    className: "com.digitalpebble.stormcrawler.bolt.SiteMapParserBolt"
-    parallelism: 2
-  - id: "feed"
-    className: "com.digitalpebble.stormcrawler.bolt.FeedParserBolt"
-    parallelism: 2
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
     parallelism: 2
@@ -60,16 +54,6 @@ streams:
       args: ["key"]
 
   - from: "fetcher"
-    to: "sitemap"
-    grouping:
-      type: LOCAL_OR_SHUFFLE
-
-  - from: "sitemap"
-    to: "feed"
-    grouping:
-      type: LOCAL_OR_SHUFFLE
-
-  - from: "feed"
     to: "parse"
     grouping:
       type: LOCAL_OR_SHUFFLE
@@ -80,20 +64,6 @@ streams:
       type: LOCAL_OR_SHUFFLE
 
   - from: "fetcher"
-    to: "status"
-    grouping:
-      type: FIELDS
-      args: ["url"]
-      streamId: "status"
-
-  - from: "sitemap"
-    to: "status"
-    grouping:
-      type: FIELDS
-      args: ["url"]
-      streamId: "status"
-
-  - from: "feed"
     to: "status"
     grouping:
       type: FIELDS

@@ -1,12 +1,12 @@
 config:
-  fetchInterval.default: 1440
+  fetchInterval.default: 2880
   fetchInterval.error: -1
   fetchInterval.fetch.error: 120
   fetcher.queue.mode: byHost
   fetcher.server.delay: 1.0
   fetcher.server.min.delay: 0.0
   fetcher.threads.number: 200
-  fetcher.threads.per.queue: 10
+  fetcher.threads.per.queue: 50
   http.agent.description: built with StormCrawler Archetype 1.11
   http.agent.email: someone@someorganization.com
   http.agent.name: Espresso crawler
@@ -17,9 +17,6 @@ config:
   indexer.canonical.name: canonical
   indexer.created_time: created_time
   indexer.md.mapping:
-  - parse.title=title
-  - parse.keywords=keywords
-  - parse.description=description
   - domain=domain
   indexer.url.fieldname: url
   metadata.persist:

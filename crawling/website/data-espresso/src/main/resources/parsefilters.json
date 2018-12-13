@@ -470,7 +470,7 @@
           "gia": {
             "shopee.vn": "div#main div._3n5NQx",
             "tiki.vn": "span#span-price",
-            "www.lazada.vn": "div#module_product_price_1 div > div > span"
+            "www.lazada.vn": "div.pdp-product-price > span.pdp-price_type_normal"
           },
           "nguoi_dang": {
             "shopee.vn": "div#main div._3Lybjn",
@@ -526,45 +526,11 @@
       }
     },
     {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.XPathFilter",
-      "name": "XPathFilter",
-      "params": {
-        "canonical": "//*[@rel=\"canonical\"]/@href",
-        "parse.title": [
-          "//TITLE",
-          "//META[@name=\"title\"]/@content"
-        ],
-        "parse.description": [
-          "//*[@name=\"description\"]/@content",
-          "//*[@name=\"Description\"]/@content"
-        ],
-        "parse.keywords": "//META[@name=\"keywords\"]/@content"
-      }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.ContentFilter",
-      "name": "ContentFilter",
-      "params": {
-        "pattern": "//DIV[@id=\"maincontent\"]",
-        "pattern2": "//DIV[@itemprop=\"articleBody\"]",
-        "pattern3": "//ARTICLE"
-      }
-    },
-    {
       "class": "com.digitalpebble.stormcrawler.parse.filter.DomainParseFilter",
       "name": "DomainParseFilter",
       "params": {
         "key": "domain",
         "byHost": false
-      }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.CommaSeparatedToMultivaluedMetadata",
-      "name": "CommaSeparatedToMultivaluedMetadata",
-      "params": {
-        "keys": [
-          "parse.keywords"
-        ]
       }
     }
   ]
