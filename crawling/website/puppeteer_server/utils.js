@@ -94,7 +94,13 @@ exports.callGet = (url, params) => {
                 if (typeof(body) === 'object') {
                     resolve(body);
                 } else if (typeof(body) === 'string') {
-                    resolve(JSON.parse(body));
+                    try {
+                        const bodyObject = JSON.parse(body);
+                        resolve(bodyObject);
+                    } catch (error) {
+                        console.log(`Error parsing string json url: ${url}, params: ${JSON.stringify(params)}`);
+                        reject(false);
+                    }
                 } else {
                     reject(false);
                 }

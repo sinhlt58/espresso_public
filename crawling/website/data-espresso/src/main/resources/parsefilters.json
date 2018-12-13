@@ -482,19 +482,14 @@
             "www.lazada.vn": "div#module_product_brand_1 a.pdp-link.pdp-link_size_s.pdp-link_theme_blue.pdp-product-brand__brand-link"
           },
           "xuat_xu_thuong_hieu": {
-            "tiki.vn": "table#chi-tiet tr:nth-child(2) > td.last"
           },
           "noi_san_xuat": {},
           "model": {
-            "tiki.vn": "table#chi-tiet tr:nth-child(4) > td.last"
           },
           "kich_co": {},
           "chat_lieu": {
-            "shopee.vn": "div#main div._2aZyWI > div:nth-child(4) > div",
-            "tiki.vn": "table#chi-tiet span"
           },
           "gui_tu": {
-            "shopee.vn": "div#main div._2aZyWI > div:nth-child(5) > div"
           },
           "mieu_ta": {
             "shopee.vn": "div#main div.product-detail.page-product__detail > div:nth-child(2)",
