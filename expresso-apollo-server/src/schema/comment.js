@@ -2,7 +2,12 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    getComments: [Comment!]
+    getComments(
+      brand: String!
+      keyword: String
+      domain: DomainEnum
+      sort: SortEnum
+    ): [Comment!]
   }
 
   type Comment {
@@ -11,7 +16,7 @@ export default gql`
     content: String!
     rate: Int!
     date: String!
-    brand: Brand!
+    brand: BrandName!
     source: Domain!
   }
 
@@ -20,8 +25,18 @@ export default gql`
     url: String!
   }
 
-  type Brand {
+  type BrandName {
     name: String!
     shop: String!
+  }
+
+  enum DomainEnum {
+    SHOPEE
+    TIKI
+  }
+
+  enum SortEnum {
+    ASC
+    DES
   }
 `;

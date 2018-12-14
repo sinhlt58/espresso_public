@@ -31,7 +31,7 @@ export default {
     url: (parent) => parent.url,
   },
 
-  Brand: {
+  BrandName: {
     name: (parent) => parent.brand,
     shop: (parent) => parent.parentAuthor,
   },
