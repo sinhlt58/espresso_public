@@ -15,12 +15,12 @@ public class Item {
     @JsonProperty("url")
     public String url;
 
-    public String crawlTime;
+    public double crawlTime;
     
     // calculated fields
     public String id;
     public String itemType;
-    public long createdTime;
+    public double createdTime;
 
     public Item() {
         createdTime = System.currentTimeMillis();
@@ -40,7 +40,7 @@ public class Item {
     }
 
     @JsonProperty("crawlTime")
-    public String _getCrawlTimes() {
+    public double _getCrawlTimes() {
         return this.crawlTime;
     }
 
@@ -52,7 +52,7 @@ public class Item {
 
     @JsonProperty("created_time")
     public void _setCrawlTimes(String v) {
-        this.crawlTime = v;
+        this.crawlTime = Double.parseDouble(v);
     }
 
     @Override

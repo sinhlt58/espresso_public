@@ -80,7 +80,7 @@ public class AggregationSpout extends AbstractSpout implements
                 lastDate.getTime());
 
         LOG.info("{}: Populating buffer with non-analyzed document", formattedLastDate);
-
+        
         QueryBuilder queryBuilder = QueryBuilders.boolQuery()
                                         .should(QueryBuilders.boolQuery()
                                                     .must(QueryBuilders.existsQuery(analysisStatusField))

@@ -11,23 +11,15 @@ public class Review extends Item {
 
     
     public String author;
-    public String rate;
+    public double rate;
     public String content;
-    public String date;
+    public double date;
 
     public Review() {
         itemType = "review";
     }
 
     public void normalize() {
-        date = normalizeDate(date);
-
         super.generateId(url + domain + author + rate + date);
-    }
-
-    public String normalizeDate(String date) {
-        /* YOUR CODE HERE */
-        return date;
-        /* YOUR CODE HERE */
     }
 }
