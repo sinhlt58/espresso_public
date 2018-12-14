@@ -1,18 +1,18 @@
-import "babel-polyfill";
-import { ApolloServer, gql } from "apollo-server-express";
+import 'babel-polyfill';
+import { ApolloServer, gql } from 'apollo-server-express';
 
-import express from "express";
-import schema from "./schema";
-import resolvers from "./resolvers";
+import express from 'express';
+import schema from './schema';
+import resolvers from './resolvers';
 
 const app = express();
 
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
 // responsible for fetching the data for those types.
-const server = new ApolloServer({ typeDefs: schema, resolvers });
+const server = new ApolloServer({ typeDefs: schema, resolvers, mocks: true });
 
-server.applyMiddleware({ app, path: "/graphql" });
+server.applyMiddleware({ app, path: '/graphql' });
 
 // This `listen` method launches a web-server.  Existing apps
 // can utilize middleware options, which we'll discuss later.
