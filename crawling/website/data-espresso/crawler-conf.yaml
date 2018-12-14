@@ -5,10 +5,9 @@ config:
   fetcher.queue.mode: byHost
   fetcher.server.delay: 1.0
   fetcher.server.min.delay: 0.0
-  fetcher.threads.number: 30
-  fetcher.threads.per.queue: 13
-  fetcher.maxThreads.www.lazada.vn: 4
-  spout.min.delay.queries: 10
+  fetcher.threads.number: 10
+  fetcher.threads.per.queue: 4
+  fetcher.maxThreads.www.lazada.vn: 2
   http.agent.description: built with StormCrawler Archetype 1.11
   http.agent.email: someone@someorganization.com
   http.agent.name: Espresso crawler
