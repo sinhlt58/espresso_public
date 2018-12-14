@@ -1,5 +1,5 @@
 config:
-  fetchInterval.default: 2880
+  fetchInterval.default: 5760
   fetchInterval.error: -1
   fetchInterval.fetch.error: 120
   fetcher.queue.mode: byHost

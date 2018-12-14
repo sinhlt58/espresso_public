@@ -55,7 +55,7 @@
       "AllowPathQuery products(.*)search=1",
       "AllowPathQuery \/products\/",
       "AllowPathQuery page=",
-      "AllowPathQuery \/shop.+seller",
+      "AllowPathQuery \/shop\/",
       "DenyPathQuery .+"
     ]
   },
