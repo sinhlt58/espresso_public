@@ -555,9 +555,6 @@ public class FetcherBolt extends StatusEmitterBolt{
                     long start = System.currentTimeMillis();
                     long timeInQueues = start - fit.creationTime;
 
-                    //conganh add
-                    LOG.info("Hostname: {}", metadata.getFirstValue("hostname"));
-
                     ProtocolResponse response;
                     if (metadata.keySet().contains("jsRender")) {
                         metadata.remove("jsRender");
@@ -875,11 +872,9 @@ public class FetcherBolt extends StatusEmitterBolt{
             String hostname = metadata.getFirstValue("hostname");
             JsRenderEntity jsRenderEntity = JsRenderService.getRuleByHost(hostname);
             if(jsRenderEntity != null){
-                LOG.info("Hostname js render: {}", jsRenderEntity.getHostname());
                 metadata.setValue("jsRender", "1");
                 String scopes = jsRenderEntity.getScopes();
                 if (scopes != null){
-                    LOG.info("Scopes: {}", scopes);
                     metadata.setValue("scopes", scopes);
                 }
             }
