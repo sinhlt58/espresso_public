@@ -30,7 +30,7 @@ bolts:
         value: "http://localhost:3000/api/v1/viewDom?url="
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 10
+    parallelism: 30
     properties:
       - name: "importeLinkHostnames"
         value: ["shopee.vn"]
