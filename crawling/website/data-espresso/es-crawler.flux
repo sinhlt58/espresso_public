@@ -6,11 +6,11 @@ includes:
       override: false
 
     - resource: false
-      file: "crawler-conf.local.yaml"
+      file: "crawler-conf.yaml"
       override: true
 
     - resource: false
-      file: "es-conf.local.yaml"
+      file: "es-conf.yaml"
       override: true
 
 spouts:
@@ -30,7 +30,7 @@ bolts:
         value: "http://localhost:3000/api/v1/viewDom?url="
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 30
+    parallelism: 10
     properties:
       - name: "importeLinkHostnames"
         value: ["shopee.vn"]

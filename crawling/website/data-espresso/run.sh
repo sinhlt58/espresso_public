@@ -46,6 +46,11 @@ then
     storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawler.flux
 fi
 
+if [ "$1" = "remote_local" ]
+then
+    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawler.flux --sleep 86400000
+fi
+
 if [ "$1" = "patch" ]
 then
     cd ../../../scripts
