@@ -42,12 +42,20 @@
     ]
   },
   {
+    "scope": "domain:tiki.vn",
+    "patterns": [
+      "AllowPathQuery src=tree|page=|src=category-page|p[0-9]{5,}",
+      "AllowPathQuery \/thuong-hieu",
+      "DenyPathQuery .+"
+    ]
+  },
+  {
     "scope": "domain:www.lazada.vn",
     "patterns": [
       "AllowPathQuery products(.*)search=1",
       "AllowPathQuery \/products\/",
       "AllowPathQuery page=",
-      "AllowPathQuery \/shop*seller",
+      "AllowPathQuery \/shop.+seller",
       "DenyPathQuery .+"
     ]
   },
@@ -115,14 +123,6 @@
     "scope": "domain:kenhbds.vn",
     "patterns": [
       "AllowPathQuery /can-ban|/cho-thue|/can-mua|/can-thue|[0-9]{5,}\\.html|per_page",
-      "DenyPathQuery .+"
-    ]
-  },
-  {
-    "scope": "domain:tiki.vn",
-    "patterns": [
-      "AllowPathQuery src=tree|page=|src=category-page|p[0-9]{5,}",
-      "AllowPathQuery \/thuong-hieu",
       "DenyPathQuery .+"
     ]
   },
