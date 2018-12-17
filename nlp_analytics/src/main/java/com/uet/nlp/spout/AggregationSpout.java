@@ -63,7 +63,7 @@ public class AggregationSpout extends AbstractSpout implements
                                 "analysis_status");
 
         analysisStatusDone = ConfUtils.getString(stormConf, ESAnalysisStatusDoneParamName,
-                                "DONE");
+                                "done");
 
         analysisMaxHit = ConfUtils.getInt(stormConf, ESAnalysisMaxHitParamName,
                                 analysisMaxHit);

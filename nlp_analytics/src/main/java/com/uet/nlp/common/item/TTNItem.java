@@ -1,16 +1,22 @@
 package com.uet.nlp.common.item;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TTNItem extends Item {
     public String title;
-    public String price;
+    public double price;
     public String description;
     public String brand;
     public String author;
     public String deliverFrom;
+
+    static Pattern pattern = Pattern.compile("\\d+");
 
     // calculated fields
     public double uploadTime;
@@ -33,7 +39,7 @@ public class TTNItem extends Item {
     }
 
     @JsonProperty("price")
-    public String _getPrice() {
+    public double _getPrice() {
         return this.price;
     }
 
@@ -64,8 +70,16 @@ public class TTNItem extends Item {
     }
 
     @JsonProperty("gia")
-    public void _setPrice(String v) {
-        this.price = v;
+    public void _setPrice(String priceStr) {
+        priceStr = priceStr.replace(".", "");
+        Matcher match = pattern.matcher(priceStr);
+        match.find();
+        try {
+            this.price = Double.parseDouble(match.group(0));
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            this.price = 0;
+        }
     }
 
     @JsonProperty("mieu_ta")
