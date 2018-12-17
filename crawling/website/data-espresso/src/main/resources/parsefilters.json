@@ -474,7 +474,7 @@
           },
           "nguoi_dang": {
             "shopee.vn": "div#main div._3Lybjn",
-            "www.lazada.vn": "div#module_seller_info div.seller-name__detail > a",
+            "www.lazada.vn": "div#module_seller_info div.seller-name__detail > a.seller-name__detail-name",
             "tiki.vn": "#seller-list > div > div > div.current-seller > div.name > div.text > a"
           },
           "thuong_hieu": {
