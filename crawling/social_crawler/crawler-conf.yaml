@@ -5,8 +5,8 @@ config:
   fetcher.queue.mode: byHost
   fetcher.server.delay: 1.0
   fetcher.server.min.delay: 0.0
-  fetcher.threads.number: 200
-  fetcher.threads.per.queue: 10
+  fetcher.threads.number: 2
+  fetcher.threads.per.queue: 2
   http.agent.description: built with StormCrawler Archetype 1.11
   http.agent.email: someone@someorganization.com
   http.agent.name: Espresso crawler
