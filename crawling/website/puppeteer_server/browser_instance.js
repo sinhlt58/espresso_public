@@ -63,7 +63,11 @@ class BrowserHandler {
             this.browser = false;
             this.browser = await puppeteer.launch({
                 headless: true,
-                args: [`--no-sandbox`, `--window-size=${this.options.width},
+                args: ['--no-sandbox',
+                       '--disable-gpu',
+                       '--proxy-server="direct://"',
+                       '--proxy-bypass-list=*',
+                       `--window-size=${this.options.width},
                                       ${this.options.height}`]
             });
             logger.info('Created a new browser instance');

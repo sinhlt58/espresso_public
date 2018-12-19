@@ -35,8 +35,12 @@ app.get('/api/v1/viewDom', async function(req, res) {
 	let currentPage = null;
 	let isCurrentPageClosed = false;
 	try {
+                let start = new Date().getTime();
 		const page = await browser_instance.getPage();
-
+		let end = new Date().getTime();
+		logger.info(`Get page takes: ${end - start}ms`);		
+		
+		start = new Date().getTime();
 		if (!page) {
 			return res.send('Can not create page');
 		}
@@ -57,8 +61,12 @@ app.get('/api/v1/viewDom', async function(req, res) {
 
 		await page.setUserAgent(options.agent);
 		await page.setViewport({ width: options.viewPortW, height: viewPortH});
+		start = new Date().getTime();
 		await page.goto(decodedUrl, {waitUntil: 'networkidle0', timeout: options.pageTimeout});
+		end = new Date().getTime();
+		logger.info(`Fetch page takes: ${end - start}ms`);
 
+		start = new Date().getTime();
 		const funcActions = await domains.getDomainFuncActionsByScopes(scopes);
 
 		if (scopes.includes(SCOPE_OP_SCROLL)) {
@@ -74,12 +82,15 @@ app.get('/api/v1/viewDom', async function(req, res) {
 			// put to the pool
 			page.removeAllListeners('request'); // remove listeners we were using for this task.
 			logger.info('Release the page');
+                        await page.goto('about:blank');
 			await browser_instance.releasePage(page);
 		} else {
 			// the page might get closed automatically
 			logger.info('Destroy the page');
 			await browser_instance.destroyPage(page);
 		}
+		end = new Date().getTime();
+		logger.info(`Process page takes: ${end - start}ms`);
 
 		res.status(200).send(html);
 	} catch (error) {
