@@ -41,36 +41,53 @@ exports.addReviewsToDomV2 = (page, reviewsData, addContentFunc,
             addRateFunc, addTimeFunc, addUserNameFunc) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await page.exposeFunction('addContentFunc', addContentFunc);
-            await page.exposeFunction('addRateFunc', addRateFunc);
-            await page.exposeFunction('addTimeFunc', addTimeFunc);
-            await page.exposeFunction('addUserNameFunc', addUserNameFunc);
-        
-            await page.evaluate(async (reviewsData) => {
+            // Can't use these because we resue the page
+            // await page.exposeFunction('addContentFunc', addContentFunc);
+            // await page.exposeFunction('addRateFunc', addRateFunc);
+            // await page.exposeFunction('addTimeFunc', addTimeFunc);
+            // await page.exposeFunction('addUserNameFunc', addUserNameFunc);
+
+            const funcs = {
+                addContentFunc: addContentFunc.toString(),
+                addRateFunc: addRateFunc.toString(),
+                addTimeFunc: addTimeFunc.toString(),
+                addUserNameFunc: addUserNameFunc.toString(),
+            }
+
+            await page.$eval('body', async (body, reviewsData, funcs) => {
                 function addDiv(text, className) {
                     let div = document.createElement('div');
                     div.innerText = text;
                     div.classList.add(className);
                     body.appendChild(div);
                 }
+
+                function strToFunc(stringFunc) {
+                    return new Function(`return ( ${stringFunc} ).apply(null, arguments)`);
+                }
+
+                const addContentFunc = strToFunc(funcs['addContentFunc']);
+                const addRateFunc = strToFunc(funcs['addRateFunc']);
+                const addTimeFunc = strToFunc(funcs['addTimeFunc']);
+                const addUserNameFunc = strToFunc(funcs['addUserNameFunc']);
                 
-                let body = document.getElementsByTagName("body")[0];
+                // let body = document.getElementsByTagName("body")[0];
                 for (let i = 0; i < reviewsData.length; i++){
                     const reviewData = reviewsData[i];
                     
-                    const content = await window.addContentFunc(reviewData);
-                    const rate = await window.addRateFunc(reviewData);
-                    const time = await window.addTimeFunc(reviewData);
-                    const userName = await window.addUserNameFunc(reviewData);
+                    const content = addContentFunc(reviewData);
+                    const rate = addRateFunc(reviewData);
+                    const time = addTimeFunc(reviewData);
+                    const userName = addUserNameFunc(reviewData);
 
-                    addDiv(content, 'espresso-review-content');           
+                    addDiv(content, 'espresso-review-content');     
                     addDiv(rate, 'espresso-review-rate');
                     addDiv(time, 'espresso-review-time');
                     addDiv(userName, 'espresso-review-user-name');
                 }
                 
                 return true;
-            }, reviewsData);
+            }, reviewsData, funcs);
             resolve(true);
         } catch (error) {
             console.log('error while add reviews to DOM: ' + error);

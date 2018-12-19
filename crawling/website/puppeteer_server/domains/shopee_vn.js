@@ -1,11 +1,12 @@
 var exports = module.exports;
 
 const utils = require('../utils');
+const logger = require('../logger')(module);
 
 exports.doActions = (page, options) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("Get comments and change DOM for shopee");
+            logger.info("Get comments and change DOM for shopee");
             // Click on review which has comments and calcuate number of reviews.
             const buttonBinhLuan = await page.$('div.product-rating-overview__filter--with-comment');
             if (!buttonBinhLuan) {
@@ -16,8 +17,8 @@ exports.doActions = (page, options) => {
             const buttonBinhLuanText = await (await buttonBinhLuan.getProperty('innerText')).jsonValue();
             const numBinhLuan = parseInt(buttonBinhLuanText.match(/\d+/)[0]);
             const numBinhLuanPage = parseInt(numBinhLuan / 6) + 1; // 6 review per page for shopee
-            console.log('numBinhLuan: ', numBinhLuan);
-            console.log('numBinhLuanPage: ', numBinhLuanPage);
+            logger.info('numBinhLuan: ', numBinhLuan);
+            logger.info('numBinhLuanPage: ', numBinhLuanPage);
             await utils.clickButton(page, buttonBinhLuan, options.buttonClickWaitTime);
             
             // get reviews by clicking next page
@@ -63,7 +64,7 @@ exports.doActions = (page, options) => {
         } catch(error) {
             if (error.name == 'TypeError') {
                 // when the comment button is null we will return true
-                console.log("Can't find the element or error while reading reviews");
+                logger.info("Can't find the element or error while reading reviews");
                 resolve(true);
             } else {
                 reject(error);
@@ -91,7 +92,7 @@ let addUserNameFunc = (reviewData) => {
 exports.doActionsV2 = (page, options) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("Get comments and change DOM for shopee V2");
+            logger.info("Get comments and change DOM for shopee V2");
             const urlTokens = page.url().split('.');
             
 
@@ -99,8 +100,8 @@ exports.doActionsV2 = (page, options) => {
                 const productId = urlTokens[urlTokens.length - 1];
                 const shopId = urlTokens[urlTokens.length - 2];
 
-                console.log('productId: ' + productId);
-                console.log('shopId: ' + shopId);
+                logger.info('productId: ' + productId);
+                logger.info('shopId: ' + shopId);
                 const params = {
                     itemid: productId,
                     shopid: shopId,
@@ -110,7 +111,7 @@ exports.doActionsV2 = (page, options) => {
                     type: 0
                 };
                 const reviewsRes = await utils.callGet('https://shopee.vn/api/v2/item/get_ratings', params);
-                console.log('number of reviews: ' + reviewsRes.data.ratings.length);
+                logger.info('number of reviews: ' + reviewsRes.data.ratings.length);
 
                 // add to the dom
                 await utils.addReviewsToDomV2(page, reviewsRes.data.ratings,
@@ -119,7 +120,7 @@ exports.doActionsV2 = (page, options) => {
 
             resolve(true);
         } catch(error) {
-            console.log('error while getting reviews: ' + error);
+            logger.info('error while getting reviews: ' + error);
             resolve(true);
         }
     });

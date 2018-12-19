@@ -6,23 +6,11 @@ const browser_instance = require('./browser_instance');
 const domains = require('./domains/domains');
 
 const PORT = process.env.PORT || 3000;
-const options = {
-	maxPageComment: 5,
-	pageTimeout: 60000,
-	width: 1920,
-	height: 1080,
-	viewPortW: 1920,
-	viewPortH: 1080,
-	scrollHeightFactor: 2000,
-	buttonClickWaitTime: 1000,
-	agent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
-}
+const options = require('./options');
+const logger = require('./logger')(module);
 
 const SCOPE_OP_REQUEST = 'opreq';
 const SCOPE_OP_SCROLL  = 'scroll';
-
-// Get the instance for the first time
-browser_instance.getBrowserInstance(options);
 
 app.get('/api/v1/viewDom', async function(req, res) {
 	const queries = req.query;
@@ -41,19 +29,13 @@ app.get('/api/v1/viewDom', async function(req, res) {
 	}
 
 	let decodedUrl = decodeURIComponent(url);
-	console.log('Decoded url: ' + decodedUrl);
-	console.log('Scopes: ', scopes);
+	logger.info(`Decoded url: ${decodedUrl}`);
+	logger.info(`Scopes: ${scopes}`);
 
 	let currentPage = null;
 	let isCurrentPageClosed = false;
 	try {
-		const browser = await browser_instance.getBrowserInstance(options);
-
-		if (!browser) {
-			return res.send('The browser have not started yet.');
-		}
-
-		const page = await browser.newPage();
+		const page = await browser_instance.getPage();
 
 		if (!page) {
 			return res.send('Can not create page');
@@ -62,15 +44,6 @@ app.get('/api/v1/viewDom', async function(req, res) {
 		currentPage = page;
 		page.once('close', () => {
 			isCurrentPageClosed = true;
-		});
-
-		// Print log inside the page's evaluate function
-		page.on('console', msg => {
-				let txt = msg._text;
-				let logType = msg._type;
-				if (txt[0] !== '[' && logType === 'log') {
-				console.log(msg._text);
-			}
 		});
 
 		if (scopes.includes(SCOPE_OP_REQUEST)) {
@@ -96,30 +69,38 @@ app.get('/api/v1/viewDom', async function(req, res) {
 
 		let html = await page.content();
 
-		if (page) {
-			await page.close();
-			console.log('Closed page');
+		logger.info(`isCurrentPageClosed: ${isCurrentPageClosed}`);
+		if (!isCurrentPageClosed) {
+			// put to the pool
+			page.removeAllListeners('request'); // remove listeners we were using for this task.
+			logger.info('Release the page');
+			await browser_instance.releasePage(page);
+		} else {
+			// the page might get closed automatically
+			logger.info('Destroy the page');
+			await browser_instance.destroyPage(page);
 		}
-		console.log('isCurrentPageClosed: ', isCurrentPageClosed);
 
-		res.send(html);
+		res.status(200).send(html);
 	} catch (error) {
-		console.log('error: ', error);
+		logger.info('error: ', error);
 		try {
-			if (currentPage && !isCurrentPageClosed) {
-				await currentPage.close();
-				console.log('Closed page with error');
+			if (currentPage) {
+				if (!isCurrentPageClosed) {
+					await currentPage.close();
+				}
+				await browser_instance.destroyPage(currentPage);
+				logger.info('Closed page with error and release the page');
 			}
 		} catch (error) {
-			console.log('Error while closing a page');	
+			logger.info('Error while destroying a page');	
 		}
 		
-		res.send('Error');
+		res.status(500).send('Error');
 	}
-	// await browser.close();
 })
 
 
 app.listen(PORT, () => {
-	console.log(`Server is listening on port ${PORT}`);
+	logger.info(`Server is listening on port ${PORT}`);
 })
