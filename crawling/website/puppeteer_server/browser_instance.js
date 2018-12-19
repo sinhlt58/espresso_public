@@ -24,8 +24,8 @@ class BrowserHandler {
         this.pageFactory = {
             create: async () => {
                 waitForBrowser(_this);
-                const context = await _this.browser.createIncognitoBrowserContext();
-                const page = await context.newPage();
+                //const context = await _this.browser.createIncognitoBrowserContext();
+                const page = await _this.browser.newPage();
                 // Print log inside the page's evaluate function
                 page.on('console', msg => {
                         let txt = msg._text;
