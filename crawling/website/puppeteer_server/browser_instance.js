@@ -15,10 +15,11 @@ waitForBrowser = browserHandler => new Promise ((resolve, reject) => {
 });
 
 class BrowserHandler {
-    constructor (options) {
+    constructor (options, scope) {
         let _this = this;
 
         this.options = options;
+        this.scope = scope;
 
         this.pageFactory = {
             create: async () => {
@@ -47,7 +48,7 @@ class BrowserHandler {
         }
         this.pagePool = null;
         this.printPagePoolStatus = () => {
-            logger.info(`======== Pagepool status START ========`);
+            logger.info(`=== ${this.scope}: Pagepool status START ===`);
             logger.info(`Pagepool spareResourceCapacity: ${this.pagePool.spareResourceCapacity}`);
             logger.info(`Pagepool max: ${this.pagePool.max}`);
             logger.info(`Pagepool min: ${this.pagePool.min}`);
@@ -55,7 +56,7 @@ class BrowserHandler {
             logger.info(`Pagepool available: ${_this.pagePool.available}`);
             logger.info(`Pagepool borrowed: ${_this.pagePool.borrowed}`);
             logger.info(`Pagepool pending: ${_this.pagePool.pending}`);
-            logger.info(`======== Pagepool status END ===========`);
+            logger.info(`=== ${this.scope}: Pagepool status END ====`);
         }
 
         const launchBrowser = async () => {
@@ -135,14 +136,19 @@ class BrowserHandler {
     }
 }
 
-let _instanceHandler = new BrowserHandler(options);
-logger.info('Created a browserHandler');
+let scopes = require('./scopes');
+let _handlerInstances = {};
 
-exports.getPage = () => {
+// init, create each browser handler for each domain scope
+for (let i = 0; i < scopes.length; i++) {
+    _handlerInstances[scopes[i]] = new BrowserHandler(options, scopes[i]);
+}
+
+exports.getPage = (scope) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await waitForBrowser(_instanceHandler);
-            const page = await _instanceHandler.getPage();
+            await waitForBrowser(_handlerInstances[scope]);
+            const page = await _handlerInstances[scope].getPage();
             resolve(page);
         } catch (error) {
             logger.info('Error while getting a page');
@@ -151,10 +157,10 @@ exports.getPage = () => {
     });
 };
 
-exports.releasePage = (page) => {
+exports.releasePage = (page, scope) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const res = await _instanceHandler.releasePage(page);
+            const res = await _handlerInstances[scope].releasePage(page);
             resolve(res);
         } catch (error) {
             logger.info('Error while releasing a page');
@@ -163,10 +169,10 @@ exports.releasePage = (page) => {
     });
 }
 
-exports.destroyPage = (page) => {
+exports.destroyPage = (page, scope) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const res = await _instanceHandler.destroyPage(page);
+            const res = await _handlerInstances[scope].destroyPage(page);
             resolve(res);
         } catch (error) {
             logger.info('Error while releasing a page');

@@ -12,6 +12,17 @@ const logger = require('./logger')(module);
 const SCOPE_OP_REQUEST = 'opreq';
 const SCOPE_OP_SCROLL  = 'scroll';
 
+const _scopes = require('./scopes');
+
+const getBrowserDomainScope = (reqScopes, scopes) => {
+	for (let i = 0; i < reqScopes.length; i++) {
+		if (scopes.includes(reqScopes[i])) {
+			return reqScopes[i];
+		}
+	}
+	return 'unknow';
+}
+
 app.get('/api/v1/viewDom', async function(req, res) {
 	const queries = req.query;
 	let url = queries.url || '';
@@ -35,8 +46,10 @@ app.get('/api/v1/viewDom', async function(req, res) {
 	let currentPage = null;
 	let isCurrentPageClosed = false;
 	try {
-                let start = new Date().getTime();
-		const page = await browser_instance.getPage();
+        let start = new Date().getTime();
+		let browserScope = getBrowserDomainScope(scopes, _scopes);
+		logger.info(`browserScope: ${browserScope}`);
+		const page = await browser_instance.getPage(browserScope);
 		let end = new Date().getTime();
 		logger.info(`Get page takes: ${end - start}ms`);		
 		
@@ -83,11 +96,11 @@ app.get('/api/v1/viewDom', async function(req, res) {
 			page.removeAllListeners('request'); // remove listeners we were using for this task.
 			logger.info('Release the page');
                         await page.goto('about:blank');
-			await browser_instance.releasePage(page);
+			await browser_instance.releasePage(page, browserScope);
 		} else {
 			// the page might get closed automatically
 			logger.info('Destroy the page');
-			await browser_instance.destroyPage(page);
+			await browser_instance.destroyPage(page, browserScope);
 		}
 		end = new Date().getTime();
 		logger.info(`Process page takes: ${end - start}ms`);
