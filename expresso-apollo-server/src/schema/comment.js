@@ -6,7 +6,8 @@ export default gql`
       brand: String
       keyword: String
       domain: DomainEnum
-      sort: SortEnum
+      sort: SortEnum = DESC
+      productId: String
     ): [Comment!]
 
     getComment(id: String!): Comment
@@ -29,6 +30,6 @@ export default gql`
 
   enum SortEnum {
     ASC
-    DES
+    DESC
   }
 `;

@@ -4,34 +4,85 @@ export default {
   Query: {
     getComments: async (parent, args) => {
       let esRes;
+      let sortType;
+      if (args.sort !== undefined) {
+        sortType = args.sort.toLowerCase();
+      }
 
-      if (args.keyword !== undefined) {
+      if (
+        args.keyword !== undefined &&
+        args.brand === undefined &&
+        args.productId === undefined &&
+        args.domain === undefined
+      ) {
         esRes = await esClient.search({
           index: 'analysis',
           body: {
             query: {
               bool: {
-                must: [
-                  { match: { itemType: 'review' } },
-                  { match: { content: args.keyword } },
-                ],
+                must: [{ match: { content: args.keyword } }],
               },
+              filter: [{ term: { itemType: 'review' } }],
+            },
+            sort: {
+              rate: { order: sortType },
             },
           },
         });
       }
 
-      if (args.brand !== undefined) {
+      if (
+        args.brand !== undefined &&
+        args.domain === undefined &&
+        args.keyword === undefined &&
+        args.productId === undefined
+      ) {
         esRes = await esClient.search({
           index: 'analysis',
           body: {
             query: {
               bool: {
                 must: [
-                  { match: { itemType: 'review' } },
-                  { match: { brand: args.brand } },
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ['parentAuthor', 'brand'],
+                    },
+                  },
+                ],
+                filter: [{ term: { itemType: 'review' } }],
+              },
+            },
+            sort: {
+              rate: { order: sortType },
+            },
+          },
+        });
+      }
+
+      if (
+        args.productId !== undefined &&
+        args.keyword === undefined &&
+        args.domain === undefined &&
+        args.brand === undefined
+      ) {
+        esRes = await esClient.search({
+          index: 'analysis',
+          body: {
+            query: {
+              bool: {
+                filter: [
+                  {
+                    term: { itemType: 'review' },
+                  },
+                  {
+                    term: { parentId: args.productId },
+                  },
                 ],
               },
+            },
+            sort: {
+              rate: { order: sortType },
             },
           },
         });
@@ -46,10 +97,8 @@ export default {
         body: {
           query: {
             bool: {
-              must: [
-                { match: { itemType: 'review' } },
-                { match: { id: args.id } },
-              ],
+              must: [{ term: { id: args.id } }],
+              filter: [{ term: { itemType: 'review' } }],
             },
           },
         },
@@ -72,10 +121,8 @@ export default {
         body: {
           query: {
             bool: {
-              must: [
-                { match: { itemType: 'product' } },
-                { match: { id: parent._source.parentId } },
-              ],
+              must: [{ match: { id: parent._source.parentId } }],
+              filter: [{ term: { itemType: 'product' } }],
             },
           },
         },
