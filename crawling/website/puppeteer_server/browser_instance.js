@@ -5,15 +5,10 @@ const genericPool = require('generic-pool');
 const options = require('./options');
 const logger = require('./logger')(module);
 
-waitForBrowser = browserHandler => new Promise ((resolve, reject) => {
-    const browserCheck = setInterval(() => {
-        if (browserHandler.browser !== false) {
-            clearInterval(browserCheck);
-            resolve(true);
-        }
-    }, 10);
-});
-
+_pagePoolOptions = {
+    max: 17,
+    min: 1
+}
 class BrowserHandler {
     constructor (options, scope) {
         let _this = this;
@@ -23,7 +18,7 @@ class BrowserHandler {
 
         this.pageFactory = {
             create: async () => {
-                waitForBrowser(_this);
+                await BrowserHandler.waitForBrowser(_this);
                 //const context = await _this.browser.createIncognitoBrowserContext();
                 const page = await _this.browser.newPage();
                 // Print log inside the page's evaluate function
@@ -42,99 +37,108 @@ class BrowserHandler {
                 // await page.close();
             }
         }
-        this.pagePoolOptions = {
-            max: 64,
-            min: 8
-        }
+
         this.pagePool = null;
-        this.printPagePoolStatus = () => {
-            logger.info(`=== ${this.scope}: Pagepool status START ===`);
-            logger.info(`Pagepool spareResourceCapacity: ${this.pagePool.spareResourceCapacity}`);
-            logger.info(`Pagepool max: ${this.pagePool.max}`);
-            logger.info(`Pagepool min: ${this.pagePool.min}`);
-            logger.info(`Pagepool size: ${_this.pagePool.size}`);
-            logger.info(`Pagepool available: ${_this.pagePool.available}`);
-            logger.info(`Pagepool borrowed: ${_this.pagePool.borrowed}`);
-            logger.info(`Pagepool pending: ${_this.pagePool.pending}`);
-            logger.info(`=== ${this.scope}: Pagepool status END ====`);
-        }
-
-        const launchBrowser = async () => {
-            logger.info('Launching the browser with options: ', this.options);
-            this.browser = false;
-            this.browser = await puppeteer.launch({
-                headless: true,
-                args: ['--no-sandbox',
-                       '--disable-gpu',
-                       '--proxy-server="direct://"',
-                       '--proxy-bypass-list=*',
-                       `--window-size=${this.options.width},
-                                      ${this.options.height}`]
-            });
-            logger.info('Created a new browser instance');
-
-            if (this.pagePool) {
-                let _tmpPool = this.pagePool;
-                logger.info("Drain the old pagePool");
-                _tmpPool.drain()
-                .then(_ => {
-                    _tmpPool.clear();
-                });
-            }
-            
-            logger.info(`Create a new pagepool for browserhandler`);
-            this.pagePool = genericPool.createPool(this.pageFactory, this.pagePoolOptions);
-            this.printPagePoolStatus();
-
-            this.browser.on('disconnected', launchBrowser);
-        };
-
-        this.getPage = () => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    waitForBrowser(_this);
-                    const page = await _this.pagePool.acquire();
-                    
-                    resolve(page);
-                    logger.info(`Get a page`);
-                    this.printPagePoolStatus();
-                } catch (error) {
-                    // might get this when the timeout or maxWaitingClients
-                    logger.info('Error while getting a page from pool');
-                    reject(error);
-                }
-            });
-        }
-
-        this.releasePage = (page) => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    await _this.pagePool.release(page);
-                    resolve(true);
-                    logger.info(`Release a page`);
-                    this.printPagePoolStatus();
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        }
-
-        this.destroyPage = (page) => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    await _this.pagePool.destroy(page);
-                    resolve(true);
-                    logger.info(`Destroy a page`);
-                    this.printPagePoolStatus();
-                } catch (error) {
-                    reject(error);
-                }
-            });
-        }
         
         (async () => {
-            await launchBrowser();
+            await this.launchBrowser();
         })();
+    }
+
+    static pagePoolOptions() {
+        return _pagePoolOptions;
+    }
+
+    static waitForBrowser(browserHandler) {
+        return new Promise ((resolve, reject) => {
+            const browserCheck = setInterval(() => {
+                if (browserHandler.browser !== false) {
+                    clearInterval(browserCheck);
+                    resolve(true);
+                }
+            }, 10);
+        });
+    }
+
+    async launchBrowser() {
+        logger.info('Launching the browser with options: ', this.options);
+        this.browser = false;
+        this.browser = await puppeteer.launch({
+            headless: true,
+            args: ['--no-sandbox',
+                   '--disable-gpu',
+                   '--proxy-server="direct://"',
+                   '--proxy-bypass-list=*',
+                   `--window-size=${this.options.width},
+                                  ${this.options.height}`]
+        });
+        logger.info('Created a new browser instance');
+
+        if (this.pagePool) {
+            logger.info('Drain the current pagePool');
+            await this.pagePool.drain();
+            await this.pagePool.clear();
+        }
+
+        this.pagePool = genericPool.createPool(this.pageFactory,
+            BrowserHandler.pagePoolOptions());
+
+        this.browser.on('disconnected', this.launchBrowser);
+    };
+
+    getPage() {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await BrowserHandler.waitForBrowser(this);
+                const page = await this.pagePool.acquire();
+                
+                resolve(page);
+                logger.info(`Get a page`);
+                this.printPagePoolStatus();
+            } catch (error) {
+                // might get this when the timeout or maxWaitingClients
+                logger.info('Error while getting a page from pool');
+                reject(error);
+            }
+        });
+    }
+
+    releasePage(page) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await this.pagePool.release(page);
+                resolve(true);
+                logger.info(`Release a page`);
+                this.printPagePoolStatus();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    destroyPage(page) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                await this.pagePool.destroy(page);
+                resolve(true);
+                logger.info(`Destroy a page`);
+                this.printPagePoolStatus();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    printPagePoolStatus() {
+        logger.info(`=== ${this.scope}: Pagepool status START ===`);
+        logger.info(`Pagepool spareResourceCapacity: ${this.pagePool.spareResourceCapacity}`);
+        logger.info(`Pagepool max: ${this.pagePool.max}`);
+        logger.info(`Pagepool min: ${this.pagePool.min}`);
+        logger.info(`Pagepool size: ${this.pagePool.size}`);
+        logger.info(`Pagepool available: ${this.pagePool.available}`);
+        logger.info(`Pagepool borrowed: ${this.pagePool.borrowed}`);
+        logger.info(`Pagepool pending: ${this.pagePool.pending}`);
+        logger.info(`=== ${this.scope}: Pagepool status END ====`);
     }
 }
 
@@ -149,7 +153,7 @@ for (let i = 0; i < scopes.length; i++) {
 exports.getPage = (scope) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await waitForBrowser(_handlerInstances[scope]);
+            await BrowserHandler.waitForBrowser(_handlerInstances[scope]);
             const page = await _handlerInstances[scope].getPage();
             resolve(page);
         } catch (error) {
