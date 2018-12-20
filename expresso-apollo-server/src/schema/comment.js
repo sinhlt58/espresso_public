@@ -3,31 +3,23 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     getComments(
-      brand: String!
+      brand: String
       keyword: String
       domain: DomainEnum
       sort: SortEnum
     ): [Comment!]
+
+    getComment(id: String!): Comment
   }
 
   type Comment {
     id: ID!
     author: String!
     content: String!
-    rate: Int!
+    rate: Float!
     date: String!
-    brand: BrandName!
-    source: Domain!
-  }
-
-  type Domain {
-    domain: String!
-    url: String!
-  }
-
-  type BrandName {
-    name: String!
-    shop: String!
+    product: Product!
+    createdTime: String!
   }
 
   enum DomainEnum {

@@ -1,0 +1,25 @@
+import esClient from '../database';
+
+export default {
+  Product: {
+    id: (parent) => parent._source.id,
+    title: (parent) => parent._source.title,
+    createdTime: (parent) => parent._source.createdTime,
+    uploadTime: (parent) => parent._source.uploadTime,
+    deliverFrom: (parent) => parent._source.deliverFrom,
+    price: (parent) => parent._source.price,
+    description: (parent) => parent._source.description,
+    source: (parent) => parent._source,
+    brand: (parent) => parent._source,
+  },
+
+  Source: {
+    domain: (parent) => parent.domain,
+    url: (parent) => parent.url,
+  },
+
+  Brand: {
+    brand: (parent) => parent.brand,
+    dealer: (parent) => parent.author,
+  },
+};

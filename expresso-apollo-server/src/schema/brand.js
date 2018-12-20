@@ -2,11 +2,11 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    getBrand(name: String!): Brand
-    getBrands: [Brand!]
+    getBrand(name: String!): BrandSummary
+    getBrands: [BrandSummary!]
   }
 
-  type Brand {
+  type BrandSummary {
     id: ID!
     name: String!
     rate: Rating!

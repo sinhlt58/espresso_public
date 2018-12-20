@@ -10,7 +10,7 @@ const app = express();
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
 // responsible for fetching the data for those types.
-const server = new ApolloServer({ typeDefs: schema, resolvers, mocks: true });
+const server = new ApolloServer({ typeDefs: schema, resolvers });
 
 server.applyMiddleware({ app, path: '/graphql' });
 

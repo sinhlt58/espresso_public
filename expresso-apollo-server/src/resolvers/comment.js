@@ -3,16 +3,59 @@ import { esClient } from '../database';
 export default {
   Query: {
     getComments: async (parent, args) => {
+      let esRes;
+
+      if (args.keyword !== undefined) {
+        esRes = await esClient.search({
+          index: 'analysis',
+          body: {
+            query: {
+              bool: {
+                must: [
+                  { match: { itemType: 'review' } },
+                  { match: { content: args.keyword } },
+                ],
+              },
+            },
+          },
+        });
+      }
+
+      if (args.brand !== undefined) {
+        esRes = await esClient.search({
+          index: 'analysis',
+          body: {
+            query: {
+              bool: {
+                must: [
+                  { match: { itemType: 'review' } },
+                  { match: { brand: args.brand } },
+                ],
+              },
+            },
+          },
+        });
+      }
+
+      return esRes.hits.hits;
+    },
+
+    getComment: async (parent, args) => {
       const esRes = await esClient.search({
         index: 'analysis',
         body: {
           query: {
-            match_all: {},
+            bool: {
+              must: [
+                { match: { itemType: 'review' } },
+                { match: { id: args.id } },
+              ],
+            },
           },
         },
       });
 
-      return esRes.hits.hits;
+      return esRes.hits.hits[0];
     },
   },
 
@@ -21,18 +64,24 @@ export default {
     author: (parent) => parent._source.author,
     content: (parent) => parent._source.content,
     rate: (parent) => parent._source.rate,
-    date: (parent) => parent._source.rate,
-    brand: (parent) => parent._source,
-    source: (parent) => parent._source,
-  },
+    date: (parent) => parent._source.date,
+    createdTime: (parent) => parent._source.createdTime,
+    product: async (parent) => {
+      const esRes = await esClient.search({
+        index: 'analysis',
+        body: {
+          query: {
+            bool: {
+              must: [
+                { match: { itemType: 'product' } },
+                { match: { id: parent._source.parentId } },
+              ],
+            },
+          },
+        },
+      });
 
-  Domain: {
-    domain: (parent) => parent.domain,
-    url: (parent) => parent.url,
-  },
-
-  BrandName: {
-    name: (parent) => parent.brand,
-    shop: (parent) => parent.parentAuthor,
+      return esRes.hits.hits[0];
+    },
   },
 };
