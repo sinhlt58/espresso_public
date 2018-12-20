@@ -1,17 +1,5 @@
 import { esClient } from '../database';
-
-const getDomain = (enumValue) => {
-  switch (enumValue) {
-    case 'SHOPEE':
-      return 'shopee.vn';
-    case 'TIKI':
-      return 'tiki.vn';
-    case 'LAZADA':
-      return 'lazada.vn';
-    default:
-      return '';
-  }
-};
+import { getDomain } from './helper';
 
 export default {
   Query: {

@@ -1,4 +1,5 @@
 import { esClient } from '../database';
+import { getDomain } from './helper';
 
 export default {
   Query: {
@@ -46,36 +47,83 @@ export default {
     },
 
     brandHistogram: async (parent, args) => {
-      const esRes = await esClient.search({
-        index: 'analysis',
-        body: {
-          size: 0,
-          query: {
-            bool: {
-              must: [
-                { match: { brand: args.brandName } },
-                {
-                  range: {
-                    date: {
-                      gte: args.from,
-                      lte: args.to,
+      let esRes;
+      if (args.domain === undefined) {
+        esRes = await esClient.search({
+          index: 'analysis',
+          body: {
+            size: 0,
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.name,
+                      fields: ['parentAuthor', 'brand'],
                     },
                   },
-                },
-              ],
-              filter: [{ term: { itemType: 'review' } }],
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
+                ],
+                filter: [{ term: { itemType: 'review' } }],
+              },
             },
-          },
-          aggs: {
-            cmt_histogram: {
-              histogram: {
-                field: 'date',
-                interval: args.interval,
+            aggs: {
+              cmt_histogram: {
+                histogram: {
+                  field: 'date',
+                  interval: args.interval,
+                },
               },
             },
           },
-        },
-      });
+        });
+      } else {
+        esRes = await esClient.search({
+          index: 'analysis',
+          body: {
+            size: 0,
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brandName,
+                      fields: ['parentAuthor', 'brand'],
+                    },
+                  },
+                  {
+                    match: { domain: getDomain(args.domain) },
+                  },
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
+                ],
+                filter: [{ term: { itemType: 'review' } }],
+              },
+            },
+            aggs: {
+              cmt_histogram: {
+                histogram: {
+                  field: 'date',
+                  interval: args.interval,
+                },
+              },
+            },
+          },
+        });
+      }
 
       return esRes.aggregations.cmt_histogram.buckets;
     },
