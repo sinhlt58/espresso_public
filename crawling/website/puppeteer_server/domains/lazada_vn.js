@@ -27,7 +27,7 @@ exports.doActions = (page, options) => {
             const match = url.match(/i\d{5,}-s\d{5,}/);
             if (match) {
                 const productId = match[0].split('-')[0].substring(1);
-                logger.info('productId: ' + productId);
+                logger.info('ProductId: ' + productId);
 
                 const params = {
                     itemId: productId,
@@ -37,15 +37,20 @@ exports.doActions = (page, options) => {
                     pageNo: 0
                 };
                 const reviewsRes = await utils.callGet('https://my.lazada.vn/pdp/review/getReviewList', params);
-                logger.info('number of reviews: ' + reviewsRes.model.items.length);
+                
+                if (reviewsRes && reviewsRes.model && reviewsRes.model.items) {
+                    logger.info('Number of reviews: ', reviewsRes.model.items.length);
 
-                // add to the dom
-                await utils.addReviewsToDomV2(page, reviewsRes.model.items,
-                    addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+                    // add to the dom
+                    await utils.addReviewsToDomV2(page, reviewsRes.model.items,
+                        addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+                } else {
+                    logger.info('Error getting revews with successfull reviewsRes');
+                }
             }
             resolve(true);
         } catch(error) {
-            logger.info('error while getting reviews: ' + error);
+            logger.info('Error while getting reviews: ', error);
             resolve(true);
         }
     });

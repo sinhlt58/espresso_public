@@ -139,11 +139,16 @@ exports.doActionsV2 = (page, options) => {
                     limit: 1000
                 };
                 const reviewsRes = await utils.callGet('https://tiki.vn/api/v2/reviews', params);
-                logger.info('number of reviews: ' + reviewsRes.data.length);
+                
+                if (reviewsRes && reviewsRes.data) {
+                    logger.info('Number of reviews: ' + reviewsRes.data.length);
 
-                // add to the dom
-                await utils.addReviewsToDomV2(page, reviewsRes.data,
-                    addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+                    // add to the dom
+                    await utils.addReviewsToDomV2(page, reviewsRes.data,
+                        addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+                } else {
+                    logger.info('Error getting revews with successfull reviewsRes');
+                }
             }
 
             resolve(true);

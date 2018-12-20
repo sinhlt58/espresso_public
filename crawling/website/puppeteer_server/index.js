@@ -44,6 +44,7 @@ app.get('/api/v1/viewDom', async function(req, res) {
 	logger.info(`Scopes: ${scopes}`);
 
 	let currentPage = null;
+	let currentBrowserScope = 'unknow';
 	let isCurrentPageClosed = false;
 	try {
         let start = new Date().getTime();
@@ -59,6 +60,7 @@ app.get('/api/v1/viewDom', async function(req, res) {
 		}
 
 		currentPage = page;
+		currentBrowserScope = browserScope;
 		page.once('close', () => {
 			isCurrentPageClosed = true;
 		});
@@ -95,7 +97,7 @@ app.get('/api/v1/viewDom', async function(req, res) {
 			// put to the pool
 			page.removeAllListeners('request'); // remove listeners we were using for this task.
 			logger.info('Release the page');
-                        await page.goto('about:blank');
+            await page.goto('about:blank');
 			await browser_instance.releasePage(page, browserScope);
 		} else {
 			// the page might get closed automatically
@@ -107,13 +109,13 @@ app.get('/api/v1/viewDom', async function(req, res) {
 
 		res.status(200).send(html);
 	} catch (error) {
-		logger.info('error: ', error);
+		logger.info('Error while processing page: ', error);
 		try {
 			if (currentPage) {
 				if (!isCurrentPageClosed) {
 					await currentPage.close();
 				}
-				await browser_instance.destroyPage(currentPage);
+				await browser_instance.destroyPage(currentPage, currentBrowserScope);
 				logger.info('Closed page with error and release the page');
 			}
 		} catch (error) {
