@@ -52,7 +52,7 @@ app.get('/api/v1/viewDom', async function(req, res) {
 		logger.info(`browserScope: ${browserScope}`);
 		const page = await browser_instance.getPage(browserScope);
 		let end = new Date().getTime();
-		logger.info(`Get page takes: ${end - start}ms`);		
+		logger.info(`${browserScope}: Get page takes: ${end - start}ms`);		
 		
 		start = new Date().getTime();
 		if (!page) {
@@ -79,7 +79,7 @@ app.get('/api/v1/viewDom', async function(req, res) {
 		start = new Date().getTime();
 		await page.goto(decodedUrl, {waitUntil: 'networkidle0', timeout: options.pageTimeout});
 		end = new Date().getTime();
-		logger.info(`Fetch page takes: ${end - start}ms`);
+		logger.info(`${browserScope}: Fetch page takes: ${end - start}ms`);
 
 		start = new Date().getTime();
 		const funcActions = await domains.getDomainFuncActionsByScopes(scopes);
@@ -92,34 +92,34 @@ app.get('/api/v1/viewDom', async function(req, res) {
 
 		let html = await page.content();
 
-		logger.info(`isCurrentPageClosed: ${isCurrentPageClosed}`);
+		logger.info(`${browserScope}: isCurrentPageClosed: ${isCurrentPageClosed}`);
 		if (!isCurrentPageClosed) {
 			// put to the pool
 			page.removeAllListeners('request'); // remove listeners we were using for this task.
-			logger.info('Release the page');
+			logger.info(`${browserScope}: Release the page`);
             await page.goto('about:blank');
 			await browser_instance.releasePage(page, browserScope);
 		} else {
 			// the page might get closed automatically
-			logger.info('Destroy the page');
+			logger.info(`${browserScope}: Destroy the page`);
 			await browser_instance.destroyPage(page, browserScope);
 		}
 		end = new Date().getTime();
-		logger.info(`Process page takes: ${end - start}ms`);
+		logger.info(`${browserScope}: Process page takes: ${end - start}ms`);
 
 		res.status(200).send(html);
 	} catch (error) {
-		logger.info('Error while processing page: ', error);
+		logger.info(`${browserScope}: Error while processing page: `, error);
 		try {
 			if (currentPage) {
 				if (!isCurrentPageClosed) {
 					await currentPage.close();
 				}
 				await browser_instance.destroyPage(currentPage, currentBrowserScope);
-				logger.info('Closed page with error and release the page');
+				logger.info(`${browserScope}: Closed page with error and release the page`);
 			}
 		} catch (error) {
-			logger.info('Error while destroying a page');	
+			logger.info(`${browserScope}: Error while destroying a page`);	
 		}
 		
 		res.status(500).send('Error');

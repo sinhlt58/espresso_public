@@ -61,7 +61,7 @@ class BrowserHandler {
     }
 
     async launchBrowser() {
-        logger.info('Launching the browser with options: ', this.options);
+        logger.info(`${this.scope}: Launching the browser with options: `, this.options);
         this.browser = false;
         this.browser = await puppeteer.launch({
             headless: true,
@@ -72,10 +72,10 @@ class BrowserHandler {
                    `--window-size=${this.options.width},
                                   ${this.options.height}`]
         });
-        logger.info('Created a new browser instance');
+        logger.info(`${this.scope}: Created a new browser instance`);
 
         if (this.pagePool) {
-            logger.info('Drain the current pagePool');
+            logger.info(`${this.scope}: Drain the current pagePool`);
             await this.pagePool.drain();
             await this.pagePool.clear();
         }
@@ -93,11 +93,11 @@ class BrowserHandler {
                 const page = await this.pagePool.acquire();
                 
                 resolve(page);
-                logger.info(`Get a page`);
+                logger.info(`${this.scope}: Get a page`);
                 this.printPagePoolStatus();
             } catch (error) {
                 // might get this when the timeout or maxWaitingClients
-                logger.info('Error while getting a page from pool');
+                logger.info(`${this.scope}: Error while getting a page from pool`);
                 reject(error);
             }
         });
@@ -108,7 +108,7 @@ class BrowserHandler {
             try {
                 await this.pagePool.release(page);
                 resolve(true);
-                logger.info(`Release a page`);
+                logger.info(`${this.scope}: Release a page`);
                 this.printPagePoolStatus();
             } catch (error) {
                 reject(error);
@@ -121,7 +121,7 @@ class BrowserHandler {
             try {
                 await this.pagePool.destroy(page);
                 resolve(true);
-                logger.info(`Destroy a page`);
+                logger.info(`${this.scope}: Destroy a page`);
                 this.printPagePoolStatus();
             } catch (error) {
                 reject(error);
@@ -131,13 +131,13 @@ class BrowserHandler {
 
     printPagePoolStatus() {
         logger.info(`=== ${this.scope}: Pagepool status START ===`);
-        logger.info(`Pagepool spareResourceCapacity: ${this.pagePool.spareResourceCapacity}`);
-        logger.info(`Pagepool max: ${this.pagePool.max}`);
-        logger.info(`Pagepool min: ${this.pagePool.min}`);
-        logger.info(`Pagepool size: ${this.pagePool.size}`);
-        logger.info(`Pagepool available: ${this.pagePool.available}`);
-        logger.info(`Pagepool borrowed: ${this.pagePool.borrowed}`);
-        logger.info(`Pagepool pending: ${this.pagePool.pending}`);
+        logger.info(`${this.scope}: Pagepool spareResourceCapacity: ${this.pagePool.spareResourceCapacity}`);
+        logger.info(`${this.scope}: Pagepool max: ${this.pagePool.max}`);
+        logger.info(`${this.scope}: Pagepool min: ${this.pagePool.min}`);
+        logger.info(`${this.scope}: Pagepool size: ${this.pagePool.size}`);
+        logger.info(`${this.scope}: Pagepool available: ${this.pagePool.available}`);
+        logger.info(`${this.scope}: Pagepool borrowed: ${this.pagePool.borrowed}`);
+        logger.info(`${this.scope}: Pagepool pending: ${this.pagePool.pending}`);
         logger.info(`=== ${this.scope}: Pagepool status END ====`);
     }
 }
@@ -157,7 +157,7 @@ exports.getPage = (scope) => {
             const page = await _handlerInstances[scope].getPage();
             resolve(page);
         } catch (error) {
-            logger.info('Error while getting a page');
+            logger.info(`${scope}: Error while getting a page`);
             reject(error);
         }
     });
@@ -169,7 +169,7 @@ exports.releasePage = (page, scope) => {
             const res = await _handlerInstances[scope].releasePage(page);
             resolve(res);
         } catch (error) {
-            logger.info('Error while releasing a page');
+            logger.info(`${scope}: Error while releasing a page`);
             reject(error);
         }
     });
@@ -181,7 +181,7 @@ exports.destroyPage = (page, scope) => {
             const res = await _handlerInstances[scope].destroyPage(page);
             resolve(res);
         } catch (error) {
-            logger.info('Error while releasing a page');
+            logger.info(`${scope}: Error while releasing a page`);
             reject(error);
         }
     });
