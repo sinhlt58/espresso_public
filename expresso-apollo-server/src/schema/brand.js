@@ -7,17 +7,16 @@ export default gql`
   }
 
   type BrandSummary {
-    id: ID!
     name: String!
     rate: Rating!
   }
 
   type Rating {
     average: Float!
-    detail: [SourceRating!]
+    detail: [RateDetail!]
   }
 
-  type SourceRating {
+  type RateDetail {
     domain: String!
     totalCmt: Int!
     rate: Float!
