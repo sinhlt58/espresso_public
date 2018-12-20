@@ -1,6 +1,10 @@
 import { gql } from 'apollo-server-express';
 
 export default gql`
+  extend type Query {
+    getProduct(id: String!): Product!
+  }
+
   type Product {
     id: ID!
     title: String
@@ -11,6 +15,7 @@ export default gql`
     brand: Brand!
     price: Int!
     description: String
+    rating: Float!
   }
 
   type Brand {
