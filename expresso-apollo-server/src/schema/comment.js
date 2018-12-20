@@ -26,6 +26,7 @@ export default gql`
   enum DomainEnum {
     SHOPEE
     TIKI
+    LAZADA
   }
 
   enum SortEnum {

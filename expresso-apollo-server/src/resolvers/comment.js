@@ -1,5 +1,18 @@
 import { esClient } from '../database';
 
+const getDomain = (enumValue) => {
+  switch (enumValue) {
+    case 'SHOPEE':
+      return 'shopee.vn';
+    case 'TIKI':
+      return 'tiki.vn';
+    case 'LAZADA':
+      return 'lazada.vn';
+    default:
+      return '';
+  }
+};
+
 export default {
   Query: {
     getComments: async (parent, args) => {
@@ -51,6 +64,38 @@ export default {
                   },
                 ],
                 filter: [{ term: { itemType: 'review' } }],
+              },
+            },
+            sort: {
+              rate: { order: sortType },
+            },
+          },
+        });
+      }
+
+      if (
+        args.brand !== undefined &&
+        args.domain !== undefined &&
+        args.keyword === undefined &&
+        args.productId === undefined
+      ) {
+        esRes = await esClient.search({
+          index: 'analysis',
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ['parentAuthor', 'brand'],
+                    },
+                  },
+                ],
+                filter: [
+                  { term: { itemType: 'review' } },
+                  { term: { domain: getDomain(args.domain) } },
+                ],
               },
             },
             sort: {
