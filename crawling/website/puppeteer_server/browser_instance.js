@@ -72,17 +72,19 @@ class BrowserHandler {
                                       ${this.options.height}`]
             });
             logger.info('Created a new browser instance');
-            
-            if (this.pagePool == null) {
-                logger.info(`Create page pool for browserhandler`);
-                this.pagePool = genericPool.createPool(this.pageFactory, this.pagePoolOptions);
-                this.printPagePoolStatus();
-            } else {
-                logger.info(`Recreate the browser so we clear the pageFool`);
-                await this.pagePool.drain().then(() => {
-                    _this.pagePool.clear();
+
+            if (this.pagePool) {
+                let _tmpPool = this.pagePool;
+                logger.info("Drain the old pagePool");
+                _tmpPool.drain()
+                .then(_ => {
+                    _tmpPool.clear();
                 });
             }
+            
+            logger.info(`Create a new pagepool for browserhandler`);
+            this.pagePool = genericPool.createPool(this.pageFactory, this.pagePoolOptions);
+            this.printPagePoolStatus();
 
             this.browser.on('disconnected', launchBrowser);
         };
