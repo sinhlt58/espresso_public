@@ -6,8 +6,9 @@ const options = require('./options');
 const logger = require('./logger')(module);
 
 _pagePoolOptions = {
-    max: 17,
-    min: 1
+    max: 10,
+    min: 1,
+    acquireTimeoutMillis: 1000
 }
 class BrowserHandler {
     constructor (options, scope) {

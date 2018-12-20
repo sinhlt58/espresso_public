@@ -109,17 +109,17 @@ app.get('/api/v1/viewDom', async function(req, res) {
 
 		res.status(200).send(html);
 	} catch (error) {
-		logger.info(`${browserScope}: Error while processing page: `, error);
+		logger.info(`${currentBrowserScope}: Error while processing page: `, error);
 		try {
 			if (currentPage) {
 				if (!isCurrentPageClosed) {
 					await currentPage.close();
 				}
 				await browser_instance.destroyPage(currentPage, currentBrowserScope);
-				logger.info(`${browserScope}: Closed page with error and release the page`);
+				logger.info(`${currentBrowserScope}: Closed page with error and destroy the page`);
 			}
 		} catch (error) {
-			logger.info(`${browserScope}: Error while destroying a page`);	
+			logger.info(`${currentBrowserScope}: Error while destroying a page`);	
 		}
 		
 		res.status(500).send('Error');

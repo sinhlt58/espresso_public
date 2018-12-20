@@ -100,10 +100,11 @@ exports.addReviewsToDomV2 = (page, reviewsData, addContentFunc,
 const commonHeaders = {
     'Content-Type': 'application/json'
 };
+const timeoutHttp = 20000;
 exports.callGet = (url, params) => {
     return new Promise((resolve, reject) => {
 
-        request.get({url: url, qs: params, json: true},
+        request.get({url: url, timeout: timeoutHttp, qs: params, json: true},
                         (error, res, body) => {
             if (error) {
                 reject(error);
@@ -131,7 +132,8 @@ exports.callPost = (url, data) => {
     return new Promise((resolve, reject) => {
         const options = {
             headers: commonHeaders,
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
+            timeout: timeoutHttp
         }
         request.post(url, options, (error, res, body) => {
             if (error) {

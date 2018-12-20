@@ -14,7 +14,7 @@ config:
   http.agent.url: http://someorganization.com/
   http.agent.version: '1.0'
   http.content.limit: -1
-  http.timeout: 60000
+  http.timeout: 120000
   indexer.canonical.name: canonical
   indexer.created_time: created_time
   indexer.md.mapping:
