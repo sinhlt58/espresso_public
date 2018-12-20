@@ -44,6 +44,41 @@ export default {
 
       return [esRes, args.name];
     },
+
+    brandHistogram: async (parent, args) => {
+      const esRes = await esClient.search({
+        index: 'analysis',
+        body: {
+          size: 0,
+          query: {
+            bool: {
+              must: [
+                { match: { brand: args.brandName } },
+                {
+                  range: {
+                    date: {
+                      gte: args.from,
+                      lte: args.to,
+                    },
+                  },
+                },
+              ],
+              filter: [{ term: { itemType: 'review' } }],
+            },
+          },
+          aggs: {
+            cmt_histogram: {
+              histogram: {
+                field: 'date',
+                interval: args.interval,
+              },
+            },
+          },
+        },
+      });
+
+      return esRes.aggregations.cmt_histogram.buckets;
+    },
   },
 
   BrandSummary: {
@@ -60,5 +95,10 @@ export default {
     domain: (parent) => parent.key,
     totalCmt: (parent) => parent.doc_count,
     rate: (parent) => parent.avg_rating.value,
+  },
+
+  BrandHistogramItem: {
+    timestamp: (parent) => parent.key,
+    count: (parent) => parent.doc_count,
   },
 };
