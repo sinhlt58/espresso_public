@@ -21,7 +21,7 @@ spouts:
 bolts:
   - id: "fetcher"
     className: "com.uet.crawling.social.bolt.FetcherBolt"
-    parallelism: 3
+    parallelism: 1
 
   # - id: "parse"
   #   className: "com.uet.crawling.social.NormalizerBolt"

@@ -25,6 +25,8 @@ public class Constants {
 
     // can dua vao config
     public static final String NodeTypeSearchPages = "search_pages";
+    public static final String NodeTypeGetPosts = "get_posts";
+    public static final String NodeTypeGetComments= "get_comments";
 
     public static final String PARTITION_MODEParamName = "partition.url.mode";
 

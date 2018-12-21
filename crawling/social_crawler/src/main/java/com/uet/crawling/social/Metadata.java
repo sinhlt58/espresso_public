@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.uet.crawling.social.facebook.models.Result;
+
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -40,6 +43,7 @@ public class Metadata {
 
     // conganh add
     private Map<String, ArrayList<Map<String, ArrayList<String>>>> domainsData;
+    // private Result result;
     // end conganh
 
     public final static Metadata empty = new Metadata(
