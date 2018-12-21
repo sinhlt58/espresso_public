@@ -41,9 +41,10 @@ public class Metadata {
     // String.class, keysCanBeNull = false)
     private Map<String, String[]> md;
 
+    // co nen them result.toString va result.buildFromString de dong nhat metadata???
+    // su dung JsonObject parse string
     // conganh add
-    private Map<String, ArrayList<Map<String, ArrayList<String>>>> domainsData;
-    // private Result result;
+    private Result result = null;
     // end conganh
 
     public final static Metadata empty = new Metadata(
@@ -52,7 +53,7 @@ public class Metadata {
     public Metadata() {
         md = new HashMap<>();
         // conganh add
-        domainsData = new HashMap<>();
+        result = null;
         // end conganh
     }
 
@@ -69,6 +70,9 @@ public class Metadata {
     /** Puts all the metadata into the current instance **/
     public void putAll(Metadata m) {
         md.putAll(m.md);
+        // conganh add
+        result = m.result;
+        // end conganh
     }
 
     /** @return the first value for the key or null if it does not exist **/
@@ -193,16 +197,11 @@ public class Metadata {
     }
 
     // conganh add
-    public Map<String, ArrayList<Map<String, ArrayList<String>>>> getDomainsData(){
-        return domainsData;
+    public Result getResult(){
+        return result;
     }
-    public void addRecordToDomainData(String domain, Map<String, ArrayList<String>> record){
-        ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
-        if (records == null) {
-            records = new ArrayList<>();
-            domainsData.put(domain, records);
-        }
-        records.add(record);
+    public void setRsult(Result result){
+        this.result = result;
     }
     // end conganh
 }

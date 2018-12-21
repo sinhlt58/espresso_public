@@ -24,7 +24,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.uet.crawling.social.facebook.models.Result;
 import com.uet.crawling.social.facebook.services.GetComments;
@@ -56,9 +55,7 @@ public class FetcherBolt extends StatusEmitterBolt{
     private static final org.slf4j.Logger LOG = LoggerFactory
             .getLogger(FetcherBolt.class);
 
-    // conganh add
     private FBClient fbClient = null;
-    // end conganh
 
     private final AtomicInteger activeThreads = new AtomicInteger(0);
     private final AtomicInteger spinWaiting = new AtomicInteger(0);
@@ -69,7 +66,7 @@ public class FetcherBolt extends StatusEmitterBolt{
 
     private File debugfiletrigger;
 
-    /** blocks the processing of new URLs if this value is reached **/
+    /** blocks the processing of new Nodes if this value is reached **/
     private int maxNumberNodeInQueues = -1;
 
     private String[] beingFetched;
@@ -82,22 +79,18 @@ public class FetcherBolt extends StatusEmitterBolt{
         String queueID;
         String node;
         Tuple t;
-        // long creationTime;
 
         public FetchItem(String node, Tuple t, String queueID) {
             this.node = node;
             this.queueID = queueID;
             this.t = t;
-            // this.creationTime = System.currentTimeMillis();
         }
 
         /**
-         * Create an item. Queue id will be created based on
-         * <code>queueMode</code> argument, either as a protocol + hostname
-         * pair, protocol + IP address pair or protocol+domain pair.
+         * Create an item. Queue id will be created based on type
          */
 
-        public static FetchItem create(String node, Tuple t/*, String queueMode*/) {
+        public static FetchItem create(String node, Tuple t) {
             String queueID = null;
             // conganh add
             if(t.contains("metadata")){
@@ -114,29 +107,20 @@ public class FetcherBolt extends StatusEmitterBolt{
     }
 
     /**
-     * This class handles FetchItems which come from the same host ID (be it a
-     * proto/hostname or proto/IP pair). It also keeps track of requests in
+     * This class handles FetchItems which come from the same host ID
+     * It also keeps track of requests in
      * progress and elapsed time between requests.
      */
     private static class FetchItemQueue {
         final BlockingDeque<FetchItem> queue;
 
         private final AtomicInteger inProgress = new AtomicInteger();
-        private final AtomicLong nextFetchTime = new AtomicLong();
 
-        private final long minCrawlDelay;
         private final int maxThreads;
 
-        long crawlDelay;
-
-        public FetchItemQueue(int maxThreads, long crawlDelay,
-                long minCrawlDelay, int maxQueueSize) {
+        public FetchItemQueue(int maxThreads, int maxQueueSize) {
             this.maxThreads = maxThreads;
-            this.crawlDelay = crawlDelay;
-            this.minCrawlDelay = minCrawlDelay;
             this.queue = new LinkedBlockingDeque<>(maxQueueSize);
-            // ready to start
-            setNextFetchTime(System.currentTimeMillis(), true);
         }
 
         public int getQueueSize() {
@@ -147,10 +131,9 @@ public class FetcherBolt extends StatusEmitterBolt{
             return inProgress.get();
         }
 
-        public void finishFetchItem(FetchItem it, boolean asap) {
+        public void finishFetchItem(FetchItem it) {
             if (it != null) {
                 inProgress.decrementAndGet();
-                setNextFetchTime(System.currentTimeMillis(), asap);
             }
         }
 
@@ -161,21 +144,11 @@ public class FetcherBolt extends StatusEmitterBolt{
         public FetchItem getFetchItem() {
             if (inProgress.get() >= maxThreads)
                 return null;
-            if (nextFetchTime.get() > System.currentTimeMillis())
-                return null;
             FetchItem it = queue.pollFirst();
             if (it != null) {
                 inProgress.incrementAndGet();
             }
             return it;
-        }
-
-        private void setNextFetchTime(long endTime, boolean asap) {
-            if (!asap)
-                nextFetchTime.set(endTime
-                        + (maxThreads > 1 ? minCrawlDelay : crawlDelay));
-            else
-                nextFetchTime.set(endTime);
         }
 
     }
@@ -191,8 +164,6 @@ public class FetcherBolt extends StatusEmitterBolt{
         AtomicInteger inQueues = new AtomicInteger(0);
 
         final int defaultMaxThread;
-        final long crawlDelay;
-        final long minCrawlDelay;
 
         int maxQueueSize;
 
@@ -203,10 +174,6 @@ public class FetcherBolt extends StatusEmitterBolt{
             this.defaultMaxThread = ConfUtils.getInt(conf,
                     "fetcher.threads.per.queue", 1);
 
-            this.crawlDelay = (long) (ConfUtils.getFloat(conf,
-                    "fetcher.server.delay", 1.0f) * 1000);
-            this.minCrawlDelay = (long) (ConfUtils.getFloat(conf,
-                    "fetcher.server.min.delay", 0.0f) * 1000);
             this.maxQueueSize = ConfUtils.getInt(conf,
                     "fetcher.max.queue.size", -1);
             if (this.maxQueueSize == -1) {
@@ -214,9 +181,9 @@ public class FetcherBolt extends StatusEmitterBolt{
             }
         }
 
-        /** @return true if the URL has been added, false otherwise **/
+        /** @return true if the Node has been added, false otherwise **/
         public synchronized boolean addFetchItem(String node, Tuple input) {
-            FetchItem it = FetchItem.create(node, input/*, queueMode*/);
+            FetchItem it = FetchItem.create(node, input);
             FetchItemQueue fiq = getFetchItemQueue(it.queueID);
             boolean added = fiq.addFetchItem(it);
             if (added) {
@@ -225,27 +192,25 @@ public class FetcherBolt extends StatusEmitterBolt{
             return added;
         }
 
-        public synchronized void finishFetchItem(FetchItem it, boolean asap) {
+        public synchronized void finishFetchItem(FetchItem it) {
             FetchItemQueue fiq = queues.get(it.queueID);
             if (fiq == null) {
                 LOG.warn("Attempting to finish item from unknown queue: {}",
                         it.queueID);
                 return;
             }
-            fiq.finishFetchItem(it, asap);
+            fiq.finishFetchItem(it);
         }
 
         public synchronized FetchItemQueue getFetchItemQueue(String id) {
             FetchItemQueue fiq = queues.get(id);
             if (fiq == null) {
-                // custom maxThread value?
+                // custom maxThread value: "fetcher.maxThreads." + id (type)
                 final int customThreadVal = ConfUtils.getInt(conf,
                         "fetcher.maxThreads." + id, defaultMaxThread);
                 // initialize queue
-                fiq = new FetchItemQueue(customThreadVal, crawlDelay,
-                        minCrawlDelay, maxQueueSize);
+                fiq = new FetchItemQueue(customThreadVal, maxQueueSize);
                 queues.put(id, fiq);
-                LOG.info("Queue id: {}, custome thread number: {}, queues size: {}", id, customThreadVal, queues.size());
             }
             return fiq;
         }
@@ -305,30 +270,15 @@ public class FetcherBolt extends StatusEmitterBolt{
     }
 
     /**
-     * This class picks items from queues and fetches the pages.
+     * This class picks items from queues and fetches the grap api.
      */
     private class FetcherThread extends Thread {
 
-        // max. delay accepted from robots.txt
-        private final long maxCrawlDelay;
-        // whether maxCrawlDelay overwrites the longer value in robots.txt
-        // (otherwise URLs in this queue are skipped)
-        private final boolean maxCrawlDelayForce;
-        // whether the default delay is used even if the robots.txt
-        // specifies a shorter crawl-delay
-        private final boolean crawlDelayForce;
         private int threadNum;
 
-        public FetcherThread(Config conf, int num) {
+        public FetcherThread(int num) {
             this.setDaemon(true); // don't hang JVM on exit
             this.setName("FetcherThread #" + num); // use an informative name
-
-            this.maxCrawlDelay = ConfUtils.getInt(conf,
-                    "fetcher.max.crawl.delay", 30) * 1000;
-            this.maxCrawlDelayForce = ConfUtils.getBoolean(conf,
-                    "fetcher.max.crawl.delay.force", false);
-            this.crawlDelayForce = ConfUtils.getBoolean(conf,
-                    "fetcher.server.delay.force", false);
             this.threadNum = num;
         }
 
@@ -366,19 +316,21 @@ public class FetcherBolt extends StatusEmitterBolt{
 
                 if (fit.t.contains("metadata")) {
                     metadata = (Metadata) fit.t.getValueByField("metadata");
-                }
-                if (metadata == null) {
+                } else {
+                    // require metadata.type inorder to send grap api
                     metadata = Metadata.empty;
+                    collector.emit(
+                        Constants.StatusStreamName,
+                        fit.t,
+                        new Values(fit.node, metadata, Status.ERROR));
+                    collector.ack(fit.t);
+                    continue;
                 }
-
-                boolean asap = false;
 
                 try {
-                    LOG.info("Node: {}", fit.node);
+                    LOG.info("[Fetcher #{}] Starting fetch Node: {}", taskID, fit.node);
 
-                    // conganh add
                     long start = System.currentTimeMillis();
-                    // long timeInQueues = start - fit.creationTime;
                     Result result = null;
                     String type = metadata.getFirstValue("type");
                     switch (type) {
@@ -395,85 +347,38 @@ public class FetcherBolt extends StatusEmitterBolt{
                             result = getComments.get(fbClient.getClient(), fit.node, 100);
                             break;
                         default:
-                            break;
+                            // require metadata.type inorder to send grap api
+                            collector.emit(
+                                Constants.StatusStreamName,
+                                fit.t,
+                                new Values(fit.node, metadata, Status.ERROR));
+                            continue;
+                            // break; ?????
                     }
                     long timeFetching = System.currentTimeMillis() - start;
-                    
-                    FetchItemQueue fiq = fetchQueues
-                            .getFetchItemQueue(fit.queueID);
-                    if (timeFetching > 0
-                            && timeFetching != fiq.crawlDelay) {
-                        if (timeFetching > maxCrawlDelay
-                                && maxCrawlDelay >= 0) {
-                            boolean force = false;
-                            String msg = "skipping";
-                            if (maxCrawlDelayForce) {
-                                force = true;
-                                msg = "using value of fetcher.max.crawl.delay instead";
-                            }
-                            LOG.info("Crawl-Delay for {} too long ({}), {}",
-                                    fit.node, timeFetching, msg);
-                            if (force) {
-                                fiq.crawlDelay = maxCrawlDelay;
-                            } else {
-                                // pass the info about crawl delay
-                                metadata.setValue(Constants.STATUS_ERROR_CAUSE,
-                                        "crawl_delay");
-                                collector
-                                        .emit(com.digitalpebble.stormcrawler.Constants.StatusStreamName,
-                                                fit.t, new Values(fit.node,
-                                                        metadata, Status.ERROR));
-                                // no need to wait next time as we won't request
-                                // from that site
-                                asap = true;
-                                continue;
-                            }
-                        } else if (timeFetching < fetchQueues.crawlDelay
-                                && crawlDelayForce) {
-                            fiq.crawlDelay = fetchQueues.crawlDelay;
-                            LOG.info(
-                                    "Crawl delay for {} too short ({}), set to fetcher.server.delay",
-                                    fit.node, timeFetching);
-                        } else {
-                            fiq.crawlDelay = timeFetching;
-                            LOG.info(
-                                    "Crawl delay for queue: {}  is set to {} as per robots.txt. url: {}",
-                                    fit.queueID, fiq.crawlDelay, fit.node);
-                        }
-                    }
 
-                    Integer statusCode = null;
+                    Integer errorCode = null;
                     if(result != null && result.getError() != null){
-                        statusCode = result.getError().getCode();
+                        errorCode = result.getError().getCode();
                     }
                     
-                    LOG.info(
-                        "[Fetcher #{}] Fetched {} with status {} in msec {}",
-                        taskID, fit.node, statusCode,
-                        timeFetching);
-                    // end conganh
+                    if(errorCode != null){
+                        LOG.info(
+                            "[Fetcher #{}] Fetched {} with error code {} in msec {}",
+                            taskID, fit.node, errorCode,
+                            timeFetching);
+                    } else {
+                        LOG.info(
+                            "[Fetcher #{}] Fetched {} in msec {}",
+                            taskID, fit.node,
+                            timeFetching);
+                    }
 
-                    // chua set metadata result
-
-                    // final int byteLength = response.getContent().length;
-
-                    // metadata.setValue("fetch.statusCode",
-                    //     statusCode.toString());
-
-                    // mergedMD.setValue("fetch.byteLength",
-                    //         Integer.toString(byteLength));
-
-                    // metadata.setValue("fetch.loadingTime",
-                    //         Long.toString(timeFetching));
-
-                    // metadata.setValue("fetch.timeInQueues",
-                    //         Long.toString(timeInQueues));
+                    // can chinh lai neu muon dong nhat metadata
+                    metadata.setRsult(result);
 
                     // determine the status based on the status code
-
-                    // conganh add
-                    final Status status = Status.fromApiResponseCode(statusCode);
-                    // end conganh
+                    final Status status = Status.fromApiResponseCode(errorCode);
 
                     final Values tupleToSend = new Values(fit.node, metadata,
                             status);
@@ -516,7 +421,7 @@ public class FetcherBolt extends StatusEmitterBolt{
                             new Values(fit.node, metadata, Status.FETCH_ERROR));
 
                 } finally {
-                    fetchQueues.finishFetchItem(fit, asap);
+                    fetchQueues.finishFetchItem(fit);
                     activeThreads.decrementAndGet(); // count threads
                     // ack it whatever happens
                     collector.ack(fit.t);
@@ -536,7 +441,7 @@ public class FetcherBolt extends StatusEmitterBolt{
         Config conf = new Config();
         conf.putAll(stormConf);
 
-        // co can static hay khong?
+        // need static or not ???
         // conganh add
         String access_token = ConfUtils.getString(conf,
                 Constants.FB_ACCESS_TOKEN_ParamName, Constants.FB_ACCESS_TOKEN);
@@ -554,7 +459,7 @@ public class FetcherBolt extends StatusEmitterBolt{
 
         int threadCount = ConfUtils.getInt(conf, "fetcher.threads.number", 10);
         for (int i = 0; i < threadCount; i++) { // spawn threads
-            new FetcherThread(conf, i).start();
+            new FetcherThread(i).start();
         }
 
         // keep track of the Nodes in fetching
@@ -651,14 +556,14 @@ public class FetcherBolt extends StatusEmitterBolt{
             LOG.info("Dumping queue content {}", sb.toString());
 
             StringBuilder sb2 = new StringBuilder("\n");
-            // dump the list of URLs being fetched
+            // dump the list of Nodes being fetched
             for (int i = 0; i < beingFetched.length; i++) {
                 if (beingFetched[i].length() > 0) {
                     sb2.append("\n\tThread #").append(i).append(": ")
                             .append(beingFetched[i]);
                 }
             }
-            LOG.info("URLs being fetched {}", sb2.toString());
+            LOG.info("Nodes being fetched {}", sb2.toString());
         }
     }
 
