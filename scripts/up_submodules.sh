@@ -1,6 +1,6 @@
 #!/bin/bash
 
-storm_crawler_version="846ef776517b733f14f21ee371f9b8264503e6ae"  #v1.11
+storm_crawler_version="20ff899c2f808b17cdf43d6fa7f2d54a3c412f06"  #v1.12
 CopyCssSelector_version="31cb2f3e02538d17bd9de4b19bfab0b0eed6c754" #v0.5.3
 
 root_dir=$(echo $PWD)/..

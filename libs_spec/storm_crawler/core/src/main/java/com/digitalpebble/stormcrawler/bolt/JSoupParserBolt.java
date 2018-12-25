@@ -25,7 +25,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+// sinh.luutruong added
 import java.util.ArrayList;
+// sinh.luutruong added
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,7 +53,7 @@ import org.w3c.dom.DocumentFragment;
 
 import com.digitalpebble.stormcrawler.Constants;
 import com.digitalpebble.stormcrawler.Metadata;
-import com.digitalpebble.stormcrawler.parse.JSoupDOMBuilder;
+import com.digitalpebble.stormcrawler.parse.DocumentFragmentBuilder;
 import com.digitalpebble.stormcrawler.parse.Outlink;
 import com.digitalpebble.stormcrawler.parse.ParseData;
 import com.digitalpebble.stormcrawler.parse.ParseFilter;
@@ -346,7 +348,7 @@ public class JSoupParserBolt extends StatusEmitterBolt {
             DocumentFragment fragment = null;
             // lazy building of fragment
             if (parseFilters.needsDOM()) {
-                fragment = JSoupDOMBuilder.jsoup2HTML(jsoupDoc);
+                fragment = DocumentFragmentBuilder.fromJsoup(jsoupDoc);
             }
             parseFilters.filter(url, content, fragment, parse);
 
