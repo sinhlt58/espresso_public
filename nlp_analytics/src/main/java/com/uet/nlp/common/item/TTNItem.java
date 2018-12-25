@@ -72,6 +72,7 @@ public class TTNItem extends Item {
     @JsonProperty("gia")
     public void _setPrice(String priceStr) {
         priceStr = priceStr.replace(".", "");
+        priceStr = priceStr.replace(",", "");
         Matcher match = pattern.matcher(priceStr);
         match.find();
         try {
