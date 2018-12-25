@@ -10,7 +10,7 @@ export default gql`
       productId: String
     ): [Comment!]
 
-    getComment(id: String!): Comment
+    getComment(id: String!): Comment!
   }
 
   type Comment {

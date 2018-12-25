@@ -137,6 +137,10 @@ export default {
         },
       });
 
+      if (esRes.hits.hits.length === 0) {
+        throw 'Comment not found';
+      }
+
       return esRes.hits.hits[0];
     },
   },
@@ -146,7 +150,7 @@ export default {
     author: (parent) => parent._source.author,
     content: (parent) => parent._source.content,
     rate: (parent) => parent._source.rate,
-    date: (parent) => parent._source.date,
+    date: (parent) => parent._source.date * 1000,
     createdTime: (parent) => parent._source.createdTime,
     product: async (parent) => {
       const esRes = await esClient.search({

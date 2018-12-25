@@ -132,6 +132,7 @@ export default {
   BrandSummary: {
     name: (parent) => parent[1],
     rate: (parent) => parent[0].aggregations,
+    totalCmt: (parent) => parent[0].hits.total,
   },
 
   Rating: {
