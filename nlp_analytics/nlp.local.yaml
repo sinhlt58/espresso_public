@@ -1,0 +1,74 @@
+name: "nlp_sentiment"
+
+config:
+  topology.workers: 1
+
+  # spout read from ES
+  spout.min.delay.queries: 2000
+  spout.ttl.purgatory: 10
+
+  es.analysis.addresses: "http://103.220.68.79:9200"
+  es.analysis.index.name: "analysis"
+  es.analysis.doc.type: "_doc"
+  #es.analysis.user: "USERNAME"
+  #es.analysis.password: "PASSWORD"
+
+  es.analysis.status.field: "analysis_status"
+  es.analysis.done: "done"
+  es.analysis.max.hit: 5
+
+  # Write after analysis
+  es.indexer.addresses: "localhost:9200"
+  es.indexer.index.name: "sentiment"
+  es.indexer.doc.type: "_doc"
+  es.indexer.bulkActions: 500
+  es.indexer.flushInterval: "1s"
+  es.indexer.concurrentRequests: 5
+
+  # Write after analysis
+  es.status.update.skip: true
+  es.status.addresses: "http://103.220.68.79:9200"
+  es.status.index.name: "analysis"
+  es.status.doc.type: "_doc"
+  es.status.bulkActions: 500
+  es.status.flushInterval: "1s"
+  es.status.concurrentRequests: 5
+
+spouts:
+  - id: "spout"
+    className: "com.uet.nlp.spout.AggregationSpout"
+    parallelism: 1
+
+bolts:
+  - id: "preprocessnlp"
+    className: "com.uet.nlp.preprocess_model.PreprocessNlpBolt"
+    parallelism: 5
+
+  - id: "indexer"
+    className: "com.uet.nlp.indexing.IndexerBolt"
+    parallelism: 1
+
+  - id: "status"
+    className: "com.uet.nlp.indexing.StatusUpdateBolt"
+    parallelism: 1
+
+streams:
+  - from: "spout"
+    to: "preprocessnlp"
+    grouping:
+      type: SHUFFLE
+
+  - from: "preprocessnlp"
+    to: "indexer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "preprocessnlp"
+    to: "indexer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "indexer"
+    to: "status"
+    grouping:
+      type: SHUFFLE

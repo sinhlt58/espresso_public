@@ -26,3 +26,23 @@ if [ "$1" = "remote" ]
 then
     storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote analytics.yaml
 fi
+
+if [ "$1" = "nlp_index" ]
+then
+    ./es_sentiment.sh
+fi
+
+if [ "$1" = "nlp_update_sentiment_status" ]
+then
+    ./update_sentiment.sh
+fi
+
+if [ "$1" = "nlp_local" ]
+then
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local nlp.local.yaml --sleep 864000000
+fi
+
+if [ "$1" = "nlp_remote" ]
+then
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote nlp.yaml
+fi
