@@ -1,21 +1,21 @@
 name: "crawler"
 
 includes:
-    - resource: true
-      file: "/crawler-default.yaml"
-      override: false
+  - resource: false
+    file: "crawler-default.yaml"
+    override: false
 
-    - resource: false
-      file: "crawler-conf.yaml"
-      override: true
+  - resource: false
+    file: "crawler-conf.yaml"
+    override: true
 
-    - resource: false
-      file: "es-conf.yaml"
-      override: true
+  - resource: false
+    file: "es-conf.yaml"
+    override: true
 
 spouts:
   - id: "spout"
-    className: "com.uet.crawling.social.spout.AggregationSpout"
+    className: "com.uet.crawling.social.elasticsearch.persistence.AggregationSpout"
     parallelism: 1
 
 bolts:
@@ -31,9 +31,14 @@ bolts:
   #   className: "com.uet.crawling.social.RemoveDuplicateBolt"
   #   parallelism: 3
 
-  # - id: "status"
-  #   className: "com.uet.crawling.social.IndexerBolt"
-  #   parallelism: 3
+  - id: "status"
+    className: "com.uet.crawling.social.elasticsearch.persistence.StatusUpdaterBolt"
+    parallelism: 1
+
+  # uncomment if need delete Status.Error
+  #- id: "deletion"
+  #  className: "com.uet.crawling.social.elasticsearch.bolt.DeletionBolt"
+  #  parallelism: 1
 
 streams:
   - from: "spout"
@@ -60,3 +65,18 @@ streams:
   #   to: "status"
   #   grouping:
   #     type: SHUFFLE
+
+  - from: "fetcher"
+    to: "status"
+    grouping:
+      type: FIELDS
+      args: ["node"]
+      streamId: "status"
+    
+  # uncomment if need delete Status.Error
+  #- from: "status"
+  #  to: "deletion"
+  #  grouping:
+  #    type: FIELDS
+  #    args: ["node"]
+  #    streamId: "deletion"

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.uet.crawling.social.elasticsearch;
+package com.uet.crawling.social.elasticsearch.bolt;
 
 import static com.digitalpebble.stormcrawler.Constants.StatusStreamName;
 
@@ -37,10 +37,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.digitalpebble.stormcrawler.Metadata;
-import com.digitalpebble.stormcrawler.elasticsearch.ElasticSearchConnection;
+import com.uet.crawling.social.elasticsearch.ElasticSearchConnection;
 import com.digitalpebble.stormcrawler.indexing.AbstractIndexerBolt;
-import com.digitalpebble.stormcrawler.persistence.Status;
-import com.digitalpebble.stormcrawler.util.ConfUtils;
+import com.uet.crawling.social.persistence.Status;
+import com.uet.crawling.social.util.ConfUtils;
 
 /**
  * Sends documents to ElasticSearch. Indexes all the fields from the tuples or a

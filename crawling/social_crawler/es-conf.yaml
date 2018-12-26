@@ -21,7 +21,7 @@ config:
   es.status.routing: true
   # stores the value used for the routing as a separate field
   # needed by the spout implementations
-  es.status.routing.fieldname: "metadata.hostname"
+  es.status.routing.fieldname: "metadata.type"
   es.status.bulkActions: 500
   es.status.flushInterval: "1s"
   es.status.concurrentRequests: 10

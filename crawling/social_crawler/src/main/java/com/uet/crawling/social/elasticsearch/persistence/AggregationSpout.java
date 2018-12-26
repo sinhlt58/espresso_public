@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.uet.crawling.social.spout;
+package com.uet.crawling.social.elasticsearch.persistence;
 
 import static org.elasticsearch.index.query.QueryBuilders.boolQuery;
 
@@ -268,7 +268,7 @@ public class AggregationSpout extends AbstractSpout implements
                 "{} ES query returned {} hits from {} buckets in {} msec with {} already being processed",
                 logIdprefix, numhits, numBuckets, timeTaken, alreadyprocessed);
 
-        queryTimes.addMeasurement(timeTaken);
+        // queryTimes.addMeasurement(timeTaken);
 
         // reset the value for next fetch date if the previous one is too old
         if (resetFetchDateAfterNSecs != -1) {

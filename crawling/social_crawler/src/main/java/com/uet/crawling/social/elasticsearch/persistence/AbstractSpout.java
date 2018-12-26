@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.uet.crawling.social.spout;
+package com.uet.crawling.social.elasticsearch.persistence;
 
 import java.io.IOException;
 import java.util.Date;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.uet.crawling.social.persistence.AbstractQueryingSpout;
 import org.apache.storm.spout.SpoutOutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.elasticsearch.client.RestHighLevelClient;

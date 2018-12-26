@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.uet.crawling.social.spout;
+package com.uet.crawling.social.persistence;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -79,7 +79,7 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
     /** Required for implementations doing asynchronous calls **/
     protected AtomicBoolean isInQuery = new AtomicBoolean(false);
 
-    protected CollectionMetric queryTimes;
+    // protected CollectionMetric queryTimes;
 
     @Override
     public void open(Map stormConf, TopologyContext context,
@@ -92,7 +92,7 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
 
         beingProcessed = new InProcessMap<>(ttlPurgatory, TimeUnit.SECONDS);
 
-        queryTimes = new CollectionMetric();
+        // queryTimes = new CollectionMetric();
 
         resetFetchDateAfterNSecs = ConfUtils.getInt(stormConf,
                 resetFetchDateParamName, resetFetchDateAfterNSecs);
