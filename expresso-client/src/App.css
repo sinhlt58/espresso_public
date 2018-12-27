@@ -1,9 +1,18 @@
-@import '~antd/dist/antd.css';
+@import "~antd/dist/antd.css";
 
 .App {
   text-align: center;
 }
 
-input {
+.search-dashboard input {
   text-align: center;
+}
+
+.ant-progress-inner {
+  background-color: white;
+}
+
+.ant-btn-background-ghost {
+  color: black;
+  border-width: 0px;
 }
