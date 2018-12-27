@@ -4,6 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 import client from './graphql-client/client';
 import Dashboard from './containers/Dashboard';
 import AnalyticsOverview from './containers/AnalyticsOverview';
+import AnalyticsDetail from './containers/AnalyticsDetail';
 import './App.css';
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
               path="/analytics/overview/:name"
               component={AnalyticsOverview}
             />
+            <Route path="/analytics/detail/:name" component={AnalyticsDetail} />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>
