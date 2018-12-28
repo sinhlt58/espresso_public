@@ -154,7 +154,7 @@ exports.doActionsV2 = (page, options) => {
             resolve(true);
         } catch(error) {
             logger.info('error while getting reviews: ' + error);
-            resolve(true);
+            reject(true);
         }
     });
 };

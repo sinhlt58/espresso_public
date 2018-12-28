@@ -56,7 +56,7 @@ exports.doActions = (page, options) => {
             resolve(true);
         } catch(error) {
             logger.info('Error while getting reviews: ', error);
-            resolve(true);
+            reject(true);
         }
     });
 };
