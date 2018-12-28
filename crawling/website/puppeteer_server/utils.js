@@ -37,7 +37,7 @@ exports.addReviewsToDom = async (page, reviewsData) => {
     }, reviewsData);
 };
 
-exports.addReviewsToDomV2 = (page, reviewsData, addContentFunc,
+exports.addReviewsToDomV2 = (page, productId, reviewsData, addContentFunc,
             addRateFunc, addTimeFunc, addUserNameFunc) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -54,7 +54,7 @@ exports.addReviewsToDomV2 = (page, reviewsData, addContentFunc,
                 addUserNameFunc: addUserNameFunc.toString(),
             }
 
-            await page.$eval('body', async (body, reviewsData, funcs) => {
+            await page.$eval('body', async (body, productId, reviewsData, funcs) => {
                 function addDiv(text, className) {
                     let div = document.createElement('div');
                     div.innerText = text;
@@ -70,6 +70,8 @@ exports.addReviewsToDomV2 = (page, reviewsData, addContentFunc,
                 const addRateFunc = strToFunc(funcs['addRateFunc']);
                 const addTimeFunc = strToFunc(funcs['addTimeFunc']);
                 const addUserNameFunc = strToFunc(funcs['addUserNameFunc']);
+
+                addDiv(productId, 'espresso-product-id');  
                 
                 // let body = document.getElementsByTagName("body")[0];
                 for (let i = 0; i < reviewsData.length; i++){
@@ -87,7 +89,7 @@ exports.addReviewsToDomV2 = (page, reviewsData, addContentFunc,
                 }
                 
                 return true;
-            }, reviewsData, funcs);
+            }, productId, reviewsData, funcs);
             resolve(true);
         } catch (error) {
             console.log('error while add reviews to DOM: ' + error);

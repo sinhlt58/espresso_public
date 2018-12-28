@@ -38,11 +38,16 @@ exports.doActions = (page, options) => {
                 };
                 const reviewsRes = await utils.callGet('https://my.lazada.vn/pdp/review/getReviewList', params);
                 
-                if (reviewsRes && reviewsRes.model && reviewsRes.model.items) {
-                    logger.info('Number of reviews: ', reviewsRes.model.items.length);
+                if (reviewsRes && reviewsRes.model) {
+                    const numReview = reviewsRes.model.ratings.reviewCount;
+                    let reviewsData = [];
+                    if (numReview > 0) {
+                        reviewsData = reviewsRes.model.items;
+                    }
+                    logger.info('Number of reviews: ' + numReview);
 
                     // add to the dom
-                    await utils.addReviewsToDomV2(page, reviewsRes.model.items,
+                    await utils.addReviewsToDomV2(page, productId, reviewsData,
                         addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
                 } else {
                     logger.info('Error getting revews with successfull reviewsRes');

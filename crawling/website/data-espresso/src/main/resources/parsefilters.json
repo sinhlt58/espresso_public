@@ -467,6 +467,11 @@
             "tiki.vn": "h1#product-name",
             "www.lazada.vn": "div#module_product_title_1 > h1"
           },
+          "id_san_pham": {
+            "shopee.vn": "div.espresso-product-id",
+            "tiki.vn": "div.espresso-product-id",
+            "www.lazada.vn": "div.espresso-product-id"
+          },
           "gia": {
             "shopee.vn": "div#main div._3n5NQx",
             "tiki.vn": "span#span-price",

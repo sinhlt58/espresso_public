@@ -40,6 +40,13 @@
         "file": "fast.urlfilter.json"
       }
     },
+    {	
+      "class": "com.digitalpebble.stormcrawler.filtering.regex.RegexURLNormalizer",	
+      "name": "RegexURLNormalizer",	
+      "params": {	
+        "regexNormalizerFile": "default-regex-normalizers.xml"	
+      }	
+    },
     {
       "class": "com.digitalpebble.stormcrawler.filtering.basic.SelfURLFilter",
       "name": "SelfURLFilter"

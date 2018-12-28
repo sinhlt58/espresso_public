@@ -113,11 +113,15 @@ exports.doActionsV2 = (page, options) => {
                 const reviewsRes = await utils.callGet('https://shopee.vn/api/v2/item/get_ratings', params);
 
                 if (reviewsRes && reviewsRes.data && reviewsRes.data.ratings) {
-                    logger.info('Number of reviews: ' + reviewsRes.data.ratings.length);
-                
-                    // add to the dom
-                    await utils.addReviewsToDomV2(page, reviewsRes.data.ratings,
-                        addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+                    if (reviewsRes.error === 0) {
+                        logger.info('Number of reviews: ' + reviewsRes.data.ratings.length);
+                    
+                        // add to the dom
+                        await utils.addReviewsToDomV2(page, productId, reviewsRes.data.ratings,
+                            addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+                    } else {
+                        logger.info('Error is not equal to 0');
+                    }
                 } else {
                     logger.info('Error getting revews with successfull reviewsRes');
                 }

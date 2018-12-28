@@ -44,7 +44,7 @@
   {
     "scope": "domain:tiki.vn",
     "patterns": [
-      "AllowPathQuery src=tree|page=|src=category-page|p[0-9]{5,}",
+      "AllowPathQuery src=tree|page=|src=category-page|page=",
       "AllowPathQuery \/thuong-hieu|cua-hang",
       "DenyPathQuery .+"
     ]
@@ -52,7 +52,7 @@
   {
     "scope": "domain:www.lazada.vn",
     "patterns": [
-      "AllowPathQuery products(.*)search=1",
+      "AllowPathQuery i[0-9]{5,}-s[0-9]{5,}",
       "AllowPathQuery \/products\/",
       "AllowPathQuery page=",
       "AllowPathQuery \/shop\/",

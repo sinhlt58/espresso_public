@@ -144,7 +144,7 @@ exports.doActionsV2 = (page, options) => {
                     logger.info('Number of reviews: ' + reviewsRes.data.length);
 
                     // add to the dom
-                    await utils.addReviewsToDomV2(page, reviewsRes.data,
+                    await utils.addReviewsToDomV2(page, productId, reviewsRes.data,
                         addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
                 } else {
                     logger.info('Error getting revews with successfull reviewsRes');
