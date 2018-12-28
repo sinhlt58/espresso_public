@@ -1,4 +1,4 @@
-name: "crawler"
+name: "v2_crawler"
 
 includes:
     - resource: true
