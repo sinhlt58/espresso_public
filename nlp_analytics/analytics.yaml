@@ -1,4 +1,4 @@
-name: "nlp_analytics"
+name: "v2_nlp_analytics"
 
 config:
   topology.workers: 1
@@ -8,7 +8,7 @@ config:
   spout.ttl.purgatory: 30
 
   es.analysis.addresses: "localhost:9200"
-  es.analysis.index.name: "index"
+  es.analysis.index.name: "v2_index"
   es.analysis.doc.type: "_doc"
   #es.analysis.user: "USERNAME"
   #es.analysis.password: "PASSWORD"
@@ -19,7 +19,7 @@ config:
 
   # Write after analysis
   es.indexer.addresses: "localhost:9200"
-  es.indexer.index.name: "analysis"
+  es.indexer.index.name: "v2_analysis"
   es.indexer.doc.type: "_doc"
   es.indexer.bulkActions: 500
   es.indexer.flushInterval: "1s"
@@ -27,7 +27,7 @@ config:
 
   # Write after analysis
   es.status.addresses: "localhost:9200"
-  es.status.index.name: "index"
+  es.status.index.name: "v2_index"
   es.status.doc.type: "_doc"
   es.status.bulkActions: 500
   es.status.flushInterval: "1s"

@@ -8,6 +8,7 @@ public class Review extends Item {
     public String brand;
     public String parentAuthor;
     public String parentItemType;
+    public String parentProductId;
 
     
     public String author;
@@ -20,6 +21,6 @@ public class Review extends Item {
     }
 
     public void normalize() {
-        super.generateId(url + domain + author + rate + date);
+        super.generateId(parentProductId + domain + author + rate + date);
     }
 }

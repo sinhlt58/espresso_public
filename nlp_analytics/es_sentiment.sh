@@ -3,13 +3,13 @@ ESCREDENTIALS="-u elastic:passwordhere"
 
 # deletes and recreates a analysis index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/sentiment/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/v2_sentiment/" >  /dev/null
 
-echo "Deleted sentiment index"
+echo "Deleted v2_sentiment index"
 
-echo "Creating sentiment index with mapping"
+echo "Creating v2_sentiment index with mapping"
 
-curl $ESCREDENTIALS -s -XPUT $ESHOST/sentiment -H 'Content-Type: application/json' -d '
+curl $ESCREDENTIALS -s -XPUT $ESHOST/v2_sentiment -H 'Content-Type: application/json' -d '
 {
 	"settings": {
 		"index": {

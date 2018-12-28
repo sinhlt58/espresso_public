@@ -15,6 +15,7 @@ public class TTNItem extends Item {
     public String brand;
     public String author;
     public String deliverFrom;
+    public String productId;
 
     static Pattern pattern = Pattern.compile("\\d+");
 
@@ -30,7 +31,7 @@ public class TTNItem extends Item {
     }
 
     public void generateId() {
-        super.generateId(url + domain);
+        super.generateId(domain + ":" + productId);
     }
 
     @JsonProperty("title")
@@ -101,5 +102,10 @@ public class TTNItem extends Item {
     @JsonProperty("gui_tu")
     public void _setDeliverFrom(String v) {
         this.deliverFrom = v;
+    }
+
+    @JsonProperty("id_san_pham")
+    public void _setProductId(String v) {
+        this.productId = v;
     }
 }
