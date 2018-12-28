@@ -3,15 +3,15 @@ ESCREDENTIALS="-u elastic:passwordhere"
 
 # deletes and recreates a status index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/status/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/v2_status/" >  /dev/null
 
-echo "Deleted status index"
+echo "Deleted v2_status index"
 
 # http://localhost:9200/status/_mapping/status?pretty
 
-echo "Creating status index with mapping"
+echo "Creating v2_status index with mapping"
 
-curl $ESCREDENTIALS -s -XPUT $ESHOST/status -H 'Content-Type: application/json' -d '
+curl $ESCREDENTIALS -s -XPUT $ESHOST/v2_status -H 'Content-Type: application/json' -d '
 {
 	"settings": {
 		"index": {
@@ -24,7 +24,7 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/status -H 'Content-Type: application/json' 
 		}
 	},
 	"mappings": {
-		"status": {
+		"v2_status": {
 			"dynamic_templates": [{
 				"metadata": {
 					"path_match": "metadata.*",
@@ -55,17 +55,17 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/status -H 'Content-Type: application/json' 
 
 # deletes and recreates a status index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/metrics*/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/v2_metrics*/" >  /dev/null
 
 echo ""
-echo "Deleted metrics index"
+echo "Deleted v2_metrics index"
 
 echo "Creating metrics index with mapping"
 
 # http://localhost:9200/metrics/_mapping/status?pretty
 curl $ESCREDENTIALS -s -XPOST $ESHOST/_template/storm-metrics-template -H 'Content-Type: application/json' -d '
 {
-  "template": "metrics*",
+  "template": "v2_metrics*",
   "settings": {
     "index": {
       "number_of_shards": 1,
@@ -109,11 +109,11 @@ curl $ESCREDENTIALS -s -XPOST $ESHOST/_template/storm-metrics-template -H 'Conte
 
 # deletes and recreates a doc index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/index*/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/v2_index*/" >  /dev/null
 
 echo ""
-echo "Deleted docs index"
+echo "Deleted docs v2_index"
 
-echo "Creating docs index with mapping"
+echo "Creating docs v2_index with mapping"
 
-curl $ESCREDENTIALS -s -XPUT $ESHOST/index -H 'Content-Type: application/json' -d @scripts/es_index_mapping.json
+curl $ESCREDENTIALS -s -XPUT $ESHOST/v2_index -H 'Content-Type: application/json' -d @scripts/es_index_mapping.json
