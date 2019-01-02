@@ -9,6 +9,7 @@ public class Review extends Item {
     public String parentAuthor;
     public String parentItemType;
     public String parentProductId;
+    public String parentBreadcrumb;
 
     
     public String author;

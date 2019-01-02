@@ -97,11 +97,12 @@ public class PreprocessReviewBolt implements IRichBolt {
     private void joinReviewTTNItem(Review review, TTNItem ttnItem) {
         // trade off here
         // duplicate here but for fast query
-        review.parentId        = ttnItem.id;
-        review.brand           = ttnItem.brand;
-        review.parentAuthor    = ttnItem.author;
-        review.parentItemType  = ttnItem.itemType;
-        review.parentProductId = ttnItem.productId;
+        review.parentId         = ttnItem.id;
+        review.brand            = ttnItem.brand;
+        review.parentAuthor     = ttnItem.author;
+        review.parentItemType   = ttnItem.itemType;
+        review.parentProductId  = ttnItem.productId;
+        review.parentBreadcrumb = ttnItem.breadcrumb;
     }
 
     @Override
