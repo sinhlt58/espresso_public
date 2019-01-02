@@ -210,7 +210,7 @@ public class IndexerBolt extends AbstractIndexerBolt implements
             for (String domain : domainsData.keySet()) {
                 ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
 
-                if (records.size() > 0) {
+                if (records.size() > 0 && records.get(0).size() > 1) {
                     // builder.startArray(domain);
                     // for (Map<String, ArrayList<String>> record : records) {
                     //     builder.startObject();

@@ -461,7 +461,12 @@
             "batdongsan.com.vn": ""
           }
         },
-        "ttn": {
+        "general": {
+          "breadcrumb": {
+            "shopee.vn": ".page-product__breadcrumb",
+            "tiki.vn": ".breadcrumb",
+            "www.lazada.vn": "#J_breadcrumb"
+          },
           "tieu_de": {
             "shopee.vn": "rule_own_text div#main div.qaNIZv",
             "tiki.vn": "h1#product-name",

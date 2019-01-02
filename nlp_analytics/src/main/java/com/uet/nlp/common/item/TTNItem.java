@@ -16,6 +16,8 @@ public class TTNItem extends Item {
     public String author;
     public String deliverFrom;
     public String productId;
+    @JsonProperty
+    public String breadcrumb;
 
     static Pattern pattern = Pattern.compile("\\d+");
 
