@@ -7,13 +7,13 @@ config:
   spout.min.delay.queries: 2000
   spout.ttl.purgatory: 10
 
-  es.analysis.addresses: "http://103.220.68.79:9200"
+  es.analysis.addresses: "localhost:9200"
   es.analysis.index.name: "v2_analysis"
   es.analysis.doc.type: "_doc"
   #es.analysis.user: "USERNAME"
   #es.analysis.password: "PASSWORD"
 
-  es.analysis.status.field: "analysis_status"
+  es.analysis.status.field: "sentiment_status"
   es.analysis.done: "done"
   es.analysis.max.hit: 5
 
@@ -26,8 +26,8 @@ config:
   es.indexer.concurrentRequests: 5
 
   # Write after analysis
-  es.status.update.skip: true
-  es.status.addresses: "http://103.220.68.79:9200"
+  es.status.update.skip: false
+  es.status.addresses: "localhost:9200"
   es.status.index.name: "v2_analysis"
   es.status.doc.type: "_doc"
   es.status.bulkActions: 500

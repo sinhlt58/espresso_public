@@ -1,21 +1,21 @@
-name: "v2_nlp_analytics"
+name: "v2_vocabulary"
 
 config:
   topology.workers: 1
 
   # spout read from ES
   spout.min.delay.queries: 2000
-  spout.ttl.purgatory: 10
+  spout.ttl.purgatory: 30
 
-  es.analysis.addresses: "http://103.220.68.79:9200"
+  es.analysis.addresses: "localhost:9200"
   es.analysis.index.name: "v2_index"
   es.analysis.doc.type: "_doc"
   #es.analysis.user: "USERNAME"
   #es.analysis.password: "PASSWORD"
 
-  es.analysis.status.field: "analysis_status"
+  es.analysis.status.field: "vocb_status"
   es.analysis.done: "done"
-  es.analysis.max.hit: 5
+  es.analysis.max.hit: 50
 
   # Write after analysis
   es.indexer.addresses: "localhost:9200"
@@ -26,8 +26,7 @@ config:
   es.indexer.concurrentRequests: 5
 
   # Write after analysis
-  es.status.update.skip: true
-  es.status.addresses: "http://103.220.68.79:9200"
+  es.status.addresses: "localhost:9200"
   es.status.index.name: "v2_index"
   es.status.doc.type: "_doc"
   es.status.bulkActions: 500
@@ -42,19 +41,19 @@ spouts:
 bolts:
   - id: "preprocessreview"
     className: "com.uet.nlp.nlp_analytics.PreprocessReviewBolt"
-    parallelism: 1
+    parallelism: 3
 
   - id: "normalizer"
     className: "com.uet.nlp.nlp_analytics.NormalizerBolt"
-    parallelism: 1
+    parallelism: 3
 
   - id: "removeduplicate"
     className: "com.uet.nlp.nlp_analytics.RemoveDuplicateBolt"
-    parallelism: 1
+    parallelism: 3
 
   - id: "indexer"
     className: "com.uet.nlp.indexing.IndexerBolt"
-    parallelism: 1
+    parallelism: 3
 
   - id: "status"
     className: "com.uet.nlp.indexing.StatusUpdateBolt"
