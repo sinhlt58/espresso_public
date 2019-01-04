@@ -2,6 +2,7 @@
 
 storm_crawler_version="20ff899c2f808b17cdf43d6fa7f2d54a3c412f06"  #v1.12
 CopyCssSelector_version="31cb2f3e02538d17bd9de4b19bfab0b0eed6c754" #v0.5.3
+VnCoreNLP_version="ed7cf9b245ce7f40e886e8f210fc696ae7881b38" #1.1
 
 root_dir=$(echo $PWD)/..
 libs_dir=$root_dir/libs
@@ -12,7 +13,7 @@ then
 	source $root_dir/../bin/activate
 fi
 
-for lib in storm_crawler CopyCssSelector; do
+for lib in storm_crawler CopyCssSelector VnCoreNLP; do
 	version=${lib}_version
 	version="${!version}"
 	if [ "$1" = "apply_patches" ]

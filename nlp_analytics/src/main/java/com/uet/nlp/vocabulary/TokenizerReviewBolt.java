@@ -14,8 +14,8 @@ import org.apache.storm.tuple.Tuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TokenizerBolt implements IRichBolt {
-    private static final Logger LOG = LoggerFactory.getLogger(TokenizerBolt.class);
+public class TokenizerReviewBolt implements IRichBolt {
+    private static final Logger LOG = LoggerFactory.getLogger(TokenizerReviewBolt.class);
 
     private OutputCollector _collector;
 

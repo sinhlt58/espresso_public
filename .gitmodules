@@ -4,3 +4,6 @@
 [submodule "libs/CopyCssSelector"]
 	path = libs/CopyCssSelector
 	url = https://github.com/flamencist/CopyCssSelector
+[submodule "libs/VnCoreNLP"]
+	path = libs/VnCoreNLP
+	url = https://github.com/vncorenlp/VnCoreNLP

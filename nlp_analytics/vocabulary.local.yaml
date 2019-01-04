@@ -15,7 +15,7 @@ config:
   es.analysis.hit.from: 0
   es.analysis.hit.size: 50
 
-  es.analysis.use.custom.query: false
+  es.analysis.use.custom.query: true
   es.analysis.custom.query: '{
     "bool": {
         "must": [
@@ -78,7 +78,7 @@ spouts:
 
 bolts:
   - id: "tokenizer"
-    className: "com.uet.nlp.vocabulary.TokenizerBolt"
+    className: "com.uet.nlp.vocabulary.TokenizerReviewBolt"
     parallelism: 1
 
   - id: "indexer"

@@ -72,3 +72,10 @@ then
     storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote vocabulary.yaml
 fi
 # Vocabulary nlp END
+
+if [ "$1" = "build_libs" ]
+then
+    cd ../libs/VnCoreNLP
+    mvn clean package install
+    cd $crr_dir
+fi
