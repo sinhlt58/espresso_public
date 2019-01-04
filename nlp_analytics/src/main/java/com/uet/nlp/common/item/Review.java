@@ -1,6 +1,6 @@
 package com.uet.nlp.common.item;
 
-public class Review extends Item {
+public class Review extends CrawledItem {
     public String parentId;
 
     // Duplicate these fields

@@ -6,20 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.apache.commons.codec.digest.DigestUtils;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Item {
-    public String domainType;
-
-    @JsonProperty("domain")
-    public String domain;
-
-    @JsonProperty("url")
-    public String url;
-
-    public double crawlTime;
-    
+public class Item {    
     // calculated fields
     public String id;
-    public String itemType;
     public double createdTime;
 
     public Item() {
@@ -32,27 +21,6 @@ public class Item {
 
     public void generateId(String uniqueString) {
         id = DigestUtils.sha256Hex(uniqueString);
-    }
-
-    @JsonProperty("domainType")
-    public String _getDomainType() {
-        return this.domainType;
-    }
-
-    @JsonProperty("crawlTime")
-    public double _getCrawlTimes() {
-        return this.crawlTime;
-    }
-
-    // setters
-    @JsonProperty("domain_type")
-    public void _setDomainTypes(String v) {
-        this.domainType = v;
-    }
-
-    @JsonProperty("created_time")
-    public void _setCrawlTimes(String v) {
-        this.crawlTime = Double.parseDouble(v);
     }
 
     @Override

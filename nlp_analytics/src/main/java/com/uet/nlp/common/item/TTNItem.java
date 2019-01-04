@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TTNItem extends Item {
+public class TTNItem extends CrawledItem {
     // private fields
     @JsonDeserialize(using = ArrayOrStringDeserializer.class)
     private String tieu_de;
