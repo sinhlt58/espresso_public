@@ -50,3 +50,25 @@ then
     storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote sentiment.yaml
 fi
 # Sentiment nlp END
+
+# Vocabulary nlp START
+if [ "$1" = "vocabulary_index" ]
+then
+    ./es_index.sh v2_vocabulary
+fi
+
+if [ "$1" = "reset_vocabulary_status" ]
+then
+    ./update_analysis_status.sh v2_analysis vocabulary_status _done
+fi
+
+if [ "$1" = "vocabulary_local" ]
+then
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local vocabulary.local.yaml --sleep 864000000
+fi
+
+if [ "$1" = "vocabulary_remote" ]
+then
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote vocabulary.yaml
+fi
+# Vocabulary nlp END

@@ -44,6 +44,7 @@ public class NormalizerBolt implements IRichBolt {
             _collector.ack(tuple);
 
         } catch (Exception e) {
+            LOG.error(e.getMessage());
             _collector.fail(tuple);
         }
         

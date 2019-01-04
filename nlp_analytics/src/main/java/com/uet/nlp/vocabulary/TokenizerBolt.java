@@ -1,11 +1,9 @@
-package com.uet.nlp.preprocess_model;
+package com.uet.nlp.vocabulary;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import com.uet.nlp.common.Document;
-import com.uet.nlp.common.item.Item;
-import com.uet.nlp.common.item.NlpReview;
+import com.uet.nlp.common.item.Review;
 
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
@@ -13,14 +11,11 @@ import org.apache.storm.topology.IRichBolt;
 import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
-import org.apache.storm.tuple.Values;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class PreprocessNlpBolt implements IRichBolt {
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(PreprocessNlpBolt.class);
+public class TokenizerBolt implements IRichBolt {
+    private static final Logger LOG = LoggerFactory.getLogger(TokenizerBolt.class);
 
     private OutputCollector _collector;
 
@@ -35,16 +30,15 @@ public class PreprocessNlpBolt implements IRichBolt {
         Document doc = (Document) tuple.getValueByField("doc");
 
         try {
-            NlpReview nlpReview = Document.mapper.treeToValue(doc.jsonDoc, NlpReview.class);
-            nlpReview.itemType = "nlp_review";
-            
-            nlpReview.preprocess();
-
-            ArrayList<Item> items = new ArrayList<>();
-            items.add(nlpReview);
-
-            _collector.emit(tuple, new Values(docId, doc, items));
-            _collector.ack(tuple);
+            Review review = Document.mapper.treeToValue(doc.jsonDoc, Review.class);
+            if (review.itemType != null && review.itemType.equals("review")) {
+                String content = review.content;
+                LOG.info("content: {}", content);
+            } else {
+                LOG.error("Not a review record");
+                _collector.fail(tuple);
+            }
+        
         } catch (Exception e) {
             LOG.error(e.getMessage());
             _collector.fail(tuple);
@@ -64,6 +58,5 @@ public class PreprocessNlpBolt implements IRichBolt {
 	@Override
 	public Map<String, Object> getComponentConfiguration() {
 		return null;
-	}
-
+	} 
 }

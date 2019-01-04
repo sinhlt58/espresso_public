@@ -48,11 +48,20 @@ public class AggregationSpout extends AbstractSpout implements
 
     private String ESAnalysisStatusFieldParamName = "es.analysis.status.field";
     private String ESAnalysisStatusDoneParamName = "es.analysis.done";
-    private String ESAnalysisMaxHitParamName = "es.analysis.max.hit";
+    private String ESAnalysisHitFromParamName = "es.analysis.hit.from";
+    private String ESAnalysisHitSizeParamName = "es.analysis.hit.size";
+
+    private String ESAnalysisUseCustomQuery = "es.analysis.use.custom.query";
+    private String ESAnalysisCustomQuery = "es.analysis.custom.query";
+
 
     private String analysisStatusField = "";
     private String analysisStatusDone = "";
-    private int analysisMaxHit = 30;
+    private int analysisHitFrom = 0;
+    private int analysisHitSize = 30;
+
+    private boolean analysisUseCustomQuery = false;
+    private String analysisCustomQuery = "";
 
     @Override
     public void open(Map stormConf, TopologyContext context,
@@ -65,8 +74,17 @@ public class AggregationSpout extends AbstractSpout implements
         analysisStatusDone = ConfUtils.getString(stormConf, ESAnalysisStatusDoneParamName,
                                 "done");
 
-        analysisMaxHit = ConfUtils.getInt(stormConf, ESAnalysisMaxHitParamName,
-                                analysisMaxHit);
+        analysisHitFrom = ConfUtils.getInt(stormConf, ESAnalysisHitFromParamName,
+                                analysisHitFrom);
+
+        analysisHitSize = ConfUtils.getInt(stormConf, ESAnalysisHitSizeParamName,
+                                analysisHitSize);
+
+        analysisUseCustomQuery = ConfUtils.getBoolean(stormConf, ESAnalysisUseCustomQuery,
+                                analysisUseCustomQuery);
+
+        analysisCustomQuery = ConfUtils.getString(stormConf, ESAnalysisCustomQuery,
+                                analysisCustomQuery);
     }
 
     @Override
@@ -81,22 +99,28 @@ public class AggregationSpout extends AbstractSpout implements
 
         LOG.info("{}: Populating buffer with non-analyzed document", formattedLastDate);
         
-        QueryBuilder queryBuilder = QueryBuilders.boolQuery()
-                                        .should(QueryBuilders.boolQuery()
-                                                    .must(QueryBuilders.existsQuery(analysisStatusField))
-                                                    .must(QueryBuilders.boolQuery()
-                                                            .mustNot(QueryBuilders.termQuery(analysisStatusField, analysisStatusDone))))
-                                        .should(QueryBuilders.boolQuery()
-                                                    .mustNot(QueryBuilders
-                                                                .existsQuery(analysisStatusField)));
+        QueryBuilder queryBuilder = null;
 
+        if (analysisUseCustomQuery) {
+            queryBuilder = QueryBuilders.wrapperQuery(analysisCustomQuery);
+        } else {
+            queryBuilder = QueryBuilders.boolQuery()
+                            .should(QueryBuilders.boolQuery()
+                                        .must(QueryBuilders.existsQuery(analysisStatusField))
+                                        .must(QueryBuilders.boolQuery()
+                                                .mustNot(QueryBuilders.termQuery(analysisStatusField, analysisStatusDone))))
+                            .should(QueryBuilders.boolQuery()
+                                        .mustNot(QueryBuilders
+                                                    .existsQuery(analysisStatusField)));
+        }
+        
         SearchRequest request = new SearchRequest(indexName).types(docType)
                 .searchType(SearchType.QUERY_THEN_FETCH);
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         sourceBuilder.query(queryBuilder);
-        sourceBuilder.from(0);
-        sourceBuilder.size(analysisMaxHit);
+        sourceBuilder.from(analysisHitFrom);
+        sourceBuilder.size(analysisHitSize);
         sourceBuilder.explain(false);
         sourceBuilder.trackTotalHits(true);
 

@@ -1,38 +1,28 @@
 name: "v2_nlp_sentiment"
 
+includes:
+  - resource: false
+    file: "base_config.yaml"
+    override: false
+
 config:
-  topology.workers: 1
-
   # spout read from ES
-  spout.min.delay.queries: 2000
-  spout.ttl.purgatory: 10
-
   es.analysis.addresses: "localhost:9200"
   es.analysis.index.name: "v2_analysis"
-  es.analysis.doc.type: "_doc"
-  #es.analysis.user: "USERNAME"
-  #es.analysis.password: "PASSWORD"
 
   es.analysis.status.field: "sentiment_status"
   es.analysis.done: "done"
-  es.analysis.max.hit: 5
+  es.analysis.hit.from: 0
+  es.analysis.hit.size: 50
 
   # Write after analysis
   es.indexer.addresses: "localhost:9200"
   es.indexer.index.name: "v2_sentiment"
-  es.indexer.doc.type: "_doc"
-  es.indexer.bulkActions: 500
-  es.indexer.flushInterval: "1s"
-  es.indexer.concurrentRequests: 5
 
-  # Write after analysis
+  # Write update status after analysis
   es.status.update.skip: false
   es.status.addresses: "localhost:9200"
   es.status.index.name: "v2_analysis"
-  es.status.doc.type: "_doc"
-  es.status.bulkActions: 500
-  es.status.flushInterval: "1s"
-  es.status.concurrentRequests: 5
 
 spouts:
   - id: "spout"

@@ -51,6 +51,7 @@ public class RemoveDuplicateBolt implements IRichBolt {
             _collector.ack(tuple);
 
         } catch (Exception e) {
+            LOG.error(e.getMessage());
             _collector.fail(tuple);
         }
         
