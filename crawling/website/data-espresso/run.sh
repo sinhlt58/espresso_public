@@ -58,6 +58,13 @@ then
     cd $crr_dir
 fi
 
+if [ "$1" = "update_specs" ]
+then
+   cd ../../../scripts
+    ./up_submodules.sh update_libs_spec_code
+    cd $crr_dir
+fi
+
 mongo_host=localhost:27017/crawling_rules
 if [ "$1" = "importMongo" ]
 then

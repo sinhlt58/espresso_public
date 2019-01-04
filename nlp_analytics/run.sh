@@ -73,9 +73,31 @@ then
 fi
 # Vocabulary nlp END
 
+if [ "$1" = "patch" ]
+then
+    cd ../scripts
+    ./up_submodules.sh apply_patches
+    cd $crr_dir
+fi
+
 if [ "$1" = "build_libs" ]
 then
     cd ../libs/VnCoreNLP
     mvn clean package install
+    cd $crr_dir
+fi
+
+if [ "$1" = "setup" ]
+then
+    mkdir -p /opt/vncorenlp
+    cp -r models /opt/vncorenlp/models
+    echo "Copy models to /opt/vncorenlp/models"
+    echo "Done setup!"
+fi
+
+if [ "$1" = "update_specs" ]
+then
+    cd ../scripts
+    ./up_submodules.sh update_libs_spec_code
     cd $crr_dir
 fi

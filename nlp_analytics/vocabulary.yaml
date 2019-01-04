@@ -67,7 +67,7 @@ config:
   es.indexer.index.name: "v2_vocabulary"
 
   # Write update status after analysis
-  es.status.update.skip: false
+  es.status.update.skip: true
   es.status.addresses: "localhost:9200"
   es.status.index.name: "v2_analysis"
 

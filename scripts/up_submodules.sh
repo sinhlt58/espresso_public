@@ -46,4 +46,16 @@ for lib in storm_crawler CopyCssSelector VnCoreNLP; do
 		git clean -f -d
 		git reset --hard $version
 	fi
+	if [ "$1" = "update_libs_spec_code" ]
+	then
+		echo "Update change code files for lib "$lib
+		cd $libs_dir/$lib
+		git diff --name-only | while read f;
+		do 
+		    echo $f
+			dir_name=$(dirname "${f}")
+			mkdir -p $libs_spec_dir/$lib/$dir_name
+			cp -r $libs_dir/$lib/$f $libs_spec_dir/$lib/$f
+		done
+	fi
 done
