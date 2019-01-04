@@ -3,12 +3,9 @@ package com.uet.nlp.preprocess_model;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.uet.nlp.common.Document;
 import com.uet.nlp.common.item.Item;
 import com.uet.nlp.common.item.NlpReview;
-import com.uet.nlp.common.item.Review;
-import com.uet.nlp.common.item.TTNItem;
 
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;

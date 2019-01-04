@@ -1,6 +1,7 @@
 package com.uet.nlp.common.item;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +10,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TTNItem extends Item {
+    // private fields
+    @JsonDeserialize(using = ArrayOrStringDeserializer.class)
+    private String tieu_de;
+
     public String title;
     public double price;
     public String description;
@@ -30,6 +35,7 @@ public class TTNItem extends Item {
 
     public void normalize() {
         uploadTime = crawlTime;
+        title = tieu_de;
     }
 
     public void generateId() {
@@ -38,7 +44,7 @@ public class TTNItem extends Item {
 
     @JsonProperty("title")
     public String _getTitle() {
-        return this.title;
+        return this.tieu_de;
     }
 
     @JsonProperty("price")
@@ -67,11 +73,6 @@ public class TTNItem extends Item {
     }
 
     // setters
-    @JsonProperty("tieu_de")
-    public void _setTitle(String v) {
-        this.title = v;
-    }
-
     @JsonProperty("gia")
     public void _setPrice(String priceStr) {
         priceStr = priceStr.replace(".", "");
