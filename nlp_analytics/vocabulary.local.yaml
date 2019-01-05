@@ -82,7 +82,7 @@ bolts:
     parallelism: 1
 
   - id: "indexer"
-    className: "com.uet.nlp.indexing.IndexerBolt"
+    className: "com.uet.nlp.indexing.TokenIndexerBolt"
     parallelism: 1
 
   - id: "status"
@@ -94,3 +94,14 @@ streams:
     to: "tokenizer"
     grouping:
       type: SHUFFLE
+  
+  - from: "tokenizer"
+    to: "indexer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "indexer"
+    to: "status"
+    grouping:
+      type: SHUFFLE
+

@@ -1,9 +1,13 @@
 package com.uet.nlp.vocabulary;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.uet.nlp.common.Document;
 import com.uet.nlp.common.item.Review;
+import com.uet.nlp.common.item.Token;
 
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
@@ -11,11 +15,13 @@ import org.apache.storm.topology.IRichBolt;
 import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import vn.pipeline.Annotation;
 import vn.pipeline.VnCoreNLP;
+import vn.pipeline.Word;
 
 public class TokenizerReviewBolt implements IRichBolt {
     private static final Logger LOG = LoggerFactory.getLogger(TokenizerReviewBolt.class);
@@ -44,15 +50,34 @@ public class TokenizerReviewBolt implements IRichBolt {
             Review review = Document.mapper.treeToValue(doc.jsonDoc, Review.class);
             if (review.itemType != null && review.itemType.equals("review")) {
                 String content = review.content;
-                LOG.info("content: {}", content);
-                Annotation annotation = new Annotation(review.content);
-                pipeline.annotate(annotation);
+                if (!content.isEmpty()) {
+                    // Segmentation
+                    Annotation annotation = new Annotation(review.content);
+                    pipeline.annotate(annotation);
+                    
+                    // Count word frequency in the content
+                    Map<String, Integer> mapCount = new HashMap<>();
+                    List<Word> words = annotation.getWords();
+                    for (Word w : words) {
+                        String key = w.getForm().toLowerCase();
 
-                LOG.info("getWordSegmentedText: {}", annotation.getWordSegmentedText());
-                LOG.info("tokens: {}", annotation.getTokens());
-                LOG.info("getWords: {}", annotation.getWords());
-                LOG.info("getWordSegmentedTaggedText: {}", annotation.getWordSegmentedTaggedText());
-                LOG.info("getSentences: {}", annotation.getSentences());
+                        if (!mapCount.containsKey(key)) {
+                            mapCount.put(key, 1);
+                        } else {
+                            mapCount.put(key, mapCount.get(key) + 1);
+                        }
+                    }
+
+                    ArrayList<Token> tokens = new ArrayList<>();
+                    for (String key : mapCount.keySet()) {
+                        Token token = new Token(key, mapCount.get(key));
+                        tokens.add(token);
+                    }
+
+                    _collector.emit(tuple, new Values(docId, doc, tokens));
+                }
+
+                _collector.ack(tuple);
             } else {
                 LOG.error("Not a review record");
                 _collector.fail(tuple);
@@ -71,7 +96,7 @@ public class TokenizerReviewBolt implements IRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("docId", "doc", "items"));
+        declarer.declare(new Fields("docId", "doc", "tokens"));
 	}
 
 	@Override

@@ -15,7 +15,7 @@ config:
   es.analysis.hit.from: 0
   es.analysis.hit.size: 50
 
-  es.analysis.use.custom.query: false
+  es.analysis.use.custom.query: true
   es.analysis.custom.query: '{
     "bool": {
         "must": [
@@ -67,7 +67,7 @@ config:
   es.indexer.index.name: "v2_vocabulary"
 
   # Write update status after analysis
-  es.status.update.skip: true
+  es.status.update.skip: false
   es.status.addresses: "localhost:9200"
   es.status.index.name: "v2_analysis"
 
@@ -82,7 +82,7 @@ bolts:
     parallelism: 1
 
   - id: "indexer"
-    className: "com.uet.nlp.indexing.IndexerBolt"
+    className: "com.uet.nlp.indexing.TokenIndexerBolt"
     parallelism: 1
 
   - id: "status"
@@ -94,3 +94,14 @@ streams:
     to: "tokenizer"
     grouping:
       type: SHUFFLE
+  
+  - from: "tokenizer"
+    to: "indexer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "indexer"
+    to: "status"
+    grouping:
+      type: SHUFFLE
+
