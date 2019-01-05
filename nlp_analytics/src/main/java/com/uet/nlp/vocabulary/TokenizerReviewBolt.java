@@ -50,10 +50,13 @@ public class TokenizerReviewBolt implements IRichBolt {
             Review review = Document.mapper.treeToValue(doc.jsonDoc, Review.class);
             if (review.itemType != null && review.itemType.equals("review")) {
                 String content = review.content;
+		ArrayList<Token> tokens = new ArrayList<>();                
+
                 if (!content.isEmpty()) {
                     // Segmentation
                     Annotation annotation = new Annotation(review.content);
                     pipeline.annotate(annotation);
+		    LOG.info("content: {}", content);
                     
                     // Count word frequency in the content
                     Map<String, Integer> mapCount = new HashMap<>();
@@ -67,16 +70,14 @@ public class TokenizerReviewBolt implements IRichBolt {
                             mapCount.put(key, mapCount.get(key) + 1);
                         }
                     }
-
-                    ArrayList<Token> tokens = new ArrayList<>();
+		    
                     for (String key : mapCount.keySet()) {
                         Token token = new Token(key, mapCount.get(key));
                         tokens.add(token);
                     }
-
-                    _collector.emit(tuple, new Values(docId, doc, tokens));
                 }
-
+		
+                _collector.emit(tuple, new Values(docId, doc, tokens));
                 _collector.ack(tuple);
             } else {
                 LOG.error("Not a review record");

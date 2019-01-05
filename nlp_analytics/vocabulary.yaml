@@ -13,7 +13,7 @@ config:
   es.analysis.status.field: "vocabulary_status"
   es.analysis.done: "done"
   es.analysis.hit.from: 0
-  es.analysis.hit.size: 60
+  es.analysis.hit.size: 20
 
   es.analysis.use.custom.query: true
   es.analysis.custom.query: '{
@@ -79,15 +79,15 @@ spouts:
 bolts:
   - id: "tokenizer"
     className: "com.uet.nlp.vocabulary.TokenizerReviewBolt"
-    parallelism: 1
+    parallelism: 2
 
   - id: "indexer"
     className: "com.uet.nlp.indexing.TokenIndexerBolt"
-    parallelism: 1
+    parallelism: 2
 
   - id: "status"
     className: "com.uet.nlp.indexing.StatusUpdateBolt"
-    parallelism: 1
+    parallelism: 2
 
 streams:
   - from: "spout"

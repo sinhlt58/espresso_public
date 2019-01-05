@@ -13,7 +13,7 @@ config:
   es.analysis.status.field: "analysis_status"
   es.analysis.done: "done"
   es.analysis.hit.from: 0
-  es.analysis.hit.size: 50
+  es.analysis.hit.size: 40
 
   # Write after analysis
   es.indexer.addresses: "localhost:9200"
@@ -32,19 +32,19 @@ spouts:
 bolts:
   - id: "preprocessreview"
     className: "com.uet.nlp.nlp_analytics.PreprocessReviewBolt"
-    parallelism: 3
+    parallelism: 2
 
   - id: "normalizer"
     className: "com.uet.nlp.nlp_analytics.NormalizerBolt"
-    parallelism: 3
+    parallelism: 2
 
   - id: "removeduplicate"
     className: "com.uet.nlp.nlp_analytics.RemoveDuplicateBolt"
-    parallelism: 3
+    parallelism: 2
 
   - id: "indexer"
     className: "com.uet.nlp.indexing.IndexerBolt"
-    parallelism: 3
+    parallelism: 2
 
   - id: "status"
     className: "com.uet.nlp.indexing.StatusUpdateBolt"
