@@ -30,16 +30,16 @@ bolts:
         value: "http://localhost:3000/api/v1/viewDom?url="
   - id: "parse"
     className: "com.digitalpebble.stormcrawler.bolt.JSoupParserBolt"
-    parallelism: 10
+    parallelism: 24
     properties:
       - name: "importeLinkHostnames"
         value: ["shopee.vn"]
   - id: "index"
     className: "com.digitalpebble.stormcrawler.elasticsearch.bolt.IndexerBolt"
-    parallelism: 1
+    parallelism: 2
   - id: "status"
     className: "com.digitalpebble.stormcrawler.elasticsearch.persistence.StatusUpdaterBolt"
-    parallelism: 1
+    parallelism: 2
 
 streams:
   - from: "spout"
