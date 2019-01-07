@@ -17,7 +17,7 @@ const CustomerCmt = props => (
         />
         -{" "}
         <a target="_blank" rel="noopener noreferrer" href={props.url}>
-          Go to website
+          Xem chi tiết
         </a>
       </span>
     }

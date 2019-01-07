@@ -14,9 +14,10 @@ class AnalyticsOverview extends Component {
     data: {},
     starPercent: [],
     optionsDomain: ["ALL"],
-    optionsSort: ["RECENTLY"],
+    optionsSort: ["DESC"],
     optionsStar: ["0"],
-    dataCmts: {}
+    dataCmts: [],
+    keyword: ""
   };
 
   async componentDidMount() {
@@ -44,25 +45,66 @@ class AnalyticsOverview extends Component {
         });
       });
 
-    getComments({
+    this.getCustomerComments();
+  }
+
+  getCustomerComments = async (keyword = this.state.keyword) => {
+    await this.setState({
+      keyword
+    });
+
+    const cmts = await getComments({
       brand: this.props.match.params.name,
       star: this.state.optionsStar[0],
       domain: this.state.optionsDomain[0],
-      sort: this.state.optionsSort[0]
-    })
-      .then(res =>
-        this.setState({
-          loadingCmt: false,
-          dataCmts: res.data.getComments
-        })
-      )
-      .then(() => console.log(this.state.dataCmts));
-  }
+      sort: this.state.optionsSort[0],
+      keyword: this.state.keyword
+    });
+
+    if (cmts.networkStatus === 7) {
+      this.setState({
+        loadingCmt: false,
+        dataCmts: cmts.data.getComments
+      });
+    } else {
+      alert(cmts.message);
+    }
+  };
 
   _onChangeSort = async value => {
-    this.setState({
+    await this.setState({
       optionsSort: value
     });
+
+    this.getCustomerComments();
+  };
+
+  _onChangeDomain = async value => {
+    await this.setState({
+      optionsDomain: value
+    });
+
+    this.getCustomerComments();
+  };
+
+  _onChangeStar = async value => {
+    await this.setState({
+      optionsStar: value
+    });
+
+    this.getCustomerComments();
+  };
+
+  _onClickStar = async star => {
+    await this.setState({
+      optionsStar: [`${star}`]
+    });
+
+    this.getCustomerComments();
+  };
+
+  _onSearch = value => {
+    this.getCustomerComments(value);
   };
 
   render() {
@@ -98,7 +140,15 @@ class AnalyticsOverview extends Component {
                 {this.state.starPercent.map((item, index) => {
                   if (index >= 5) return null;
                   return (
-                    <Button key={index} block ghost style={{ padding: 0 }}>
+                    <Button
+                      onClick={() =>
+                        this._onClickStar(this.state.starPercent[index + 5])
+                      }
+                      key={index}
+                      block
+                      ghost
+                      style={{ padding: 0 }}
+                    >
                       <p
                         style={{
                           paddingRight: "20px",
@@ -148,11 +198,7 @@ class AnalyticsOverview extends Component {
                   options={optionsDomain}
                   style={{ width: "100%", marginBottom: "20px" }}
                   value={this.state.optionsDomain}
-                  onChange={value =>
-                    this.setState({
-                      optionsDomain: value
-                    })
-                  }
+                  onChange={this._onChangeDomain}
                 />
               </Col>
               <Col span={1} />
@@ -161,11 +207,7 @@ class AnalyticsOverview extends Component {
                   options={optionsStar}
                   style={{ width: "100%", marginBottom: "20px" }}
                   value={this.state.optionsStar}
-                  onChange={value =>
-                    this.setState({
-                      optionsStar: value
-                    })
-                  }
+                  onChange={this._onChangeStar}
                 />
               </Col>
             </Row>

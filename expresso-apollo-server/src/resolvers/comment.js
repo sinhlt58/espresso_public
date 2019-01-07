@@ -5,44 +5,368 @@ export default {
   Query: {
     getComments: async (parent, args) => {
       let esRes;
-      let sortType;
+      const sortType = args.sort.toLowerCase();
       let domainType;
-      if (args.sort !== undefined) {
-        sortType = args.sort.toLowerCase();
-      }
-      if (args.domain !== undefined) {
-        domainType = args.domain.toLowerCase();
+
+      if (args.domain !== "ALL") {
+        domainType = getDomain(args.domain);
       }
 
-      esRes = await esClient.search({
-        index: "analysis",
-        body: {
-          query: {
-            bool: {
-              must: [
-                {
-                  multi_match: {
-                    query: args.brand,
-                    fields: ["parentAuthor", "brand"]
+      if (args.keyword === "" && args.domain === "ALL" && args.star === "0") {
+        esRes = await esClient.search({
+          index: "analysis",
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ["parentAuthor", "brand"]
+                    }
+                  }
+                ],
+                filter: {
+                  term: {
+                    itemType: "review"
                   }
                 }
-              ],
-              filter: {
-                term: {
-                  itemType: "review"
+              }
+            },
+            sort: [
+              {
+                rate: {
+                  order: sortType
+                }
+              },
+              {
+                date: {
+                  order: "desc"
                 }
               }
-            }
-          },
-          sort: [
-            {
-              date: {
-                order: "desc"
+            ]
+          }
+        });
+      }
+
+      if (args.keyword !== "" && args.domain === "ALL" && args.star === "0") {
+        esRes = await esClient.search({
+          index: "analysis",
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ["parentAuthor", "brand"]
+                    }
+                  },
+                  {
+                    match_phrase: {
+                      content: args.keyword
+                    }
+                  }
+                ],
+                filter: {
+                  term: {
+                    itemType: "review"
+                  }
+                }
               }
-            }
-          ]
-        }
-      });
+            },
+            sort: [
+              {
+                rate: {
+                  order: sortType
+                }
+              },
+              {
+                date: {
+                  order: "desc"
+                }
+              }
+            ]
+          }
+        });
+      }
+
+      if (args.keyword === "" && args.domain === "ALL" && args.star !== "0") {
+        esRes = await esClient.search({
+          index: "analysis",
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ["parentAuthor", "brand"]
+                    }
+                  },
+                  {
+                    match: {
+                      rate: args.star
+                    }
+                  }
+                ],
+                filter: {
+                  term: {
+                    itemType: "review"
+                  }
+                }
+              }
+            },
+            sort: [
+              {
+                rate: {
+                  order: sortType
+                }
+              },
+              {
+                date: {
+                  order: "desc"
+                }
+              }
+            ]
+          }
+        });
+      }
+
+      if (args.keyword !== "" && args.domain === "ALL" && args.star !== "0") {
+        esRes = await esClient.search({
+          index: "analysis",
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ["parentAuthor", "brand"]
+                    }
+                  },
+                  {
+                    match: {
+                      rate: args.star
+                    }
+                  },
+                  {
+                    match_phrase: {
+                      content: args.keyword
+                    }
+                  }
+                ],
+                filter: {
+                  term: {
+                    itemType: "review"
+                  }
+                }
+              }
+            },
+            sort: [
+              {
+                rate: {
+                  order: sortType
+                }
+              },
+              {
+                date: {
+                  order: "desc"
+                }
+              }
+            ]
+          }
+        });
+      }
+
+      if (args.keyword === "" && args.domain !== "ALL" && args.star === "0") {
+        esRes = await esClient.search({
+          index: "analysis",
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ["parentAuthor", "brand"]
+                    }
+                  },
+                  {
+                    match: {
+                      domain: domainType
+                    }
+                  }
+                ],
+                filter: {
+                  term: {
+                    itemType: "review"
+                  }
+                }
+              }
+            },
+            sort: [
+              {
+                rate: {
+                  order: sortType
+                }
+              },
+              {
+                date: {
+                  order: "desc"
+                }
+              }
+            ]
+          }
+        });
+      }
+
+      if (args.keyword !== "" && args.domain !== "ALL" && args.star === "0") {
+        esRes = await esClient.search({
+          index: "analysis",
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ["parentAuthor", "brand"]
+                    }
+                  },
+                  {
+                    match: {
+                      domain: domainType
+                    }
+                  },
+                  {
+                    match_phrase: {
+                      content: args.keyword
+                    }
+                  }
+                ],
+                filter: {
+                  term: {
+                    itemType: "review"
+                  }
+                }
+              }
+            },
+            sort: [
+              {
+                rate: {
+                  order: sortType
+                }
+              },
+              {
+                date: {
+                  order: "desc"
+                }
+              }
+            ]
+          }
+        });
+      }
+
+      if (args.keyword === "" && args.domain !== "ALL" && args.star !== "0") {
+        esRes = await esClient.search({
+          index: "analysis",
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ["parentAuthor", "brand"]
+                    }
+                  },
+                  {
+                    match: {
+                      domain: domainType
+                    }
+                  },
+                  {
+                    match: {
+                      rate: args.star
+                    }
+                  }
+                ],
+                filter: {
+                  term: {
+                    itemType: "review"
+                  }
+                }
+              }
+            },
+            sort: [
+              {
+                rate: {
+                  order: sortType
+                }
+              },
+              {
+                date: {
+                  order: "desc"
+                }
+              }
+            ]
+          }
+        });
+      }
+
+      if (args.keyword !== "" && args.domain !== "ALL" && args.star !== "0") {
+        esRes = await esClient.search({
+          index: "analysis",
+          body: {
+            query: {
+              bool: {
+                must: [
+                  {
+                    multi_match: {
+                      query: args.brand,
+                      fields: ["parentAuthor", "brand"]
+                    }
+                  },
+                  {
+                    match: {
+                      domain: domainType
+                    }
+                  },
+                  {
+                    match: {
+                      rate: args.star
+                    }
+                  },
+                  {
+                    match_phrase: {
+                      content: args.keyword
+                    }
+                  }
+                ],
+                filter: {
+                  term: {
+                    itemType: "review"
+                  }
+                }
+              }
+            },
+            sort: [
+              {
+                rate: {
+                  order: sortType
+                }
+              },
+              {
+                date: {
+                  order: "desc"
+                }
+              }
+            ]
+          }
+        });
+      }
 
       return esRes.hits.hits;
     },

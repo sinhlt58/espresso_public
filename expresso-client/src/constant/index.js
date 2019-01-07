@@ -8,10 +8,6 @@ export const optionsSort = [
   {
     value: "DESC",
     label: "Điểm từ cao đến thấp"
-  },
-  {
-    value: "RECENTLY",
-    label: "Gần đây nhất"
   }
 ];
 
