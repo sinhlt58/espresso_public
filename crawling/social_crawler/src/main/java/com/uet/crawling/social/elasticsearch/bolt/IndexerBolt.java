@@ -36,9 +36,9 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.digitalpebble.stormcrawler.Metadata;
+import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.elasticsearch.ElasticSearchConnection;
-import com.digitalpebble.stormcrawler.indexing.AbstractIndexerBolt;
+import com.uet.crawling.social.indexing.AbstractIndexerBolt;
 import com.uet.crawling.social.persistence.Status;
 import com.uet.crawling.social.util.ConfUtils;
 

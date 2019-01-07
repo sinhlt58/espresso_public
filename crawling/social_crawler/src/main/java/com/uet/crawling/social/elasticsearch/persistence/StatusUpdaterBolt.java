@@ -207,7 +207,10 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt implements
         // store routing key in metadata?
         if (StringUtils.isNotBlank(partitionKey)
                 && StringUtils.isNotBlank(fieldNameForRoutingKey)
-                && routingFieldNameInMetadata) {
+                && routingFieldNameInMetadata
+                // conganh add
+                && !partitionField.equals("type")) {
+                // end conganh
             builder.field(fieldNameForRoutingKey, partitionKey);
         }
 

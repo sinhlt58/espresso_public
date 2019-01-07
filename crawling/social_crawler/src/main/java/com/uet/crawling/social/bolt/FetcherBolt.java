@@ -333,6 +333,8 @@ public class FetcherBolt extends StatusEmitterBolt{
                     long start = System.currentTimeMillis();
                     Result result = null;
                     String type = metadata.getFirstValue("type");
+
+                    // conganh comment: need to split a new file if you want to generalize 
                     switch (type) {
                         case Constants.NodeTypeSearchPages:
                             SearchPages searchPages = new SearchPages();
@@ -375,7 +377,7 @@ public class FetcherBolt extends StatusEmitterBolt{
                     }
 
                     // can chinh lai neu muon dong nhat metadata
-                    metadata.setRsult(result);
+                    // metadata.setRsult(result);
 
                     // determine the status based on the status code
                     final Status status = Status.fromApiResponseCode(errorCode);
@@ -385,7 +387,7 @@ public class FetcherBolt extends StatusEmitterBolt{
 
                     // if the status is OK emit on default stream
                     if (status.equals(Status.FETCHED)) {
-                        collector.emit(fit.t, new Values(fit.node, metadata));
+                        collector.emit(fit.t, new Values(fit.node, metadata, result));
                     } else {
                         collector.emit(Constants.StatusStreamName, fit.t, tupleToSend);
                     }
@@ -488,7 +490,7 @@ public class FetcherBolt extends StatusEmitterBolt{
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         super.declareOutputFields(declarer);
-        declarer.declare(new Fields("node", "metadata"));
+        declarer.declare(new Fields("node", "metadata", "result"));
     }
 
     @Override

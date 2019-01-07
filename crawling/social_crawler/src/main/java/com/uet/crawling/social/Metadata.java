@@ -44,7 +44,7 @@ public class Metadata {
     // co nen them result.toString va result.buildFromString de dong nhat metadata???
     // su dung JsonObject parse string
     // conganh add
-    private Result result = null;
+    // private Result result = null;
     // end conganh
 
     public final static Metadata empty = new Metadata(
@@ -53,7 +53,7 @@ public class Metadata {
     public Metadata() {
         md = new HashMap<>();
         // conganh add
-        result = null;
+        // result = null;
         // end conganh
     }
 
@@ -71,7 +71,7 @@ public class Metadata {
     public void putAll(Metadata m) {
         md.putAll(m.md);
         // conganh add
-        result = m.result;
+        // result = m.result;
         // end conganh
     }
 
@@ -196,12 +196,12 @@ public class Metadata {
         return md;
     }
 
-    // conganh add
-    public Result getResult(){
-        return result;
-    }
-    public void setRsult(Result result){
-        this.result = result;
-    }
-    // end conganh
+    // // conganh add
+    // public Result getResult(){
+    //     return result;
+    // }
+    // public void setRsult(Result result){
+    //     this.result = result;
+    // }
+    // // end conganh
 }

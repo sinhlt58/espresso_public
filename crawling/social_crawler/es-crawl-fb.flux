@@ -23,13 +23,13 @@ bolts:
     className: "com.uet.crawling.social.bolt.FetcherBolt"
     parallelism: 1
 
-  # - id: "parse"
-  #   className: "com.uet.crawling.social.NormalizerBolt"
-  #   parallelism: 3
+  - id: "discover"
+    className: "com.uet.crawling.social.bolt.NodesDiscoverBolt"
+    parallelism: 1
 
-  # - id: "index"
-  #   className: "com.uet.crawling.social.RemoveDuplicateBolt"
-  #   parallelism: 3
+  #- id: "index"
+  #  className: "com.uet.crawling.social.elasticsearch.bolt.IndexerBolt"
+  #  parallelism: 1
 
   - id: "status"
     className: "com.uet.crawling.social.elasticsearch.persistence.StatusUpdaterBolt"
@@ -46,25 +46,29 @@ streams:
     grouping:
       type: SHUFFLE
 
-  # - from: "fetcher"
-  #   to: "parse"
-  #   grouping:
-  #     type: SHUFFLE
+  - from: "fetcher"
+    to: "discover"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
 
-  # - from: "parse"
-  #   to: "index"
-  #   grouping:
-  #     type: SHUFFLE
-
-  # - from: "removeduplicate"
-  #   to: "indexer"
-  #   grouping:
-  #     type: SHUFFLE
+  #- from: "discover"
+  #  to: "index"
+  #  grouping:
+  #    type: LOCAL_OR_SHUFFLE
 
   # - from: "indexer"
   #   to: "status"
   #   grouping:
-  #     type: SHUFFLE
+  #      type: FIELDS
+  #      args: ["node"]
+  #      streamId: "status"
+
+  - from: "discover"
+    to: "status"
+    grouping:
+      type: FIELDS
+      args: ["node"]
+      streamId: "status"
 
   - from: "fetcher"
     to: "status"
