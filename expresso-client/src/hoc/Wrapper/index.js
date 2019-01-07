@@ -6,7 +6,7 @@ const { Header, Content, Footer } = Layout;
 class Wrapper extends Component {
   render() {
     return (
-      <Layout style={{ height: "100vh" }}>
+      <Layout style={this.props.style}>
         <Header>
           <div
             className="logo"

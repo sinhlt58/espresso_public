@@ -15,7 +15,7 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Wrapper isHome>
+      <Wrapper isHome style={{ height: "100vh" }}>
         <div style={{ textAlign: "center", marginTop: 80, width: "100%" }}>
           <h1>Nhập tên thương hiệu muốn phân tích</h1>
           <Search

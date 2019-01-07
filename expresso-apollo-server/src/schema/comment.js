@@ -1,12 +1,13 @@
-import { gql } from 'apollo-server-express';
+import { gql } from "apollo-server-express";
 
 export default gql`
   extend type Query {
     getComments(
       brand: String
       keyword: String
+      star: String
       domain: DomainEnum
-      sort: SortEnum = DESC
+      sort: SortEnum
       productId: String
     ): [Comment!]
 
@@ -24,6 +25,7 @@ export default gql`
   }
 
   enum DomainEnum {
+    ALL
     SHOPEE
     TIKI
     LAZADA
@@ -32,5 +34,6 @@ export default gql`
   enum SortEnum {
     ASC
     DESC
+    RECENTLY
   }
 `;

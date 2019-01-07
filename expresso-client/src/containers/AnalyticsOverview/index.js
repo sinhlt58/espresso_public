@@ -1,36 +1,26 @@
 import React, { Component } from "react";
-import {
-  Spin,
-  Rate,
-  Progress,
-  Row,
-  Col,
-  Input,
-  Button,
-  Cascader,
-  Tooltip,
-  Comment,
-  Avatar
-} from "antd";
-import moment from "moment";
-import { getBrand } from "../../graphql-client/api";
+import { Spin, Rate, Progress, Row, Col, Input, Button, Cascader } from "antd";
+import { getBrand, getComments } from "../../graphql-client/api";
 import Wrapper from "../../hoc/Wrapper";
 import { optionsDomain, optionsSort, optionsStar } from "../../constant";
+import CustomerCmt from "../../components/Comment";
 
 const Search = Input.Search;
 
 class AnalyticsOverview extends Component {
   state = {
     loading: true,
+    loadingCmt: true,
     data: {},
     starPercent: [],
-    optionsDomain: ["all"],
-    optionsSort: ["recently"],
-    optionsStar: ["0"]
+    optionsDomain: ["ALL"],
+    optionsSort: ["RECENTLY"],
+    optionsStar: ["0"],
+    dataCmts: {}
   };
 
-  componentDidMount() {
-    getBrand(this.props.match.params.name)
+  async componentDidMount() {
+    await getBrand(this.props.match.params.name)
       .then(res => {
         this.setState({
           loading: false,
@@ -53,6 +43,20 @@ class AnalyticsOverview extends Component {
           starPercent
         });
       });
+
+    getComments({
+      brand: this.props.match.params.name,
+      star: this.state.optionsStar[0],
+      domain: this.state.optionsDomain[0],
+      sort: this.state.optionsSort[0]
+    })
+      .then(res =>
+        this.setState({
+          loadingCmt: false,
+          dataCmts: res.data.getComments
+        })
+      )
+      .then(() => console.log(this.state.dataCmts));
   }
 
   _onChangeSort = async value => {
@@ -178,66 +182,20 @@ class AnalyticsOverview extends Component {
         <Row>
           <Col span={1} />
           <Col span={23}>
-            {/* <Comment
-              author={<p>Han Solo</p>}
-              avatar={
-                <Avatar
-                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  alt="Han Solo"
+            {this.state.loadingCmt ? (
+              <Spin style={{ margin: "0px 0px 0px 50%" }} size="large" />
+            ) : (
+              this.state.dataCmts.map((item, index) => (
+                <CustomerCmt
+                  key={item.id}
+                  author={item.author}
+                  rate={item.rate}
+                  content={item.content}
+                  date={Number(item.date)}
+                  url={item.product.source.url}
                 />
-              }
-              content={
-                <Rate
-                  disabled
-                  defaultValue={2}
-                  style={{ marginBottom: "10px" }}
-                />
-              }
-              datetime={
-                <Tooltip title={moment().format("YYYY-MM-DD HH:mm:ss")}>
-                  <span>{moment().fromNow()}</span>
-                </Tooltip>
-              }
-              children={
-                <p>
-                  We supply a series of design principles, practical patterns
-                  and high quality design resources (Sketch and Axure), to help
-                  people create their product prototypes beautifully and
-                  efficiently.
-                </p>
-              }
-              style={{ marginBottom: "30px" }}
-            />
-
-            <Comment
-              author={<p>Han Solo</p>}
-              avatar={
-                <Avatar
-                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  alt="Han Solo"
-                />
-              }
-              content={
-                <Rate
-                  disabled
-                  defaultValue={2}
-                  style={{ marginBottom: "10px" }}
-                />
-              }
-              datetime={
-                <Tooltip title={moment().format("YYYY-MM-DD HH:mm:ss")}>
-                  <span>{moment().fromNow()}</span>
-                </Tooltip>
-              }
-              children={
-                <p>
-                  We supply a series of design principles, practical patterns
-                  and high quality design resources (Sketch and Axure), to help
-                  people create their product prototypes beautifully and
-                  efficiently.
-                </p>
-              }
-            /> */}
+              ))
+            )}
           </Col>
         </Row>
       </Wrapper>

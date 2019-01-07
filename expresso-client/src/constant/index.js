@@ -2,34 +2,34 @@ export const uri = "http://localhost:8000/graphql";
 
 export const optionsSort = [
   {
-    value: "asc",
+    value: "ASC",
     label: "Điểm từ thấp đến cao"
   },
   {
-    value: "desc",
+    value: "DESC",
     label: "Điểm từ cao đến thấp"
   },
   {
-    value: "recently",
+    value: "RECENTLY",
     label: "Gần đây nhất"
   }
 ];
 
 export const optionsDomain = [
   {
-    value: "all",
+    value: "ALL",
     label: "Tất cả các kênh"
   },
   {
-    value: "tiki",
+    value: "TIKI",
     label: "Tiki.vn"
   },
   {
-    value: "shopee",
+    value: "SHOPEE",
     label: "Shopee.vn"
   },
   {
-    value: "lazada",
+    value: "LAZADA",
     label: "Lazada.vn"
   }
 ];

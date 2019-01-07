@@ -29,3 +29,41 @@ export const getBrand = async name => {
     return err;
   }
 };
+
+export const getComments = async ({ brand, star, domain, sort, keyword }) => {
+  try {
+    return await client.query({
+      variables: { brand, star, sort, domain, keyword },
+      query: gql`
+        query(
+          $brand: String
+          $star: String
+          $sort: SortEnum
+          $domain: DomainEnum
+          $keyword: String
+        ) {
+          getComments(
+            brand: $brand
+            sort: $sort
+            star: $star
+            domain: $domain
+            keyword: $keyword
+          ) {
+            id
+            author
+            content
+            rate
+            date
+            product {
+              source {
+                url
+              }
+            }
+          }
+        }
+      `
+    });
+  } catch (err) {
+    return err;
+  }
+};
