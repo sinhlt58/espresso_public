@@ -1,7 +1,7 @@
-import gql from 'graphql-tag';
-import client from './client';
+import gql from "graphql-tag";
+import client from "./client";
 
-export const getBrand = async (name) => {
+export const getBrand = async name => {
   try {
     return await client.query({
       variables: { name },
@@ -16,10 +16,14 @@ export const getBrand = async (name) => {
                 domain
                 totalCmt
               }
+              rateCount {
+                star
+                totalCmt
+              }
             }
           }
         }
-      `,
+      `
     });
   } catch (err) {
     return err;

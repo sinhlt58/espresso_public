@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-express';
+import { gql } from "apollo-server-express";
 
 export default gql`
   extend type Query {
@@ -21,12 +21,18 @@ export default gql`
   type Rating {
     average: Float!
     detail: [RateDetail!]
+    rateCount: [RateCount!]
   }
 
   type RateDetail {
     domain: String!
     totalCmt: Int!
     rate: Float!
+  }
+
+  type RateCount {
+    star: String!
+    totalCmt: Int!
   }
 
   type BrandHistogramItem {
