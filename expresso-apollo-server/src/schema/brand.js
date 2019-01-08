@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
@@ -37,6 +37,12 @@ export default gql`
 
   type BrandHistogramItem {
     timestamp: String!
-    count: Int!
+    total: Int!
+    count: BrandCmtCount!
+  }
+
+  type BrandCmtCount {
+    positive: Int!
+    negative: Int!
   }
 `;
