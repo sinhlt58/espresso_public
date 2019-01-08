@@ -9,6 +9,7 @@ import {
   Button,
   Cascader,
   Pagination,
+  message,
 } from 'antd';
 import { getBrand, getComments } from '../../graphql-client/api';
 import Wrapper from '../../hoc/Wrapper';
@@ -31,29 +32,58 @@ class AnalyticsOverview extends Component {
   };
 
   async componentDidMount() {
-    await getBrand(this.props.match.params.name)
-      .then((res) => {
-        this.setState({
-          loading: false,
-          data: res.data.getBrand,
-        });
-      })
-      .then(() => {
-        let starPercent = [];
-        this.state.data.rate.rateCount.forEach((element) => {
-          starPercent.push(
-            Number(
-              ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
-            ),
-          );
-        });
+    const res = await getBrand(this.props.match.params.name);
 
-        starPercent.push(5, 4, 3, 2, 1);
-
-        this.setState({
-          starPercent,
-        });
+    if (res.networkStatus === 7) {
+      await this.setState({
+        loading: false,
+        data: res.data.getBrand,
       });
+
+      let starPercent = [];
+      this.state.data.rate.rateCount.forEach((element) => {
+        starPercent.push(
+          Number(
+            ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
+          ),
+        );
+      });
+
+      starPercent.push(5, 4, 3, 2, 1);
+
+      this.setState({
+        starPercent,
+      });
+    } else {
+      message.error('Không tìm thấy thương hiệu');
+      this.props.history.goBack();
+    }
+
+    // .then((res) => {
+    //   this.setState({
+    //     loading: false,
+    //     data: res.data.getBrand,
+    //   });
+    // })
+    // .catch((err) => {
+    //   message.error('Không tìm thấy thương hiệu');
+    // })
+    // .then(() => {
+    //   let starPercent = [];
+    //   this.state.data.rate.rateCount.forEach((element) => {
+    //     starPercent.push(
+    //       Number(
+    //         ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
+    //       ),
+    //     );
+    //   });
+
+    //   starPercent.push(5, 4, 3, 2, 1);
+
+    //   this.setState({
+    //     starPercent,
+    //   });
+    // });
 
     this.getCustomerComments();
   }
@@ -77,7 +107,7 @@ class AnalyticsOverview extends Component {
         dataCmts: cmts.data.getComments,
       });
     } else {
-      alert(cmts.message);
+      message.error('Có lỗi xảy ra. Vui lòng thử lại!');
     }
   };
 
