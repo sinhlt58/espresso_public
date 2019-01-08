@@ -27,8 +27,8 @@ class Wrapper extends Component {
               defaultSelectedKeys={['1']}
               style={{ lineHeight: '64px' }}
             >
-              <Menu.Item key="1">Từ khoá</Menu.Item>
-              <Menu.Item key="2">Khảo sát</Menu.Item>
+              <Menu.Item key="1">Chi tiết</Menu.Item>
+              <Menu.Item key="2">Báo cáo</Menu.Item>
               <Menu.Item key="3">So sánh</Menu.Item>
             </Menu>
           )}
