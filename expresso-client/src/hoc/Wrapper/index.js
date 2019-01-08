@@ -17,7 +17,7 @@ class Wrapper extends Component {
             }}
           >
             <h2 style={{ margin: "0px 0px 0px 0px", color: "#FFF" }}>
-              Expresso
+              Espresso
             </h2>
           </div>
           {this.props.isHome ? null : (
