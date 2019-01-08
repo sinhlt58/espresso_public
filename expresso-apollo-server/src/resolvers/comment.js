@@ -17,6 +17,7 @@ export default {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
+            from: args.offset,
             query: {
               bool: {
                 should: [
@@ -64,6 +65,7 @@ export default {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
+            from: args.offset,
             query: {
               bool: {
                 must: [
@@ -118,6 +120,7 @@ export default {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
+            from: args.offset,
             query: {
               bool: {
                 must: [
@@ -172,6 +175,7 @@ export default {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
+            from: args.offset,
             query: {
               bool: {
                 must: [
@@ -231,6 +235,7 @@ export default {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
+            from: args.offset,
             query: {
               bool: {
                 must: [
@@ -285,6 +290,7 @@ export default {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
+            from: args.offset,
             query: {
               bool: {
                 must: [
@@ -344,6 +350,7 @@ export default {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
+            from: args.offset,
             query: {
               bool: {
                 must: [
@@ -403,6 +410,7 @@ export default {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
+            from: args.offset,
             query: {
               bool: {
                 must: [

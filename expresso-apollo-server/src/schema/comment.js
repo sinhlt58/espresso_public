@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
@@ -9,6 +9,7 @@ export default gql`
       domain: DomainEnum
       sort: SortEnum
       productId: String
+      offset: Int!
     ): [Comment!]
 
     getComment(id: String!): Comment!

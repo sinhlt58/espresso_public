@@ -29,6 +29,7 @@ class AnalyticsOverview extends Component {
     optionsStar: ['0'],
     dataCmts: [],
     keyword: '',
+    page: 1,
   };
 
   async componentDidMount() {
@@ -59,32 +60,6 @@ class AnalyticsOverview extends Component {
       this.props.history.goBack();
     }
 
-    // .then((res) => {
-    //   this.setState({
-    //     loading: false,
-    //     data: res.data.getBrand,
-    //   });
-    // })
-    // .catch((err) => {
-    //   message.error('Không tìm thấy thương hiệu');
-    // })
-    // .then(() => {
-    //   let starPercent = [];
-    //   this.state.data.rate.rateCount.forEach((element) => {
-    //     starPercent.push(
-    //       Number(
-    //         ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
-    //       ),
-    //     );
-    //   });
-
-    //   starPercent.push(5, 4, 3, 2, 1);
-
-    //   this.setState({
-    //     starPercent,
-    //   });
-    // });
-
     this.getCustomerComments();
   }
 
@@ -94,6 +69,7 @@ class AnalyticsOverview extends Component {
     });
 
     const cmts = await getComments({
+      offset: (this.state.page - 1) * 10,
       brand: this.props.match.params.name,
       star: this.state.optionsStar[0],
       domain: this.state.optionsDomain[0],
@@ -114,6 +90,7 @@ class AnalyticsOverview extends Component {
   _onChangeSort = async (value) => {
     await this.setState({
       optionsSort: value,
+      page: 1,
     });
 
     this.getCustomerComments();
@@ -122,6 +99,7 @@ class AnalyticsOverview extends Component {
   _onChangeDomain = async (value) => {
     await this.setState({
       optionsDomain: value,
+      page: 1,
     });
 
     this.getCustomerComments();
@@ -130,6 +108,7 @@ class AnalyticsOverview extends Component {
   _onChangeStar = async (value) => {
     await this.setState({
       optionsStar: value,
+      page: 1,
     });
 
     this.getCustomerComments();
@@ -138,13 +117,25 @@ class AnalyticsOverview extends Component {
   _onClickStar = async (star) => {
     await this.setState({
       optionsStar: [`${star}`],
+      page: 1,
     });
 
     this.getCustomerComments();
   };
 
-  _onSearch = (value) => {
+  _onSearch = async (value) => {
+    await this.setState({
+      page: 1,
+    });
     this.getCustomerComments(value);
+  };
+
+  _onChangePage = async (page) => {
+    await this.setState({
+      page,
+    });
+
+    this.getCustomerComments();
   };
 
   render() {
@@ -261,13 +252,6 @@ class AnalyticsOverview extends Component {
             marginBottom: '30px',
           }}
         />
-        {/* <Row>
-          <Pagination
-            defaultCurrent={1}
-            total={this.state.data.totalCmt}
-            pageSize={10}
-          />
-        </Row> */}
         <Row>
           <Col span={1} />
           <Col span={23}>
@@ -286,6 +270,16 @@ class AnalyticsOverview extends Component {
               ))
             )}
           </Col>
+        </Row>
+        <Row>
+          <Col span={1} />
+          <Pagination
+            current={this.state.page}
+            total={this.state.data.totalCmt}
+            onChange={this._onChangePage}
+            pageSize={10}
+            style={{ marginBottom: '30px' }}
+          />
         </Row>
       </Wrapper>
     );

@@ -1,7 +1,7 @@
-import gql from "graphql-tag";
-import client from "./client";
+import gql from 'graphql-tag';
+import client from './client';
 
-export const getBrand = async name => {
+export const getBrand = async (name) => {
   try {
     return await client.query({
       variables: { name },
@@ -23,19 +23,27 @@ export const getBrand = async name => {
             }
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
   }
 };
 
-export const getComments = async ({ brand, star, domain, sort, keyword }) => {
+export const getComments = async ({
+  offset,
+  brand,
+  star,
+  domain,
+  sort,
+  keyword,
+}) => {
   try {
     return await client.query({
-      variables: { brand, star, sort, domain, keyword },
+      variables: { offset, brand, star, sort, domain, keyword },
       query: gql`
         query(
+          $offset: Int!
           $brand: String
           $star: String
           $sort: SortEnum
@@ -43,6 +51,7 @@ export const getComments = async ({ brand, star, domain, sort, keyword }) => {
           $keyword: String
         ) {
           getComments(
+            offset: $offset
             brand: $brand
             sort: $sort
             star: $star
@@ -61,7 +70,7 @@ export const getComments = async ({ brand, star, domain, sort, keyword }) => {
             }
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;

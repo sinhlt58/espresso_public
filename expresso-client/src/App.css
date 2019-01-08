@@ -1,4 +1,4 @@
-@import "~antd/dist/antd.css";
+@import '~antd/dist/antd.css';
 
 .App {
   text-align: center;
@@ -15,8 +15,13 @@
 .ant-btn-background-ghost {
   color: black;
   border-width: 0px;
+  box-shadow: 0 0px 0 rgba(0, 0, 0, 0.015);
 }
 
 .ant-comment-inner {
   padding: 0;
+}
+
+.ant-layout-content {
+  background-color: whitesmoke;
 }
