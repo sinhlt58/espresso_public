@@ -19,14 +19,24 @@ export default {
           body: {
             query: {
               bool: {
-                must: [
+                should: [
                   {
-                    multi_match: {
-                      query: args.brand,
-                      fields: ['parentAuthor', 'brand'],
+                    term: {
+                      brand: {
+                        value: args.brand,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brand,
+                      },
                     },
                   },
                 ],
+                minimum_should_match: 1,
                 filter: {
                   term: {
                     itemType: 'review',
@@ -58,17 +68,29 @@ export default {
               bool: {
                 must: [
                   {
-                    multi_match: {
-                      query: args.brand,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
-                  {
                     match_phrase: {
                       content: args.keyword,
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brand,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brand,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: {
                   term: {
                     itemType: 'review',
@@ -100,17 +122,29 @@ export default {
               bool: {
                 must: [
                   {
-                    multi_match: {
-                      query: args.brand,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
-                  {
                     match: {
                       rate: args.star,
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brand,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brand,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: {
                   term: {
                     itemType: 'review',
@@ -142,12 +176,6 @@ export default {
               bool: {
                 must: [
                   {
-                    multi_match: {
-                      query: args.brand,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
-                  {
                     match: {
                       rate: args.star,
                     },
@@ -158,6 +186,24 @@ export default {
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brand,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brand,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: {
                   term: {
                     itemType: 'review',
@@ -189,12 +235,6 @@ export default {
               bool: {
                 must: [
                   {
-                    multi_match: {
-                      query: args.brand,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
-                  {
                     match: {
                       domain: domainType,
                     },
@@ -207,6 +247,24 @@ export default {
                 },
               },
             },
+            should: [
+              {
+                term: {
+                  brand: {
+                    value: args.brand,
+                    boost: 3.0,
+                  },
+                },
+              },
+              {
+                term: {
+                  parentAuthor: {
+                    value: args.brand,
+                  },
+                },
+              },
+            ],
+            minimum_should_match: 1,
             sort: [
               {
                 rate: {
@@ -231,12 +289,6 @@ export default {
               bool: {
                 must: [
                   {
-                    multi_match: {
-                      query: args.brand,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
-                  {
                     match: {
                       domain: domainType,
                     },
@@ -254,6 +306,24 @@ export default {
                 },
               },
             },
+            should: [
+              {
+                term: {
+                  brand: {
+                    value: args.brand,
+                    boost: 3.0,
+                  },
+                },
+              },
+              {
+                term: {
+                  parentAuthor: {
+                    value: args.brand,
+                  },
+                },
+              },
+            ],
+            minimum_should_match: 1,
             sort: [
               {
                 rate: {
@@ -278,12 +348,6 @@ export default {
               bool: {
                 must: [
                   {
-                    multi_match: {
-                      query: args.brand,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
-                  {
                     match: {
                       domain: domainType,
                     },
@@ -294,6 +358,24 @@ export default {
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brand,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brand,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: {
                   term: {
                     itemType: 'review',
@@ -325,12 +407,6 @@ export default {
               bool: {
                 must: [
                   {
-                    multi_match: {
-                      query: args.brand,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
-                  {
                     match: {
                       domain: domainType,
                     },
@@ -346,6 +422,24 @@ export default {
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brand,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brand,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: {
                   term: {
                     itemType: 'review',

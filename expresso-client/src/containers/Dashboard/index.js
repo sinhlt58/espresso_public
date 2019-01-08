@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import { Input } from "antd";
-import Wrapper from "../../hoc/Wrapper";
+import React, { Component } from 'react';
+import { Input } from 'antd';
+import Wrapper from '../../hoc/Wrapper';
 
 const Search = Input.Search;
 
 class Dashboard extends Component {
-  _onSearch = value => {
-    if (value.trim() === "" || value === undefined) {
-      alert("Vui lòng nhập tên thương hiệu trước khi tiếp tục");
+  _onSearch = (value) => {
+    if (value.trim() === '' || value === undefined) {
+      alert('Vui lòng nhập tên thương hiệu trước khi tiếp tục');
     } else {
-      this.props.history.push(`/analytics/${value}`);
+      this.props.history.push(`/analytics/${value.toLowerCase()}`);
     }
   };
 
   render() {
     return (
-      <Wrapper isHome style={{ height: "100vh" }}>
-        <div style={{ textAlign: "center", marginTop: 80, width: "100%" }}>
+      <Wrapper isHome style={{ height: '100vh' }}>
+        <div style={{ textAlign: 'center', marginTop: 80, width: '100%' }}>
           <h1>Nhập tên thương hiệu muốn phân tích</h1>
           <Search
             className="search-dashboard"
-            style={{ width: "60%" }}
+            style={{ width: '60%' }}
             placeholder=""
             onSearch={this._onSearch}
             enterButton

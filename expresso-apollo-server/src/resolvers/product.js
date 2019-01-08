@@ -1,10 +1,11 @@
 import { esClient } from '../database';
+import { SOURCE } from '../const';
 
 export default {
   Query: {
     getProduct: async (parent, args) => {
       const esRes = await esClient.search({
-        index: 'analysis',
+        index: SOURCE,
         body: {
           query: {
             bool: {
@@ -31,7 +32,7 @@ export default {
     brand: (parent) => parent._source,
     rating: async (parent) => {
       const esRes = await esClient.search({
-        index: 'analysis',
+        index: SOURCE,
         body: {
           size: 0,
           query: {

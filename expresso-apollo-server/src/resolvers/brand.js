@@ -1,23 +1,34 @@
 import { esClient } from '../database';
 import { getDomain } from './helper';
+import { SOURCE } from '../const';
 
 export default {
   Query: {
     getBrand: async (parent, args) => {
       const esRes = await esClient.search({
-        index: 'analysis',
+        index: SOURCE,
         body: {
           size: 0,
           query: {
             bool: {
-              must: [
+              should: [
                 {
-                  multi_match: {
-                    query: args.name,
-                    fields: ['parentAuthor', 'brand'],
+                  term: {
+                    brand: {
+                      value: args.name,
+                      boost: 3.0,
+                    },
+                  },
+                },
+                {
+                  term: {
+                    parentAuthor: {
+                      value: args.name,
+                    },
                   },
                 },
               ],
+              minimum_should_match: 1,
               filter: [{ term: { itemType: 'review' } }],
             },
           },
@@ -56,18 +67,12 @@ export default {
       let esRes;
       if (args.domain === undefined) {
         esRes = await esClient.search({
-          index: 'analysis',
+          index: SOURCE,
           body: {
             size: 0,
             query: {
               bool: {
                 must: [
-                  {
-                    multi_match: {
-                      query: args.brandName,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
                   {
                     range: {
                       date: {
@@ -77,6 +82,24 @@ export default {
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brandName,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brandName,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: [{ term: { itemType: 'review' } }],
               },
             },
@@ -107,18 +130,12 @@ export default {
         });
       } else {
         esRes = await esClient.search({
-          index: 'analysis',
+          index: SOURCE,
           body: {
             size: 0,
             query: {
               bool: {
                 must: [
-                  {
-                    multi_match: {
-                      query: args.brandName,
-                      fields: ['parentAuthor', 'brand'],
-                    },
-                  },
                   {
                     match: { domain: getDomain(args.domain) },
                   },
@@ -131,6 +148,24 @@ export default {
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brandName,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brandName,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: [{ term: { itemType: 'review' } }],
               },
             },
