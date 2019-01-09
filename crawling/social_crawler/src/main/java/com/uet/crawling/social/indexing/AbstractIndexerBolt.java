@@ -33,14 +33,12 @@ import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Fields;
-import org.apache.storm.tuple.Tuple;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.util.ConfUtils;
 import com.digitalpebble.stormcrawler.util.RobotsTags;
-import com.digitalpebble.stormcrawler.util.URLUtil;
 
 /** Abstract class to simplify writing IndexerBolts **/
 @SuppressWarnings("serial")
@@ -61,37 +59,14 @@ public abstract class AbstractIndexerBolt extends BaseRichBolt {
      **/
     public static final String metadataFilterParamName = "indexer.md.filter";
 
-    /** Field name to use for storing the text of a document **/
-    public static final String textFieldParamName = "indexer.text.fieldname";
-
-    /** Trim length of text to index. Defaults to -1 to keep it intact **/
-    public static final String textLengthParamName = "indexer.text.maxlength";
-
     /** Field name to use for storing the url of a document **/
-    public static final String urlFieldParamName = "indexer.url.fieldname";
-
-    /** Field name to use for reading the canonical property of the metadata */
-    public static final String canonicalMetadataParamName = "indexer.canonical.name";
-
-    // sinh.luutruong added use for the created time
-    public static final String createdTimeParamName = "indexer.created_time";
-    // sinh.luutruong end
+    public static final String nodeFieldParamName = "indexer.node.fieldname";
 
     private String[] filterKeyValue = null;
 
     private Map<String, String> metadata2field = new HashMap<>();
 
-    private String fieldNameForText = null;
-
-    private int maxLengthText = -1;
-
-    private String fieldNameForURL = null;
-
-    private String canonicalMetadataName = null;
-
-    // sinh.luutruong added use for the created time
-    private String fieldNameForCreatedTime = null;
-    // sinh.luutruong end
+    private String fieldNameForNode = null;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
@@ -111,18 +86,7 @@ public abstract class AbstractIndexerBolt extends BaseRichBolt {
             }
         }
 
-        fieldNameForText = ConfUtils.getString(conf, textFieldParamName);
-
-        maxLengthText = ConfUtils.getInt(conf, textLengthParamName, -1);
-
-        fieldNameForURL = ConfUtils.getString(conf, urlFieldParamName);
-
-        canonicalMetadataName = ConfUtils.getString(conf,
-                canonicalMetadataParamName);
-
-        // sinh.luutruong added use for the created time
-        fieldNameForCreatedTime = ConfUtils.getString(conf, createdTimeParamName);
-        // sinh.luutruong end
+        fieldNameForNode = ConfUtils.getString(conf, nodeFieldParamName);
 
         for (String mapping : ConfUtils.loadListFromConf(
                 metadata2fieldParamName, conf)) {
@@ -194,86 +158,17 @@ public abstract class AbstractIndexerBolt extends BaseRichBolt {
     }
 
     /**
-     * Returns the value to be used as the URL for indexing purposes, if present
-     * the canonical value is used instead
-     */
-    protected String valueForURL(Tuple tuple) {
-
-        String url = tuple.getStringByField("url");
-        Metadata metadata = (Metadata) tuple.getValueByField("metadata");
-
-        // functionality deactivated
-        if (StringUtils.isBlank(canonicalMetadataParamName)) {
-            return url;
-        }
-
-        String canonicalValue = metadata.getFirstValue(canonicalMetadataName);
-
-        // no value found?
-        if (StringUtils.isBlank(canonicalValue)) {
-            return url;
-        }
-
-        try {
-            URL sURL = new URL(url);
-            URL canonical = URLUtil.resolveURL(sURL, canonicalValue);
-
-            // check is the same host
-            if (sURL.getHost().equals(canonical.getHost())) {
-                return canonical.toExternalForm();
-            } else {
-                LOG.info(
-                        "Canonical URL references a different host, ignoring in {} ",
-                        url);
-            }
-        } catch (MalformedURLException e) {
-            LOG.error("Malformed canonical URL {} was found in {} ",
-                    canonicalValue, url);
-        }
-
-        return url;
-    }
-
-    /**
-     * Returns the field name to use for the text or null if the text must not
-     * be indexed
-     **/
-    protected String fieldNameForText() {
-        return fieldNameForText;
-    }
-
-    /**
-     * Returns a trimmed string or the original one if it is below the threshold
-     * set in the configuration.
-     **/
-    protected String trimText(String text) {
-        if (maxLengthText == -1)
-            return text;
-        if (text == null)
-            return text;
-        if (text.length() <= maxLengthText)
-            return text;
-        return text.substring(0, maxLengthText);
-    }
-
-    /**
      * Returns the field name to use for the URL or null if the URL must not be
      * indexed
      **/
-    protected String fieldNameForURL() {
-        return fieldNameForURL;
+    protected String fieldNameForNode() {
+        return fieldNameForNode;
     }
-
-    // sinh.luutruong start
-    protected String fieldNameForTimeCreated() {
-        return fieldNameForCreatedTime;
-    }
-    // sinh.luutruong end
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         declarer.declareStream(
-                com.digitalpebble.stormcrawler.Constants.StatusStreamName,
-                new Fields("url", "metadata", "status"));
+                com.uet.crawling.social.Constants.StatusStreamName,
+                new Fields("node", "metadata", "status"));
     }
 }

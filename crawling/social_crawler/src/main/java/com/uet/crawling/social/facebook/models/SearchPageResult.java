@@ -1,19 +1,20 @@
 package com.uet.crawling.social.facebook.models;
 
 import com.restfb.Facebook;
+import com.restfb.types.Page;
 
 import java.util.List;
 
 public class SearchPageResult extends Result{
 
     @Facebook
-    private List<PageResult> data;
+    private List<Page> data;
 
-    public List<PageResult> getData(){
+    public List<Page> getData(){
         return data;
     }
 
-    public void setData(List<PageResult> data){
+    public void setData(List<Page> data){
         this.data = data;
     }
 

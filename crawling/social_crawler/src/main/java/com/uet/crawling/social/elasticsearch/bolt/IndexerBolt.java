@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.apache.storm.metric.api.MultiCountMetric;
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.tuple.Tuple;
@@ -59,10 +58,6 @@ public class IndexerBolt extends AbstractIndexerBolt {
     private static final String ESCreateParamName = "es.indexer.create";
     private static final String ESIndexPipelineParamName = "es.indexer.pipeline";
 
-    // sinh.luutruong added
-    private static String ESDomainFieldTypeName = "es.indexer.domainfieldname";
-    // sinh.luutruong end
-
     private OutputCollector _collector;
 
     private String indexName;
@@ -74,13 +69,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
     // overwritten
     private boolean create = false;
 
-    private MultiCountMetric eventCounter;
-
     private ElasticSearchConnection connection;
-
-    // sinh.luutruong added
-    private String domainFieldTypeName;
-    // sinh.luutruong end
 
     public IndexerBolt() {
     }
@@ -100,18 +89,15 @@ public class IndexerBolt extends AbstractIndexerBolt {
             indexName = ConfUtils.getString(conf,
                     IndexerBolt.ESIndexNameParamName, "fetcher");
         }
+        
         docType = ConfUtils.getString(conf, IndexerBolt.ESDocTypeParamName,
                 "doc");
+
         create = ConfUtils.getBoolean(conf, IndexerBolt.ESCreateParamName,
                 false);
 
         pipeline = ConfUtils.getString(conf,
                 IndexerBolt.ESIndexPipelineParamName);
-
-        // sinh.luutruong added
-        domainFieldTypeName = ConfUtils.getString(conf, IndexerBolt.ESDomainFieldTypeName,
-                             "domain_type");
-        // sinh.luutruong end
 
         try {
             connection = ElasticSearchConnection
@@ -121,8 +107,6 @@ public class IndexerBolt extends AbstractIndexerBolt {
             throw new RuntimeException(e1);
         }
 
-        this.eventCounter = context.registerMetric("ElasticSearchIndexer",
-                new MultiCountMetric(), 10);
     }
 
     @Override
@@ -134,108 +118,67 @@ public class IndexerBolt extends AbstractIndexerBolt {
     @Override
     public void execute(Tuple tuple) {
 
-        String url = tuple.getStringByField("url");
-
-        // Distinguish the value used for indexing
-        // from the one used for the status
-        String normalisedurl = valueForURL(tuple);
+        String node = tuple.getStringByField("node");
 
         Metadata metadata = (Metadata) tuple.getValueByField("metadata");
-        String text = tuple.getStringByField("text");
 
-        boolean keep = filterDocument(metadata);
-        if (!keep) {
-            eventCounter.scope("Filtered").incrBy(1);
-            // treat it as successfully processed even if
-            // we do not index it
-            _collector.emit(StatusStreamName, tuple, new Values(url, metadata,
-                    Status.FETCHED));
-            _collector.ack(tuple);
-            return;
-        }
+        ArrayList<Metadata> listMdResult = (ArrayList<Metadata>) tuple.getValueByField("listMdResult");
+
+        // boolean keep = filterDocument(metadata);
+        // if (!keep) {
+        //     // treat it as successfully processed even if
+        //     // we do not index it
+        //     _collector.emit(StatusStreamName, tuple, new Values(node, metadata,
+        //             Status.FETCHED));
+        //     _collector.ack(tuple);
+        //     return;
+        // }
 
         try {
-            XContentBuilder builder = jsonBuilder().startObject();
+            for(Metadata md: listMdResult){
+                XContentBuilder builder = jsonBuilder().startObject();
 
-            // display text of the document?
-            if (fieldNameForText() != null) {
-                builder.field(fieldNameForText(), trimText(text));
-            }
+                String nodeChild = md.getFirstValue("node");
 
-            // send URL as field?
-            if (fieldNameForURL() != null) {
-                builder.field(fieldNameForURL(), normalisedurl);
-            }
-
-            // sinh.luutruong added
-            if (fieldNameForTimeCreated() != null) {
-                builder.field(fieldNameForTimeCreated(), System.currentTimeMillis());
-            }
-            // sinh.luutruong end
-
-            // which metadata to display?
-            Map<String, String[]> keyVals = filterMetadata(metadata);
-
-            Iterator<String> iterator = keyVals.keySet().iterator();
-            while (iterator.hasNext()) {
-                String fieldName = iterator.next();
-                String[] values = keyVals.get(fieldName);
-                if (values.length == 1) {
-                    builder.field(fieldName, values[0]);
-                } else if (values.length > 1) {
-                    builder.array(fieldName, values);
+                // send URL as field?
+                if (fieldNameForNode() != null) {
+                    builder.field(fieldNameForNode(), nodeChild);
                 }
-            }
 
-            // conganh add
-            // read domains data from metadata
-            boolean shouldIndex = false;
-            Map<String, ArrayList<Map<String, ArrayList<String>>>> domainsData = metadata.getDomainsData();
-            for (String domain : domainsData.keySet()) {
-                ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
+                md.remove("node");
 
-                if (records.size() > 0) {
-                    // builder.startArray(domain);
-                    // for (Map<String, ArrayList<String>> record : records) {
-                    //     builder.startObject();
-                    //     for (String field : record.keySet()) {
-                    //         ArrayList<String> values = record.get(field);
-                    //         if (values.size() == 1) {
-                    //             builder.field(field, values.get(0));
-                    //         }
-                    //         if (values.size() > 1) {
-                    //             builder.array(field, values.toArray());
-                    //         }
-                    //     }
-                    //     builder.endObject();
-                    // }
-                    // builder.endArray();
-                    builder.field(domainFieldTypeName, domain);
-                    for (String field : records.get(0).keySet()) {
-                        ArrayList<String> values = records.get(0).get(field);
-                        if (values.size() == 1) {
-                            builder.field(field, values.get(0));
-                        }
-                        if (values.size() > 1) {
-                            builder.array(field, values.toArray());
-                        }
-                        if (!shouldIndex) {
-                            shouldIndex = true;
-                        }
+                // // which metadata to display?
+                // Map<String, String[]> keyVals = filterMetadata(metadata);
+
+                // Iterator<String> iterator = keyVals.keySet().iterator();
+                // while (iterator.hasNext()) {
+                //     String fieldName = iterator.next();
+                //     String[] values = keyVals.get(fieldName);
+                //     if (values.length == 1) {
+                //         builder.field(fieldName, values[0]);
+                //     } else if (values.length > 1) {
+                //         builder.array(fieldName, values);
+                //     }
+                // }
+
+                Iterator<String> iterator = md.keySet().iterator();
+                while (iterator.hasNext()) {
+                    String fieldName = iterator.next();
+                    String[] values = md.getValues(fieldName);
+                    if (values.length == 1) {
+                        builder.field(fieldName, values[0]);
+                    } else if (values.length > 1) {
+                        builder.array(fieldName, values);
                     }
                 }
-            }
-            // end conganh
 
-            builder.endObject();
+                builder.endObject();
 
-            // sinh.luutruong added
-            if (shouldIndex) {
                 String sha256hex = org.apache.commons.codec.digest.DigestUtils
-                    .sha256Hex(normalisedurl);
+                    .sha256Hex(nodeChild);
 
                 IndexRequest indexRequest = new IndexRequest(
-                        getIndexName(metadata), docType, sha256hex).source(builder);
+                        getIndexName(md), docType, sha256hex).source(builder);
 
                 DocWriteRequest.OpType optype = DocWriteRequest.OpType.INDEX;
 
@@ -251,19 +194,23 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
                 connection.getProcessor().add(indexRequest);
 
-                eventCounter.scope("Indexed").incrBy(1);
+            
             }
-            // sinh.luutruong end
 
-            _collector.emit(StatusStreamName, tuple, new Values(url, metadata,
+            // xoa di neu co phan filtermetadata
+            metadata.remove("shouldIndex");
+            metadata.remove("shouldStatus");
+
+            _collector.emit(StatusStreamName, tuple, new Values(node, metadata,
                     Status.FETCHED));
+
             _collector.ack(tuple);
 
         } catch (IOException e) {
             LOG.error("Error sending log tuple to ES", e);
             // do not send to status stream so that it gets replayed
             _collector.fail(tuple);
-        }
+        } 
     }
 
     /**

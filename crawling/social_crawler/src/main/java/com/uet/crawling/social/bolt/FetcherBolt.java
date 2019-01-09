@@ -25,10 +25,6 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.uet.crawling.social.facebook.models.Result;
-import com.uet.crawling.social.facebook.services.GetComments;
-import com.uet.crawling.social.facebook.services.GetPosts;
-import com.uet.crawling.social.facebook.services.SearchPages;
 import org.apache.commons.lang.StringUtils;
 import org.apache.storm.Config;
 import org.apache.storm.task.OutputCollector;
@@ -331,37 +327,20 @@ public class FetcherBolt extends StatusEmitterBolt{
                     LOG.info("[Fetcher #{}] Starting fetch Node: {}", taskID, fit.node);
 
                     long start = System.currentTimeMillis();
-                    Result result = null;
-                    String type = metadata.getFirstValue("type");
+                    ArrayList<Metadata> listMdResult = new ArrayList<>();
 
-                    // conganh comment: need to split a new file if you want to generalize 
-                    switch (type) {
-                        case Constants.NodeTypeSearchPages:
-                            SearchPages searchPages = new SearchPages();
-                            result = searchPages.search(fbClient.getClient(), fit.node, 100);
-                            break;
-                        case Constants.NodeTypeGetPosts:
-                            GetPosts getPosts = new GetPosts();
-                            result = getPosts.get(fbClient.getClient(), fit.node, 100);
-                            break;
-                        case Constants.NodeTypeGetComments:
-                            GetComments getComments = new GetComments();
-                            result = getComments.get(fbClient.getClient(), fit.node, 100);
-                            break;
-                        default:
-                            // require metadata.type inorder to send grap api
-                            collector.emit(
-                                Constants.StatusStreamName,
-                                fit.t,
-                                new Values(fit.node, metadata, Status.ERROR));
-                            continue;
-                            // break; ?????
-                    }
+                    resultServices.getResult(
+                        fbClient.getClient(), fit.node, metadata, listMdResult);
+
                     long timeFetching = System.currentTimeMillis() - start;
 
                     Integer errorCode = null;
-                    if(result != null && result.getError() != null){
-                        errorCode = result.getError().getCode();
+                    String checkError = metadata.getFirstValue("error");
+                    if(checkError != null){
+                        errorCode = Integer.parseInt(checkError);
+                        metadata.remove("error");
+                        metadata.remove("shouldIndex");
+                        metadata.remove("shouldStatus");
                     }
                     
                     if(errorCode != null){
@@ -382,14 +361,15 @@ public class FetcherBolt extends StatusEmitterBolt{
                     // determine the status based on the status code
                     final Status status = Status.fromApiResponseCode(errorCode);
 
-                    final Values tupleToSend = new Values(fit.node, metadata,
-                            status);
+                    // final Values tupleToSend = new Values(fit.node, metadata,
+                    //         status);
 
                     // if the status is OK emit on default stream
                     if (status.equals(Status.FETCHED)) {
-                        collector.emit(fit.t, new Values(fit.node, metadata, result));
+                        collector.emit(fit.t, new Values(fit.node, metadata, listMdResult));
                     } else {
-                        collector.emit(Constants.StatusStreamName, fit.t, tupleToSend);
+                        collector.emit(Constants.StatusStreamName, fit.t, 
+                            new Values(fit.node, metadata, status));
                     }
 
                 } catch (Exception exece) {
@@ -490,7 +470,7 @@ public class FetcherBolt extends StatusEmitterBolt{
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
         super.declareOutputFields(declarer);
-        declarer.declare(new Fields("node", "metadata", "result"));
+        declarer.declare(new Fields("node", "metadata", "listMdResult"));
     }
 
     @Override

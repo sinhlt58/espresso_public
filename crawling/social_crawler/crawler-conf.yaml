@@ -15,13 +15,13 @@ config:
   http.content.limit: -1
   http.timeout: 60000
   indexer.canonical.name: canonical
-  indexer.created_time: created_time
   indexer.md.mapping:
   - parse.title=title
   - parse.keywords=keywords
   - parse.description=description
   - domain=domain
-  indexer.url.fieldname: url
+  - type=type
+  indexer.node.fieldname: node
   metadata.persist:
   - _redirTo
   - error.cause
@@ -29,13 +29,7 @@ config:
   - isSitemap
   - isSitemap
   - isFeed
-  # conganh add
-  mongo.domain.delay: 1.0
-  mongo.jsRender.delay: 10.0
-  mongo.legalUrl.delay: 10.0
-  mongo.server.min.delay: 0.0
-  # end conganh add
-  parsefilters.config.file: parsefilters.json
+  resultServices.config.file: resultServices.json
   topology.debug: false
   topology.kryo.register:
   - com.digitalpebble.stormcrawler.Metadata

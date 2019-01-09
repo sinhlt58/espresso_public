@@ -179,9 +179,9 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt implements
             partitionKey = metadata.getFirstValue(partitionField);
             if(partitionKey == null){
                 partitionKey = node;
-                LOG.warn("Your custom partition has error, use default partition by node");
+                // LOG.warn("Your custom partition has error, use default partition by node");
             }
-            LOG.info("Routing by key for node: {} - {}", partitionKey, node);
+            // LOG.info("Routing by key for node: {} - {}", partitionKey, node);
             // end conganh
         }
 

@@ -5,7 +5,7 @@ ESCREDENTIALS="-u elastic:passwordhere"
 
 curl $ESCREDENTIALS -s -XDELETE "$ESHOST/fb_status/" >  /dev/null
 
-echo "Deleted status index"
+echo "Deleted fb_status index"
 
 # http://localhost:9200/fb_status/_mapping/status?pretty
 
@@ -18,9 +18,9 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/fb_status -H 'Content-Type: application/jso
 			"number_of_shards": 10,
 			"number_of_replicas": 1,
 			"refresh_interval": "5s",
-      "blocks": {
-        "read_only_allow_delete": "false"
-      }
+			"blocks": {
+				"read_only_allow_delete": "false"
+			}
 		}
 	},
 	"mappings": {
@@ -51,4 +51,26 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/fb_status -H 'Content-Type: application/jso
 			}
 		}
 	}
+}'
+
+# deletes and recreates a doc index with a bespoke schema
+
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/fb_index/" >  /dev/null
+
+echo "Deleted docs fb_index"
+
+echo "Creating docs fb_index with mapping"
+
+curl $ESCREDENTIALS -s -XPUT $ESHOST/fb_index -H 'Content-Type: application/json' -d '
+{
+    "settings": {
+        "index": {
+            "number_of_shards": 10,
+            "number_of_replicas": 0,
+            "refresh_interval": "10s",
+            "blocks": {
+                "read_only_allow_delete": "false"
+            }
+        }
+    }
 }'

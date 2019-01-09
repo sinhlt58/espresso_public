@@ -27,9 +27,9 @@ bolts:
     className: "com.uet.crawling.social.bolt.NodesDiscoverBolt"
     parallelism: 1
 
-  #- id: "index"
-  #  className: "com.uet.crawling.social.elasticsearch.bolt.IndexerBolt"
-  #  parallelism: 1
+  - id: "indexer"
+    className: "com.uet.crawling.social.elasticsearch.bolt.IndexerBolt"
+    parallelism: 1
 
   - id: "status"
     className: "com.uet.crawling.social.elasticsearch.persistence.StatusUpdaterBolt"
@@ -51,17 +51,17 @@ streams:
     grouping:
       type: LOCAL_OR_SHUFFLE
 
-  #- from: "discover"
-  #  to: "index"
-  #  grouping:
-  #    type: LOCAL_OR_SHUFFLE
+  - from: "discover"
+    to: "indexer"
+    grouping:
+      type: LOCAL_OR_SHUFFLE
 
-  # - from: "indexer"
-  #   to: "status"
-  #   grouping:
-  #      type: FIELDS
-  #      args: ["node"]
-  #      streamId: "status"
+  - from: "indexer"
+    to: "status"
+    grouping:
+      type: FIELDS
+      args: ["node"]
+      streamId: "status"
 
   - from: "discover"
     to: "status"

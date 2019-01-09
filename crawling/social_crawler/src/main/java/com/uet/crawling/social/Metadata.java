@@ -24,9 +24,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.uet.crawling.social.facebook.models.Result;
-
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,20 +38,11 @@ public class Metadata {
     // String.class, keysCanBeNull = false)
     private Map<String, String[]> md;
 
-    // co nen them result.toString va result.buildFromString de dong nhat metadata???
-    // su dung JsonObject parse string
-    // conganh add
-    // private Result result = null;
-    // end conganh
-
     public final static Metadata empty = new Metadata(
             Collections.<String, String[]> emptyMap());
 
     public Metadata() {
         md = new HashMap<>();
-        // conganh add
-        // result = null;
-        // end conganh
     }
 
     /**
@@ -70,9 +58,6 @@ public class Metadata {
     /** Puts all the metadata into the current instance **/
     public void putAll(Metadata m) {
         md.putAll(m.md);
-        // conganh add
-        // result = m.result;
-        // end conganh
     }
 
     /** @return the first value for the key or null if it does not exist **/
@@ -196,12 +181,4 @@ public class Metadata {
         return md;
     }
 
-    // // conganh add
-    // public Result getResult(){
-    //     return result;
-    // }
-    // public void setRsult(Result result){
-    //     this.result = result;
-    // }
-    // // end conganh
 }
