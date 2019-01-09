@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.uet.nlp.common.Document;
-import com.uet.nlp.common.item.Item;
 import com.uet.nlp.common.item.NlpReview;
 
 import org.apache.storm.task.OutputCollector;
@@ -40,10 +39,10 @@ public class PreprocessNlpBolt implements IRichBolt {
             
             nlpReview.preprocess();
 
-            ArrayList<Item> items = new ArrayList<>();
-            items.add(nlpReview);
+            ArrayList<NlpReview> reviews = new ArrayList<>();
+            reviews.add(nlpReview);
 
-            _collector.emit(tuple, new Values(docId, doc, items));
+            _collector.emit(tuple, new Values(docId, doc, reviews));
             _collector.ack(tuple);
         } catch (Exception e) {
             LOG.error(e.getMessage());
@@ -58,7 +57,7 @@ public class PreprocessNlpBolt implements IRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(new Fields("docId", "doc", "items"));
+        declarer.declare(new Fields("docId", "doc", "nlp_reviews"));
 	}
 
 	@Override

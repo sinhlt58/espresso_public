@@ -3,7 +3,7 @@ package com.uet.nlp.common.item;
 public class NlpReview extends Review {
 
     // example
-    public String[] tokens;
+    // public String[] tokens;
 
     public NlpReview() {
         itemType = "nlp_review";
@@ -12,7 +12,8 @@ public class NlpReview extends Review {
     public void preprocess() {
         try {
             // example
-            tokens = this.content.split(" ");
+            // tokens = this.content.split(" ");
+            content = content.toLowerCase();
         } catch(Exception e) {
 
         }

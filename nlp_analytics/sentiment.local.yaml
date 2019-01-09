@@ -15,6 +15,53 @@ config:
   es.analysis.hit.from: 0
   es.analysis.hit.size: 50
 
+  es.analysis.use.custom.query: true
+  es.analysis.custom.query: '{
+    "bool": {
+        "must": [
+            {
+                "term" : { "itemType": "review" }
+            },
+            {
+                "bool": {
+                    "should": [{
+                            "bool": {
+                                "must": [{
+                                        "exists": {
+                                            "field": "sentiment_status"
+                                        }
+                                    },
+                                    {
+                                        "bool": {
+                                            "must_not": [{
+                                                "term": {
+                                                    "sentiment_status": {
+                                                        "value": "done"
+                                                    }
+                                                }
+                                            }]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "bool": {
+                                "must_not": [{
+                                    "exists": {
+                                        "field": "sentiment_status"
+                                    }
+                                }]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+        
+    }
+  }'
+
   # Write after analysis
   es.indexer.addresses: "localhost:9200"
   es.indexer.index.name: "v2_sentiment"
@@ -35,7 +82,7 @@ bolts:
     parallelism: 5
 
   - id: "indexer"
-    className: "com.uet.nlp.indexing.IndexerBolt"
+    className: "com.uet.nlp.indexing.ReviewDuplicateIndexerBolt"
     parallelism: 1
 
   - id: "status"
