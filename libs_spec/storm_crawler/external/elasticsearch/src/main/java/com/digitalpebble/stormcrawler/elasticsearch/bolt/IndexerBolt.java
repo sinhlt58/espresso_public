@@ -18,21 +18,27 @@
 package com.digitalpebble.stormcrawler.elasticsearch.bolt;
 
 import static com.digitalpebble.stormcrawler.Constants.StatusStreamName;
+import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
+// sinh.luutruong
 import java.util.ArrayList;
+// sinh.luutruong
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.storm.metric.api.MultiCountMetric;
+import org.apache.storm.metric.api.MultiReducedMetric;
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
 import org.elasticsearch.action.DocWriteRequest;
+import org.elasticsearch.action.bulk.BulkProcessor;
+import org.elasticsearch.action.bulk.BulkRequest;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.common.xcontent.XContentBuilder;
-import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,13 +47,15 @@ import com.digitalpebble.stormcrawler.elasticsearch.ElasticSearchConnection;
 import com.digitalpebble.stormcrawler.indexing.AbstractIndexerBolt;
 import com.digitalpebble.stormcrawler.persistence.Status;
 import com.digitalpebble.stormcrawler.util.ConfUtils;
+import com.digitalpebble.stormcrawler.util.PerSecondReducer;
 
 /**
  * Sends documents to ElasticSearch. Indexes all the fields from the tuples or a
  * Map &lt;String,Object&gt; from a named field.
  */
 @SuppressWarnings("serial")
-public class IndexerBolt extends AbstractIndexerBolt {
+public class IndexerBolt extends AbstractIndexerBolt implements
+        BulkProcessor.Listener {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(IndexerBolt.class);
@@ -77,6 +85,8 @@ public class IndexerBolt extends AbstractIndexerBolt {
     private MultiCountMetric eventCounter;
 
     private ElasticSearchConnection connection;
+	
+	private MultiReducedMetric perSecMetrics;
 
     // sinh.luutruong added
     private String domainFieldTypeName;
@@ -98,7 +108,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
         _collector = collector;
         if (indexName == null) {
             indexName = ConfUtils.getString(conf,
-                    IndexerBolt.ESIndexNameParamName, "fetcher");
+                    IndexerBolt.ESIndexNameParamName, "content");
         }
         docType = ConfUtils.getString(conf, IndexerBolt.ESDocTypeParamName,
                 "doc");
@@ -114,8 +124,8 @@ public class IndexerBolt extends AbstractIndexerBolt {
         // sinh.luutruong end
 
         try {
-            connection = ElasticSearchConnection
-                    .getConnection(conf, ESBoltType);
+            connection = ElasticSearchConnection.getConnection(conf,
+                    ESBoltType, this);
         } catch (Exception e1) {
             LOG.error("Can't connect to ElasticSearch", e1);
             throw new RuntimeException(e1);
@@ -123,6 +133,9 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
         this.eventCounter = context.registerMetric("ElasticSearchIndexer",
                 new MultiCountMetric(), 10);
+
+        this.perSecMetrics = context.registerMetric("Indexer_average_persec",
+                new MultiReducedMetric(new PerSecondReducer()), 10);
     }
 
     @Override
@@ -142,17 +155,20 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
         Metadata metadata = (Metadata) tuple.getValueByField("metadata");
         String text = tuple.getStringByField("text");
-
-        boolean keep = filterDocument(metadata);
-        if (!keep) {
-            eventCounter.scope("Filtered").incrBy(1);
-            // treat it as successfully processed even if
-            // we do not index it
-            _collector.emit(StatusStreamName, tuple, new Values(url, metadata,
-                    Status.FETCHED));
-            _collector.ack(tuple);
-            return;
-        }
+        
+        // sinh.luutruong comment out start
+        // we always index :DDDDDDDD
+        // boolean keep = filterDocument(metadata);
+        // if (!keep) {
+        //     eventCounter.scope("Filtered").incrBy(1);
+        //     // treat it as successfully processed even if
+        //     // we do not index it
+        //     _collector.emit(StatusStreamName, tuple, new Values(url, metadata,
+        //             Status.FETCHED));
+        //     _collector.ack(tuple);
+        //     return;
+        // }
+        // sinh.luutruong comment out end
 
         try {
             XContentBuilder builder = jsonBuilder().startObject();
@@ -194,7 +210,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
             for (String domain : domainsData.keySet()) {
                 ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
 
-                if (records.size() > 0) {
+                if (records.size() > 0 && records.get(0).size() > 1) {
                     // builder.startArray(domain);
                     // for (Map<String, ArrayList<String>> record : records) {
                     //     builder.startObject();
@@ -252,6 +268,8 @@ public class IndexerBolt extends AbstractIndexerBolt {
                 connection.getProcessor().add(indexRequest);
 
                 eventCounter.scope("Indexed").incrBy(1);
+				
+				perSecMetrics.scope("Indexed").update(1);
             }
             // sinh.luutruong end
 
@@ -272,6 +290,23 @@ public class IndexerBolt extends AbstractIndexerBolt {
      */
     protected String getIndexName(Metadata m) {
         return indexName;
+    }
+
+    @Override
+    public void beforeBulk(long executionId, BulkRequest request) {
+        eventCounter.scope("BulkRequest").incrBy(1);
+    }
+
+    @Override
+    public void afterBulk(long executionId, BulkRequest request,
+            BulkResponse response) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void afterBulk(long executionId, BulkRequest request,
+            Throwable failure) {
+        // TODO Auto-generated method stub
     }
 
 }

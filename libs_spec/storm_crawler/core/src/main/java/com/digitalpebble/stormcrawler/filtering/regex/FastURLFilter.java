@@ -19,6 +19,7 @@ package com.digitalpebble.stormcrawler.filtering.regex;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+// conganh changed
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import com.digitalpebble.stormcrawler.Metadata;
 import com.digitalpebble.stormcrawler.filtering.URLFilter;
+// conganh changed
 
 /**
  * URL filter based on regex patterns and organised by [host | domain | metadata

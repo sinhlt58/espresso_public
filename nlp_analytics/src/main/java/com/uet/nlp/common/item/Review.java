@@ -1,6 +1,6 @@
 package com.uet.nlp.common.item;
 
-public class Review extends Item {
+public class Review extends CrawledItem {
     public String parentId;
 
     // Duplicate these fields
@@ -8,26 +8,20 @@ public class Review extends Item {
     public String brand;
     public String parentAuthor;
     public String parentItemType;
+    public String parentProductId;
+    public String parentBreadcrumb;
 
     
     public String author;
-    public String rate;
+    public double rate;
     public String content;
-    public String date;
+    public double date;
 
     public Review() {
         itemType = "review";
     }
 
     public void normalize() {
-        date = normalizeDate(date);
-
-        super.generateId(url + domain + author + rate + date);
-    }
-
-    public String normalizeDate(String date) {
-        /* YOUR CODE HERE */
-        return date;
-        /* YOUR CODE HERE */
+        super.generateId(parentProductId + domain + author + rate + date);
     }
 }

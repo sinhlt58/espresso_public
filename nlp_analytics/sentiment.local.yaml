@@ -1,0 +1,111 @@
+name: "v2_nlp_sentiment"
+
+includes:
+  - resource: false
+    file: "base_config.yaml"
+    override: false
+
+config:
+  # spout read from ES
+  es.analysis.addresses: "http://103.220.68.79:9200"
+  es.analysis.index.name: "v2_analysis"
+
+  es.analysis.status.field: "sentiment_status"
+  es.analysis.done: "done"
+  es.analysis.hit.from: 0
+  es.analysis.hit.size: 50
+
+  es.analysis.use.custom.query: true
+  es.analysis.custom.query: '{
+    "bool": {
+        "must": [
+            {
+                "term" : { "itemType": "review" }
+            },
+            {
+                "bool": {
+                    "should": [{
+                            "bool": {
+                                "must": [{
+                                        "exists": {
+                                            "field": "sentiment_status"
+                                        }
+                                    },
+                                    {
+                                        "bool": {
+                                            "must_not": [{
+                                                "term": {
+                                                    "sentiment_status": {
+                                                        "value": "done"
+                                                    }
+                                                }
+                                            }]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "bool": {
+                                "must_not": [{
+                                    "exists": {
+                                        "field": "sentiment_status"
+                                    }
+                                }]
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+        
+    }
+  }'
+
+  # Write after analysis
+  es.indexer.addresses: "localhost:9200"
+  es.indexer.index.name: "v2_sentiment"
+
+  # Write update status after analysis
+  es.status.update.skip: true
+  es.status.addresses: "http://103.220.68.79:9200"
+  es.status.index.name: "v2_analysis"
+
+spouts:
+  - id: "spout"
+    className: "com.uet.nlp.spout.AggregationSpout"
+    parallelism: 1
+
+bolts:
+  - id: "preprocessnlp"
+    className: "com.uet.nlp.preprocess_model.PreprocessNlpBolt"
+    parallelism: 5
+
+  - id: "indexer"
+    className: "com.uet.nlp.indexing.ReviewDuplicateIndexerBolt"
+    parallelism: 1
+
+  - id: "status"
+    className: "com.uet.nlp.indexing.StatusUpdateBolt"
+    parallelism: 1
+
+streams:
+  - from: "spout"
+    to: "preprocessnlp"
+    grouping:
+      type: SHUFFLE
+
+  - from: "preprocessnlp"
+    to: "indexer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "preprocessnlp"
+    to: "indexer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "indexer"
+    to: "status"
+    grouping:
+      type: SHUFFLE

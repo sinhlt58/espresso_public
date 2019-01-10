@@ -34,3 +34,5 @@
 4. [Plan và info](https://docs.google.com/spreadsheets/d/15yyZPGClhPVRYt7aRq_p4Cv1BVvjUp2DUZJxYnJh9mk/edit#gid=44667370)
 
 5. [Tài liệu thêm luật crawl](https://docs.google.com/document/d/10Yi021wcBURLnYCKMoTQUwsobB5Pk-dXDCXZX8xkLj8/edit#)
+
+6. [Màn hình design](https://drive.google.com/file/d/1aEIg6TLW38krA3BMrKRvCFnZFXh6TAPg/view?usp=sharing)

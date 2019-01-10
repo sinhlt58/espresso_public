@@ -28,12 +28,17 @@ fi
 
 if [ "$1" = "inject" ]
 then
-    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-injector.flux
+    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-injector.flux --sleep 30000
 fi
 
 if [ "$1" = "crawl" ]
 then
-    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawler.flux --sleep 864000000
+    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawler.local.flux --sleep 864000000
+fi
+
+if [ "$1" = "local_remote" ]
+then
+    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawler.local.flux
 fi
 
 if [ "$1" = "remote" ]
@@ -41,10 +46,22 @@ then
     storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawler.flux
 fi
 
+if [ "$1" = "remote_local" ]
+then
+    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawler.flux --sleep 86400000
+fi
+
 if [ "$1" = "patch" ]
 then
     cd ../../../scripts
     ./up_submodules.sh apply_patches
+    cd $crr_dir
+fi
+
+if [ "$1" = "update_specs" ]
+then
+   cd ../../../scripts
+    ./up_submodules.sh update_libs_spec_code
     cd $crr_dir
 fi
 

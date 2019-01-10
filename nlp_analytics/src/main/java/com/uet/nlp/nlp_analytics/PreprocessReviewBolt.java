@@ -52,6 +52,7 @@ public class PreprocessReviewBolt implements IRichBolt {
 
         try {
             TTNItem ttnItem = Document.mapper.treeToValue(jsonNode, TTNItem.class);
+            
             ttnItem.generateId();
             items.add(ttnItem);
 
@@ -61,9 +62,9 @@ public class PreprocessReviewBolt implements IRichBolt {
                         try {
                             Review review  = Document.mapper.treeToValue(jsonNode, Review.class);
                             review.author  = jsonNode.get("bl_nguoi_dang").get(i).asText();
-                            review.rate    = blDiemNode.get(i).asText();
+                            review.rate    = blDiemNode.get(i).asDouble();
                             review.content = jsonNode.get("bl_noi_dung").get(i).asText();
-                            review.date    = jsonNode.get("bl_thoi_gian").get(i).asText();
+                            review.date    = jsonNode.get("bl_thoi_gian").get(i).asDouble();
                             
                             joinReviewTTNItem(review, ttnItem);
                             
@@ -76,9 +77,9 @@ public class PreprocessReviewBolt implements IRichBolt {
                 } else {
                     Review review  = Document.mapper.treeToValue(jsonNode, Review.class);
                     review.author  = jsonNode.get("bl_nguoi_dang").asText();
-                    review.rate    = blDiemNode.asText();
+                    review.rate    = blDiemNode.asDouble();
                     review.content = jsonNode.get("bl_noi_dung").asText();
-                    review.date    = jsonNode.get("bl_thoi_gian").asText();
+                    review.date    = jsonNode.get("bl_thoi_gian").asDouble();
 
                     joinReviewTTNItem(review, ttnItem);
                             
@@ -97,10 +98,12 @@ public class PreprocessReviewBolt implements IRichBolt {
     private void joinReviewTTNItem(Review review, TTNItem ttnItem) {
         // trade off here
         // duplicate here but for fast query
-        review.parentId       = ttnItem.id;
-        review.brand          = ttnItem.brand;
-        review.parentAuthor   = ttnItem.author;
-        review.parentItemType = ttnItem.itemType;
+        review.parentId         = ttnItem.id;
+        review.brand            = ttnItem.brand;
+        review.parentAuthor     = ttnItem.author;
+        review.parentItemType   = ttnItem.itemType;
+        review.parentProductId  = ttnItem.productId;
+        review.parentBreadcrumb = ttnItem.breadcrumb;
     }
 
     @Override

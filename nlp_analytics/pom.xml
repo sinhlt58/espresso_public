@@ -71,33 +71,41 @@
 		</plugins>
 	</build>
 
-  <dependencies>
+   <dependencies>
 		<!-- The oreder is important here :) -->
 
 		<dependency>
 			<groupId>com.digitalpebble.stormcrawler</groupId>
 			<artifactId>storm-crawler-core</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.digitalpebble.stormcrawler</groupId>
 			<artifactId>storm-crawler-elasticsearch</artifactId>
-			<version>1.11</version>
+			<version>1.12</version>
 		</dependency>
 
-    <dependency>
+    	<dependency>
 			<groupId>org.apache.storm</groupId>
 			<artifactId>storm-core</artifactId>
 			<version>1.2.2</version>
 			<scope>provided</scope>
 		</dependency>
 		
-    <dependency>
-      <groupId>org.apache.storm</groupId>
-      <artifactId>flux-core</artifactId>
-      <version>1.2.2</version>
+    	<dependency>
+			<groupId>org.apache.storm</groupId>
+			<artifactId>flux-core</artifactId>
+			<version>1.2.2</version>
 		</dependency>
 
-  </dependencies>
+		<dependency>
+			<groupId>VnCoreNLP</groupId>
+			<artifactId>VnCoreNLP</artifactId>
+			<version>1.1</version>
+		</dependency>
+
+   </dependencies>
+
+   
 </project>

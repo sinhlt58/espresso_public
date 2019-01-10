@@ -1,0 +1,26 @@
+config:
+  topology.workers: 1
+
+  # spout read from ES
+  spout.min.delay.queries: 2000
+  spout.ttl.purgatory: 10
+
+  es.analysis.hit.from: 0
+  es.analysis.hit.size: 50
+
+  es.analysis.doc.type: "_doc"
+
+  es.analysis.use.custom.query: false
+  es.analysis.custom.query: ""
+
+  # Write after analysis
+  es.indexer.doc.type: "_doc"
+  es.indexer.bulkActions: 500
+  es.indexer.flushInterval: "1s"
+  es.indexer.concurrentRequests: 5
+
+  # Write update status after analysis
+  es.status.doc.type: "_doc"
+  es.status.bulkActions: 500
+  es.status.flushInterval: "1s"
+  es.status.concurrentRequests: 5

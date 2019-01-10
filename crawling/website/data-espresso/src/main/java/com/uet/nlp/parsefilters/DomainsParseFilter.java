@@ -25,7 +25,7 @@ public class DomainsParseFilter extends ParseFilter {
     private final Map<String, Map<String, ArrayList<CustomRule>>> domainFieldRulesMap = new HashMap<>();
 
     public enum RuleType {
-        NORMAL, CONCAT, ATTRIBUTE
+        NORMAL, CONCAT, ATTRIBUTE, OWNTEXT
     }
 
     public class CustomRule {
@@ -35,6 +35,10 @@ public class DomainsParseFilter extends ParseFilter {
         public CustomRule(String selector) {
             selectorExpression = selector.trim();
             type = getType(selector);
+
+            if (type == RuleType.OWNTEXT) {
+                selectorExpression = selectorExpression.replace("rule_own_text", "");
+            }
         }
 
         private RuleType getType(String selector) {
@@ -42,6 +46,8 @@ public class DomainsParseFilter extends ParseFilter {
                 return RuleType.CONCAT;
             } else if (selector.contains("@")) {
                 return RuleType.ATTRIBUTE;
+            } else if (selector.contains("rule_own_text")) {
+                return RuleType.OWNTEXT;
             } else {
                 return RuleType.NORMAL;
             }
@@ -56,6 +62,10 @@ public class DomainsParseFilter extends ParseFilter {
                 return evaluateAttribute(docJsoup);
             }
 
+            if (type == RuleType.OWNTEXT) {
+                return evaluateOwnText(docJsoup);
+            }
+
             return evaluateNormal(docJsoup);
         }
 
@@ -65,6 +75,17 @@ public class DomainsParseFilter extends ParseFilter {
             ArrayList<String> res = new ArrayList<>();
             for (Element e : els) {
                 res.add(e.text());
+            }
+
+            return res;
+        }
+
+        public ArrayList<String> evaluateOwnText(Document docJsoup) {
+            Elements els = docJsoup.select(selectorExpression);
+
+            ArrayList<String> res = new ArrayList<>();
+            for (Element e : els) {
+                res.add(e.ownText());
             }
 
             return res;
@@ -116,7 +137,7 @@ public class DomainsParseFilter extends ParseFilter {
 
             getRules(metadata.getFirstValue("hostname"));
 
-            Document docJsoup = Parser.htmlParser().parseInput(html, URL);
+            Document jsoupDoc = (Document) metadata.getObjectValue("jsoupDoc");
 
             // for each domain
             for (String domainName : domainFieldRulesMap.keySet()){
@@ -128,7 +149,7 @@ public class DomainsParseFilter extends ParseFilter {
                     ArrayList<CustomRule> rules = fieldRulesMap.get(fieldName);
 
                     for (CustomRule rule : rules) {
-                        ArrayList<String> values = rule.evaluate(docJsoup);
+                        ArrayList<String> values = rule.evaluate(jsoupDoc);
 
                         int l = values.size();
                         if (l > 0) {

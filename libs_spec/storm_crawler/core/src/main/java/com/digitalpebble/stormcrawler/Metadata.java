@@ -40,6 +40,7 @@ public class Metadata {
 
     // conganh add
     private Map<String, ArrayList<Map<String, ArrayList<String>>>> domainsData;
+    private Map<String, Object> objectValues;
     // end conganh
 
     public final static Metadata empty = new Metadata(
@@ -49,6 +50,7 @@ public class Metadata {
         md = new HashMap<>();
         // conganh add
         domainsData = new HashMap<>();
+        objectValues = new HashMap<>();
         // end conganh
     }
 
@@ -192,6 +194,7 @@ public class Metadata {
     public Map<String, ArrayList<Map<String, ArrayList<String>>>> getDomainsData(){
         return domainsData;
     }
+    
     public void addRecordToDomainData(String domain, Map<String, ArrayList<String>> record){
         ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
         if (records == null) {
@@ -199,6 +202,18 @@ public class Metadata {
             domainsData.put(domain, records);
         }
         records.add(record);
+    }
+
+    public void setObjectValue(String key, Object value) {
+        this.objectValues.put(key, value);
+    }
+
+    public Object getObjectValue(String key) {
+        return this.objectValues.get(key);
+    }
+
+    public void removeObjectValue(String key) {
+        this.objectValues.remove(key);
     }
     // end conganh
 }

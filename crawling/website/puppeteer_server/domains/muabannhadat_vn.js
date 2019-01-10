@@ -1,9 +1,10 @@
 const utils = require('../utils');
+const logger = require('../logger')(module);
 
 module.exports.doActions = (page, options) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('muabanhadat.vn: Click button to appear phone number');
+            logger.info('muabanhadat.vn: Click button to appear phone number');
             const buttonHienSdt = await page.$('span#MainContent_ctlDetailBox_lblContactPhone');
             await utils.clickButton(page, buttonHienSdt, options.buttonClickWaitTime);
 
@@ -11,7 +12,7 @@ module.exports.doActions = (page, options) => {
         } catch (error) {
             if (error.name == 'TypeError') {
                 // when the comment button is null we will return true
-                console.log("Can't find the element phone button");
+                logger.info("Can't find the element phone button");
                 resolve(true);
             } else {
                 reject(error);

@@ -47,17 +47,17 @@ public class IndexerBolt extends BaseRichBolt {
     private static final Logger LOG = LoggerFactory
             .getLogger(IndexerBolt.class);
 
-    private static final String ESBoltType = "indexer";
+    protected static final String ESBoltType = "indexer";
 
     static final String ESIndexNameParamName = "es.indexer.index.name";
     static final String ESDocTypeParamName = "es.indexer.doc.type";
 
-    private OutputCollector _collector;
+    protected OutputCollector _collector;
 
-    private String indexName;
-    private String docType;
+    protected String indexName;
+    protected String docType;
 
-    private ElasticSearchConnection connection;
+    protected ElasticSearchConnection connection;
 
     public IndexerBolt() {
     }

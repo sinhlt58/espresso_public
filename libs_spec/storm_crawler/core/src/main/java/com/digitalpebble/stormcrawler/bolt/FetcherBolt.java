@@ -18,18 +18,30 @@
 package com.digitalpebble.stormcrawler.bolt;
 
 import java.io.File;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+// sinh.luutruong added
+import java.net.URLEncoder;
+// sinh.luutruong added
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-
+// conganh add
 import com.digitalpebble.stormcrawler.mongodb.MongoConnection;
 import com.digitalpebble.stormcrawler.mongodb.models.JsRenderEntity;
 import com.digitalpebble.stormcrawler.mongodb.services.JsRenderService;
+// conganh add
 import org.apache.commons.lang.StringUtils;
 import org.apache.storm.Config;
 import org.apache.storm.metric.api.IMetric;
@@ -490,8 +502,19 @@ public class FetcherBolt extends StatusEmitterBolt{
 
                     if (!fromCache && smautodisco) {
                         for (String sitemapURL : rules.getSitemaps()) {
-                            emitOutlink(fit.t, URL, sitemapURL, metadata,
-                                    SiteMapParserBolt.isSitemapKey, "true");
+                            if (rules.isAllowed(sitemapURL)) {
+                                emitOutlink(fit.t, URL, sitemapURL, metadata,
+                                        SiteMapParserBolt.isSitemapKey, "true");
+                            }
+                        }
+                        // has found sitemaps - mark this URL as isSitemap=false
+                        // so that its outlinks are not added if we don't want
+                        // them to be
+                        if (rules.getSitemaps().size() > 0
+                                && metadata
+                                        .getFirstValue(SiteMapParserBolt.isSitemapKey) == null) {
+                            metadata.setValue(SiteMapParserBolt.isSitemapKey,
+                                    "false");
                         }
                     }
 
@@ -554,10 +577,8 @@ public class FetcherBolt extends StatusEmitterBolt{
 
                     long start = System.currentTimeMillis();
                     long timeInQueues = start - fit.creationTime;
-
-                    //conganh add
-                    LOG.info("Hostname: {}", metadata.getFirstValue("hostname"));
-
+					
+					// conganh start
                     ProtocolResponse response;
                     if (metadata.keySet().contains("jsRender")) {
                         metadata.remove("jsRender");
@@ -815,6 +836,7 @@ public class FetcherBolt extends StatusEmitterBolt{
                     debugfiletriggerpattern.replaceAll("\\{port\\}",
                             Integer.toString(context.getThisWorkerPort())));
         }
+
     }
 
     @Override
@@ -826,7 +848,9 @@ public class FetcherBolt extends StatusEmitterBolt{
     @Override
     public void cleanup() {
         protocolFactory.cleanup();
+		// conganh add
         MongoConnection.close();
+		// conganh add
     }
 
     @Override
@@ -875,11 +899,9 @@ public class FetcherBolt extends StatusEmitterBolt{
             String hostname = metadata.getFirstValue("hostname");
             JsRenderEntity jsRenderEntity = JsRenderService.getRuleByHost(hostname);
             if(jsRenderEntity != null){
-                LOG.info("Hostname js render: {}", jsRenderEntity.getHostname());
                 metadata.setValue("jsRender", "1");
                 String scopes = jsRenderEntity.getScopes();
                 if (scopes != null){
-                    LOG.info("Scopes: {}", scopes);
                     metadata.setValue("scopes", scopes);
                 }
             }

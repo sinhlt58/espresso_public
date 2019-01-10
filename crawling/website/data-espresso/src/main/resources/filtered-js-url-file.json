@@ -2,10 +2,11 @@
   "urls": [
     {
       "hostname": "shopee.vn",
-      "scopes": "scroll,shopeec"
+      "scopes": "shopee"
     },
     {
-      "hostname": "www.lazada.vn"
+      "hostname": "www.lazada.vn",
+      "scopes": "opreq,lazada"
     },
     {
       "hostname": "nhadat24h.net"
@@ -23,7 +24,7 @@
     },
     {
       "hostname": "tiki.vn",
-      "scopes": "scroll,tiki"
+      "scopes": "opreq,tiki"
     }
   ]
 }

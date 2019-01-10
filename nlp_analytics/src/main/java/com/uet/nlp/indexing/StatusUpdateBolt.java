@@ -58,6 +58,7 @@ public class StatusUpdateBolt extends BaseRichBolt implements
 
     static final String ESStatusNameParamName = "es.status.index.name";
     static final String ESStatusDocTypeParamName = "es.status.doc.type";
+    static final String ESStatusUpdateSkipParamName = "es.status.update.skip";
 
     private String ESAnalysisStatusFieldParamName = "es.analysis.status.field";
     private String ESAnalysisStatusDoneParamName = "es.analysis.done";
@@ -67,6 +68,7 @@ public class StatusUpdateBolt extends BaseRichBolt implements
 
     private String indexName;
     private String docType;
+    private boolean skipUpdate;
     
     private OutputCollector _collector;
     private ElasticSearchConnection connection;
@@ -80,7 +82,7 @@ public class StatusUpdateBolt extends BaseRichBolt implements
     @Override
     public void prepare(Map conf, TopologyContext context,
             OutputCollector collector) {
-
+        
         _collector = collector;
 
         indexName = ConfUtils.getString(conf, ESStatusNameParamName,
@@ -94,6 +96,8 @@ public class StatusUpdateBolt extends BaseRichBolt implements
 
         analysisStatusDone = ConfUtils.getString(conf, ESAnalysisStatusDoneParamName,
                     "DONE");
+
+        skipUpdate = ConfUtils.getBoolean(conf, ESStatusUpdateSkipParamName, false);
 
         waitAck = CacheBuilder.newBuilder()
                     .expireAfterWrite(60, TimeUnit.SECONDS).removalListener(this)
@@ -118,6 +122,11 @@ public class StatusUpdateBolt extends BaseRichBolt implements
     public void execute(Tuple tuple) {
 
         try {
+            if (skipUpdate) {
+                _collector.ack(tuple);
+                return;
+            }
+
             String docId = (String) tuple.getValueByField("docId");
             
             XContentBuilder builder = jsonBuilder().startObject();
@@ -188,6 +197,7 @@ public class StatusUpdateBolt extends BaseRichBolt implements
                 String id = bir.getId();
                 BulkItemResponse.Failure f = bir.getFailure();
                 boolean failed = false;
+
                 if (f != null) {
                     failed = true;
                 }
@@ -229,7 +239,7 @@ public class StatusUpdateBolt extends BaseRichBolt implements
         synchronized (waitAck) {
             // WHOLE BULK FAILED
             // mark all the docs as fail
-            Iterator<DocWriteRequest> itreq = request.requests().iterator();
+            Iterator<DocWriteRequest<?>> itreq = request.requests().iterator();
             while (itreq.hasNext()) {
                 DocWriteRequest bir = itreq.next();
                 String id = bir.id();

@@ -1,15 +1,16 @@
 ESHOST="http://localhost:9200"
 ESCREDENTIALS="-u elastic:passwordhere"
+index_name=$1
 
 # deletes and recreates a analysis index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/analysis/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/$index_name/" >  /dev/null
 
-echo "Deleted analysis index"
+echo "Deleted $index_name index"
 
-echo "Creating analysis index with mapping"
+echo "Creating $index_name index with mapping"
 
-curl $ESCREDENTIALS -s -XPUT $ESHOST/analysis -H 'Content-Type: application/json' -d '
+curl $ESCREDENTIALS -s -XPUT $ESHOST/$index_name -H 'Content-Type: application/json' -d '
 {
 	"settings": {
 		"index": {

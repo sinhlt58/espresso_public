@@ -1,0 +1,121 @@
+{
+  "com.digitalpebble.stormcrawler.parse.ParseFilters": [
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.XPathFilter",
+      "name": "XPathFilter",
+      "params": {
+        "canonical": "//*[@rel=\"canonical\"]/@href",
+        "parse.description": [
+            "//*[@name=\"description\"]/@content",
+            "//*[@name=\"Description\"]/@content"
+         ],
+        "parse.title": [
+            "//TITLE",
+            "//META[@name=\"title\"]/@content"
+        ],
+        "parse.keywords": "//META[@name=\"keywords\"]/@content",
+        "parse.tieu_de":[
+          "//A[@class=\"title-filter-link\"]/text()",
+          "//H2[@class=\"mbn-title\"]/text()",
+          "//H1[@class=\"color111 size18\"]/text()",
+          "//DIV[@class=\"vip-title\"]/a/text()",
+          "//DIV[@class=\"title\"]/h1/text()",
+
+          "//div[@id=\"product-detail\"]/div[1]/h1/text()"
+        ],
+        "parse.gia":[
+          "//DIV[@class=\"col-md-3 text-right listing-price\"]/text()",
+          "//SPAN[@class=\"mbn-price\"]/text()",
+          "//DIV[@class=\"col-md-10 col-sm-10 col-xs-9 price-value\"]/span/text()",
+          "//DIV[@class=\"vip-price\"]/text()",
+          "//SPAN[@class=\"price\"]/span[@class=\"value\"]/text()",
+          "//SPAN[@class=\"price\"]/text()",
+
+          "//span[@class=\"gia-title mar-right-15\"]//strong/text()"
+        ],
+        "parse.quan_huyen": [	
+          "//DIV[@class=\"col-md-3 col-xs-6 text-right\"]/text()"
+        ],
+        "parse.so_phong": [	
+          "//DIV[@class=\"col-xs-12 lline\"]/span[@class=\"rooms\"]/text()"	
+        ],
+        "parse.dien_tich": [
+          "//DIV[@class=\"col-xs-12 lline\"]/span[@class=\"rooms\"]/text()",
+          "//A[@class=\"title-filter-link\"]/text()",
+          "//H2[@class=\"mbn-title\"]/text()",
+          "//H1[@class=\"color111 size18\"]/text()",
+          "//DIV[@class=\"vip-title\"]/a/text()",
+          "//DIV[@class=\"title\"]/h1/text()",
+
+          "//span[@class=\"gia-title\"]//strong/text()"
+        ],
+        "parse.mieu_ta": [
+          "//DIV[@class=\"col-xs-12 hidden-xs hidden-sm cusshort\"]/text()",
+          "//SPAN[@class=\"mbn-price\"]/text()",
+          "//DIV[@class=\"col-md-10 col-sm-10 col-xs-9 price-value\"]/span/text()",
+          "//DIV[@class=\"vip-price\"]/text()",
+          "//SPAN[@class=\"price\"]/span[@class=\"value\"]/text()",
+          "//SPAN[@class=\"price\"]/text()",
+
+          "//div[@class=\"pm-desc\"]/descendant-or-self::*/text()"
+        ],
+        "parse.dia_chi": [
+          "//div[@class=\"table-detail\"]/div[2]/div[2]/text()"
+        ],
+        "parse.so_tang": [
+          "//div[@id=\"LeftMainContent__productDetail_floor\"]/div[2]/text()"
+        ],
+        "parse.ten_lien_lac": [
+          "//div[@id=\"LeftMainContent__productDetail_contactName\"]/div[2]/text()"
+        ],
+        "parse.sdt": [
+          "//div[@id=\"LeftMainContent__productDetail_contactMobile\"]/div[2]/text()"
+        ],
+        "parse.email": [
+          "//div[@id=\"contactEmail\"]/div[2]//a/text()"
+        ],
+        "parse.ngay_dang": [
+          "//DIV[@class=\"col-lg-4 lline hidden-xs\"]/text()",
+          "//H1[@class=\"pdp-product-title\"]/text()"
+        ],
+        "parse.ngay_cap_nhat": [
+          "//DIV[@class=\"col-lg-6 lline col-xs-9 hidden-xs\"]/text()",
+          "//SPAN[@class=\"pdp-price pdp-price_type_normal pdp-price_color_orange pdp-price_size_xl\"]/text()"
+        ],
+
+        "parse.tieu_de_thoi_trang":[
+          "//DIV[@class=\"c16H9d\"]/A/text()",
+          "//H1[@class=\"pdp-product-title\"]/text()"
+        ],
+        "parse.gia_thoi_trang":[
+          "//SPAN[@class=\"c13VH6\"]/text()",
+          "//SPAN[@class=\"pdp-price pdp-price_type_normal pdp-price_color_orange pdp-price_size_xl\"]/text()"
+        ]
+      }
+    },
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.ContentFilter",
+      "name": "ContentFilter",
+      "params": {
+        "pattern": "//DIV[@id=\"maincontent\"]",
+        "pattern2": "//DIV[@itemprop=\"articleBody\"]",
+        "pattern3": "//ARTICLE"
+       }
+    },
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.DomainParseFilter",
+      "name": "DomainParseFilter",
+      "params": {
+        "key": "domain",
+        "byHost": false
+       }
+    },
+    {
+      "class": "com.digitalpebble.stormcrawler.parse.filter.CommaSeparatedToMultivaluedMetadata",
+      "name": "CommaSeparatedToMultivaluedMetadata",
+      "params": {
+        "keys": ["parse.keywords"]
+       }
+    }
+  ]
+}

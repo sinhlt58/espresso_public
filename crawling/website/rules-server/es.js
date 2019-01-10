@@ -7,11 +7,14 @@ const client = new elasticsearch.Client({
   host: 'localhost:9200'
 });
 
+let index_name = 'v2_status';
+let index_type = 'v2_status';
+
 exports.addUrlToEsStatus = async function(url, hostname) {
     try {
         const res =  await client.index({
-            index: 'status',
-            type: 'status',
+            index: index_name,
+            type: index_type,
             id: crypto.createHash('sha256').update(url).digest('hex'),
             body: {
                 url: url,
@@ -33,7 +36,7 @@ exports.addUrlToEsStatus = async function(url, hostname) {
 exports.removeUrlFromEsStatus = async function(url) {
     try {
         const res = await client.deleteByQuery({
-            index: 'status',
+            index: index_name,
             conflicts: 'proceed',
             body: {
                 query: {
@@ -52,7 +55,7 @@ exports.removeUrlFromEsStatus = async function(url) {
 exports.removeUrlsByHostname = async function(hostname) {
     try {
         const res = await client.deleteByQuery({
-            index: 'status',
+            index: index_name,
             conflicts: 'proceed',
             body: {
                 query: {

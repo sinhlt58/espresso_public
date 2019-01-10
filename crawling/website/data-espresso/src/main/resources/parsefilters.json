@@ -461,84 +461,70 @@
             "batdongsan.com.vn": ""
           }
         },
-        "ttn": {
+        "general": {
+          "breadcrumb": {
+            "shopee.vn": ".page-product__breadcrumb",
+            "tiki.vn": ".breadcrumb",
+            "www.lazada.vn": "#J_breadcrumb"
+          },
           "tieu_de": {
-            "shopee.vn": "div#main div.qaNIZv",
-            "tiki.vn": "h1#product-name"
+            "shopee.vn": "rule_own_text div#main div.qaNIZv",
+            "tiki.vn": "h1#product-name",
+            "www.lazada.vn": "div#module_product_title_1 > h1"
+          },
+          "id_san_pham": {
+            "shopee.vn": "div.espresso-product-id",
+            "tiki.vn": "div.espresso-product-id",
+            "www.lazada.vn": "div.espresso-product-id"
           },
           "gia": {
             "shopee.vn": "div#main div._3n5NQx",
-            "tiki.vn": "span#span-price"
+            "tiki.vn": "span#span-price",
+            "www.lazada.vn": "div.pdp-product-price > span.pdp-price_type_normal"
           },
           "nguoi_dang": {
-            "shopee.vn": "div#main div._3Lybjn"
+            "shopee.vn": "div#main div._3Lybjn",
+            "www.lazada.vn": "div#module_seller_info div.seller-name__detail > a.seller-name__detail-name",
+            "tiki.vn": "#seller-list > div > div > div.current-seller > div.name > div.text > a"
           },
           "thuong_hieu": {
-            "shopee.vn": "div#main div._2aZyWI > div:nth-child(2) > a",
-            "tiki.vn": "table#chi-tiet a, table#chi-tiet tr:nth-child(3) > td.last"
+            "shopee.vn": "div.page-product__detail label:contains(Thương hiệu) + *",
+            "tiki.vn": "div.product-brand-block > div > div > div:nth-child(3) > div:nth-child(2) > p > a",
+            "www.lazada.vn": "div#module_product_brand_1 a.pdp-link.pdp-link_size_s.pdp-link_theme_blue.pdp-product-brand__brand-link"
           },
-          "xuat_xu_thuong_hieu": {
-            "tiki.vn": "table#chi-tiet tr:nth-child(2) > td.last"
-          },
+          "xuat_xu_thuong_hieu": {},
           "noi_san_xuat": {},
-          "model": {
-            "tiki.vn": "table#chi-tiet tr:nth-child(4) > td.last"
-          },
+          "model": {},
           "kich_co": {},
-          "chat_lieu": {
-            "shopee.vn": "div#main div._2aZyWI > div:nth-child(4) > div",
-            "tiki.vn": "table#chi-tiet span"
-          },
-          "gui_tu": {
-            "shopee.vn": "div#main div._2aZyWI > div:nth-child(5) > div"
-          },
+          "chat_lieu": {},
+          "gui_tu": {},
           "mieu_ta": {
             "shopee.vn": "div#main div.product-detail.page-product__detail > div:nth-child(2)",
-            "tiki.vn": "div.left > div:nth-child(4)"
+            "tiki.vn": "div.left > div:nth-child(4)",
+            "www.lazada.vn": "div#module_product_detail"
           },
           "ngay_dang": {},
           "bl_nguoi_dang": {
             "shopee.vn": "div.espresso-review-user-name",
-            "tiki.vn": "div.espresso-review-user-name"
+            "tiki.vn": "div.espresso-review-user-name",
+            "www.lazada.vn": "div.espresso-review-user-name"
           },
           "bl_noi_dung": {
             "shopee.vn": "div.espresso-review-content",
-            "tiki.vn": "div.espresso-review-content"
+            "tiki.vn": "div.espresso-review-content",
+            "www.lazada.vn": "div.espresso-review-content"
           },
           "bl_diem": {
             "shopee.vn": "div.espresso-review-rate",
-            "tiki.vn": "div.espresso-review-rate"
+            "tiki.vn": "div.espresso-review-rate",
+            "www.lazada.vn": "div.espresso-review-rate"
           },
           "bl_thoi_gian": {
             "shopee.vn": "div.espresso-review-time",
-            "tiki.vn": "div.espresso-review-time"
+            "tiki.vn": "div.espresso-review-time",
+            "www.lazada.vn": "div.espresso-review-time"
           }
         }
-      }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.XPathFilter",
-      "name": "XPathFilter",
-      "params": {
-        "canonical": "//*[@rel=\"canonical\"]/@href",
-        "parse.title": [
-          "//TITLE",
-          "//META[@name=\"title\"]/@content"
-        ],
-        "parse.description": [
-          "//*[@name=\"description\"]/@content",
-          "//*[@name=\"Description\"]/@content"
-        ],
-        "parse.keywords": "//META[@name=\"keywords\"]/@content"
-      }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.ContentFilter",
-      "name": "ContentFilter",
-      "params": {
-        "pattern": "//DIV[@id=\"maincontent\"]",
-        "pattern2": "//DIV[@itemprop=\"articleBody\"]",
-        "pattern3": "//ARTICLE"
       }
     },
     {
@@ -547,15 +533,6 @@
       "params": {
         "key": "domain",
         "byHost": false
-      }
-    },
-    {
-      "class": "com.digitalpebble.stormcrawler.parse.filter.CommaSeparatedToMultivaluedMetadata",
-      "name": "CommaSeparatedToMultivaluedMetadata",
-      "params": {
-        "keys": [
-          "parse.keywords"
-        ]
       }
     }
   ]

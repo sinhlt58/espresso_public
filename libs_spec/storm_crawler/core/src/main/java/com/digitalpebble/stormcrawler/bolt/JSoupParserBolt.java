@@ -25,7 +25,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
+// sinh.luutruong added
 import java.util.ArrayList;
+// sinh.luutruong added
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -51,7 +53,7 @@ import org.w3c.dom.DocumentFragment;
 
 import com.digitalpebble.stormcrawler.Constants;
 import com.digitalpebble.stormcrawler.Metadata;
-import com.digitalpebble.stormcrawler.parse.JSoupDOMBuilder;
+import com.digitalpebble.stormcrawler.parse.DocumentFragmentBuilder;
 import com.digitalpebble.stormcrawler.parse.Outlink;
 import com.digitalpebble.stormcrawler.parse.ParseData;
 import com.digitalpebble.stormcrawler.parse.ParseFilter;
@@ -205,12 +207,12 @@ public class JSoupParserBolt extends StatusEmitterBolt {
         try {
             String html = Charset.forName(charset)
                     .decode(ByteBuffer.wrap(content)).toString();
-            
-            // conganh add
-            metadata.addValue("html", html);
-            // end conganh
 
             jsoupDoc = Parser.htmlParser().parseInput(html, url);
+
+            // sinh.luutruong
+            metadata.setObjectValue("jsoupDoc", jsoupDoc);
+            // sinh.luutruong
 
             // extracts the robots directives from the meta tags
             Element robotelement = jsoupDoc
@@ -236,7 +238,6 @@ public class JSoupParserBolt extends StatusEmitterBolt {
                 if (importeLinkHostnames.contains(metadata.getFirstValue("hostname"))) {
                     Elements importLinks = jsoupDoc.select("link[href]");
                     links.addAll(importLinks);
-                    LOG.info("Import links: {}", importLinks.toString());
                 }
                 // sinh.luutruong end
 
@@ -347,9 +348,13 @@ public class JSoupParserBolt extends StatusEmitterBolt {
             DocumentFragment fragment = null;
             // lazy building of fragment
             if (parseFilters.needsDOM()) {
-                fragment = JSoupDOMBuilder.jsoup2HTML(jsoupDoc);
+                fragment = DocumentFragmentBuilder.fromJsoup(jsoupDoc);
             }
             parseFilters.filter(url, content, fragment, parse);
+
+            // sinh.luutruong
+            metadata.removeObjectValue("jsoupDoc");
+            // sinh.luutruong
         } catch (RuntimeException e) {
             String errorMessage = "Exception while running parse filters on "
                     + url + ": " + e;

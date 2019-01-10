@@ -1,39 +1,54 @@
 package com.uet.nlp.common.item;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TTNItem extends Item {
+public class TTNItem extends CrawledItem {
+    // private fields
+    @JsonDeserialize(using = ArrayOrStringDeserializer.class)
+    private String tieu_de;
+
     public String title;
-    public String price;
+    public double price;
     public String description;
     public String brand;
     public String author;
     public String deliverFrom;
+    public String productId;
+    @JsonProperty
+    public String breadcrumb;
+
+    static Pattern pattern = Pattern.compile("\\d+");
 
     // calculated fields
-    public long uploadTime;
+    public double uploadTime;
 
     public TTNItem() {
         itemType = "product";
     }
 
     public void normalize() {
-        uploadTime = Long.parseLong(crawlTime);
+        uploadTime = crawlTime;
+        title = tieu_de;
     }
 
     public void generateId() {
-        super.generateId(url + domain);
+        super.generateId(domain + ":" + productId);
     }
 
     @JsonProperty("title")
     public String _getTitle() {
-        return this.title;
+        return this.tieu_de;
     }
 
     @JsonProperty("price")
-    public String _getPrice() {
+    public double _getPrice() {
         return this.price;
     }
 
@@ -58,14 +73,18 @@ public class TTNItem extends Item {
     }
 
     // setters
-    @JsonProperty("tieu_de")
-    public void _setTitle(String v) {
-        this.title = v;
-    }
-
     @JsonProperty("gia")
-    public void _setPrice(String v) {
-        this.price = v;
+    public void _setPrice(String priceStr) {
+        priceStr = priceStr.replace(".", "");
+        priceStr = priceStr.replace(",", "");
+        Matcher match = pattern.matcher(priceStr);
+        match.find();
+        try {
+            this.price = Double.parseDouble(match.group(0));
+        } catch(Exception e) {
+            System.out.println(e.getMessage());
+            this.price = 0;
+        }
     }
 
     @JsonProperty("mieu_ta")
@@ -86,5 +105,10 @@ public class TTNItem extends Item {
     @JsonProperty("gui_tu")
     public void _setDeliverFrom(String v) {
         this.deliverFrom = v;
+    }
+
+    @JsonProperty("id_san_pham")
+    public void _setProductId(String v) {
+        this.productId = v;
     }
 }

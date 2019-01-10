@@ -1,0 +1,82 @@
+2018-09-20 17:29:11,241  INFO  [main] sfc.StreamsManager (StreamsManager.java:213) - Init RSS. Max Requests: 10 per 1
+2018-09-20 17:29:11,242  INFO  [main] sfc.StreamsManager (StreamsManager.java:106) - StreamsManager is open.
+2018-09-20 17:29:11,244  INFO  [main] management.StorageHandler (StorageHandler.java:193) - Initialize filter LengthFilter
+2018-09-20 17:29:11,244  INFO  [main] filters.LengthItemFilter (LengthItemFilter.java:18) - Initialized. Min Text Lenth: 10
+2018-09-20 17:29:11,245  INFO  [main] management.StorageHandler (StorageHandler.java:66) - 1 filters initialized!
+2018-09-20 17:29:11,245  INFO  [main] management.StorageHandler (StorageHandler.java:210) - Initialize processor NamedEntitiesDetector
+2018-09-20 17:29:12,854  INFO  [main] management.StorageHandler (StorageHandler.java:69) - 1 processors initialized!
+2018-09-20 17:29:12,854  INFO  [main] management.StorageHandler (StorageHandler.java:157) - Initialize Mongodb
+2018-09-20 17:29:12,855  INFO  [main] management.StorageHandler (StorageHandler.java:164) - Mongodb initialized. Class: gr.iti.mklab.sfc.storages.MongoDbStorage
+2018-09-20 17:29:12,855  INFO  [main] storages.MongoDbStorage (MongoDbStorage.java:93) - Open MongoDB storage <host: 127.0.0.1, database: test, username: null, password: null>
+2018-09-20 17:29:12,958  INFO  [main] management.StorageHandler (StorageHandler.java:172) - Storage Mongodb is working.
+2018-09-20 17:29:12,961  INFO  [main] management.StorageHandler (StorageHandler.java:96) - 16 consumers initialized.
+2018-09-20 17:29:12,962  INFO  [main] sfc.StreamsManager (StreamsManager.java:115) - Storage Manager is ready to store.
+2018-09-20 17:29:12,962  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:251) - 0 items handled in total.
+2018-09-20 17:29:12,962  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:252) - 0 items are queued for processing.
+2018-09-20 17:29:12,963  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:258) - 1 storages initialized. 1 storages under monitoring.
+2018-09-20 17:29:12,963  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:261) - Check Mongodb status.
+2018-09-20 17:29:12,963  INFO  [main] input.CollectionsManager (CollectionsManager.java:59) - Connect to mongodb <host: 127.0.0.1, database: test, username: null, password: null>
+2018-09-20 17:29:12,984  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:265) - Mongodb working status: true
+2018-09-20 17:29:12,984  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:282) - LengthItemFilter: 0 items discarded, 0 items accepted.
+2018-09-20 17:29:12,988  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_0 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,988  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_1 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,988  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_2 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,989  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_3 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,989  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_4 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,989  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_5 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,989  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_6 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,989  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_7 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,989  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_8 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,989  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_9 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,990  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_10 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,990  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_11 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,990  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_12 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,990  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_13 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,990  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_14 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:12,991  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:286) - Consumer_15 consumed 0. Last access [Thu Jan 01 08:00:00 ICT 1970]. Current state: WAITING after initialization
+2018-09-20 17:29:13,001  INFO  [main] monitors.StreamsMonitor (StreamsMonitor.java:38) - Initialize Execution Service with 1 threads.
+2018-09-20 17:29:13,001  INFO  [main] sfc.StreamsManager (StreamsManager.java:140) - Start Stream : RSS
+2018-09-20 17:29:13,004  INFO  [main] monitors.StreamsMonitor (StreamsMonitor.java:60) - Add RSS stream to monitor
+2018-09-20 17:29:13,005  INFO  [main] monitors.StreamsMonitor (StreamsMonitor.java:64) - Add fetch task for RSS
+2018-09-20 17:29:13,006  INFO  [pool-2-thread-1] monitors.StreamsMonitor (StreamsMonitor.java:157) - Submit fetch task for RSS for execution.
+2018-09-20 17:29:13,006  INFO  [pool-2-thread-2] monitors.StreamFetchTask (StreamFetchTask.java:269) - 2147483647 available requests for RSS. Reset them to 2147483647
+2018-09-20 17:29:13,006  INFO  [pool-2-thread-1] monitors.StreamsMonitor (StreamsMonitor.java:166) - Fetch task for RSS has fetched 0 items. Last execution time: Thu Jan 01 08:00:00 ICT 1970 for feed [null]
+2018-09-20 17:29:13,021  INFO  [Thread-20] sfc.RedisSubscriber (RedisSubscriber.java:64) - redis ping: PONG
+2018-09-20 17:29:13,021  INFO  [main] sfc.StreamsManagerApp (StreamsManagerApp.java:59) - Stream manager initialized!
+2018-09-20 17:29:13,022  INFO  [Thread-20] sfc.RedisSubscriber (RedisSubscriber.java:143) - Subscribe to channels: collections:*,items:*
+2018-09-20 17:29:13,022  INFO  [main] sfc.StreamsManager (StreamsManager.java:476) - 0 active feeds: []. Timestamp: Thu Sep 20 17:29:13 ICT 2018
+2018-09-20 17:29:13,023  INFO  [Thread-20] sfc.RedisSubscriber (RedisSubscriber.java:122) - Subscribe from collections:* pattern. 1 active subscriptions.
+2018-09-20 17:29:13,023  INFO  [Thread-20] sfc.RedisSubscriber (RedisSubscriber.java:122) - Subscribe from items:* pattern. 2 active subscriptions.
+2018-09-20 17:29:13,029  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:251) - 1 active collections in db.
+2018-09-20 17:29:13,029  INFO  [main] sfc.StreamsManager (StreamsManager.java:504) - Monitoring check: 1 collections are missing ([randomid_userid_timestamp]). Re-insert for monitoring.
+2018-09-20 17:29:13,030  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:262) - Start to monitor for updates on collections.
+2018-09-20 17:29:13,030  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:275) - Action: collections:new - collection: randomid_userid_timestamp from user 1234567890
+2018-09-20 17:29:13,031  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:294) - 5 feeds to insert from collection randomid_userid_timestamp
+2018-09-20 17:29:13,036  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:362) - Insert: { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "giày"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#giày"}
+2018-09-20 17:29:13,037  ERROR [Thread-22] sfc.StreamsManager (StreamsManager.java:367) - Stream Facebook has not initialized. Feed { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "giày"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#giày"} cannot be added.
+2018-09-20 17:29:13,038  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:362) - Insert: { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "áo"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#áo"}
+2018-09-20 17:29:13,038  ERROR [Thread-22] sfc.StreamsManager (StreamsManager.java:367) - Stream Facebook has not initialized. Feed { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "áo"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#áo"} cannot be added.
+2018-09-20 17:29:13,039  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:362) - Insert: { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "sơn tùng"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#sơn tùng"}
+2018-09-20 17:29:13,039  ERROR [Thread-22] sfc.StreamsManager (StreamsManager.java:367) - Stream Facebook has not initialized. Feed { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "sơn tùng"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#sơn tùng"} cannot be added.
+2018-09-20 17:29:13,040  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:362) - Insert: { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "cháy"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#cháy"}
+2018-09-20 17:29:13,040  ERROR [Thread-22] sfc.StreamsManager (StreamsManager.java:367) - Stream Facebook has not initialized. Feed { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "cháy"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#cháy"} cannot be added.
+2018-09-20 17:29:13,040  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:362) - Insert: { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "trà"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#trà"}
+2018-09-20 17:29:13,041  ERROR [Thread-22] sfc.StreamsManager (StreamsManager.java:367) - Stream Facebook has not initialized. Feed { "className" : "gr.iti.mklab.framework.common.domain.feeds.KeywordsFeed" , "keywords" : [ "trà"] , "since" : 1536814069236 , "until" : 0 , "source" : "Facebook" , "_id" : "Facebook#trà"} cannot be added.
+2018-09-20 17:29:13,041  INFO  [Thread-22] sfc.StreamsManager (StreamsManager.java:275) - Action: collections:new - collection: randomid_userid_timestamp from user 1234567890
+2018-09-20 17:29:13,041  ERROR [Thread-22] sfc.StreamsManager (StreamsManager.java:287) - Collection randomid_userid_timestamp is already under monitoring!
+2018-09-20 17:32:24,700  INFO  [Thread-21] sfc.Shutdown (Shutdown.java:25) - Shutting down stream manager...
+2018-09-20 17:32:24,701  INFO  [Thread-21] sfc.StreamsManager (StreamsManager.java:183) - Close gr.iti.mklab.sfc.streams.impl.RssStream@3a3fd15b
+2018-09-20 17:32:24,701  INFO  [Thread-21] streams.Stream (Stream.java:52) - Stop retriever
+2018-09-20 17:32:24,702  INFO  [Thread-21] streams.Stream (Stream.java:55) - Close Stream  : gr.iti.mklab.sfc.streams.impl.RssStream
+2018-09-20 17:32:24,702  INFO  [Thread-2] management.StorageHandler (StorageHandler.java:292) - Thread interrupted.
+2018-09-20 17:32:24,703  INFO  [Thread-20] sfc.RedisSubscriber (RedisSubscriber.java:112) - Unsubscribe from null channel. 2 active subscriptions.
+2018-09-20 17:32:24,703  ERROR [Consumer_3] management.Consumer (Consumer.java:73) - java.lang.InterruptedException
+2018-09-20 17:32:24,703  ERROR [Consumer_1] management.Consumer (Consumer.java:73) - java.lang.InterruptedException
+2018-09-20 17:32:24,703  ERROR [Consumer_0] management.Consumer (Consumer.java:73) - java.lang.InterruptedException
+2018-09-20 17:32:24,704  ERROR [Consumer_4] management.Consumer (Consumer.java:73) - java.lang.InterruptedException
+2018-09-20 17:32:24,704  ERROR [Consumer_5] management.Consumer (Consumer.java:73) - java.lang.InterruptedException
+2018-09-20 17:32:24,702  INFO  [Thread-21] sfc.Shutdown (Shutdown.java:34) - Done...
+2018-09-20 17:32:24,704  ERROR [Consumer_6] management.Consumer (Consumer.java:73) - java.lang.InterruptedException
+2018-09-20 17:32:24,704  ERROR [Consumer_9] management.Consumer (Consumer.java:73) - java.lang.InterruptedException
+2018-09-20 17:32:24,704  ERROR [Consumer_2] management.Consumer (Consumer.java:73) - java.lang.InterruptedException
+2018-09-20 17:32:24,704  ERROR [Consumer_7] management.Consumer (Consumer.java:73) - java.lang.InterruptedException

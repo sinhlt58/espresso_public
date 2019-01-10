@@ -1,6 +1,7 @@
 var exports = module.exports;
 
 const utils = require('../utils');
+const logger = require('../logger')(module);
 
 getReviewsData = async (page, options) => {
     return new Promise(async (resolve, reject) => {
@@ -22,7 +23,7 @@ getReviewsData = async (page, options) => {
                     numBinhLuanPage = 1;
                 }
             }
-            console.log('numBinhLuanPage: ', numBinhLuanPage);
+            logger.info('numBinhLuanPage: ', numBinhLuanPage);
         
             // get reviews by clicking next page
             let i = 0;
@@ -62,8 +63,7 @@ getReviewsData = async (page, options) => {
 
             resolve(reviewsData);
         } catch (error) {
-            console.log(error);
-            console.log('error while getting reviews');
+            logger.info(`Error while getting reviews: ${error}`);
             resolve([]);
         }
     });
@@ -72,7 +72,7 @@ getReviewsData = async (page, options) => {
 exports.doActions = (page, options) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log("Get comments and change DOM for tiki");
+            logger.info("Get comments and change DOM for tiki");
             let reviewsData = [];
             reviewsData = reviewsData.concat(await getReviewsData(page, options));
 
@@ -89,7 +89,7 @@ exports.doActions = (page, options) => {
                 await utils.clickButton(page, buttonChuaHaiLong, options.buttonClickWaitTime);
                 reviewsData = reviewsData.concat(await getReviewsData(page, options));
             } catch (error) {
-                console.log('error while getting more reviews');
+                logger.info('error while getting more reviews');
             }
             
             // concat reviews to the dom
@@ -99,11 +99,62 @@ exports.doActions = (page, options) => {
         } catch(error) {
             if (error.name == 'TypeError') {
                 // when the comment button is null we will return true
-                console.log("Can't find the element or error while reading reviews");
+                logger.info("Can't find the element or error while reading reviews");
                 resolve(true);
             } else {
                 reject(error);
             }
+        }
+    });
+};
+
+let addContentFunc = (reviewData) => {
+    return reviewData.content;
+}
+
+let addRateFunc = (reviewData) => {
+    return reviewData.rating;
+}
+
+let addTimeFunc = (reviewData) => {
+    return reviewData.created_at;
+}
+
+let addUserNameFunc = (reviewData) => {
+    return reviewData.created_by.name;
+}
+
+exports.doActionsV2 = (page, options) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            logger.info("Get comments and change DOM for tiki V2");
+            const inputTagProductId = await page.$('#product_id');
+
+            if (inputTagProductId) {
+                const productId = await (await inputTagProductId.getProperty('value')).jsonValue();
+                logger.info('productId: ' + productId);
+                const params = {
+                    product_id: productId,
+                    include: 'comments',
+                    limit: 1000
+                };
+                const reviewsRes = await utils.callGet('https://tiki.vn/api/v2/reviews', params);
+                
+                if (reviewsRes && reviewsRes.data) {
+                    logger.info('Number of reviews: ' + reviewsRes.data.length);
+
+                    // add to the dom
+                    await utils.addReviewsToDomV2(page, productId, reviewsRes.data,
+                        addContentFunc, addRateFunc, addTimeFunc, addUserNameFunc);
+                } else {
+                    logger.info('Error getting revews with successfull reviewsRes');
+                }
+            }
+
+            resolve(true);
+        } catch(error) {
+            logger.info('error while getting reviews: ' + error);
+            reject(true);
         }
     });
 };
