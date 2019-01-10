@@ -12,6 +12,13 @@ then
     ./es_index.sh
 fi
 
+if [ "$1" = "inject" ]
+then
+    cd scripts
+    node index.js
+    cd $crr_dir
+fi
+
 if [ "$1" = "update_analysis_status" ]
 then
     ./update_analysis_status.sh

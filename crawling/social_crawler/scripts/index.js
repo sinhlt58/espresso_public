@@ -30,6 +30,10 @@ var data = [
     {
         node: 'thoi%20trang%20nu',
         type_node: 'search_pages'
+    },
+    {
+        node: 'áo bóng đá',
+        type_node: 'search_pages'
     }
 ]
 
