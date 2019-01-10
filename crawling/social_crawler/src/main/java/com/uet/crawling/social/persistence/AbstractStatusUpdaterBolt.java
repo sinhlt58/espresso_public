@@ -37,8 +37,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
 /**
- * Abstract bolt used to store the status of Nodes. Uses the DefaultScheduler and
- * MetadataTransfer.
+ * Abstract bolt used to store the status of Nodes. Uses the DefaultScheduler
  **/
 @SuppressWarnings("serial")
 public abstract class AbstractStatusUpdaterBolt extends BaseRichBolt {
@@ -81,8 +80,6 @@ public abstract class AbstractStatusUpdaterBolt extends BaseRichBolt {
         _collector = collector;
 
         scheduler = Scheduler.getInstance(stormConf);
-
-        // mdTransfer = MetadataTransfer.getInstance(stormConf);
 
         useCache = ConfUtils.getBoolean(stormConf, useCacheParamName, true);
 
@@ -200,7 +197,7 @@ public abstract class AbstractStatusUpdaterBolt extends BaseRichBolt {
         _collector.ack(t);
     }
 
-    protected abstract void store(String url, Status status, Metadata metadata,
+    protected abstract void store(String node, Status status, Metadata metadata,
             Date nextFetch) throws Exception;
 
     // if need delete Status.Error, add bolt deletion in file es-crawl-fb.flux

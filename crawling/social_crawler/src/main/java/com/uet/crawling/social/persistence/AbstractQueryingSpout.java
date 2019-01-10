@@ -34,7 +34,6 @@ import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Values;
 import org.apache.storm.utils.Utils;
 
-// import com.uet.crawling.social.util.CollectionMetric;
 import com.uet.crawling.social.util.ConfUtils;
 import com.google.common.base.Optional;
 import com.google.common.cache.Cache;
@@ -42,9 +41,9 @@ import com.google.common.cache.CacheBuilder;
 
 /**
  * Common features of spouts which query a backend to generate tuples. Tracks
- * the URLs being processes, with an optional delay before they are removed from
+ * the Nodes being processes, with an optional delay before they are removed from
  * the cache. Throttles the rate a which queries are emitted and provides a
- * buffer to store the URLs waiting to be sent.
+ * buffer to store the Nodes waiting to be sent.
  * 
  * @since 1.11
  **/
@@ -52,7 +51,7 @@ import com.google.common.cache.CacheBuilder;
 public abstract class AbstractQueryingSpout extends BaseRichSpout {
 
     /**
-     * Time in seconds for which acked or failed URLs will be considered for
+     * Time in seconds for which acked or failed Nodes will be considered for
      * fetching again, default 30 secs.
      **/
     protected static final String StatusTTLPurgatory = "spout.ttl.purgatory";
@@ -79,8 +78,6 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
     /** Required for implementations doing asynchronous calls **/
     protected AtomicBoolean isInQuery = new AtomicBoolean(false);
 
-    // protected CollectionMetric queryTimes;
-
     @Override
     public void open(Map stormConf, TopologyContext context,
             SpoutOutputCollector collector) {
@@ -92,8 +89,6 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
 
         beingProcessed = new InProcessMap<>(ttlPurgatory, TimeUnit.SECONDS);
 
-        // queryTimes = new CollectionMetric();
-
         resetFetchDateAfterNSecs = ConfUtils.getInt(stormConf,
                 resetFetchDateParamName, resetFetchDateAfterNSecs);
 
@@ -104,8 +99,8 @@ public abstract class AbstractQueryingSpout extends BaseRichSpout {
     protected abstract void populateBuffer();
 
     /**
-     * Map to keep in-process URLs, ev. with additional information for URL /
-     * politeness bucket (hostname / domain etc.). The entries are kept in a
+     * Map to keep in-process Nodes, ev. with additional information for Node /
+     * politeness bucket (type etc.). The entries are kept in a
      * cache for a configurable amount of time to avoid that some items are
      * fetched a second time if new items are queried shortly after they have
      * been acked.

@@ -74,7 +74,7 @@ public class DeletionBolt extends BaseRichBolt {
         String node = tuple.getStringByField("node");
         Metadata metadata = (Metadata) tuple.getValueByField("metadata");
 
-        // keep it simple for now and ignore cases where the canonical URL was
+        // keep it simple for now and ignore cases where the Node was
         // used
         String sha256hex = org.apache.commons.codec.digest.DigestUtils
                 .sha256Hex(node);

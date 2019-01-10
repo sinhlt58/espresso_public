@@ -140,7 +140,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
                 String nodeChild = md.getFirstValue("node");
 
-                // send URL as field?
+                // send node as field?
                 if (fieldNameForNode() != null) {
                     builder.field(fieldNameForNode(), nodeChild);
                 }

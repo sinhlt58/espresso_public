@@ -29,8 +29,6 @@ import com.uet.crawling.social.Constants;
 import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.persistence.Status;
 
-
-
 public class NodesDiscoverBolt extends StatusEmitterBolt {
 
     private static final org.slf4j.Logger LOG = LoggerFactory

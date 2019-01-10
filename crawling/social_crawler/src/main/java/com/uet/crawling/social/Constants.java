@@ -43,14 +43,14 @@ public class Constants {
 
     // public static final String AllowRedirParamName = "redirections.allowed";
 
-    // when to retry a URL with a fetch error
+    // when to retry a Node with a fetch error
     public static final String fetchErrorFetchIntervalParamName = "fetchInterval.fetch.error";
 
-    // when to retry a URL with an error, i.e. something very wrong with it
+    // when to retry a Node with an error, i.e. something very wrong with it
     // set a very large value so that it does not get refetched soon
     public static final String errorFetchIntervalParamName = "fetchInterval.error";
 
-    // when to retry a successful URL by default
+    // when to retry a successful Node by default
     public static final String defaultFetchIntervalParamName = "fetchInterval.default";
 
     public static final String fetchErrorCountParamName = "fetch.error.count";

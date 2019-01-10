@@ -17,8 +17,6 @@
 
 package com.uet.crawling.social.indexing;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -59,7 +57,7 @@ public abstract class AbstractIndexerBolt extends BaseRichBolt {
      **/
     public static final String metadataFilterParamName = "indexer.md.filter";
 
-    /** Field name to use for storing the url of a document **/
+    /** Field name to use for storing the node **/
     public static final String nodeFieldParamName = "indexer.node.fieldname";
 
     private String[] filterKeyValue = null;
@@ -158,7 +156,7 @@ public abstract class AbstractIndexerBolt extends BaseRichBolt {
     }
 
     /**
-     * Returns the field name to use for the URL or null if the URL must not be
+     * Returns the field name to use for the node or null if the node must not be
      * indexed
      **/
     protected String fieldNameForNode() {

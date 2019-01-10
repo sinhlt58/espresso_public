@@ -268,8 +268,6 @@ public class AggregationSpout extends AbstractSpout implements
                 "{} ES query returned {} hits from {} buckets in {} msec with {} already being processed",
                 logIdprefix, numhits, numBuckets, timeTaken, alreadyprocessed);
 
-        // queryTimes.addMeasurement(timeTaken);
-
         // reset the value for next fetch date if the previous one is too old
         if (resetFetchDateAfterNSecs != -1) {
             Calendar diffCal = Calendar.getInstance();

@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
  */
 
 /**
- * Defines a generic behaviour for ParseFilters or URLFilters to load resources
+ * Defines a generic behaviour for ResultServiecs to load resources
  * from a JSON file.
  **/
 public interface JSONResource {
