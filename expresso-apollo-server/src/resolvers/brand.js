@@ -107,7 +107,7 @@ export default {
               cmt_histogram: {
                 histogram: {
                   field: 'date',
-                  interval: 86400,
+                  interval: args.interval,
                 },
                 aggs: {
                   cmt_ranges: {

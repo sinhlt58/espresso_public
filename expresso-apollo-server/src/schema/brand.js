@@ -7,7 +7,7 @@ export default gql`
       brandName: String!
       from: String!
       to: String!
-      interval: Int = 86400
+      interval: Int!
       domain: DomainEnum
     ): [BrandHistogramItem!]
   }

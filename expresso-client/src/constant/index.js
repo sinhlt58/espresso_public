@@ -67,3 +67,8 @@ export const optionsStar = [
     label: 'Chỉ 1 sao',
   },
 ];
+
+export const INTERVAL = {
+  day: 86400,
+  month: 2629743.83,
+};
