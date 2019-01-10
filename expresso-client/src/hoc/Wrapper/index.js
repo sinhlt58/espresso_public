@@ -23,20 +23,36 @@ class Wrapper extends Component {
               </h2>
             </Link>
           </div>
-
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={['1']}
-            style={{ lineHeight: '64px' }}
-          >
-            <Menu.Item key="1">Chi tiết</Menu.Item>
-            <Menu.Item key="2">Báo cáo</Menu.Item>
-            <Menu.Item key="3">So sánh</Menu.Item>
-            <Menu.Item key="4">
-              <Link to="/sentiment">Sentiment</Link>
-            </Menu.Item>
-          </Menu>
+          {this.props.isHome ? (
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={['1']}
+              style={{ lineHeight: '64px' }}
+            >
+              <Menu.Item key="4">
+                <Link to="/sentiment/">Sentiment</Link>
+              </Menu.Item>
+            </Menu>
+          ) : (
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={['1']}
+              style={{ lineHeight: '64px' }}
+            >
+              <Menu.Item key="1">
+                <Link to={`/analytics/${this.props.brand}`}>Chi tiết</Link>
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Link to={`/reports/${this.props.brand}`}>Báo cáo</Link>
+              </Menu.Item>
+              <Menu.Item key="3">So sánh</Menu.Item>
+              <Menu.Item key="4">
+                <Link to="/sentiment/">Sentiment</Link>
+              </Menu.Item>
+            </Menu>
+          )}
         </Header>
         <Content>{this.props.children}</Content>
       </Layout>

@@ -140,7 +140,7 @@ class AnalyticsOverview extends Component {
 
   render() {
     return (
-      <Wrapper>
+      <Wrapper brand={this.props.match.params.name}>
         <Row style={{ marginBottom: '20px' }}>
           <h2 style={{ margin: '20px 0px 0px 50px' }}>
             Kết quả phân tích liên quan đến từ khoá:{' '}

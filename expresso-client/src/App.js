@@ -5,6 +5,7 @@ import client from './graphql-client/client';
 import Dashboard from './containers/Dashboard';
 import AnalyticsOverview from './containers/AnalyticsOverview';
 import Sentiment from './containers/Sentiment';
+import Reports from './containers/Reports';
 import './App.css';
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
             <Route path="/" exact component={Dashboard} />
             <Route path="/analytics/:name" component={AnalyticsOverview} />
             <Route path="/sentiment" component={Sentiment} />
+            <Route path="/reports/:name" component={Reports} />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>
