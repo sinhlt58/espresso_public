@@ -1,0 +1,98 @@
+[{
+    "name": "bds",
+    "fields": [
+        "ngay_dang",
+        "dia_chi",
+        "cc_phong",
+        "cc_tang",
+        "cc_toa_nha",
+        "dc_so_nha",
+        "dc_ngo",
+        "dc_pho_duong",
+        "dc_quan_huyen",
+        "dc_thanh_pho",
+        "gia",
+        "dien_tich",
+        "loai_dat",
+        "huong",
+        "duong_vao",
+        "mat_tien",
+        "co_cua_hau_khong",
+        "oto_dau_cua",
+        "nha_xay_lau_chua",
+        "so_tang",
+        "so_phong",
+        "thuoc_du_an",
+        "chu_dau_tu",
+        "huong_ban_cong",
+        "huong_vao_cua",
+        "vi_tri_can_ho",
+        "cho_de_xe",
+        "noi_that",
+        "cc_mini",
+        "so_phong_ngu",
+        "so_toilet",
+        "lh_sdt",
+        "lh_ten",
+
+        "vi_tri",
+        "chieu_ngang",
+        "chieu_dai",
+        "quy_mo",
+        "duong_truoc_nha",
+        "phap_ly",
+        "so_lau",
+        "so_phong_tam",
+        "phong_an",
+        "nha_bep",
+        "san_thuong",
+        "chinh_chu",
+        "lh_dia_chi",
+        "lh_email",
+        "tieu_de",
+        "mieu_ta",
+        "loai_tin",
+        "loai_bds",
+        "ngay_cap_nhat",
+        "ngay_het_han"
+    ],
+    "seed_urls": [
+        "https://alonhadat.com.vn/",
+        "http://www.muabannhadat.vn/nha-dat-3490",
+        "https://batdongsan.com.vn",
+        "https://muaban.net/mua-ban-nha-dat-cho-thue-toan-quoc-l0-c3",
+        "https://nhadat24h.net/"
+    ],
+    "group_urls": [
+        "alonhadat.com.vn",
+        "www.muabannhadat.vn",
+        "batdongsan.com.vn",
+        "muban.net",
+        "nhadat24h.net"
+    ]
+},
+{
+    "name": "ttn",
+    "fields": [
+        "tieu_de",
+        "gia",
+        "thuong_hieu",
+        "kich_co",
+        "mieu_ta",
+        "ngay_dang",
+        "bl_noi_dung",
+        "bl_diem"
+    ],
+    "seed_urls": [
+        "https://www.lazada.vn/trang-phuc-nu/?spm=a2o4n.searchlist.cate_8.1.767e5d98E11Y4g",
+        "https://tiki.vn/thoi-trang/c914?q=ao%20nu&ref=categorySearch",
+        "https://tiki.vn/thoi-trang/c914?q=quan%20nu&ref=categorySearch",
+        "https://tiki.vn/thoi-trang/c914?q=vay%20nu&ref=categorySearch",
+        "https://shopee.vn/Áo-cat.77.1871"
+    ],
+    "group_urls": [
+        "www.lazada.vn",
+        "tiki.vn",
+        "shopee.vn"
+    ]
+}]
