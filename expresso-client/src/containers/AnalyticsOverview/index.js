@@ -32,8 +32,16 @@ class AnalyticsOverview extends Component {
     page: 1,
   };
 
-  async componentDidMount() {
-    const res = await getBrand(this.props.match.params.name);
+  componentDidMount() {
+    this.getBrandSummary();
+    this.getCustomerComments();
+  }
+
+  getBrandSummary = async (name, domain) => {
+    const res = await getBrand(
+      this.props.match.params.name,
+      this.state.optionsDomain[0],
+    );
 
     if (res.networkStatus === 7) {
       await this.setState({
@@ -59,9 +67,7 @@ class AnalyticsOverview extends Component {
       message.error('Không tìm thấy thương hiệu');
       this.props.history.goBack();
     }
-
-    this.getCustomerComments();
-  }
+  };
 
   getCustomerComments = async (keyword = this.state.keyword) => {
     await this.setState({
@@ -101,7 +107,7 @@ class AnalyticsOverview extends Component {
       optionsDomain: value,
       page: 1,
     });
-
+    this.getBrandSummary();
     this.getCustomerComments();
   };
 

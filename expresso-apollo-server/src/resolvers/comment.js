@@ -245,6 +245,24 @@ export default {
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brand,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brand,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: {
                   term: {
                     itemType: 'review',
@@ -252,24 +270,6 @@ export default {
                 },
               },
             },
-            should: [
-              {
-                term: {
-                  brand: {
-                    value: args.brand,
-                    boost: 3.0,
-                  },
-                },
-              },
-              {
-                term: {
-                  parentAuthor: {
-                    value: args.brand,
-                  },
-                },
-              },
-            ],
-            minimum_should_match: 1,
             sort: [
               {
                 rate: {
@@ -305,6 +305,24 @@ export default {
                     },
                   },
                 ],
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.brand,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.brand,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
                 filter: {
                   term: {
                     itemType: 'review',
@@ -312,24 +330,6 @@ export default {
                 },
               },
             },
-            should: [
-              {
-                term: {
-                  brand: {
-                    value: args.brand,
-                    boost: 3.0,
-                  },
-                },
-              },
-              {
-                term: {
-                  parentAuthor: {
-                    value: args.brand,
-                  },
-                },
-              },
-            ],
-            minimum_should_match: 1,
             sort: [
               {
                 rate: {
