@@ -3,6 +3,15 @@ import moment from 'moment';
 import { Spin, Row, Col, Button, Cascader, DatePicker, message } from 'antd';
 import Wrapper from '../../hoc/Wrapper';
 import { optionsDomain, optionsRange } from '../../constant';
+import { getHistogram } from '../../graphql-client/api';
+import {
+  VictoryBar,
+  VictoryAxis,
+  VictoryChart,
+  VictoryTheme,
+  VictoryStack,
+  VictoryLegend,
+} from 'victory';
 
 const { MonthPicker } = DatePicker;
 
@@ -17,37 +26,77 @@ const PICKER_FORMAT = {
 
 class Reports extends Component {
   state = {
-    from: moment(new Date()),
-    to: moment(new Date()),
-    domain: '',
+    loading: true,
+    from: moment(new Date()).startOf('month'),
+    to: moment(new Date()).endOf('month'),
     placeholder: PICKER_FORMAT['date'].placeholder,
     optionsDomain: ['ALL'],
     optionRange: ['date'],
+    data: [],
+  };
+
+  componentDidMount() {
+    this.getHistogram();
+  }
+
+  getHistogram = async () => {
+    const response = await getHistogram({
+      brandName: this.props.match.params.name,
+      from: (this.state.from.valueOf() / 1000).toString(),
+      to: (this.state.to.valueOf() / 1000).toString(),
+      interval: 86400,
+      domain: this.state.optionsDomain[0],
+    });
+
+    console.log(response);
+
+    if (response.networkStatus === 7) {
+      if (response.data.brandHistogram.length > 0) {
+        this.setState({
+          loading: false,
+          data: response.data.brandHistogram,
+        });
+      } else {
+        message.warn('Không có bình luận nào');
+      }
+    } else {
+      message.error('Có lỗi xảy ra vui lòng thử lại');
+    }
   };
 
   _onChangeDomain = async (value) => {
     await this.setState({
       optionsDomain: value,
     });
+
+    this.getHistogram();
   };
 
   _onChangeRange = async (value) => {
-    await this.setState({
-      optionRange: value,
-      placeholder: PICKER_FORMAT[value[0]].placeholder,
-    });
+    // await this.setState({
+    //   optionRange: value,
+    //   placeholder: PICKER_FORMAT[value[0]].placeholder,
+    // });
   };
 
-  handleFromPanelChange = (date, dateString) => {
-    this.setState({
+  handleFromPanelChange = async (date, dateString) => {
+    await this.setState({
       from: date,
     });
+
+    this.getHistogram();
   };
 
-  handleToPanelChange = (date, dateString) => {
-    this.setState({
-      to: date,
-    });
+  handleToPanelChange = async (date, dateString) => {
+    if (date < this.state.from) {
+      message.error('Không chọn ngày kết thúc nhỏ hơn ngày bắt đầu');
+    } else {
+      await this.setState({
+        to: date,
+      });
+
+      this.getHistogram();
+    }
   };
 
   render() {
@@ -129,6 +178,73 @@ class Reports extends Component {
             )}
           </Col>
         </Row>
+        {this.state.loading ? null : (
+          <VictoryChart
+            height={180}
+            domainPadding={20}
+            theme={VictoryTheme.material}
+          >
+            <VictoryLegend
+              x={50}
+              y={10}
+              title="Chú thích"
+              centerTitle
+              orientation="horizontal"
+              style={{
+                labels: { fontSize: 5 },
+                border: { stroke: 'black' },
+                title: { fontSize: 5 },
+              }}
+              data={[
+                { name: 'Tích cực', symbol: { fill: '#42f47d' } },
+                { name: 'Tiêu cực', symbol: { fill: '#f44141' } },
+              ]}
+            />
+            <VictoryAxis
+              tickFormat={(x) => moment(Number(x)).format('DD/MM')}
+              style={{
+                axisLabel: { fontSize: 5, padding: 10 },
+                tickLabels: { fontSize: 2, padding: 2 },
+                ticks: { size: 1 },
+              }}
+              label="Ngày (DD/MM)"
+              fixLabelOverlap={true}
+            />
+            <VictoryAxis
+              dependentAxis
+              tickFormat={(x) => `${Math.round(x)}`}
+              style={{
+                axisLabel: { fontSize: 5, padding: 10 },
+                tickLabels: { fontSize: 4, padding: 2 },
+                ticks: { size: 1 },
+              }}
+              label="Số bình luận"
+              fixLabelOverlap={true}
+            />
+            <VictoryStack>
+              <VictoryBar
+                style={{
+                  data: {
+                    fill: '#42f47d',
+                  },
+                }}
+                data={this.state.data}
+                x="timestamp"
+                y={(d) => d.count.positive}
+              />
+              <VictoryBar
+                style={{
+                  data: {
+                    fill: '#f44141',
+                  },
+                }}
+                data={this.state.data}
+                x="timestamp"
+                y={(d) => d.count.negative}
+              />
+            </VictoryStack>
+          </VictoryChart>
+        )}
       </Wrapper>
     );
   }

@@ -76,3 +76,43 @@ export const getComments = async ({
     return err;
   }
 };
+
+export const getHistogram = async ({
+  brandName,
+  from,
+  to,
+  interval,
+  domain,
+}) => {
+  try {
+    return await client.query({
+      variables: { brandName, from, to, interval, domain },
+      query: gql`
+        query(
+          $brandName: String!
+          $from: String!
+          $to: String!
+          $interval: Int!
+          $domain: DomainEnum
+        ) {
+          brandHistogram(
+            brandName: $brandName
+            from: $from
+            to: $to
+            interval: $interval
+            domain: $domain
+          ) {
+            timestamp
+            total
+            count {
+              positive
+              negative
+            }
+          }
+        }
+      `,
+    });
+  } catch (err) {
+    return err;
+  }
+};

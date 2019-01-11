@@ -65,7 +65,7 @@ export default {
 
     brandHistogram: async (parent, args) => {
       let esRes;
-      if (args.domain === undefined) {
+      if (args.domain === 'ALL') {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
