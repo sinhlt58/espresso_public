@@ -15,8 +15,6 @@ class Sentiment extends Component {
   async componentDidMount() {
     const response = await getTopWords(100);
 
-    console.log(response.data.getWords);
-
     if (response.networkStatus === 7) {
       this.setState({
         loading: false,
@@ -43,7 +41,8 @@ class Sentiment extends Component {
       });
   };
 
-  fontSizeMapper = (word) => Math.log2(word.value);
+  // TODO change fontSizeMapper hardcode
+  fontSizeMapper = (word) => word.value / 10000;
   rotate = (word) => word.value % 360;
 
   render() {
