@@ -3,6 +3,7 @@ import { gql } from 'apollo-server-express';
 export default gql`
   extend type Query {
     getProduct(id: String!): Product!
+    getBrandsByProduct(title: String!): [BrandProducts!]
   }
 
   type Product {
@@ -26,5 +27,10 @@ export default gql`
   type Source {
     domain: String!
     url: String!
+  }
+
+  type BrandProducts {
+    name: String!
+    count: Int
   }
 `;

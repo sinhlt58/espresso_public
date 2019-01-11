@@ -5,60 +5,121 @@ import { SOURCE } from '../const';
 export default {
   Query: {
     getBrand: async (parent, args) => {
-      const esRes = await esClient.search({
-        index: SOURCE,
-        body: {
-          size: 0,
-          query: {
-            bool: {
-              should: [
-                {
-                  term: {
-                    brand: {
-                      value: args.name,
-                      boost: 3.0,
+      let esRes;
+      if (args.domain === 'ALL') {
+        esRes = await esClient.search({
+          index: SOURCE,
+          body: {
+            size: 0,
+            query: {
+              bool: {
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.name,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.name,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
+                filter: [{ term: { itemType: 'review' } }],
+              },
+            },
+            aggs: {
+              summary_by_domains: {
+                terms: {
+                  field: 'domain.keyword',
+                },
+                aggs: {
+                  avg_rating: {
+                    avg: {
+                      field: 'rate',
                     },
                   },
                 },
-                {
-                  term: {
-                    parentAuthor: {
-                      value: args.name,
+              },
+              avg_rating: {
+                avg: {
+                  field: 'rate',
+                },
+              },
+              summary_by_rate: {
+                terms: {
+                  field: 'rate',
+                  order: { _key: 'desc' },
+                },
+              },
+            },
+          },
+        });
+      } else {
+        esRes = await esClient.search({
+          index: SOURCE,
+          body: {
+            size: 0,
+            query: {
+              bool: {
+                should: [
+                  {
+                    term: {
+                      brand: {
+                        value: args.name,
+                        boost: 3.0,
+                      },
+                    },
+                  },
+                  {
+                    term: {
+                      parentAuthor: {
+                        value: args.name,
+                      },
+                    },
+                  },
+                ],
+                minimum_should_match: 1,
+                filter: [
+                  { term: { itemType: 'review' } },
+                  { term: { domain: getDomain(args.domain) } },
+                ],
+              },
+            },
+            aggs: {
+              summary_by_domains: {
+                terms: {
+                  field: 'domain.keyword',
+                },
+                aggs: {
+                  avg_rating: {
+                    avg: {
+                      field: 'rate',
                     },
                   },
                 },
-              ],
-              minimum_should_match: 1,
-              filter: [{ term: { itemType: 'review' } }],
-            },
-          },
-          aggs: {
-            summary_by_domains: {
-              terms: {
-                field: 'domain.keyword',
               },
-              aggs: {
-                avg_rating: {
-                  avg: {
-                    field: 'rate',
-                  },
+              avg_rating: {
+                avg: {
+                  field: 'rate',
+                },
+              },
+              summary_by_rate: {
+                terms: {
+                  field: 'rate',
+                  order: { _key: 'desc' },
                 },
               },
             },
-            avg_rating: {
-              avg: {
-                field: 'rate',
-              },
-            },
-            summary_by_rate: {
-              terms: {
-                field: 'rate',
-                order: { _key: 'desc' },
-              },
-            },
           },
-        },
-      });
+        });
+      }
 
       return [esRes, args.name];
     },

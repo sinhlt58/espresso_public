@@ -18,6 +18,54 @@ export default {
 
       return esRes.hits.hits[0];
     },
+
+    getBrandsByProduct: async (parent, args) => {
+      const esRes = await esClient.search({
+        index: SOURCE,
+        body: {
+          size: 0,
+          query: {
+            bool: {
+              must: [
+                {
+                  match_phrase: {
+                    title: args.title,
+                  },
+                },
+              ],
+              filter: {
+                term: {
+                  itemType: 'product',
+                },
+              },
+            },
+          },
+          aggs: {
+            group_by_brand: {
+              terms: {
+                field: 'brand.keyword',
+                order: { _count: 'desc' },
+                size: 1000000000,
+              },
+            },
+            group_by_dealer: {
+              terms: {
+                field: 'author.keyword',
+                order: { _count: 'desc' },
+                size: 1000000000,
+              },
+            },
+          },
+        },
+      });
+
+      const result = [
+        ...esRes.aggregations.group_by_brand.buckets,
+        ...esRes.aggregations.group_by_dealer.buckets,
+      ];
+
+      return result;
+    },
   },
 
   Product: {
@@ -69,5 +117,10 @@ export default {
   Brand: {
     brand: (parent) => parent.brand,
     dealer: (parent) => parent.author,
+  },
+
+  BrandProducts: {
+    name: (parent) => parent.key,
+    count: (parent) => parent.doc_count,
   },
 };

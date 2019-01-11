@@ -33,6 +33,9 @@ class Wrapper extends Component {
               <Menu.Item key="4">
                 <Link to="/sentiment/">Sentiment</Link>
               </Menu.Item>
+              <Menu.Item key="5">
+                <Link to="/products/">Products</Link>
+              </Menu.Item>
             </Menu>
           ) : (
             <Menu
@@ -47,9 +50,14 @@ class Wrapper extends Component {
               <Menu.Item key="2">
                 <Link to={`/reports/${this.props.brand}`}>Báo cáo</Link>
               </Menu.Item>
-              <Menu.Item key="3">So sánh</Menu.Item>
+              <Menu.Item key="3">
+                <Link to={`/compare/${this.props.brand}`}>So sánh</Link>
+              </Menu.Item>
               <Menu.Item key="4">
                 <Link to="/sentiment/">Sentiment</Link>
+              </Menu.Item>
+              <Menu.Item key="5">
+                <Link to="/products/">Products</Link>
               </Menu.Item>
             </Menu>
           )}

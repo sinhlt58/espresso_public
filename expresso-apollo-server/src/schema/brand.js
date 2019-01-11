@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
-    getBrand(name: String!): BrandSummary!
+    getBrand(name: String!, domain: DomainEnum): BrandSummary!
     brandHistogram(
       brandName: String!
       from: String!
