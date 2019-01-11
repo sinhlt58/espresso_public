@@ -116,3 +116,21 @@ export const getHistogram = async ({
     return err;
   }
 };
+
+export const getTopWords = async (size) => {
+  try {
+    return await client.query({
+      variables: { size },
+      query: gql`
+        query($size: Int!) {
+          getWords(size: $size) {
+            text
+            value
+          }
+        }
+      `,
+    });
+  } catch (err) {
+    return err;
+  }
+};
