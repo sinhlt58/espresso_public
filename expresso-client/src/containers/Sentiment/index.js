@@ -4,6 +4,7 @@ import axios from 'axios';
 import Wrapper from '../../hoc/Wrapper';
 import WordCloud from 'react-d3-cloud';
 import { getTopWords } from '../../graphql-client/api';
+import { apiUri } from '../../constant';
 
 class Sentiment extends Component {
   state = {
@@ -27,7 +28,7 @@ class Sentiment extends Component {
 
   _onSearch = (text) => {
     axios
-      .post('http://localhost:8000/api/sentiment/predict', {
+      .post(`${apiUri}/sentiment/predict`, {
         sentences: [`${text}`],
       })
       .then((res) => {
