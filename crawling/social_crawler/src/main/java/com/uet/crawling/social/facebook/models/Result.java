@@ -1,29 +1,22 @@
 package com.uet.crawling.social.facebook.models;
 
 import com.restfb.Facebook;
+import com.restfb.json.JsonObject;
 
-public class Result {
+import java.util.List;
+
+public class Result extends AbstractResult{
 
     @Facebook
-    private ErrorResult error;
+    private List<JsonObject> data;
 
-    @Facebook
-    private PagingResult paging;
-
-    public ErrorResult getError(){
-        return error;
+    @Override
+    public List<JsonObject> getData() {
+        return data;
     }
 
-    public void  setError(ErrorResult error){
-        this.error = error;
-    }
-
-    public PagingResult getPaging() {
-        return paging;
-    }
-
-    public void setPaging(PagingResult paging) {
-        this.paging = paging;
+    public void setData(List<JsonObject> data) {
+        this.data = data;
     }
 
 }

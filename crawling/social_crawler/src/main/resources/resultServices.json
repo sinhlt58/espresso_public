@@ -5,11 +5,24 @@
       "name": "SearchPages",
       "params": {
         "typeResult": "search_pages",
-        "typeBuildToIndex": "page",
-        "typeBuildToStatus": "get_posts",
+        "typeBuildToIndex": "page_basic",
+        "typesBuildToStatus": "page_detail,get_posts",
         "limit": 100,
         "index": true,
         "indexStatus": true
+      }
+    },
+    {
+      "class": "com.uet.crawling.social.facebook.services.GetPageDetail",
+      "name": "GetPageDetail",
+      "params": {
+        "typeResult": "page_detail",
+        "typeBuildToIndex": "page_detail",
+        "typesBuildToStatus": "page_detail_done",
+        "index": true,
+        "indexStatus": true,
+        "fields": 
+          "about,affiliation,artists_we_like,attire,awards,band_interests,band_members,bio,birthday,booking_agent,built,can_checkin,can_post,category,category_list,checkins,company_overview,contact_address,country_page_likes,cover,culinary_team,current_location,description,description_html,directed_by,display_subtext,emails,engagement,fan_count,featured_video,features,founded,general_info,general_manager,genre,global_brand_page_name,global_brand_root_id,has_added_app,has_whatsapp_number,hometown,hours,id,impressum,influences,is_always_open,is_chain,is_community_page,is_permanently_closed,is_published,is_unclaimed,is_webhooks_subscribed,leadgen_tos_accepted,link,location,members,mission,mpg,name,network,new_like_count,offer_eligible,parking,payment_options,personal_info,personal_interests,pharma_safety_info,phone,place_type,press_contact,price_range,produced_by,products,promotion_ineligible_reason,public_transit,record_label,release_date,restaurant_services,restaurant_specialties,schedule,screenplay_by,season,single_line_address,starring,store_number,studio,talking_about_count,unread_message_count,unread_notif_count,unseen_message_count,username,verification_status,website,were_here_count,whatsapp_number,written_by,overall_star_rating,voip_info,displayed_message_response_time,food_styles,is_eligible_for_branded_content,is_messenger_bot_get_started_enabled,is_messenger_platform_bot,is_owned,leadgen_has_fat_ping_crm_integration,leadgen_tos_acceptance_time,leadgen_tos_accepting_user,merchant_review_status,name_with_location_descriptor,page_about_story,page_token,parent_page,plot_outline,privacy_info_url,rating_count,start_info,store_code,messenger_ads_default_page_welcome_message,messenger_ads_default_quick_replies,messenger_ads_quick_replies_type"
       }
     },
     {
@@ -17,11 +30,24 @@
       "name": "GetPosts",
       "params": {
         "typeResult": "get_posts",
-        "typeBuildToIndex": "post",
-        "typeBuildToStatus": "get_comments",
+        "typeBuildToIndex": "post_basic",
+        "typesBuildToStatus": "post_detail,get_comments",
         "limit": 100,
         "index": true,
         "indexStatus": true
+      }
+    },
+    {
+      "class": "com.uet.crawling.social.facebook.services.GetPostDetail",
+      "name": "GetPostDetail",
+      "params": {
+        "typeResult": "post_detail",
+        "typeBuildToIndex": "post_detail",
+        "typesBuildToStatus": "post_detail_done",
+        "index": true,
+        "indexStatus": true,
+        "fields": 
+          "actions,admin_creator,application,backdated_time,call_to_action,caption,child_attachments,comments_mirroring_domain,coordinates,created_time,description,event,expanded_height,expanded_width,feed_targeting,from,full_picture,height,icon,id,is_expired,is_hidden,is_instagram_eligible,is_popular,is_published,is_spherical,link,message,message_tags,multi_share_end_card,multi_share_optimized,name,object_id,parent_id,picture,place,privacy,promotable_id,promotion_status,properties,scheduled_publish_time,shares,instagram_eligibility,source,status_type,story,story_tags,subscribed,target,targeting,timeline_visibility,type,updated_time,via,video_buying_eligibility,width"
       }
     },
     {
@@ -29,11 +55,24 @@
       "name": "GetComments",
       "params": {
         "typeResult": "get_comments",
-        "typeBuildToIndex": "comment",
-        "typeBuildToStatus": "get_sub_comments",
+        "typeBuildToIndex": "comment_basic",
+        "typesBuildToStatus": "comment_detail,get_sub_comments",
         "limit": 100,
         "index": true,
-        "indexStatus": false
+        "indexStatus": true
+      }
+    },
+    {
+      "class": "com.uet.crawling.social.facebook.services.GetCommentDetail",
+      "name": "GetCommentDetail",
+      "params": {
+        "typeResult": "comment_detail",
+        "typeBuildToIndex": "comment_detail",
+        "typesBuildToStatus": "comment_detail_done",
+        "index": true,
+        "indexStatus": true,
+        "fields": 
+          "admin_creator,application,attachment,can_comment,can_hide,can_like,can_remove,comment_count,created_time,from,id,is_hidden,is_private,like_count,live_broadcast_timestamp,message,message_tags,object,parent,permalink_url,user_likes"
       }
     }
   ]

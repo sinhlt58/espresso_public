@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.elasticsearch.ElasticSearchConnection;
 import com.uet.crawling.social.util.ConfUtils;
+import com.uet.crawling.social.util.Builders;
 
 /**
  * Deletes documents to ElasticSearch. This should be connected to the
@@ -76,8 +77,8 @@ public class DeletionBolt extends BaseRichBolt {
 
         // keep it simple for now and ignore cases where the Node was
         // used
-        String sha256hex = org.apache.commons.codec.digest.DigestUtils
-                .sha256Hex(node);
+        String sha256hex = Builders.buildId(node);
+        
         DeleteRequest dr = new DeleteRequest(getIndexName(metadata), docType,
                 sha256hex);
         try {

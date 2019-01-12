@@ -46,6 +46,7 @@ import com.uet.crawling.social.elasticsearch.ElasticSearchConnection;
 import com.uet.crawling.social.persistence.AbstractStatusUpdaterBolt;
 import com.uet.crawling.social.persistence.Status;
 import com.uet.crawling.social.util.ConfUtils;
+import com.uet.crawling.social.util.Builders;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
@@ -146,8 +147,7 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt implements
     public void store(String node, Status status, Metadata metadata,
             Date nextFetch) throws Exception {
 
-        String sha256hex = org.apache.commons.codec.digest.DigestUtils
-                .sha256Hex(node);
+        String sha256hex = Builders.buildId(node);
 
         // need to synchronize: otherwise it might get added to the cache
         // without having been sent to ES
@@ -249,8 +249,8 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt implements
      **/
     public void ack(Tuple t, String node) {
         synchronized (waitAck) {
-            String sha256hex = org.apache.commons.codec.digest.DigestUtils
-                    .sha256Hex(node);
+
+            String sha256hex = Builders.buildId(node);
             List<Tuple> tt = waitAck.getIfPresent(sha256hex);
             if (tt == null) {
                 // check that there has been no removal of the entry since

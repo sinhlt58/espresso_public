@@ -22,11 +22,6 @@ public class Constants {
     public static final String FB_ACCESS_TOKEN_ParamName = "fb.access.token";
     public static final String FB_ACCESS_TOKEN = "264533924376104|4xZUVgjCM0hQvNLkFQ-bxH9qtNU";
 
-    // can dua vao config
-    public static final String NodeTypeSearchPages = "search_pages";
-    public static final String NodeTypeGetPosts = "get_posts";
-    public static final String NodeTypeGetComments= "get_comments";
-
     // public static final String PARTITION_MODEParamName = "partition.url.mode";
 
     // public static final String PARTITION_MODE_HOST = "byHost";
