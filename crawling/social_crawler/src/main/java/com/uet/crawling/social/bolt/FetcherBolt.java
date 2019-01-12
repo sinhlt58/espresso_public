@@ -330,7 +330,7 @@ public class FetcherBolt extends StatusEmitterBolt{
                     ArrayList<Metadata> listMdResult = new ArrayList<>();
 
                     resultServices.getResult(
-                        fbClient.getClient(), fit.node, metadata, listMdResult);
+                        fbClient.getClient(), metadata, listMdResult);
 
                     long timeFetching = System.currentTimeMillis() - start;
 
@@ -339,8 +339,6 @@ public class FetcherBolt extends StatusEmitterBolt{
                     if(checkError != null){
                         errorCode = Integer.parseInt(checkError);
                         metadata.remove("error");
-                        metadata.remove("shouldIndex");
-                        metadata.remove("shouldStatus");
                     }
                     
                     if(errorCode != null){
@@ -354,9 +352,6 @@ public class FetcherBolt extends StatusEmitterBolt{
                             taskID, fit.node,
                             timeFetching);
                     }
-
-                    // can chinh lai neu muon dong nhat metadata
-                    // metadata.setRsult(result);
 
                     // determine the status based on the status code
                     final Status status = Status.fromApiResponseCode(errorCode);

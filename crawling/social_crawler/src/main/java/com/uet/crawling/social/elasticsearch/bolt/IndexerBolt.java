@@ -40,6 +40,7 @@ import com.uet.crawling.social.elasticsearch.ElasticSearchConnection;
 import com.uet.crawling.social.indexing.AbstractIndexerBolt;
 import com.uet.crawling.social.persistence.Status;
 import com.uet.crawling.social.util.ConfUtils;
+import com.uet.crawling.social.util.Builders;
 
 /**
  * Sends documents to ElasticSearch. Indexes all the fields from the tuples or a
@@ -138,14 +139,15 @@ public class IndexerBolt extends AbstractIndexerBolt {
             for(Metadata md: listMdResult){
                 XContentBuilder builder = jsonBuilder().startObject();
 
-                String nodeChild = md.getFirstValue("node");
-
+                String nodeChild = Builders.buildNode(md.getFirstValue("node"), md.getFirstValue("type"));
+                
                 // send node as field?
                 if (fieldNameForNode() != null) {
                     builder.field(fieldNameForNode(), nodeChild);
                 }
 
                 md.remove("node");
+                md.remove("typesToStatus");
 
                 // // which metadata to display?
                 // Map<String, String[]> keyVals = filterMetadata(metadata);
@@ -174,8 +176,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
 
                 builder.endObject();
 
-                String sha256hex = org.apache.commons.codec.digest.DigestUtils
-                    .sha256Hex(nodeChild);
+                String sha256hex = Builders.buildId(nodeChild);
 
                 IndexRequest indexRequest = new IndexRequest(
                         getIndexName(md), docType, sha256hex).source(builder);

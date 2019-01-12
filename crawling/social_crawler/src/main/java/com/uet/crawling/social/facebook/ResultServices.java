@@ -96,13 +96,12 @@ public class ResultServices extends ResultService implements JSONResource{
     }
 
     @Override
-    public void getResult(FacebookClient client, String node, 
-        Metadata md, ArrayList<Metadata> listMdResult) {
+    public void getResult(FacebookClient client, Metadata md, ArrayList<Metadata> listMdResult) {
         String type = md.getFirstValue("type");
         for (ResultService resultService : resultServices) {
             if(resultService.getTypeResult().equals(type)){
                 long start = System.currentTimeMillis();
-                resultService.getResult(client, node, md, listMdResult);
+                resultService.getResult(client, md, listMdResult);
                 long end = System.currentTimeMillis();
                 LOG.debug("ResultService {} took {} msec getResult", 
                     resultService.getClass().getName(), end - start);
