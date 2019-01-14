@@ -29,16 +29,24 @@ async function indexStatus(node, type_node){
 }
 
 var data = [
-    // {
-    //     node: 'thoi%20trang%20nu',
-    //     type_node: 'search_pages'
-    // },
-    // {
-    //     node: 'áo bóng đá',
-    //     type_node: 'search_pages'
-    // }
     {
-        node: 'ViruSs',
+        node: 'thời trang nữ',
+        type_node: 'search_pages'
+    },
+    {
+        node: 'áo nữ đẹp',
+        type_node: 'search_pages'
+    },
+    {
+        node: 'váy nữ',
+        type_node: 'search_pages'
+    },
+    {
+        node: 'áo nữ',
+        type_node: 'search_pages'
+    },
+    {
+        node: 'túi xách nữ',
         type_node: 'search_pages'
     }
 ]

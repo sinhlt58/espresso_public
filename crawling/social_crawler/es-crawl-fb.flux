@@ -1,4 +1,4 @@
-name: "v1.2_fb_crawler"
+name: "v1_2_fb_crawler"
 
 includes:
   - resource: false
