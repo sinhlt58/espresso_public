@@ -28,27 +28,22 @@ public class GetCommentDetail extends ResultService{
                 Parameter.with("fields",fields)
             );
             
+            checkRateLimit(client, md);
+            
             addKeys("", jsonDetail, mdChild);
             
-            md.setValue("shouldIndex", Boolean.toString(index));
-            md.setValue("shouldStatus", Boolean.toString(indexStatus));
+            setShould(md, index, indexStatus);
 
-            mdChild.setValue("node", nodeId);
-            mdChild.setValue("node_id", nodeId);
-            mdChild.setValue("type", typeBuildToIndex);
-            mdChild.setValue("typesToStatus", typesBuildToStatus);
-            mdChild.setValue("parent_node_id", md.getFirstValue("parent_node_id"));
+            setNodes(mdChild, nodeId, nodeId, md.getFirstValue("parent_node_id"));
+            setTypes(mdChild);
                 
             listMdResult.add(mdChild);
 
         } catch (FacebookGraphException e) {
-            md.setValue("error", e.getErrorCode().toString());
-            LOG.error("Error", e);
-            md.remove("shouldIndex");
-            md.remove("shouldStatus");
+            setError(e, md);
+            LOG.error("Error: {}", e);
         } catch (NullPointerException e){
-            LOG.error("Error", e);
-            LOG.error("FaceBook client is null");
+            LOG.error("Error: {}", e);
         }
     }
 }

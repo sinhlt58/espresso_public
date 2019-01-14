@@ -21,6 +21,7 @@ public class Constants {
 
     public static final String FB_ACCESS_TOKEN_ParamName = "fb.access.token";
     public static final String FB_ACCESS_TOKEN = "264533924376104|4xZUVgjCM0hQvNLkFQ-bxH9qtNU";
+    public static final String cacheRateLimitConfigParamName = "fetcher.fb.ratelimit.cache.spec";
 
     // public static final String PARTITION_MODEParamName = "partition.url.mode";
 

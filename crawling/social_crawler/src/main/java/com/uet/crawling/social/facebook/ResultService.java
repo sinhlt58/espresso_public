@@ -6,11 +6,18 @@ import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.WebRequestor;
+import com.restfb.DebugHeaderInfo.HeaderUsage;
+import com.restfb.exception.FacebookGraphException;
 import com.restfb.json.JsonArray;
+import com.restfb.json.JsonObject;
 import com.restfb.json.JsonValue;
 import com.restfb.json.JsonObject.Member;
 import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.util.Configurable;
+
+import org.slf4j.LoggerFactory;
 
 public abstract class ResultService implements Configurable {
 
@@ -27,6 +34,8 @@ public abstract class ResultService implements Configurable {
     protected boolean indexStatus = false;
 
     protected String fields = "id";
+
+    protected int rateLimit = 80;
 
     public abstract void getResult(FacebookClient client, Metadata md, ArrayList<Metadata> listMdResult);
 
@@ -65,45 +74,80 @@ public abstract class ResultService implements Configurable {
             return; 
         }
     }
+
+    protected void checkRateLimit(FacebookClient client, Metadata md){
+        WebRequestor dwr = client.getWebRequestor();
+        HeaderUsage headerUsage = dwr.getDebugHeaderInfo().getAppUsage();
+        if(headerUsage == null){
+            headerUsage = dwr.getDebugHeaderInfo().getPageUsage();
+        }
+        if(headerUsage.getCallCount().intValue() > rateLimit || 
+            headerUsage.getTotalCputime().intValue() > rateLimit || 
+            headerUsage.getTotalTime().intValue() > rateLimit
+        ){
+            md.setValue("error", "4");
+        }
+    }
+
+    protected void removeShould(Metadata md){
+        md.remove("shouldIndex");
+        md.remove("shouldStatus");
+    }
+
+    protected void setShould(Metadata md, boolean shouldIndex, boolean shouldStatus){
+        md.setValue("shouldIndex", Boolean.toString(shouldIndex));
+        md.setValue("shouldStatus", Boolean.toString(shouldStatus));
+    }
     
-    // public void getResultDefault(FacebookClient client,
-    //         Metadata md, ArrayList<Metadata> listMdResult, Class class) {
+    protected void setTypes(Metadata md){
+        md.setValue("type", typeBuildToIndex);
+        md.setValue("typesToStatus", typesBuildToStatus);
+    }
 
-    //     final org.slf4j.Logger LOG = LoggerFactory
-    //             .getLogger(SearchPages.class);
+    protected void setNodes(Metadata md, String node, String node_id, String parent_node_id){
+        md.setValue("node", node);
+        md.setValue("node_id", node_id);
+        md.setValue("parent_node_id", parent_node_id);
+    }
 
-    //     try {
-    //         String nodeId = md.getFirstValue("node_id");
-    //         Metadata mdChild = new Metadata();
+    protected void setError(FacebookGraphException e, Metadata md){
+        md.setValue("error", e.getErrorCode().toString());
+        removeShould(md);
+    }
 
-    //         JsonObject jsonDetail = client.fetchObject(nodeId, 
-    //             JsonObject.class,
-    //             Parameter.with("fields",fields)
-    //         );
-        
-    //         addKeys("", jsonDetail, mdChild);
+    public void getResultDefault(FacebookClient client,
+            Metadata md, ArrayList<Metadata> listMdResult, Class nameClass) {
+
+        try {
+            final org.slf4j.Logger LOG = LoggerFactory
+                .getLogger(nameClass);
+
+            String nodeId = md.getFirstValue("node_id");
+            Metadata mdChild = new Metadata();
+
+            JsonObject jsonDetail = client.fetchObject(nodeId, 
+                JsonObject.class,
+                Parameter.with("fields",fields)
+            );
+                    
+            checkRateLimit(client, md);
             
-    //         md.setValue("shouldIndex", Boolean.toString(index));
-    //         md.setValue("shouldStatus", Boolean.toString(indexStatus));
+            addKeys("", jsonDetail, mdChild);
+            
+            setShould(md, index, indexStatus);
 
-    //         mdChild.setValue("node", nodeId);
-    //         mdChild.setValue("node_id", nodeId);
-    //         mdChild.setValue("type", typeBuildToIndex);
-    //         mdChild.setValue("typesToStatus", typesBuildToStatus);
-    //         mdChild.setValue("parent_node_id", md.getFirstValue("parent_node_id"));
+            setNodes(mdChild, nodeId, nodeId, md.getFirstValue("parent_node_id"));
+            setTypes(mdChild);
                 
-    //         listMdResult.add(mdChild);
+            listMdResult.add(mdChild);
 
-    //     } catch (FacebookGraphException e) {
-    //         md.setValue("error", e.getErrorCode().toString());
-    //         LOG.error("Error", e);
-    //         md.remove("shouldIndex");
-    //         md.remove("shouldStatus");
-    //     } catch (NullPointerException e){
-    //         LOG.error("Error", e);
-    //         LOG.error("FaceBook client is null");
-    //     }
-    // }
+        } catch (FacebookGraphException e) {
+            setError(e, md);
+            LOG.error("Error: {}", e);
+        } catch (NullPointerException e){
+            LOG.error("Error: {}", e);
+        }
+    }
 
 
     @SuppressWarnings("rawtypes")
@@ -136,6 +180,13 @@ public abstract class ResultService implements Configurable {
         node = filterParams.get("fields");
         if (node != null && node.isTextual()) {
             fields = node.asText();
+        }
+        node = filterParams.get("rateLimit");
+        if(node != null && node.isInt()){
+            int ratePercent = node.asInt();
+            if(ratePercent > 0 && ratePercent < 100){
+                rateLimit = ratePercent;
+            }
         }
     }
 
