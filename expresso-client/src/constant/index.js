@@ -1,4 +1,5 @@
-export const uri = 'http://localhost:8000/graphql';
+export const uri = process.env.REACT_APP_GRAPHQL_URI;
+export const apiUri = process.env.REACT_APP_API_URI;
 
 export const optionsSort = [
   {
