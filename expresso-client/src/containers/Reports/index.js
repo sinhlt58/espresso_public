@@ -48,8 +48,6 @@ class Reports extends Component {
       domain: this.state.optionsDomain[0],
     });
 
-    console.log(response);
-
     if (response.networkStatus === 7) {
       if (response.data.brandHistogram.length > 0) {
         this.setState({
@@ -57,7 +55,9 @@ class Reports extends Component {
           data: response.data.brandHistogram,
         });
       } else {
-        message.warn('Không có bình luận nào');
+        message.warn(
+          'Không có bình luận nào trong khoảng thời gian hoặc kênh này',
+        );
       }
     } else {
       message.error('Có lỗi xảy ra vui lòng thử lại');

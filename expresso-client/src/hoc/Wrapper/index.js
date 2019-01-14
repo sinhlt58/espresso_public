@@ -30,6 +30,9 @@ class Wrapper extends Component {
               defaultSelectedKeys={['1']}
               style={{ lineHeight: '64px' }}
             >
+              <Menu.Item key="3">
+                <Link to={`/compare`}>So sánh</Link>
+              </Menu.Item>
               <Menu.Item key="4">
                 <Link to="/sentiment/">Sentiment</Link>
               </Menu.Item>
@@ -51,7 +54,7 @@ class Wrapper extends Component {
                 <Link to={`/reports/${this.props.brand}`}>Báo cáo</Link>
               </Menu.Item>
               <Menu.Item key="3">
-                <Link to={`/compare/${this.props.brand}`}>So sánh</Link>
+                <Link to={`/compare`}>So sánh</Link>
               </Menu.Item>
               <Menu.Item key="4">
                 <Link to="/sentiment/">Sentiment</Link>

@@ -55,7 +55,7 @@ export default {
               summary_by_rate: {
                 terms: {
                   field: 'rate',
-                  order: { _key: 'desc' },
+                  order: { _key: 'asc' },
                 },
               },
             },
@@ -113,7 +113,7 @@ export default {
               summary_by_rate: {
                 terms: {
                   field: 'rate',
-                  order: { _key: 'desc' },
+                  order: { _key: 'asc' },
                 },
               },
             },

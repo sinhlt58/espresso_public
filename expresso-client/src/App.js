@@ -6,6 +6,7 @@ import Dashboard from './containers/Dashboard';
 import AnalyticsOverview from './containers/AnalyticsOverview';
 import Sentiment from './containers/Sentiment';
 import Reports from './containers/Reports';
+import Compare from './containers/Compare';
 import './App.css';
 
 class App extends Component {
@@ -18,6 +19,7 @@ class App extends Component {
             <Route path="/analytics/:name" component={AnalyticsOverview} />
             <Route path="/sentiment" component={Sentiment} />
             <Route path="/reports/:name" component={Reports} />
+            <Route path="/compare" component={Compare} />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>

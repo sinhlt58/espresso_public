@@ -21,7 +21,7 @@ class Dashboard extends Component {
           <Search
             className="search-dashboard"
             style={{ width: '60%' }}
-            placeholder=""
+            placeholder="Ví dụ: Bitis, Mango"
             onSearch={this._onSearch}
             enterButton
             size="large"

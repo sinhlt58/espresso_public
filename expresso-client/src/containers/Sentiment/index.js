@@ -43,7 +43,7 @@ class Sentiment extends Component {
 
   // TODO change fontSizeMapper hardcode
   fontSizeMapper = (word) => word.value / 10000;
-  rotate = (word) => word.value % 360;
+  rotate = (word) => word.value % 1;
 
   render() {
     return (

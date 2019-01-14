@@ -50,22 +50,38 @@ class AnalyticsOverview extends Component {
       });
 
       let starPercent = [];
-      this.state.data.rate.rateCount.forEach((element) => {
-        starPercent.push(
-          Number(
-            ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
-          ),
-        );
+      this.state.data.rate.rateCount.forEach((element, index) => {
+        let temp = Number(element.star) - starPercent.length;
+        if (temp - 1 === 0) {
+          starPercent.push(
+            Number(
+              ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
+            ),
+          );
+        } else {
+          for (let i = starPercent.length + 1; i < Number(element.star); i++) {
+            starPercent.push(0);
+          }
+          starPercent.push(
+            Number(
+              ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
+            ),
+          );
+        }
       });
 
-      starPercent.push(5, 4, 3, 2, 1);
+      starPercent.push(1, 2, 3, 4, 5);
 
       this.setState({
         starPercent,
       });
     } else {
-      message.error('Không tìm thấy thương hiệu');
-      this.props.history.goBack();
+      if (this.state.optionsDomain[0] === 'ALL') {
+        message.error('Không tìm thấy thương hiệu');
+        this.props.history.goBack();
+      } else {
+        message.error('Không tìm thấy thông tin thương hiệu ở kênh này');
+      }
     }
   };
 
