@@ -38,3 +38,4 @@ config:
   #urlfilters.config.file: urlfilters.json
   worker.heap.memory.mb: 4096
   fb.access.token: 264533924376104|4xZUVgjCM0hQvNLkFQ-bxH9qtNU
+  fetcher.fb.ratelimit.cache.spec: "maximumSize=8,expireAfterAccess=1h"

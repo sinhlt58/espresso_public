@@ -35,6 +35,8 @@ import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.uet.crawling.social.Constants;
 import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.facebook.FBClient;
@@ -52,6 +54,8 @@ public class FetcherBolt extends StatusEmitterBolt{
             .getLogger(FetcherBolt.class);
 
     private FBClient fbClient = null;
+
+    private Cache<String, Boolean> cacheRateLimit;
 
     private final AtomicInteger activeThreads = new AtomicInteger(0);
     private final AtomicInteger spinWaiting = new AtomicInteger(0);
@@ -325,6 +329,16 @@ public class FetcherBolt extends StatusEmitterBolt{
 
                 try {
                     LOG.info("[Fetcher #{}] Starting fetch Node: {}", taskID, fit.node);
+                    
+                    // check rate limit and continue;
+                    if(cacheRateLimit.getIfPresent("rateLimit")!=null){
+                        LOG.warn("Rate: {}", cacheRateLimit.asMap().toString());
+                        LOG.warn("[Fetcher #{}] Node: {} is skipped because rate limit", taskID, fit.node);
+                        fetchQueues.finishFetchItem(fit);
+                        activeThreads.decrementAndGet(); // count threads
+                        beingFetched[threadNum] = "";
+                        continue;
+                    }
 
                     long start = System.currentTimeMillis();
                     ArrayList<Metadata> listMdResult = new ArrayList<>();
@@ -355,6 +369,11 @@ public class FetcherBolt extends StatusEmitterBolt{
 
                     // determine the status based on the status code
                     final Status status = Status.fromApiResponseCode(errorCode);
+
+                    // check rate limit req to fb
+                    if(status.equals(Status.RATE_LIMIT)){
+                        cacheRateLimit.put("rateLimit", true);
+                    }
 
                     // final Values tupleToSend = new Values(fit.node, metadata,
                     //         status);
@@ -421,8 +440,11 @@ public class FetcherBolt extends StatusEmitterBolt{
         // need static or not ???
         // conganh add
         String access_token = ConfUtils.getString(conf,
-                Constants.FB_ACCESS_TOKEN_ParamName, Constants.FB_ACCESS_TOKEN);
+            Constants.FB_ACCESS_TOKEN_ParamName, Constants.FB_ACCESS_TOKEN);
         fbClient = new FBClient(access_token);
+        String spec = ConfUtils.getString(stormConf, 
+            Constants.cacheRateLimitConfigParamName, "maximumSize=8,expireAfterAccess=1h");
+        cacheRateLimit = CacheBuilder.from(spec).build();
         // end conganh
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",

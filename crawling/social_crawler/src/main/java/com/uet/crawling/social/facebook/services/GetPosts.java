@@ -26,34 +26,30 @@ public class GetPosts extends ResultService{
                 Parameter.with("limit", limit)
             );
 
-            md.setValue("shouldIndex", Boolean.toString(index));
-            md.setValue("shouldStatus", Boolean.toString(indexStatus));
+            checkRateLimit(client, md);
+
+            setShould(md, index, indexStatus);
 
             for (JsonObject json: result.getData()) {
                 String id = json.getString("id",null);
+
                 if(id == null){
-                    md.setValue("shouldIndex", Boolean.toString(false));
-                    md.setValue("shouldStatus", Boolean.toString(false));
+                    setShould(md, false, false);
                     return;
                 }
+
                 Metadata mdChild = new Metadata();
-                mdChild.setValue("node", id);
-                mdChild.setValue("node_id", id);
-                mdChild.setValue("type", typeBuildToIndex);
-                mdChild.setValue("typesToStatus", typesBuildToStatus);
-                mdChild.setValue("parent_node_id", nodeId);
+                setNodes(mdChild, id, id, nodeId);
+                setTypes(mdChild);
                 mdChild.setValue("message", json.getString("message",null));
 
                 listMdResult.add(mdChild);
             }
         } catch (FacebookGraphException e) {
-            md.setValue("error", e.getErrorCode().toString());
-            LOG.error("Error", e);
-            md.remove("shouldIndex");
-            md.remove("shouldStatus");
+            setError(e, md);
+            LOG.error("Error: {}", e);
         } catch (NullPointerException e){
-            LOG.error("Error", e);
-            LOG.error("FaceBook client is null");
+            LOG.error("Error: {}", e);
         }
     }
 }
