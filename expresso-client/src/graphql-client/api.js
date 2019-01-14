@@ -134,3 +134,21 @@ export const getTopWords = async (size) => {
     return err;
   }
 };
+
+export const getBrands = async (title) => {
+  try {
+    return await client.query({
+      variables: { title },
+      query: gql`
+        query($title: String!) {
+          getBrandsByProduct(title: $title) {
+            name
+            count
+          }
+        }
+      `,
+    });
+  } catch (err) {
+    return err;
+  }
+};
