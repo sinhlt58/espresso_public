@@ -22,18 +22,13 @@ export default {
               bool: {
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brand,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brand,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brand,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brand,
                     },
                   },
                 ],
@@ -77,18 +72,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brand,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brand,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brand,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brand,
                     },
                   },
                 ],
@@ -132,18 +122,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brand,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brand,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brand,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brand,
                     },
                   },
                 ],
@@ -192,18 +177,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brand,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brand,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brand,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brand,
                     },
                   },
                 ],
@@ -247,18 +227,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brand,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brand,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brand,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brand,
                     },
                   },
                 ],
@@ -307,18 +282,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brand,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brand,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brand,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brand,
                     },
                   },
                 ],
@@ -367,18 +337,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brand,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brand,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brand,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brand,
                     },
                   },
                 ],
@@ -432,18 +397,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brand,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brand,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brand,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brand,
                     },
                   },
                 ],
@@ -471,7 +431,7 @@ export default {
         });
       }
 
-      return esRes.hits.hits;
+      return esRes.hits;
     },
 
     getComment: async (parent, args) => {
@@ -493,6 +453,11 @@ export default {
 
       return esRes.hits.hits[0];
     },
+  },
+
+  Comments: {
+    total: (parent) => parent.total,
+    comments: (parent) => parent.hits,
   },
 
   Comment: {

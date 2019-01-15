@@ -48,7 +48,7 @@ class Sentiment extends Component {
 
   render() {
     return (
-      <Wrapper isHome>
+      <Wrapper location={this.props.location.pathname} isHome>
         <Input.Search
           placeholder="Input here"
           onSearch={this._onSearch}

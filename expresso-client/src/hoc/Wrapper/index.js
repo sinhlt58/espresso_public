@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
+import SideMenu from '../../components/SideMenu';
 
 const { Header, Content } = Layout;
 
 class Wrapper extends Component {
+  state = {
+    selectedMenu: '',
+  };
+
+  componentWillMount() {
+    this.setState({
+      selectedMenu: this.props.location.split('/')[1],
+    });
+  }
+
   render() {
     return (
       <Layout style={this.props.style}>
@@ -23,49 +34,40 @@ class Wrapper extends Component {
               </h2>
             </Link>
           </div>
-          {this.props.isHome ? (
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              defaultSelectedKeys={['1']}
-              style={{ lineHeight: '64px' }}
-            >
-              <Menu.Item key="3">
-                <Link to={`/compare`}>So sánh</Link>
-              </Menu.Item>
-              <Menu.Item key="4">
-                <Link to="/sentiment/">Sentiment</Link>
-              </Menu.Item>
-              <Menu.Item key="5">
-                <Link to="/products/">Products</Link>
-              </Menu.Item>
-            </Menu>
-          ) : (
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              defaultSelectedKeys={['1']}
-              style={{ lineHeight: '64px' }}
-            >
-              <Menu.Item key="1">
-                <Link to={`/analytics/${this.props.brand}`}>Chi tiết</Link>
-              </Menu.Item>
-              <Menu.Item key="2">
-                <Link to={`/reports/${this.props.brand}`}>Báo cáo</Link>
-              </Menu.Item>
-              <Menu.Item key="3">
-                <Link to={`/compare`}>So sánh</Link>
-              </Menu.Item>
-              <Menu.Item key="4">
-                <Link to="/sentiment/">Sentiment</Link>
-              </Menu.Item>
-              <Menu.Item key="5">
-                <Link to="/products/">Products</Link>
-              </Menu.Item>
-            </Menu>
-          )}
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={[this.state.selectedMenu]}
+            style={{ lineHeight: '64px' }}
+          >
+            <Menu.Item key="compare">
+              <Link to={`/compare`}>So sánh</Link>
+            </Menu.Item>
+            <Menu.Item key="sentiment">
+              <Link to="/sentiment">Sentiment</Link>
+            </Menu.Item>
+            <Menu.Item key="products">
+              <Link to="/products">Products</Link>
+            </Menu.Item>
+          </Menu>
         </Header>
-        <Content>{this.props.children}</Content>
+        <Row
+          style={{
+            display: '-webkit-flex',
+            display: '-ms-flexbox',
+            display: 'flex',
+            overflow: 'hidden',
+          }}
+        >
+          {this.props.isHome ? null : (
+            <SideMenu
+              path={this.state.selectedMenu}
+              brand={this.props.brand}
+              style={{ flex: 2 }}
+            />
+          )}
+          <Content style={{ flex: 10 }}>{this.props.children}</Content>
+        </Row>
       </Layout>
     );
   }

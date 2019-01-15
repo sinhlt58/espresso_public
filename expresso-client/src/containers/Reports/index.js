@@ -101,7 +101,10 @@ class Reports extends Component {
 
   render() {
     return (
-      <Wrapper brand={this.props.match.params.name}>
+      <Wrapper
+        location={this.props.location.pathname}
+        brand={this.props.match.params.name}
+      >
         <Row style={{ marginBottom: '20px' }}>
           <h2 style={{ margin: '20px 0px 0px 50px' }}>
             Báo cáo liên quan đến từ khoá:{' '}

@@ -117,7 +117,7 @@ class ProductsSearch extends Component {
     ];
 
     return (
-      <Wrapper isHome>
+      <Wrapper location={this.props.location.pathname} isHome>
         <div style={{ textAlign: 'center', marginTop: 80, width: '100%' }}>
           <h1>Nhập tên sản phẩm muốn tìm kiếm</h1>
           <Input.Search

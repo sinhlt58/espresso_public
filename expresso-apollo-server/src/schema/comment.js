@@ -10,9 +10,14 @@ export default gql`
       sort: SortEnum
       productId: String
       offset: Int!
-    ): [Comment!]
+    ): Comments
 
     getComment(id: String!): Comment!
+  }
+
+  type Comments {
+    total: Int!
+    comments: [Comment!]
   }
 
   type Comment {

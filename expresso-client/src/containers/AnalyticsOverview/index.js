@@ -30,6 +30,7 @@ class AnalyticsOverview extends Component {
     dataCmts: [],
     keyword: '',
     page: 1,
+    totalCmt: 0,
   };
 
   componentDidMount() {
@@ -102,7 +103,8 @@ class AnalyticsOverview extends Component {
     if (cmts.networkStatus === 7) {
       this.setState({
         loadingCmt: false,
-        dataCmts: cmts.data.getComments,
+        dataCmts: cmts.data.getComments.comments,
+        totalCmt: cmts.data.getComments.total,
       });
     } else {
       message.error('Có lỗi xảy ra. Vui lòng thử lại!');
@@ -162,7 +164,10 @@ class AnalyticsOverview extends Component {
 
   render() {
     return (
-      <Wrapper brand={this.props.match.params.name}>
+      <Wrapper
+        location={this.props.location.pathname}
+        brand={this.props.match.params.name}
+      >
         <Row style={{ marginBottom: '20px' }}>
           <h2 style={{ margin: '20px 0px 0px 50px' }}>
             Kết quả phân tích liên quan đến từ khoá:{' '}
@@ -297,7 +302,7 @@ class AnalyticsOverview extends Component {
           <Col span={1} />
           <Pagination
             current={this.state.page}
-            total={this.state.data.totalCmt}
+            total={this.state.totalCmt}
             onChange={this._onChangePage}
             pageSize={10}
             style={{ marginBottom: '30px' }}

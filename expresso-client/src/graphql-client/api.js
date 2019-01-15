@@ -58,14 +58,17 @@ export const getComments = async ({
             domain: $domain
             keyword: $keyword
           ) {
-            id
-            author
-            content
-            rate
-            date
-            product {
-              source {
-                url
+            total
+            comments {
+              id
+              author
+              content
+              rate
+              date
+              product {
+                source {
+                  url
+                }
               }
             }
           }

@@ -214,7 +214,7 @@ class Compare extends Component {
 
   render() {
     return (
-      <Wrapper isHome>
+      <Wrapper location={this.props.location.pathname} isHome>
         <Row style={{ marginBottom: '20px' }}>
           <h2 style={{ margin: '20px 0px 0px 50px' }}>
             Nhập tên 2 thương hiệu cần so sánh

@@ -9,13 +9,17 @@ class Dashboard extends Component {
     if (value.trim() === '' || value === undefined) {
       alert('Vui lòng nhập tên thương hiệu trước khi tiếp tục');
     } else {
-      this.props.history.push(`/analytics/${value.toLowerCase()}`);
+      this.props.history.push(`/analytics/${value}`);
     }
   };
 
   render() {
     return (
-      <Wrapper isHome style={{ height: '100vh' }}>
+      <Wrapper
+        isHome
+        location={this.props.location.pathname}
+        style={{ height: '100vh' }}
+      >
         <div style={{ textAlign: 'center', marginTop: 80, width: '100%' }}>
           <h1>Nhập tên thương hiệu muốn phân tích</h1>
           <Search

@@ -15,18 +15,13 @@ export default {
               bool: {
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.name,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.name,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.name,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.name,
                     },
                   },
                 ],
@@ -70,18 +65,13 @@ export default {
               bool: {
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.name,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.name,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.name,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.name,
                     },
                   },
                 ],
@@ -145,18 +135,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brandName,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brandName,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brandName,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brandName,
                     },
                   },
                 ],
@@ -211,18 +196,13 @@ export default {
                 ],
                 should: [
                   {
-                    term: {
-                      brand: {
-                        value: args.brandName,
-                        boost: 3.0,
-                      },
+                    match_phrase: {
+                      brand: args.brandName,
                     },
                   },
                   {
-                    term: {
-                      parentAuthor: {
-                        value: args.brandName,
-                      },
+                    match_phrase: {
+                      parentAuthor: args.brandName,
                     },
                   },
                 ],

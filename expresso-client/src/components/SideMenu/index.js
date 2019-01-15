@@ -1,21 +1,21 @@
 import React from 'react';
 import { Menu } from 'antd';
+import { Link } from 'react-router-dom';
 
 const SideMenu = (props) => (
   <Menu
     theme="dark"
     onClick={props.handleClick}
-    style={{
-      width: 200,
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '30px 0px 0px 0px',
-    }}
+    style={props.style}
     defaultSelectedKeys={props.path}
     mode="inline"
   >
-    <Menu.Item key="overview">Tổng quan</Menu.Item>
-    <Menu.Item key="detail">Chi tiết</Menu.Item>
+    <Menu.Item key="analytics">
+      <Link to={`/analytics/${props.brand}`}>Chi tiết</Link>
+    </Menu.Item>
+    <Menu.Item key="reports">
+      <Link to={`/reports/${props.brand}`}>Báo cáo</Link>
+    </Menu.Item>
   </Menu>
 );
 
