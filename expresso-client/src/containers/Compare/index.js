@@ -48,13 +48,17 @@ class Compare extends Component {
   };
 
   _onSearchA = async (text) => {
+    await this.setState({
+      loadingA: true,
+    });
+
     if (text === undefined) {
       text = this.state.brandA;
     } else {
-      this.setState({ brandA: text.toLowerCase() });
+      this.setState({ brandA: text });
     }
 
-    const res = await getBrand(text.toLowerCase(), this.state.optionsDomain[0]);
+    const res = await getBrand(text, this.state.optionsDomain[0]);
 
     if (res.networkStatus === 7) {
       await this.setState({
@@ -81,7 +85,7 @@ class Compare extends Component {
     }
 
     const response = await getHistogram({
-      brandName: text.toLowerCase(),
+      brandName: text,
       from: (this.state.from.valueOf() / 1000).toString(),
       to: (this.state.to.valueOf() / 1000).toString(),
       interval: 86400,
@@ -105,12 +109,16 @@ class Compare extends Component {
   };
 
   _onSearchB = async (text) => {
+    await this.setState({
+      loadingB: true,
+    });
+
     if (text === undefined) {
       text = this.state.brandB;
     } else {
-      this.setState({ brandB: text.toLowerCase() });
+      this.setState({ brandB: text });
     }
-    const res = await getBrand(text.toLowerCase(), this.state.optionsDomain[0]);
+    const res = await getBrand(text, this.state.optionsDomain[0]);
     if (res.networkStatus === 7) {
       await this.setState({
         dataB: res.data.getBrand,
@@ -136,7 +144,7 @@ class Compare extends Component {
     }
 
     const response = await getHistogram({
-      brandName: text.toLowerCase(),
+      brandName: text,
       from: (this.state.from.valueOf() / 1000).toString(),
       to: (this.state.to.valueOf() / 1000).toString(),
       interval: 86400,

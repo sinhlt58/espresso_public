@@ -104,9 +104,7 @@ class ProductsSearch extends Component {
         title: 'Tên thương hiệu',
         dataIndex: 'name',
         key: 'name',
-        render: (text) => (
-          <Link to={`/analytics/${text.toLowerCase()}`}>{text}</Link>
-        ),
+        render: (text) => <Link to={`/analytics/${text}`}>{text}</Link>,
       },
       {
         title: 'Số lượng sản phẩm liên quan',

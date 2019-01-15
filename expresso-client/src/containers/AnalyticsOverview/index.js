@@ -39,6 +39,8 @@ class AnalyticsOverview extends Component {
   }
 
   getBrandSummary = async (name, domain) => {
+    await this.setState({ loading: true });
+
     const res = await getBrand(
       this.props.match.params.name,
       this.state.optionsDomain[0],
@@ -89,6 +91,7 @@ class AnalyticsOverview extends Component {
   getCustomerComments = async (keyword = this.state.keyword) => {
     await this.setState({
       keyword,
+      loadingCmt: true,
     });
 
     const cmts = await getComments({
@@ -178,10 +181,8 @@ class AnalyticsOverview extends Component {
         </Row>
         <Row style={{ width: '100%' }}>
           <Col span={1} />
-          <Col span={4}>
-            {this.state.loading ? (
-              <Spin style={{ margin: '0px 0px 0px 50%' }} size="large" />
-            ) : (
+          <Col span={5}>
+            {this.state.loading ? null : (
               <div>
                 <h2>Bình luận của khách hàng</h2>
                 <span>
@@ -225,7 +226,7 @@ class AnalyticsOverview extends Component {
               </div>
             )}
           </Col>
-          <Col span={3} />
+          <Col span={2} />
           <Col span={14}>
             <Search
               placeholder="Nhập từ khoá để tìm kiếm bình luận"

@@ -63,10 +63,10 @@ class Wrapper extends Component {
             <SideMenu
               path={this.state.selectedMenu}
               brand={this.props.brand}
-              style={{ flex: 2 }}
+              style={{ flex: 1 }}
             />
           )}
-          <Content style={{ flex: 10 }}>{this.props.children}</Content>
+          <Content style={{ flex: 9 }}>{this.props.children}</Content>
         </Row>
       </Layout>
     );

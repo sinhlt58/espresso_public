@@ -40,6 +40,10 @@ class Reports extends Component {
   }
 
   getHistogram = async () => {
+    await this.setState({
+      loading: true,
+    });
+
     const response = await getHistogram({
       brandName: this.props.match.params.name,
       from: (this.state.from.valueOf() / 1000).toString(),
