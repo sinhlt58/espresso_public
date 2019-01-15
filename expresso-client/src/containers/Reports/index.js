@@ -11,6 +11,7 @@ import {
   VictoryTheme,
   VictoryStack,
   VictoryLegend,
+  VictoryPie,
 } from 'victory';
 
 const { MonthPicker } = DatePicker;
@@ -54,9 +55,28 @@ class Reports extends Component {
 
     if (response.networkStatus === 7) {
       if (response.data.brandHistogram.length > 0) {
+        let total = 0;
+        let pos = 0;
+        let result = [];
+        response.data.brandHistogram.forEach((element) => {
+          total = total + Number(element.total);
+          pos = pos + Number(element.count.positive);
+        });
+
+        result.push({
+          x: `${Number((pos / total) * 100).toFixed(2)}%`,
+          y: Number(((pos / total) * 100).toFixed(2)),
+        });
+
+        result.push({
+          x: `${(100 - Number(((pos / total) * 100).toFixed(2))).toFixed(2)}%`,
+          y: 100 - Number(((pos / total) * 100).toFixed(2)),
+        });
+
         this.setState({
           loading: false,
           data: response.data.brandHistogram,
+          cmtPercent: result,
         });
       } else {
         message.warn(
@@ -186,71 +206,83 @@ class Reports extends Component {
           </Col>
         </Row>
         {this.state.loading ? null : (
-          <VictoryChart
-            height={180}
-            domainPadding={20}
-            theme={VictoryTheme.material}
-          >
-            <VictoryLegend
-              x={50}
-              y={10}
-              title="Chú thích"
-              centerTitle
-              orientation="horizontal"
-              style={{
-                labels: { fontSize: 5 },
-                border: { stroke: 'black' },
-                title: { fontSize: 5 },
-              }}
-              data={[
-                { name: 'Tích cực', symbol: { fill: '#42f47d' } },
-                { name: 'Tiêu cực', symbol: { fill: '#f44141' } },
-              ]}
-            />
-            <VictoryAxis
-              tickFormat={(x) => moment(Number(x)).format('DD/MM')}
-              style={{
-                axisLabel: { fontSize: 5, padding: 10 },
-                tickLabels: { fontSize: 2, padding: 2 },
-                ticks: { size: 1 },
-              }}
-              label="Ngày (DD/MM)"
-              fixLabelOverlap={true}
-            />
-            <VictoryAxis
-              dependentAxis
-              tickFormat={(x) => `${Math.round(x)}`}
-              style={{
-                axisLabel: { fontSize: 5, padding: 10 },
-                tickLabels: { fontSize: 4, padding: 2 },
-                ticks: { size: 1 },
-              }}
-              label="Số bình luận"
-              fixLabelOverlap={true}
-            />
-            <VictoryStack>
-              <VictoryBar
-                style={{
-                  data: {
-                    fill: '#42f47d',
-                  },
-                }}
-                data={this.state.data}
-                x="timestamp"
-                y={(d) => d.count.positive}
+          <Row>
+            <Col span={8}>
+              <VictoryPie
+                data={this.state.cmtPercent}
+                height={300}
+                style={{ labels: { fontSize: 8 } }}
+                colorScale={['#42f47d', '#f44141']}
               />
-              <VictoryBar
-                style={{
-                  data: {
-                    fill: '#f44141',
-                  },
-                }}
-                data={this.state.data}
-                x="timestamp"
-                y={(d) => d.count.negative}
-              />
-            </VictoryStack>
-          </VictoryChart>
+            </Col>
+            <Col span={16}>
+              <VictoryChart
+                height={180}
+                domainPadding={20}
+                theme={VictoryTheme.material}
+              >
+                <VictoryLegend
+                  x={50}
+                  y={10}
+                  title="Chú thích"
+                  centerTitle
+                  orientation="horizontal"
+                  style={{
+                    labels: { fontSize: 5 },
+                    border: { stroke: 'black' },
+                    title: { fontSize: 5 },
+                  }}
+                  data={[
+                    { name: 'Tích cực', symbol: { fill: '#42f47d' } },
+                    { name: 'Tiêu cực', symbol: { fill: '#f44141' } },
+                  ]}
+                />
+                <VictoryAxis
+                  tickFormat={(x) => moment(Number(x)).format('DD/MM')}
+                  style={{
+                    axisLabel: { fontSize: 5, padding: 10 },
+                    tickLabels: { fontSize: 2, padding: 2 },
+                    ticks: { size: 1 },
+                  }}
+                  label="Ngày (DD/MM)"
+                  fixLabelOverlap={true}
+                />
+                <VictoryAxis
+                  dependentAxis
+                  tickFormat={(x) => `${Math.round(x)}`}
+                  style={{
+                    axisLabel: { fontSize: 5, padding: 10 },
+                    tickLabels: { fontSize: 4, padding: 2 },
+                    ticks: { size: 1 },
+                  }}
+                  label="Số bình luận"
+                  fixLabelOverlap={true}
+                />
+                <VictoryStack>
+                  <VictoryBar
+                    style={{
+                      data: {
+                        fill: '#42f47d',
+                      },
+                    }}
+                    data={this.state.data}
+                    x="timestamp"
+                    y={(d) => d.count.positive}
+                  />
+                  <VictoryBar
+                    style={{
+                      data: {
+                        fill: '#f44141',
+                      },
+                    }}
+                    data={this.state.data}
+                    x="timestamp"
+                    y={(d) => d.count.negative}
+                  />
+                </VictoryStack>
+              </VictoryChart>
+            </Col>
+          </Row>
         )}
       </Wrapper>
     );

@@ -50,7 +50,7 @@ class Sentiment extends Component {
     return (
       <Wrapper location={this.props.location.pathname} isHome>
         <Input.Search
-          placeholder="Input here"
+          placeholder="Ví dụ: áo đẹp quá, áo xấu quá"
           onSearch={this._onSearch}
           enterButton
           style={{
