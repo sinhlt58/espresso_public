@@ -31,6 +31,14 @@ class Dashboard extends Component {
             size="large"
           />
         </div>
+        <div style={{ width: '800px', margin: '20px auto' }}>
+          <h4>
+            Phần mềm giúp phân tích, so sánh các thương hiệu, shop thời trang
+            trên các website thương mại điện tử như shopee.vn, lazada.vn,
+            tiki.vn, …, facebook. Với hơn 500,000+ nhãn hàng và 1,000,000+ bình
+            luận.
+          </h4>
+        </div>
       </Wrapper>
     );
   }
