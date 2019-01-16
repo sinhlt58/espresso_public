@@ -42,7 +42,10 @@ Response:
 ```
 {
     "predictions": [
-        0.593616
+        {
+            "output": 0.813674,
+            "output_rating": 4
+        }
     ]
 }
 ```
