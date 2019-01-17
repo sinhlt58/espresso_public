@@ -248,10 +248,8 @@ export default {
             bool: {
               must: [
                 {
-                  prefix: {
-                    brand: {
-                      value: args.keyword
-                    }
+                  match_phrase_prefix: {
+                    brand: args.keyword
                   }
                 }
               ],
@@ -281,10 +279,8 @@ export default {
             bool: {
               must: [
                 {
-                  prefix: {
-                    parentAuthor: {
-                      value: args.keyword
-                    }
+                  match_phrase_prefix: {
+                    parentAuthor: args.keyword
                   }
                 }
               ],

@@ -1,14 +1,23 @@
-import React, { Component } from 'react';
-import { Table, Input, Row, Col, message, Button, Icon } from 'antd';
-import { Link } from 'react-router-dom';
-import Wrapper from '../../hoc/Wrapper';
-import { getBrands } from '../../graphql-client/api';
-import Highlighter from 'react-highlight-words';
+import React, { Component } from "react";
+import {
+  Table,
+  Input,
+  Row,
+  Col,
+  message,
+  Button,
+  Icon,
+  AutoComplete
+} from "antd";
+import { Link } from "react-router-dom";
+import Wrapper from "../../hoc/Wrapper";
+import { getBrands, productAutocomplete } from "../../graphql-client/api";
 
 class ProductsSearch extends Component {
   state = {
     data: [],
     loading: false,
+    completion: []
   };
 
   // getColumnSearchProps = (dataIndex) => ({
@@ -82,52 +91,85 @@ class ProductsSearch extends Component {
   //   this.setState({ searchText: '' });
   // };
 
-  _onSearch = async (text) => {
+  _onSearch = async text => {
     await this.setState({
-      loading: true,
+      loading: true
     });
     const res = await getBrands(text);
 
     if (res.networkStatus === 7) {
       this.setState({
         data: res.data.getBrandsByProduct,
-        loading: false,
+        loading: false
       });
     } else {
-      message.error('Không tìm thấy thương hiệu nào ứng với sản phẩm');
+      message.error("Không tìm thấy thương hiệu nào ứng với sản phẩm");
     }
+  };
+
+  _onInput = async text => {
+    if (text.trim() !== "") {
+      const res = await productAutocomplete(text.toLowerCase());
+      const result = [text, ...res.data.productCompletion];
+      this.setState({
+        completion: result
+      });
+    } else {
+      this.setState({
+        completion: []
+      });
+    }
+  };
+
+  _onSelectSuggester = text => {
+    this._onSearch(text);
   };
 
   render() {
     const columns = [
       {
-        title: 'Tên thương hiệu',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text) => <Link to={`/analytics/${text}`}>{text}</Link>,
+        title: "Tên thương hiệu",
+        dataIndex: "name",
+        key: "name",
+        render: text => <Link to={`/analytics/${text}`}>{text}</Link>
       },
       {
-        title: 'Số lượng sản phẩm liên quan',
-        dataIndex: 'count',
-        key: 'count',
-        sorter: (a, b) => a.count - b.count,
+        title: "Số lượng sản phẩm liên quan",
+        dataIndex: "count",
+        key: "count",
+        sorter: (a, b) => a.count - b.count
       },
+      {
+        title: "",
+        dataIndex: "name",
+        key: "action",
+        render: text => <Link to={`/products/${text}`}>Xem chi tiết</Link>
+      }
     ];
 
     return (
       <Wrapper location={this.props.location.pathname} isHome>
-        <div style={{ textAlign: 'center', marginTop: 80, width: '100%' }}>
+        <div style={{ textAlign: "center", marginTop: 80, width: "100%" }}>
           <h1>Nhập tên sản phẩm muốn tìm kiếm</h1>
-          <Input.Search
-            className="search-dashboard"
-            style={{ width: '60%' }}
-            placeholder="Ví dụ: quần đùi, áo len"
-            onSearch={this._onSearch}
-            enterButton
+          <AutoComplete
+            className="auto"
             size="large"
-          />
+            style={{ width: "60%" }}
+            dataSource={this.state.completion}
+            onSelect={this._onSelectSuggester}
+            onChange={this._onInput}
+            optionLabelProp="text"
+          >
+            <Input.Search
+              className="search-dashboard"
+              placeholder="Ví dụ: quần đùi, áo len"
+              onSearch={this._onSearch}
+              enterButton
+              size="large"
+            />
+          </AutoComplete>
         </div>
-        <Row style={{ marginTop: '30px', marginBottom: '30px' }}>
+        <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
           <Col span={7} />
           <Col span={10}>
             <Table

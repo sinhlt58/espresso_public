@@ -170,3 +170,18 @@ export const brandAutocomplete = async keyword => {
     return err;
   }
 };
+
+export const productAutocomplete = async keyword => {
+  try {
+    return await client.query({
+      variables: { keyword },
+      query: gql`
+        query($keyword: String!) {
+          productCompletion(keyword: $keyword)
+        }
+      `
+    });
+  } catch (err) {
+    return err;
+  }
+};

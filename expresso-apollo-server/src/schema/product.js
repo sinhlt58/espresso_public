@@ -1,9 +1,10 @@
-import { gql } from 'apollo-server-express';
+import { gql } from "apollo-server-express";
 
 export default gql`
   extend type Query {
     getProduct(id: String!): Product!
     getBrandsByProduct(title: String!): [BrandProducts!]
+    productCompletion(keyword: String!): [String!]
   }
 
   type Product {
