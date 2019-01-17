@@ -211,3 +211,39 @@ export const getProductsByBrand = async (brand, offset) => {
     return err;
   }
 };
+
+export const getAppStats = async () => {
+  try {
+    return await client.query({
+      query: gql`
+        query {
+          getSummaryApp {
+            brands_count
+            comments_count
+            products_count
+            domain_count
+          }
+        }
+      `
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getPopuplarBrands = async () => {
+  try {
+    return await client.query({
+      query: gql`
+        query {
+          getTopBrand {
+            brands
+            dealers
+          }
+        }
+      `
+    });
+  } catch (err) {
+    return err;
+  }
+};
