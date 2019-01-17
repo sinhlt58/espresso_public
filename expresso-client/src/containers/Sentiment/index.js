@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import { Input, message } from 'antd';
-import axios from 'axios';
-import Wrapper from '../../hoc/Wrapper';
-import WordCloud from 'react-d3-cloud';
-import { getTopWords } from '../../graphql-client/api';
-import { apiUri } from '../../constant';
+import React, { Component } from "react";
+import { Input, message, Rate } from "antd";
+import axios from "axios";
+import Wrapper from "../../hoc/Wrapper";
+import WordCloud from "react-d3-cloud";
+import { getTopWords } from "../../graphql-client/api";
+import { apiUri } from "../../constant";
 
 class Sentiment extends Component {
   state = {
     predict: -1,
+    star: 0,
     words: [],
-    loading: true,
+    loading: true
   };
 
   async componentDidMount() {
@@ -19,32 +20,33 @@ class Sentiment extends Component {
     if (response.networkStatus === 7) {
       this.setState({
         loading: false,
-        words: response.data.getWords,
+        words: response.data.getWords
       });
     } else {
-      message.error('Có lỗi xảy ra vui lòng thử lại');
+      message.error("Có lỗi xảy ra vui lòng thử lại");
     }
   }
 
-  _onSearch = (text) => {
+  _onSearch = text => {
     axios
       .post(`${apiUri}/sentiment/predict`, {
-        sentences: [`${text}`],
+        sentences: [`${text}`]
       })
-      .then((res) => {
+      .then(res => {
         if (res.status === 200) {
           this.setState({
-            predict: res.data.outputs[0],
+            predict: res.data.outputs.output[0],
+            star: res.data.outputs.output_rating[0]
           });
         } else {
-          message.error('Something wrong! Try again');
+          message.error("Something wrong! Try again");
         }
       });
   };
 
   // TODO change fontSizeMapper hardcode
-  fontSizeMapper = (word) => word.value / 10000;
-  rotate = (word) => word.value % 1;
+  fontSizeMapper = word => word.value / 10000;
+  rotate = word => word.value % 1;
 
   render() {
     return (
@@ -54,21 +56,22 @@ class Sentiment extends Component {
           onSearch={this._onSearch}
           enterButton
           style={{
-            marginLeft: '20%',
-            marginTop: '30px',
-            width: '50%',
-            marginBottom: '20px',
+            marginLeft: "20%",
+            marginTop: "30px",
+            width: "50%",
+            marginBottom: "20px"
           }}
         />
         {this.state.predict < 0 ? null : (
-          <h2 style={{ marginLeft: '20%' }}>
-            Comment score: <span>{this.state.predict}</span>
+          <h2 style={{ marginLeft: "20%" }}>
+            Comment score: <span>{this.state.predict}</span> ~{" "}
+            <Rate disabled value={Number(this.state.star)} allowHalf={true} />
           </h2>
         )}
 
-        <h2 style={{ marginLeft: '20%' }}>Top 100 từ khoá phổ biến nhất:</h2>
+        <h2 style={{ marginLeft: "20%" }}>Top 100 từ khoá phổ biến nhất:</h2>
         {this.state.loading ? null : (
-          <div style={{ marginLeft: '20%' }}>
+          <div style={{ marginLeft: "20%" }}>
             <WordCloud
               data={this.state.words}
               fontSizeMapper={this.fontSizeMapper}

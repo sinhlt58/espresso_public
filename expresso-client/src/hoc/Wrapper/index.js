@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { Layout, Menu, Row, Col } from 'antd';
-import { Link } from 'react-router-dom';
-import SideMenu from '../../components/SideMenu';
+import React, { Component } from "react";
+import { Layout, Menu, Row, Col } from "antd";
+import { Link } from "react-router-dom";
+import SideMenu from "../../components/SideMenu";
 
 const { Header, Content } = Layout;
 
 class Wrapper extends Component {
   state = {
-    selectedMenu: '',
+    selectedMenu: ""
   };
 
   componentWillMount() {
     this.setState({
-      selectedMenu: this.props.location.split('/')[1],
+      selectedMenu: this.props.location.split("/")[1]
     });
   }
 
@@ -23,13 +23,13 @@ class Wrapper extends Component {
           <div
             className="logo"
             style={{
-              float: 'left',
-              color: '#FFF',
-              margin: '0px 150px 0px 0px',
+              float: "left",
+              color: "#FFF",
+              margin: "0px 150px 0px 0px"
             }}
           >
             <Link to="/">
-              <h2 style={{ margin: '0px 0px 0px 0px', color: '#FFF' }}>
+              <h2 style={{ margin: "0px 0px 0px 0px", color: "#FFF" }}>
                 Espresso
               </h2>
             </Link>
@@ -38,13 +38,10 @@ class Wrapper extends Component {
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={[this.state.selectedMenu]}
-            style={{ lineHeight: '64px' }}
+            style={{ lineHeight: "64px" }}
           >
             <Menu.Item key="compare">
               <Link to={`/compare`}>So sánh</Link>
-            </Menu.Item>
-            <Menu.Item key="sentiment">
-              <Link to="/sentiment">Sentiment</Link>
             </Menu.Item>
             <Menu.Item key="products">
               <Link to="/products">Products</Link>
@@ -53,10 +50,10 @@ class Wrapper extends Component {
         </Header>
         <Row
           style={{
-            display: '-webkit-flex',
-            display: '-ms-flexbox',
-            display: 'flex',
-            overflow: 'hidden',
+            display: "-webkit-flex",
+            display: "-ms-flexbox",
+            display: "flex",
+            overflow: "hidden"
           }}
         >
           {this.props.isHome ? null : (

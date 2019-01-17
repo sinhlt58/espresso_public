@@ -1,5 +1,5 @@
-import gql from 'graphql-tag';
-import client from './client';
+import gql from "graphql-tag";
+import client from "./client";
 
 export const getBrand = async (name, domain) => {
   try {
@@ -23,7 +23,7 @@ export const getBrand = async (name, domain) => {
             }
           }
         }
-      `,
+      `
     });
   } catch (err) {
     return err;
@@ -36,7 +36,7 @@ export const getComments = async ({
   star,
   domain,
   sort,
-  keyword,
+  keyword
 }) => {
   try {
     return await client.query({
@@ -73,7 +73,7 @@ export const getComments = async ({
             }
           }
         }
-      `,
+      `
     });
   } catch (err) {
     return err;
@@ -85,7 +85,7 @@ export const getHistogram = async ({
   from,
   to,
   interval,
-  domain,
+  domain
 }) => {
   try {
     return await client.query({
@@ -113,14 +113,14 @@ export const getHistogram = async ({
             }
           }
         }
-      `,
+      `
     });
   } catch (err) {
     return err;
   }
 };
 
-export const getTopWords = async (size) => {
+export const getTopWords = async size => {
   try {
     return await client.query({
       variables: { size },
@@ -131,14 +131,14 @@ export const getTopWords = async (size) => {
             value
           }
         }
-      `,
+      `
     });
   } catch (err) {
     return err;
   }
 };
 
-export const getBrands = async (title) => {
+export const getBrands = async title => {
   try {
     return await client.query({
       variables: { title },
@@ -149,7 +149,22 @@ export const getBrands = async (title) => {
             count
           }
         }
-      `,
+      `
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const brandAutocomplete = async keyword => {
+  try {
+    return await client.query({
+      variables: { keyword },
+      query: gql`
+        query($keyword: String!) {
+          brandCompletion(keyword: $keyword)
+        }
+      `
     });
   } catch (err) {
     return err;
