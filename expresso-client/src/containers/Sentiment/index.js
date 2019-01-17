@@ -9,6 +9,7 @@ import { apiUri } from '../../constant';
 class Sentiment extends Component {
   state = {
     predict: -1,
+    predict_rate: -1,
     words: [],
     loading: true,
   };
@@ -34,7 +35,8 @@ class Sentiment extends Component {
       .then((res) => {
         if (res.status === 200) {
           this.setState({
-            predict: res.data.outputs[0],
+            predict: res.data.outputs.output[0],
+            predict_rate: res.data.outputs.output_rating[0]
           });
         } else {
           message.error('Something wrong! Try again');
@@ -62,7 +64,7 @@ class Sentiment extends Component {
         />
         {this.state.predict < 0 ? null : (
           <h2 style={{ marginLeft: '20%' }}>
-            Comment score: <span>{this.state.predict}</span>
+            Comment score: <span>{this.state.predict}</span>, Predict rate: <span>{this.state.predict_rate}</span>
           </h2>
         )}
 
