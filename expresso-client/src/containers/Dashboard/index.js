@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, AutoComplete, Button, Icon } from "antd";
+import { Input, AutoComplete, Card, Row, Col } from "antd";
 import Wrapper from "../../hoc/Wrapper";
 import { brandAutocomplete } from "../../graphql-client/api";
 
@@ -50,12 +50,15 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <Wrapper
-        isHome
-        location={this.props.location.pathname}
-        style={{ height: "100vh" }}
-      >
-        <div style={{ textAlign: "center", marginTop: 80, width: "100%" }}>
+      <Wrapper isHome location={this.props.location.pathname}>
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: 80,
+            width: "100%",
+            marginBottom: 100
+          }}
+        >
           <h1>Nhập tên thương hiệu muốn phân tích</h1>
           <AutoComplete
             className="search-dashboard"
@@ -75,13 +78,32 @@ class Dashboard extends Component {
             />
           </AutoComplete>
         </div>
-        <div style={{ width: "60%", margin: "20px auto" }}>
-          <h4>
-            Phần mềm giúp phân tích, so sánh các thương hiệu, shop thời trang
-            trên các website thương mại điện tử như shopee.vn, lazada.vn,
-            tiki.vn, …, facebook. Với hơn 500,000+ nhãn hàng và 1,000,000+ bình
-            luận.
-          </h4>
+        <div
+          style={{
+            paddingTop: 50,
+            backgroundColor: "white",
+            textAlign: "center",
+            paddingBottom: 50
+          }}
+        >
+          <h2>Phần mềm giúp đo lường sức khỏe thương hiệu</h2>
+          <Row>
+            <Col span={8}>
+              <h1>500,000</h1>
+              <p>Nhãn hàng</p>
+            </Col>
+            <Col span={8}>
+              <h1>1,000,000+</h1>
+              <p>Bình luận</p>
+            </Col>
+            <Col span={8}>
+              <h1>3</h1>
+              <p>Trang thương mại điện tử</p>
+            </Col>
+          </Row>
+        </div>
+        <div style={{ paddingTop: 50, paddingLeft: 50 }}>
+          <h2>Các thương hiệu phổ biến nhất</h2>
         </div>
       </Wrapper>
     );

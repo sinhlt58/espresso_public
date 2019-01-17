@@ -104,7 +104,45 @@ export default {
       });
 
       return result;
+    },
+    getProducts: async (parent, args) => {
+      const esRes = await esClient.search({
+        index: SOURCE,
+        body: {
+          from: args.offset,
+          query: {
+            bool: {
+              should: [
+                {
+                  match_phrase: {
+                    brand: args.brand
+                  }
+                },
+
+                {
+                  match_phrase: {
+                    author: args.brand
+                  }
+                }
+              ],
+              minimum_should_match: 1,
+              filter: {
+                term: {
+                  itemType: "product"
+                }
+              }
+            }
+          }
+        }
+      });
+
+      return esRes.hits;
     }
+  },
+
+  Products: {
+    total: parent => parent.total,
+    products: parent => parent.hits
   },
 
   Product: {

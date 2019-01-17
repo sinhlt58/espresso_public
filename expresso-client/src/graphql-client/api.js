@@ -185,3 +185,29 @@ export const productAutocomplete = async keyword => {
     return err;
   }
 };
+
+export const getProductsByBrand = async (brand, offset) => {
+  try {
+    return await client.query({
+      variables: { brand, offset },
+      query: gql`
+        query($brand: String!, $offset: Int!) {
+          getProducts(brand: $brand, offset: $offset) {
+            total
+            products {
+              id
+              title
+              price
+              source {
+                domain
+                url
+              }
+            }
+          }
+        }
+      `
+    });
+  } catch (err) {
+    return err;
+  }
+};
