@@ -41,7 +41,7 @@ app.use(express.json());
 import routes from './routes';
 app.use('/api', routes);
 
-app.get('/', function(req, res) {
+app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, '../..', 'expresso-client', 'build', 'index.html'));
 });
 

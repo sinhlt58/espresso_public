@@ -17,6 +17,14 @@ class Wrapper extends Component {
   }
 
   render() {
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    let sentimentNav = <Menu.Item key="sentiment">
+                          <Link to="/sentiment">Sentiment</Link>
+                       </Menu.Item>
+    if (!isDevelopment) {
+      sentimentNav = '';
+    }
+
     return (
       <Layout style={this.props.style}>
         <Header>
@@ -44,8 +52,9 @@ class Wrapper extends Component {
               <Link to={`/compare`}>So sánh</Link>
             </Menu.Item>
             <Menu.Item key="products">
-              <Link to="/products">Products</Link>
+              <Link to="/products">Sản phẩm</Link>
             </Menu.Item>
+            {sentimentNav}
           </Menu>
         </Header>
         <Row
