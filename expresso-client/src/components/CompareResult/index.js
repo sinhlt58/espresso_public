@@ -1,5 +1,5 @@
-import React from 'react';
-import { Rate } from 'antd';
+import React from "react";
+import { Rate } from "antd";
 import {
   VictoryBar,
   VictoryAxis,
@@ -7,21 +7,21 @@ import {
   VictoryTheme,
   VictoryStack,
   VictoryLegend,
-  VictoryPie,
-} from 'victory';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
+  VictoryPie
+} from "victory";
+import moment from "moment";
+import { Link } from "react-router-dom";
 
-const CompareResult = (props) => (
-  <div>
+const CompareResult = props => (
+  <div style={{ paddingLeft: 50 }}>
     <h2>
-      Bình luận của khách hàng về thương hiệu{' '}
+      Bình luận của khách hàng về thương hiệu{" "}
       <Link to={`/analytics/${props.brand}`}>
         <p
           style={{
-            color: 'red',
-            fontWeight: '500',
-            display: 'inline',
+            color: "red",
+            fontWeight: "500",
+            display: "inline"
           }}
         >
           {props.brand}
@@ -60,31 +60,31 @@ const CompareResult = (props) => (
         orientation="horizontal"
         style={{
           labels: { fontSize: 5 },
-          border: { stroke: 'black' },
-          title: { fontSize: 5 },
+          border: { stroke: "black" },
+          title: { fontSize: 5 }
         }}
         data={[
-          { name: 'Tích cực', symbol: { fill: '#42f47d' } },
-          { name: 'Tiêu cực', symbol: { fill: '#f44141' } },
+          { name: "Tích cực", symbol: { fill: "#42f47d" } },
+          { name: "Tiêu cực", symbol: { fill: "#f44141" } }
         ]}
       />
       <VictoryAxis
-        tickFormat={(x) => moment(Number(x)).format('DD/MM')}
+        tickFormat={x => moment(Number(x)).format("DD/MM")}
         style={{
           axisLabel: { fontSize: 5, padding: 10 },
           tickLabels: { fontSize: 2, padding: 2 },
-          ticks: { size: 1 },
+          ticks: { size: 1 }
         }}
         label="Ngày (DD/MM)"
         fixLabelOverlap={true}
       />
       <VictoryAxis
         dependentAxis
-        tickFormat={(x) => `${Math.round(x)}`}
+        tickFormat={x => `${Math.round(x)}`}
         style={{
           axisLabel: { fontSize: 5, padding: 10 },
           tickLabels: { fontSize: 4, padding: 2 },
-          ticks: { size: 1 },
+          ticks: { size: 1 }
         }}
         label="Số bình luận"
         fixLabelOverlap={true}
@@ -93,22 +93,22 @@ const CompareResult = (props) => (
         <VictoryBar
           style={{
             data: {
-              fill: '#42f47d',
-            },
+              fill: "#42f47d"
+            }
           }}
           data={props.dataHistogram}
           x="timestamp"
-          y={(d) => d.count.positive}
+          y={d => d.count.positive}
         />
         <VictoryBar
           style={{
             data: {
-              fill: '#f44141',
-            },
+              fill: "#f44141"
+            }
           }}
           data={props.dataHistogram}
           x="timestamp"
-          y={(d) => d.count.negative}
+          y={d => d.count.negative}
         />
       </VictoryStack>
     </VictoryChart>

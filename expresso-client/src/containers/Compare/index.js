@@ -19,6 +19,16 @@ import {
   brandAutocomplete
 } from "../../graphql-client/api";
 import CompareResult from "../../components/CompareResult";
+import {
+  VictoryBar,
+  VictoryAxis,
+  VictoryChart,
+  VictoryTheme,
+  VictoryStack,
+  VictoryLegend,
+  VictoryPie,
+  VictoryGroup
+} from "victory";
 
 const Search = Input.Search;
 const MonthPicker = DatePicker.MonthPicker;
@@ -391,8 +401,7 @@ class Compare extends Component {
           </Col>
         </Row>
         <Row>
-          <Col span={1} />
-          <Col span={10}>
+          <Col span={12}>
             {this.state.loadingA ? null : (
               <CompareResult
                 brand={this.state.brandA}
@@ -402,8 +411,7 @@ class Compare extends Component {
               />
             )}
           </Col>
-          <Col span={2} />
-          <Col span={10}>
+          <Col span={12}>
             {this.state.loadingB ? null : (
               <CompareResult
                 brand={this.state.brandB}
@@ -414,6 +422,71 @@ class Compare extends Component {
             )}
           </Col>
         </Row>
+        {this.state.loadingA === false && this.state.loadingB === false ? (
+          <Row>
+            <VictoryChart
+              height={200}
+              domainPadding={20}
+              theme={VictoryTheme.material}
+            >
+              <VictoryLegend
+                x={50}
+                y={10}
+                title="Chú thích"
+                centerTitle
+                orientation="horizontal"
+                style={{
+                  labels: { fontSize: 5 },
+                  border: { stroke: "black" },
+                  title: { fontSize: 5 }
+                }}
+                data={[
+                  {
+                    name: this.state.brandA,
+                    symbol: { fill: "rgb(51, 77, 92)" }
+                  },
+                  {
+                    name: this.state.brandB,
+                    symbol: { fill: "rgb(69, 178, 157)" }
+                  }
+                ]}
+              />
+              <VictoryAxis
+                tickFormat={x => moment(Number(x)).format("DD/MM")}
+                style={{
+                  axisLabel: { fontSize: 5, padding: 10 },
+                  tickLabels: { fontSize: 3, padding: 2 },
+                  ticks: { size: 1 }
+                }}
+                label="Ngày (DD/MM)"
+                fixLabelOverlap={true}
+              />
+              <VictoryAxis
+                dependentAxis
+                tickFormat={x => `${Math.round(x)}`}
+                style={{
+                  axisLabel: { fontSize: 5, padding: 10 },
+                  tickLabels: { fontSize: 4, padding: 2 },
+                  ticks: { size: 1 }
+                }}
+                label="Số bình luận"
+                fixLabelOverlap={true}
+              />
+              <VictoryGroup offset={3} colorScale={"qualitative"}>
+                <VictoryBar
+                  data={this.state.dataHistogramA}
+                  x="timestamp"
+                  y="total"
+                />
+                <VictoryBar
+                  data={this.state.dataHistogramB}
+                  x="timestamp"
+                  y="total"
+                />
+              </VictoryGroup>
+            </VictoryChart>
+          </Row>
+        ) : null}
       </Wrapper>
     );
   }
