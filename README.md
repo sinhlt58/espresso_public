@@ -36,3 +36,8 @@
 5. [Tài liệu thêm luật crawl](https://docs.google.com/document/d/10Yi021wcBURLnYCKMoTQUwsobB5Pk-dXDCXZX8xkLj8/edit#)
 
 6. [Màn hình design](https://drive.google.com/file/d/1aEIg6TLW38krA3BMrKRvCFnZFXh6TAPg/view?usp=sharing)
+
+7. [Tài liệu shared nháp](https://docs.google.com/document/d/1eCSmLrUUmBqChaDMi_hoBbQ1fp859qk088yk82ODTXw/edit)
+
+8. [Tài liệu sentiment notes](https://docs.google.com/document/d/1FxTRibnML77muX-j9FlS6LJhXoUeQPmbPBxDtfKBUzc/edit)
+
