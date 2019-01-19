@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 
 import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.util.ConfUtils;
-import com.digitalpebble.stormcrawler.util.RobotsTags;
+// import com.digitalpebble.stormcrawler.util.RobotsTags;
 
 /** Abstract class to simplify writing IndexerBolts **/
 @SuppressWarnings("serial")
@@ -99,25 +99,25 @@ public abstract class AbstractIndexerBolt extends BaseRichBolt {
         }
     }
 
-    /**
-     * Determine whether a document should be indexed based on the presence of a
-     * given key/value or the RobotsTags.ROBOTS_NO_INDEX directive.
-     * 
-     * @return true if the document should be kept.
-     **/
-    protected boolean filterDocument(Metadata meta) {
-        String noindexVal = meta.getFirstValue(RobotsTags.ROBOTS_NO_INDEX);
-        if ("true".equalsIgnoreCase(noindexVal))
-            return false;
+    // /**
+    //  * Determine whether a document should be indexed based on the presence of a
+    //  * given key/value or the RobotsTags.ROBOTS_NO_INDEX directive.
+    //  * 
+    //  * @return true if the document should be kept.
+    //  **/
+    // protected boolean filterDocument(Metadata meta) {
+    //     String noindexVal = meta.getFirstValue(RobotsTags.ROBOTS_NO_INDEX);
+    //     if ("true".equalsIgnoreCase(noindexVal))
+    //         return false;
 
-        if (filterKeyValue == null)
-            return true;
-        String[] values = meta.getValues(filterKeyValue[0]);
-        // key not found
-        if (values == null)
-            return false;
-        return ArrayUtils.contains(values, filterKeyValue[1]);
-    }
+    //     if (filterKeyValue == null)
+    //         return true;
+    //     String[] values = meta.getValues(filterKeyValue[0]);
+    //     // key not found
+    //     if (values == null)
+    //         return false;
+    //     return ArrayUtils.contains(values, filterKeyValue[1]);
+    // }
 
     /** Returns a mapping field name / values for the metadata to index **/
     protected Map<String, String[]> filterMetadata(Metadata meta) {

@@ -17,8 +17,6 @@
 
 package com.uet.crawling.social.elasticsearch.bolt;
 
-import static com.digitalpebble.stormcrawler.Constants.StatusStreamName;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,6 +33,7 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.uet.crawling.social.Constants;
 import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.elasticsearch.ElasticSearchConnection;
 import com.uet.crawling.social.indexing.AbstractIndexerBolt;
@@ -202,7 +201,7 @@ public class IndexerBolt extends AbstractIndexerBolt {
             metadata.remove("shouldIndex");
             metadata.remove("shouldStatus");
 
-            _collector.emit(StatusStreamName, tuple, new Values(node, metadata,
+            _collector.emit(Constants.StatusStreamName, tuple, new Values(node, metadata,
                     Status.FETCHED));
 
             _collector.ack(tuple);

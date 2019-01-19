@@ -161,6 +161,11 @@ public class AggregationBrandSpout extends AbstractBrandSpout implements
                 ValueIgnoreParamName, valueIgnore);
 
         listIgnore = Arrays.asList(valueIgnore.split(","));
+
+        DBMap = DBMaker.fileDB(DBMakerFile).fileMmapEnable().make();
+        mapDB = DBMap
+            .hashMap("map", Serializer.STRING, Serializer.LONG)
+            .createOrOpen();
         
     }
 
@@ -170,11 +175,6 @@ public class AggregationBrandSpout extends AbstractBrandSpout implements
 
     @Override
     protected void populateBuffer() {
-
-        DBMap = DBMaker.fileDB(DBMakerFile).fileMmapEnable().make();
-        mapDB = DBMap
-            .hashMap("map", Serializer.STRING, Serializer.LONG)
-            .createOrOpen();
 
         int index = getRandomNumberInRange(0, partitionFieldsArray.length-1);
         String partitionField = partitionFieldsArray[index];
@@ -252,7 +252,6 @@ public class AggregationBrandSpout extends AbstractBrandSpout implements
     public void onResponse(SearchResponse response) {
 
         mapDB.put(nameFieldTime, toDate);
-        DBMap.close();
 
         long timeTaken = System.currentTimeMillis() - timeLastQuery;
 

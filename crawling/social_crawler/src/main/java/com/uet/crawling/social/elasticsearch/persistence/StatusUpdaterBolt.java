@@ -141,6 +141,8 @@ public class StatusUpdaterBolt extends AbstractStatusUpdaterBolt implements
     public void cleanup() {
         if (connection != null)
             connection.close();
+        AggregationBrandSpout aggregationBrandSpout = new AggregationBrandSpout();
+        aggregationBrandSpout.close();
     }
 
     @Override

@@ -94,26 +94,50 @@
 	</build>
 
   <dependencies>
-		<!-- The oreder is important here :) -->
+	<!-- The oreder is important here :) -->
 
-		<dependency>
-			<groupId>com.digitalpebble.stormcrawler</groupId>
-			<artifactId>storm-crawler-core</artifactId>
-			<version>1.11</version>
-		</dependency>
+	<!-- <dependency>
+		<groupId>com.digitalpebble.stormcrawler</groupId>
+		<artifactId>storm-crawler-core</artifactId>
+		<version>1.11</version>
+	</dependency>
 
-		<dependency>
-			<groupId>com.digitalpebble.stormcrawler</groupId>
-			<artifactId>storm-crawler-elasticsearch</artifactId>
-			<version>1.11</version>
-		</dependency>
+	<dependency>
+		<groupId>com.digitalpebble.stormcrawler</groupId>
+		<artifactId>storm-crawler-elasticsearch</artifactId>
+		<version>1.11</version>
+	</dependency> -->
+
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.6.6</version>
+	</dependency>
+
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.6</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>4.5.5</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.elasticsearch.client</groupId>
+		<artifactId>elasticsearch-rest-high-level-client</artifactId>
+		<version>6.4.1</version>
+	</dependency>
 
     <dependency>
-			<groupId>org.apache.storm</groupId>
-			<artifactId>storm-core</artifactId>
-			<version>1.2.2</version>
-			<scope>provided</scope>
-		</dependency>
+		<groupId>org.apache.storm</groupId>
+		<artifactId>storm-core</artifactId>
+		<version>1.2.2</version>
+		<scope>provided</scope>
+	</dependency>
 		
     <dependency>
       <groupId>org.apache.storm</groupId>
