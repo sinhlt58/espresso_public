@@ -18,11 +18,7 @@
 package com.uet.crawling.social.elasticsearch.persistence;
 
 import java.io.IOException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.uet.crawling.social.persistence.AbstractQueryingSpout;
 import org.apache.storm.spout.SpoutOutputCollector;
@@ -31,42 +27,25 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.uet.crawling.social.Metadata;
 import com.uet.crawling.social.elasticsearch.ElasticSearchConnection;
 import com.uet.crawling.social.util.ConfUtils;
 
-public abstract class AbstractSpout extends AbstractQueryingSpout {
+public abstract class AbstractBrandSpout extends AbstractQueryingSpout {
 
     private static final Logger LOG = LoggerFactory
-            .getLogger(AbstractSpout.class);
+            .getLogger(AbstractBrandSpout.class);
 
-    protected static final String ESBoltType = "status";
-    protected static final String ESStatusIndexNameParamName = "es.status.index.name";
-    protected static final String ESStatusDocTypeParamName = "es.status.doc.type";
+    protected static final String ESBoltType = "brand";
+    protected static final String ESBrandIndexNameParamName = "es.brand.index.name";
+    protected static final String ESBrandDocTypeParamName = "es.brand.doc.type";
 
     /** Field name to use for aggregating **/
-    protected static final String ESStatusBucketFieldParamName = "es.status.bucket.field";
-    protected static final String ESStatusMaxBucketParamName = "es.status.max.buckets";
-    protected static final String ESStatusMaxNodesParamName = "es.status.max.nodes.per.bucket";
+    protected static final String ESBrandBucketFieldParamName = "es.brand.bucket.fields";
+    protected static final String ESBrandMaxBucketParamName = "es.brand.max.buckets";
 
-    /**
-     * Field name to use for sorting the Nodes within a bucket, not used if empty
-     * or null.
-     **/
-    protected static final String ESStatusBucketSortFieldParamName = "es.status.bucket.sort.field";
+    protected String indexName = "v2_analysis";
 
-    /**
-     * Field name to use for sorting the buckets, not used if empty or null.
-     **/
-    protected static final String ESStatusGlobalSortFieldParamName = "es.status.global.sort.field";
-
-    protected static final String ESStatusFilterParamName = "es.status.filterQuery";
-
-    protected String filterQuery = null;
-
-    protected String indexName;
-
-    protected String docType;
+    protected String docType = "_doc";
 
     protected static RestHighLevelClient client;
 
@@ -80,17 +59,9 @@ public abstract class AbstractSpout extends AbstractQueryingSpout {
     protected String logIdprefix = "";
 
     /** Field name used for field collapsing e.g. metadata.hostname **/
-    protected String partitionField;
+    protected String partitionFields = "brand.keyword,author.keyword";
 
-    protected int maxNodesPerBucket = 10;
-
-    protected int maxBucketNum = 10;
-
-    protected String bucketSortField = "";
-
-    protected String totalSortField = "";
-
-    protected Date lastDate;
+    protected int maxBucketNum = 200;
 
     @Override
     public void open(Map stormConf, TopologyContext context,
@@ -98,13 +69,13 @@ public abstract class AbstractSpout extends AbstractQueryingSpout {
 
         super.open(stormConf, context, collector);
 
-        indexName = ConfUtils.getString(stormConf, ESStatusIndexNameParamName,
-                "fb_status");
-        docType = ConfUtils.getString(stormConf, ESStatusDocTypeParamName,
-                "_doc");
+        indexName = ConfUtils.getString(stormConf, ESBrandIndexNameParamName,
+                indexName);
+        docType = ConfUtils.getString(stormConf, ESBrandDocTypeParamName,
+                docType);
 
         // one ES client per JVM
-        synchronized (AbstractSpout.class) {
+        synchronized (AbstractBrandSpout.class) {
             try {
                 if (client == null) {
                     client = ElasticSearchConnection.getClient(stormConf,
@@ -153,51 +124,16 @@ public abstract class AbstractSpout extends AbstractQueryingSpout {
             LOG.info("{} assigned shard ID {}", logIdprefix, shardID);
         }
 
-        partitionField = ConfUtils.getString(stormConf,
-                ESStatusBucketFieldParamName, "metadata.type");
+        partitionFields = ConfUtils.getString(stormConf,
+                ESBrandBucketFieldParamName, partitionFields);
 
-        bucketSortField = ConfUtils.getString(stormConf,
-                ESStatusBucketSortFieldParamName, bucketSortField);
+        maxBucketNum = ConfUtils.getInt(stormConf, ESBrandMaxBucketParamName,
+                maxBucketNum);
 
-        totalSortField = ConfUtils.getString(stormConf,
-                ESStatusGlobalSortFieldParamName);
-
-        maxNodesPerBucket = ConfUtils.getInt(stormConf,
-                ESStatusMaxNodesParamName, 1);
-        maxBucketNum = ConfUtils.getInt(stormConf, ESStatusMaxBucketParamName,
-                10);
-
-        filterQuery = ConfUtils.getString(stormConf, ESStatusFilterParamName);
     }
 
     /** Builds a query and use it retrieve the results from ES **/
     protected abstract void populateBuffer();
-
-    protected final Metadata fromKeyValues(Map<String, Object> keyValues) {
-        Map<String, List<String>> mdAsMap = (Map<String, List<String>>) keyValues
-                .get("metadata");
-        Metadata metadata = new Metadata();
-        if (mdAsMap != null) {
-            Iterator<Entry<String, List<String>>> mdIter = mdAsMap.entrySet()
-                    .iterator();
-            while (mdIter.hasNext()) {
-                Entry<String, List<String>> mdEntry = mdIter.next();
-                String key = mdEntry.getKey();
-                // periods are not allowed in ES2 - replace with %2E
-                key = key.replaceAll("%2E", "\\.");
-                Object mdValObj = mdEntry.getValue();
-                // single value
-                if (mdValObj instanceof String) {
-                    metadata.addValue(key, (String) mdValObj);
-                }
-                // multi valued
-                else {
-                    metadata.addValues(key, (List<String>) mdValObj);
-                }
-            }
-        }
-        return metadata;
-    }
 
     @Override
     public void ack(Object msgId) {

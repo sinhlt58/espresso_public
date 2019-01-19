@@ -65,6 +65,27 @@
 									</manifestEntries>
 								</transformer>
 							</transformers>
+							<!-- The filters below are necessary if you want to include the MapDB,Tika 
+								module -->
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+								<filter>
+									<!-- https://issues.apache.org/jira/browse/STORM-2428 -->
+									<artifact>org.apache.storm:flux-core</artifact>
+									<excludes>
+										<exclude>org/apache/commons/**</exclude>
+										<exclude>org/apache/http/**</exclude>
+										<exclude>org/yaml/**</exclude>
+									</excludes>
+								</filter>
+							</filters>
 						</configuration>
 					</execution>
 				</executions>
@@ -73,26 +94,50 @@
 	</build>
 
   <dependencies>
-		<!-- The oreder is important here :) -->
+	<!-- The oreder is important here :) -->
 
-		<dependency>
-			<groupId>com.digitalpebble.stormcrawler</groupId>
-			<artifactId>storm-crawler-core</artifactId>
-			<version>1.11</version>
-		</dependency>
+	<!-- <dependency>
+		<groupId>com.digitalpebble.stormcrawler</groupId>
+		<artifactId>storm-crawler-core</artifactId>
+		<version>1.11</version>
+	</dependency>
 
-		<dependency>
-			<groupId>com.digitalpebble.stormcrawler</groupId>
-			<artifactId>storm-crawler-elasticsearch</artifactId>
-			<version>1.11</version>
-		</dependency>
+	<dependency>
+		<groupId>com.digitalpebble.stormcrawler</groupId>
+		<artifactId>storm-crawler-elasticsearch</artifactId>
+		<version>1.11</version>
+	</dependency> -->
+
+	<dependency>
+		<groupId>com.fasterxml.jackson.core</groupId>
+		<artifactId>jackson-databind</artifactId>
+		<version>2.6.6</version>
+	</dependency>
+
+	<dependency>
+		<groupId>commons-lang</groupId>
+		<artifactId>commons-lang</artifactId>
+		<version>2.6</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>4.5.5</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.elasticsearch.client</groupId>
+		<artifactId>elasticsearch-rest-high-level-client</artifactId>
+		<version>6.4.1</version>
+	</dependency>
 
     <dependency>
-			<groupId>org.apache.storm</groupId>
-			<artifactId>storm-core</artifactId>
-			<version>1.2.2</version>
-			<scope>provided</scope>
-		</dependency>
+		<groupId>org.apache.storm</groupId>
+		<artifactId>storm-core</artifactId>
+		<version>1.2.2</version>
+		<scope>provided</scope>
+	</dependency>
 		
     <dependency>
       <groupId>org.apache.storm</groupId>
@@ -104,6 +149,12 @@
 		<groupId>com.restfb</groupId>
 		<artifactId>restfb</artifactId>
 		<version>2.13.0</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.mapdb</groupId>
+		<artifactId>mapdb</artifactId>
+		<version>3.0.7</version>
 	</dependency>
 
   </dependencies>
