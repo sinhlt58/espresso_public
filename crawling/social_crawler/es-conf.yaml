@@ -17,7 +17,8 @@ config:
   es.status.doc.type: "_doc"
 
   # ES spout get brand and index to Status
-  es.brand.addresses: "http://103.220.68.79:9200"
+  #es.brand.addresses: "http://103.220.68.79:9200"
+  es.brand.addresses: "http://localhost:9200"
   es.brand.index.name: "v2_analysis"
   es.brand.doc.type: "_doc"
 
