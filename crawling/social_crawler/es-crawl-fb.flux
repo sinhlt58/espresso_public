@@ -18,6 +18,10 @@ spouts:
     className: "com.uet.crawling.social.elasticsearch.persistence.AggregationSpout"
     parallelism: 1
 
+  - id: "brand"
+    className: "com.uet.crawling.social.elasticsearch.persistence.AggregationBrandSpout"
+    parallelism: 1
+
 bolts:
   - id: "fetcher"
     className: "com.uet.crawling.social.bolt.FetcherBolt"
@@ -43,6 +47,11 @@ bolts:
 streams:
   - from: "spout"
     to: "fetcher"
+    grouping:
+      type: SHUFFLE
+  
+  - from: "brand"
+    to: "status"
     grouping:
       type: SHUFFLE
 

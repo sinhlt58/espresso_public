@@ -14,7 +14,13 @@ config:
   # ES spout and persistence bolt
   es.status.addresses: "http://localhost:9200"
   es.status.index.name: "fb_status"
-  es.status.doc.type: "status"
+  es.status.doc.type: "_doc"
+
+  # ES spout get brand and index to Status
+  es.brand.addresses: "http://103.220.68.79:9200"
+  es.brand.index.name: "v2_analysis"
+  es.brand.doc.type: "_doc"
+
   #es.status.user: "USERNAME"
   #es.status.password: "PASSWORD"
   # the routing is done on the value of 'partition.node.mode'
@@ -65,4 +71,37 @@ config:
   # use it as nextFetchDate
   es.status.recentDate.increase: -1
   es.status.recentDate.min.gap: -1
+
+
+  # Config for spout brand
+  # time in secs for which the Nodes will be considered for fetching after a ack of fail
+  spout.brand.ttl.purgatory: 30
+  
+  # Min time (in msecs) to allow between 2 successive queries to ES
+  spout.brand.min.delay.queries: 18000000
+
+  spout.brand.DBMaker.file.name: "timeLastGetBrand.db"
+
+  spout.brand.time.last.get.default: 1546406121802
+  
+  spout.brand.next.time: 18000000
+
+  spout.brand.field.time: "time"
+
+  spout.brand.field.range: "createdTime"
+
+  spout.brand.field.term: "itemType"
+  
+  spout.brand.value.file.term: "product"
+
+  # ignore brand name (include null and length of brand name greater 1)
+  spout.brand.value.ignore: "no brand, 0"
+
+  es.brand.max.buckets: 10000
+  # field to group the Nodes into buckets
+  es.brand.bucket.fields: "brand.keyword,author.keyword"
+  
+  # AggregationBrandSpout : sampling improves the performance on large crawls
+  es.brand.sample: false
+
 

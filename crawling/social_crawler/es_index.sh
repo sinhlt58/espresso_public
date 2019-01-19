@@ -24,7 +24,7 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/fb_status -H 'Content-Type: application/jso
 		}
 	},
 	"mappings": {
-		"status": {
+		"_doc": {
 			"dynamic_templates": [{
 				"metadata": {
 					"path_match": "metadata.*",

@@ -65,6 +65,27 @@
 									</manifestEntries>
 								</transformer>
 							</transformers>
+							<!-- The filters below are necessary if you want to include the MapDB,Tika 
+								module -->
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+								<filter>
+									<!-- https://issues.apache.org/jira/browse/STORM-2428 -->
+									<artifact>org.apache.storm:flux-core</artifact>
+									<excludes>
+										<exclude>org/apache/commons/**</exclude>
+										<exclude>org/apache/http/**</exclude>
+										<exclude>org/yaml/**</exclude>
+									</excludes>
+								</filter>
+							</filters>
 						</configuration>
 					</execution>
 				</executions>
@@ -104,6 +125,12 @@
 		<groupId>com.restfb</groupId>
 		<artifactId>restfb</artifactId>
 		<version>2.13.0</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.mapdb</groupId>
+		<artifactId>mapdb</artifactId>
+		<version>3.0.7</version>
 	</dependency>
 
   </dependencies>
