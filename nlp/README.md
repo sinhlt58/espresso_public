@@ -19,8 +19,9 @@ docker pull tensorflow/serving
 
 ### Chạy tensorflow/serving image với sentiment model
 
+các argument nếu không ghi sẽ là default và 8501
 ```
-sudo ./serve_model.sh 
+sudo ./serve_model.sh {tên folder trong model} {tên port đầu ra}
 ```
 
 ### Dừng tensorflow/serving image
@@ -41,7 +42,10 @@ Response:
 ```
 {
     "predictions": [
-        0.593616
+        {
+            "output": 0.813674,
+            "output_rating": 4
+        }
     ]
 }
 ```

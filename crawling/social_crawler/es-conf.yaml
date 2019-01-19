@@ -29,8 +29,8 @@ config:
   # needed by the spout implementations
   es.status.routing.fieldname: "metadata.type"
   es.status.bulkActions: 500
-  es.status.flushInterval: "1s"
-  es.status.concurrentRequests: 10
+  es.status.flushInterval: "2s"
+  es.status.concurrentRequests: 3
   es.status.settings:
     cluster.name: "elasticsearch"
 

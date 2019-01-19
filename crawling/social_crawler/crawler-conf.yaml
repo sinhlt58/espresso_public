@@ -36,6 +36,6 @@ config:
     parallelism.hint: 1
   topology.workers: 1
   #urlfilters.config.file: urlfilters.json
-  worker.heap.memory.mb: 4096
+  worker.heap.memory.mb: 768
   fb.access.token: 264533924376104|4xZUVgjCM0hQvNLkFQ-bxH9qtNU
   fetcher.fb.ratelimit.cache.spec: "maximumSize=8,expireAfterAccess=1h"
