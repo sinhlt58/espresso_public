@@ -96,18 +96,18 @@
   <dependencies>
 	<!-- The oreder is important here :) -->
 
-	<!-- <dependency>
+	<dependency>
 		<groupId>com.digitalpebble.stormcrawler</groupId>
 		<artifactId>storm-crawler-core</artifactId>
-		<version>1.11</version>
+		<version>1.12</version>
 	</dependency>
 
 	<dependency>
 		<groupId>com.digitalpebble.stormcrawler</groupId>
 		<artifactId>storm-crawler-elasticsearch</artifactId>
-		<version>1.11</version>
-	</dependency> -->
-
+		<version>1.12</version>
+	</dependency>
+       <!--
 	<dependency>
 		<groupId>com.fasterxml.jackson.core</groupId>
 		<artifactId>jackson-databind</artifactId>
@@ -130,7 +130,7 @@
 		<groupId>org.elasticsearch.client</groupId>
 		<artifactId>elasticsearch-rest-high-level-client</artifactId>
 		<version>6.4.1</version>
-	</dependency>
+	</dependency> -->
 
     <dependency>
 		<groupId>org.apache.storm</groupId>

@@ -81,7 +81,7 @@ config:
   # Min time (in msecs) to allow between 2 successive queries to ES
   spout.brand.min.delay.queries: 18000000
 
-  spout.brand.DBMaker.file.name: "timeLastGetBrand.db"
+  spout.brand.DBMaker.file.name: "/espresso_data/timeLastGetBrand.db"
 
   spout.brand.time.last.get.default: 1546406121802
   
