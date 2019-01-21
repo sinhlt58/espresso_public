@@ -112,13 +112,19 @@ export default {
           from: args.offset,
           query: {
             bool: {
+              must: [
+                {
+                  match_phrase: {
+                    title: args.title
+                  }
+                }
+              ],
               should: [
                 {
                   match_phrase: {
                     brand: args.brand
                   }
                 },
-
                 {
                   match_phrase: {
                     author: args.brand

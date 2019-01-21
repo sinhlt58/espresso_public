@@ -17,7 +17,8 @@ class ProductsSearch extends Component {
   state = {
     data: [],
     loading: false,
-    completion: []
+    completion: [],
+    keyword: ""
   };
 
   // getColumnSearchProps = (dataIndex) => ({
@@ -122,6 +123,9 @@ class ProductsSearch extends Component {
   };
 
   _onSelectSuggester = text => {
+    this.setState({
+      keyword: text
+    });
     this._onSearch(text);
   };
 
@@ -143,7 +147,11 @@ class ProductsSearch extends Component {
         title: "",
         dataIndex: "name",
         key: "action",
-        render: text => <Link to={`/products/${text}`}>Xem chi tiết</Link>
+        render: text => (
+          <Link to={`/products/${text}/${this.state.keyword}`}>
+            Xem chi tiết
+          </Link>
+        )
       }
     ];
 
@@ -169,7 +177,19 @@ class ProductsSearch extends Component {
             />
           </AutoComplete>
         </div>
-        <Row style={{ marginTop: "30px", marginBottom: "30px" }}>
+        <Row
+          style={{
+            marginTop: "30px",
+            marginBottom: "30px",
+            textAlign: "center"
+          }}
+        >
+          <h2>
+            Các thương hiệu có sản phẩm{" "}
+            <p style={{ color: "red", fontWeight: "500", display: "inline" }}>
+              {this.state.keyword}
+            </p>{" "}
+          </h2>
           <Col span={7} />
           <Col span={10}>
             <Table

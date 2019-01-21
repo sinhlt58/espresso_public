@@ -24,7 +24,7 @@ class App extends Component {
             <Route path="/reports/:name" component={Reports} />
             <Route path="/compare" component={Compare} />
             <Route path="/products" exact component={ProductsSearch} />
-            <Route path="/products/:name" component={Products} />
+            <Route path="/products/:name/:keyword" component={Products} />
             <Route component={NotFound} />
           </Switch>
         </BrowserRouter>

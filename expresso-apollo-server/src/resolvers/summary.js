@@ -133,6 +133,82 @@ export default {
       };
 
       return result;
+    },
+    getWorstBrand: async (parent, args) => {
+      const esRes = await esClient.search({
+        index: SOURCE,
+        body: {
+          size: 0,
+          query: {
+            bool: {
+              must: [
+                {
+                  match_all: {}
+                }
+              ],
+              filter: {
+                term: {
+                  itemType: "review"
+                }
+              }
+            }
+          },
+          aggs: {
+            group_by_brands: {
+              terms: {
+                field: "brand.keyword",
+                size: 1000,
+                order: {
+                  average: "asc"
+                },
+                min_doc_count: 100
+              },
+              aggs: {
+                average: {
+                  avg: {
+                    field: "rate"
+                  }
+                }
+              }
+            },
+            group_by_dealer: {
+              terms: {
+                field: "parentAuthor.keyword",
+                size: 1000,
+                order: {
+                  average: "asc"
+                },
+                min_doc_count: 100
+              },
+              aggs: {
+                average: {
+                  avg: {
+                    field: "rate"
+                  }
+                }
+              }
+            }
+          }
+        }
+      });
+
+      let brands = [];
+      let dealers = [];
+
+      for (let i = 0; i < 10; i++) {
+        brands.push(esRes.aggregations.group_by_brands.buckets[i].key);
+      }
+
+      for (let i = 0; i < 10; i++) {
+        dealers.push(esRes.aggregations.group_by_dealer.buckets[i].key);
+      }
+
+      const result = {
+        brands,
+        dealers
+      };
+
+      return result;
     }
   }
 };

@@ -5,7 +5,8 @@ import Wrapper from "../../hoc/Wrapper";
 import {
   brandAutocomplete,
   getAppStats,
-  getPopuplarBrands
+  getPopuplarBrands,
+  getBadBrands
 } from "../../graphql-client/api";
 
 const Search = Input.Search;
@@ -19,7 +20,9 @@ class Dashboard extends Component {
     domain_count: 0,
     loading: true,
     brands: [],
-    dealers: []
+    dealers: [],
+    badBrands: [],
+    badDealers: []
   };
 
   async componentDidMount() {
@@ -45,7 +48,14 @@ class Dashboard extends Component {
 
     if (resBrands.networkStatus === 7) {
       const { brands, dealers } = resBrands.data.getTopBrand;
-      this.setState({ brands, dealers, loading: false });
+      this.setState({ brands, dealers });
+    }
+
+    const resWorstBrands = await getBadBrands();
+
+    if (resBrands.networkStatus === 7) {
+      const { brands, dealers } = resWorstBrands.data.getWorstBrand;
+      this.setState({ badBrands: brands, badDealers: dealers, loading: false });
     }
   }
 
@@ -138,7 +148,7 @@ class Dashboard extends Component {
               Các thương hiệu phổ biến nhất
             </h2>
             {this.state.brands.map(item => (
-              <Tag color="#2db7f5">
+              <Tag color="#87d068">
                 <Link to={`/analytics/${item}`}>{item}</Link>
               </Tag>
             ))}
@@ -147,6 +157,22 @@ class Dashboard extends Component {
             </h2>
             {this.state.dealers.map(item => (
               <Tag color="#87d068">
+                <Link to={`/analytics/${item}`}>{item}</Link>
+              </Tag>
+            ))}
+            <h2 style={{ marginTop: 20, marginBottom: 20 }}>
+              Các thương hiệu kém nhất
+            </h2>
+            {this.state.badBrands.map(item => (
+              <Tag color="#f50">
+                <Link to={`/analytics/${item}`}>{item}</Link>
+              </Tag>
+            ))}
+            <h2 style={{ marginTop: 20, marginBottom: 20 }}>
+              Các cửa hàng kém nhất
+            </h2>
+            {this.state.badDealers.map(item => (
+              <Tag color="#f50">
                 <Link to={`/analytics/${item}`}>{item}</Link>
               </Tag>
             ))}

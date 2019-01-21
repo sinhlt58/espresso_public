@@ -18,11 +18,12 @@ class Products extends Component {
   getData = async () => {
     const res = await getProductsByBrand(
       this.props.match.params.name,
+      this.props.match.params.keyword,
       this.state.offset
     );
 
     if (res.networkStatus === 7) {
-      if (res.data.total === this.state.data.length) {
+      if (res.data.getProducts.total === this.state.data.length) {
         message.success("Đã tải hết toàn bộ sản phẩm của thương hiệu");
         this.setState({
           loading: false,
@@ -86,7 +87,11 @@ class Products extends Component {
       <Wrapper isHome location={this.props.location.pathname}>
         <div style={{ padding: "20px 80px" }}>
           <h2>
-            Các sản phẩm của thương hiệu{" "}
+            Các sản phẩm{" "}
+            <p style={{ color: "red", fontWeight: "500", display: "inline" }}>
+              {this.props.match.params.keyword}
+            </p>{" "}
+            của thương hiệu{" "}
             <p style={{ color: "red", fontWeight: "500", display: "inline" }}>
               {this.props.match.params.name}
             </p>{" "}

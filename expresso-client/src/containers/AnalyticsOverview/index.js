@@ -188,7 +188,7 @@ class AnalyticsOverview extends Component {
                 <span>
                   <Rate
                     disabled
-                    value={Number(this.state.data.rate.average)}
+                    value={Number(this.state.data.rate.average.toFixed(1))}
                     allowHalf={true}
                   />
                   <span className="ant-rate-text">

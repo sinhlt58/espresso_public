@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     getSummaryApp: Summary
     getTopBrand: TopBrands
+    getWorstBrand: WorstBrands
   }
 
   type Summary {
@@ -14,6 +15,11 @@ export default gql`
   }
 
   type TopBrands {
+    brands: [String!]
+    dealers: [String!]
+  }
+
+  type WorstBrands {
     brands: [String!]
     dealers: [String!]
   }

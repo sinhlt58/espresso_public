@@ -186,13 +186,13 @@ export const productAutocomplete = async keyword => {
   }
 };
 
-export const getProductsByBrand = async (brand, offset) => {
+export const getProductsByBrand = async (brand, title, offset) => {
   try {
     return await client.query({
-      variables: { brand, offset },
+      variables: { brand, title, offset },
       query: gql`
-        query($brand: String!, $offset: Int!) {
-          getProducts(brand: $brand, offset: $offset) {
+        query($brand: String!, $title: String!, $offset: Int!) {
+          getProducts(brand: $brand, title: $title, offset: $offset) {
             total
             products {
               id
@@ -237,6 +237,23 @@ export const getPopuplarBrands = async () => {
       query: gql`
         query {
           getTopBrand {
+            brands
+            dealers
+          }
+        }
+      `
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getBadBrands = async () => {
+  try {
+    return await client.query({
+      query: gql`
+        query {
+          getWorstBrand {
             brands
             dealers
           }
