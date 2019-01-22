@@ -8,7 +8,9 @@ import Sentiment from './containers/Sentiment';
 import Reports from './containers/Reports';
 import Compare from './containers/Compare';
 import ProductsSearch from './containers/ProductsSearch';
+import Products from './containers/Products';
 import Facebook from './containers/Facebook';
+import NotFound from './containers/NotFound';
 import './App.css';
 
 class App extends Component {
@@ -22,8 +24,10 @@ class App extends Component {
             <Route path="/sentiment" component={Sentiment} />
             <Route path="/reports/:name" component={Reports} />
             <Route path="/compare" component={Compare} />
-            <Route path="/products" component={ProductsSearch} />
+            <Route path="/products" exact component={ProductsSearch} />
+            <Route path="/products/:name/:keyword" component={Products} />
             <Route path="/facebook/:name" component={Facebook} />
+            <Route component={NotFound} />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>
