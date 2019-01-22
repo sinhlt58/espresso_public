@@ -1,12 +1,12 @@
-import { esClient } from "../database";
-import { getDomain } from "./helper";
-import { SOURCE } from "../const";
+import { esClient } from '../database';
+import { getDomain } from './helper';
+import { SOURCE } from '../const';
 
 export default {
   Query: {
     getBrand: async (parent, args) => {
       let esRes;
-      if (args.domain === "ALL") {
+      if (args.domain === 'ALL') {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
@@ -16,45 +16,45 @@ export default {
                 should: [
                   {
                     match_phrase: {
-                      brand: args.name
-                    }
+                      brand: args.name,
+                    },
                   },
                   {
                     match_phrase: {
-                      parentAuthor: args.name
-                    }
-                  }
+                      parentAuthor: args.name,
+                    },
+                  },
                 ],
                 minimum_should_match: 1,
-                filter: [{ term: { itemType: "review" } }]
-              }
+                filter: [{ term: { itemType: 'review' } }],
+              },
             },
             aggs: {
               summary_by_domains: {
                 terms: {
-                  field: "domain.keyword"
+                  field: 'domain.keyword',
                 },
                 aggs: {
                   avg_rating: {
                     avg: {
-                      field: "rate"
-                    }
-                  }
-                }
+                      field: 'rate',
+                    },
+                  },
+                },
               },
               avg_rating: {
                 avg: {
-                  field: "rate"
-                }
+                  field: 'rate',
+                },
               },
               summary_by_rate: {
                 terms: {
-                  field: "rate",
-                  order: { _key: "asc" }
-                }
-              }
-            }
-          }
+                  field: 'rate',
+                  order: { _key: 'asc' },
+                },
+              },
+            },
+          },
         });
       } else {
         esRes = await esClient.search({
@@ -66,48 +66,48 @@ export default {
                 should: [
                   {
                     match_phrase: {
-                      brand: args.name
-                    }
+                      brand: args.name,
+                    },
                   },
                   {
                     match_phrase: {
-                      parentAuthor: args.name
-                    }
-                  }
+                      parentAuthor: args.name,
+                    },
+                  },
                 ],
                 minimum_should_match: 1,
                 filter: [
-                  { term: { itemType: "review" } },
-                  { term: { domain: getDomain(args.domain) } }
-                ]
-              }
+                  { term: { itemType: 'review' } },
+                  { term: { domain: getDomain(args.domain) } },
+                ],
+              },
             },
             aggs: {
               summary_by_domains: {
                 terms: {
-                  field: "domain.keyword"
+                  field: 'domain.keyword',
                 },
                 aggs: {
                   avg_rating: {
                     avg: {
-                      field: "rate"
-                    }
-                  }
-                }
+                      field: 'rate',
+                    },
+                  },
+                },
               },
               avg_rating: {
                 avg: {
-                  field: "rate"
-                }
+                  field: 'rate',
+                },
               },
               summary_by_rate: {
                 terms: {
-                  field: "rate",
-                  order: { _key: "asc" }
-                }
-              }
-            }
-          }
+                  field: 'rate',
+                  order: { _key: 'asc' },
+                },
+              },
+            },
+          },
         });
       }
 
@@ -116,7 +116,7 @@ export default {
 
     brandHistogram: async (parent, args) => {
       let esRes;
-      if (args.domain === "ALL") {
+      if (args.domain === 'ALL') {
         esRes = await esClient.search({
           index: SOURCE,
           body: {
@@ -128,51 +128,51 @@ export default {
                     range: {
                       date: {
                         gte: args.from,
-                        lte: args.to
-                      }
-                    }
-                  }
+                        lte: args.to,
+                      },
+                    },
+                  },
                 ],
                 should: [
                   {
                     match_phrase: {
-                      brand: args.brandName
-                    }
+                      brand: args.brandName,
+                    },
                   },
                   {
                     match_phrase: {
-                      parentAuthor: args.brandName
-                    }
-                  }
+                      parentAuthor: args.brandName,
+                    },
+                  },
                 ],
                 minimum_should_match: 1,
-                filter: [{ term: { itemType: "review" } }]
-              }
+                filter: [{ term: { itemType: 'review' } }],
+              },
             },
             aggs: {
               cmt_histogram: {
                 histogram: {
-                  field: "date",
-                  interval: args.interval
+                  field: 'date',
+                  interval: args.interval,
                 },
                 aggs: {
                   cmt_ranges: {
                     range: {
-                      field: "rate",
+                      field: 'rate',
                       ranges: [
                         {
-                          to: 3.0
+                          to: 3.0,
                         },
                         {
-                          from: 3.0
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
+                          from: 3.0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          },
         });
       } else {
         esRes = await esClient.search({
@@ -183,57 +183,57 @@ export default {
               bool: {
                 must: [
                   {
-                    match: { domain: getDomain(args.domain) }
+                    match: { domain: getDomain(args.domain) },
                   },
                   {
                     range: {
                       date: {
                         gte: args.from,
-                        lte: args.to
-                      }
-                    }
-                  }
+                        lte: args.to,
+                      },
+                    },
+                  },
                 ],
                 should: [
                   {
                     match_phrase: {
-                      brand: args.brandName
-                    }
+                      brand: args.brandName,
+                    },
                   },
                   {
                     match_phrase: {
-                      parentAuthor: args.brandName
-                    }
-                  }
+                      parentAuthor: args.brandName,
+                    },
+                  },
                 ],
                 minimum_should_match: 1,
-                filter: [{ term: { itemType: "review" } }]
-              }
+                filter: [{ term: { itemType: 'review' } }],
+              },
             },
             aggs: {
               cmt_histogram: {
                 histogram: {
-                  field: "date",
-                  interval: 86400
+                  field: 'date',
+                  interval: 86400,
                 },
                 aggs: {
                   cmt_ranges: {
                     range: {
-                      field: "rate",
+                      field: 'rate',
                       ranges: [
                         {
-                          to: 3.0
+                          to: 3.0,
                         },
                         {
-                          from: 3.0
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
+                          from: 3.0,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          },
         });
       }
 
@@ -249,26 +249,26 @@ export default {
               must: [
                 {
                   match_phrase_prefix: {
-                    brand: args.keyword
-                  }
-                }
+                    brand: args.keyword,
+                  },
+                },
               ],
               filter: {
                 term: {
-                  itemType: "review"
-                }
-              }
-            }
+                  itemType: 'review',
+                },
+              },
+            },
           },
           aggs: {
             group_by_brand: {
               terms: {
-                field: "brand.keyword",
-                size: 5
-              }
-            }
-          }
-        }
+                field: 'brand.keyword',
+                size: 5,
+              },
+            },
+          },
+        },
       });
 
       const esDealer = await esClient.search({
@@ -280,72 +280,106 @@ export default {
               must: [
                 {
                   match_phrase_prefix: {
-                    parentAuthor: args.keyword
-                  }
-                }
+                    parentAuthor: args.keyword,
+                  },
+                },
               ],
               filter: {
                 term: {
-                  itemType: "review"
-                }
-              }
-            }
+                  itemType: 'review',
+                },
+              },
+            },
           },
           aggs: {
             group_by_dealer: {
               terms: {
-                field: "parentAuthor.keyword",
-                size: 5
-              }
-            }
-          }
-        }
+                field: 'parentAuthor.keyword',
+                size: 5,
+              },
+            },
+          },
+        },
       });
 
       const tempArray = [
         ...esBrand.aggregations.group_by_brand.buckets,
-        ...esDealer.aggregations.group_by_dealer.buckets
+        ...esDealer.aggregations.group_by_dealer.buckets,
       ];
       let result = [];
-      tempArray.forEach(element => {
+      tempArray.forEach((element) => {
         result.push(element.key);
       });
 
       return result;
-    }
+    },
+
+    getFacebookPage: async (parent, args) => {
+      const esRes = await esClient.search({
+        index: 'fb_index',
+        body: {
+          from: args.offset,
+          query: {
+            bool: {
+              must: [
+                {
+                  match_phrase: {
+                    name: args.name,
+                  },
+                },
+              ],
+              filter: {
+                term: {
+                  type: 'page_detail',
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return esRes.hits.hits;
+    },
   },
 
   BrandSummary: {
-    name: parent => parent[1],
-    rate: parent => parent[0].aggregations,
-    totalCmt: parent => parent[0].hits.total
+    name: (parent) => parent[1],
+    rate: (parent) => parent[0].aggregations,
+    totalCmt: (parent) => parent[0].hits.total,
   },
 
   Rating: {
-    average: parent => parent.avg_rating.value,
-    detail: parent => parent.summary_by_domains.buckets,
-    rateCount: parent => parent.summary_by_rate.buckets
+    average: (parent) => parent.avg_rating.value,
+    detail: (parent) => parent.summary_by_domains.buckets,
+    rateCount: (parent) => parent.summary_by_rate.buckets,
   },
 
   RateDetail: {
-    domain: parent => parent.key,
-    totalCmt: parent => parent.doc_count,
-    rate: parent => parent.avg_rating.value
+    domain: (parent) => parent.key,
+    totalCmt: (parent) => parent.doc_count,
+    rate: (parent) => parent.avg_rating.value,
   },
 
   RateCount: {
-    star: parent => parent.key,
-    totalCmt: parent => parent.doc_count
+    star: (parent) => parent.key,
+    totalCmt: (parent) => parent.doc_count,
   },
 
   BrandHistogramItem: {
-    timestamp: parent => parent.key * 1000,
-    total: parent => parent.doc_count,
-    count: parent => parent.cmt_ranges.buckets
+    timestamp: (parent) => parent.key * 1000,
+    total: (parent) => parent.doc_count,
+    count: (parent) => parent.cmt_ranges.buckets,
   },
 
   BrandCmtCount: {
-    negative: parent => parent[0].doc_count,
-    positive: parent => parent[1].doc_count
-  }
+    negative: (parent) => parent[0].doc_count,
+    positive: (parent) => parent[1].doc_count,
+  },
+
+  FacebookPage: {
+    name: (parent) => parent._source.name,
+    likes_count: (parent) => Number(parent._source.fan_count),
+    url: (parent) => parent._source.link,
+    location: (parent) => parent._source.single_line_address,
+  },
 };

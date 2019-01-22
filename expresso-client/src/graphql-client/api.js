@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import client from "./client";
+import gql from 'graphql-tag';
+import client from './client';
 
 export const getBrand = async (name, domain) => {
   try {
@@ -23,7 +23,7 @@ export const getBrand = async (name, domain) => {
             }
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
@@ -36,7 +36,7 @@ export const getComments = async ({
   star,
   domain,
   sort,
-  keyword
+  keyword,
 }) => {
   try {
     return await client.query({
@@ -73,7 +73,7 @@ export const getComments = async ({
             }
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
@@ -85,7 +85,7 @@ export const getHistogram = async ({
   from,
   to,
   interval,
-  domain
+  domain,
 }) => {
   try {
     return await client.query({
@@ -113,14 +113,14 @@ export const getHistogram = async ({
             }
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
   }
 };
 
-export const getTopWords = async size => {
+export const getTopWords = async (size) => {
   try {
     return await client.query({
       variables: { size },
@@ -131,14 +131,14 @@ export const getTopWords = async size => {
             value
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
   }
 };
 
-export const getBrands = async title => {
+export const getBrands = async (title) => {
   try {
     return await client.query({
       variables: { title },
@@ -149,14 +149,14 @@ export const getBrands = async title => {
             count
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
   }
 };
 
-export const brandAutocomplete = async keyword => {
+export const brandAutocomplete = async (keyword) => {
   try {
     return await client.query({
       variables: { keyword },
@@ -164,14 +164,14 @@ export const brandAutocomplete = async keyword => {
         query($keyword: String!) {
           brandCompletion(keyword: $keyword)
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
   }
 };
 
-export const productAutocomplete = async keyword => {
+export const productAutocomplete = async (keyword) => {
   try {
     return await client.query({
       variables: { keyword },
@@ -179,7 +179,7 @@ export const productAutocomplete = async keyword => {
         query($keyword: String!) {
           productCompletion(keyword: $keyword)
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
@@ -205,7 +205,7 @@ export const getProductsByBrand = async (brand, title, offset) => {
             }
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
@@ -224,7 +224,7 @@ export const getAppStats = async () => {
             domain_count
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
@@ -241,7 +241,7 @@ export const getPopuplarBrands = async () => {
             dealers
           }
         }
-      `
+      `,
     });
   } catch (err) {
     return err;
@@ -258,7 +258,27 @@ export const getBadBrands = async () => {
             dealers
           }
         }
-      `
+      `,
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getFbPages = async (name, offset) => {
+  try {
+    return await client.query({
+      variables: { name, offset },
+      query: gql`
+        query($name: String!, $offset: Int!) {
+          getFacebookPage(name: $name, offset: $offset) {
+            name
+            url
+            location
+            likes_count
+          }
+        }
+      `,
     });
   } catch (err) {
     return err;

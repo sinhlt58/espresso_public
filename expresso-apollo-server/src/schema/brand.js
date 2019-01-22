@@ -1,4 +1,4 @@
-import { gql } from "apollo-server-express";
+import { gql } from 'apollo-server-express';
 
 export default gql`
   extend type Query {
@@ -11,6 +11,7 @@ export default gql`
       domain: DomainEnum
     ): [BrandHistogramItem!]
     brandCompletion(keyword: String!): [String!]
+    getFacebookPage(name: String!, offset: Int!): [FacebookPage!]
   }
 
   type BrandSummary {
@@ -45,5 +46,12 @@ export default gql`
   type BrandCmtCount {
     positive: Int!
     negative: Int!
+  }
+
+  type FacebookPage {
+    name: String!
+    likes_count: Int!
+    url: String!
+    location: String
   }
 `;
