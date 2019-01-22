@@ -28,7 +28,7 @@ config:
   resultServices.config.file: resultServices.json
   topology.debug: false
   topology.kryo.register:
-  - com.digitalpebble.stormcrawler.Metadata
+  - com.uet.crawling.social.Metadata
   topology.max.spout.pending: 100
   topology.message.timeout.secs: 300
   topology.metrics.consumer.register:
