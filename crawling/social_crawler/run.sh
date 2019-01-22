@@ -26,10 +26,18 @@ fi
 
 if [ "$1" = "local" ]
 then
+    rm -f /espresso_data/timeLastGetBrand.db
     storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawl-fb.flux --sleep 864000000
 fi
 
 if [ "$1" = "remote" ]
 then
     storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawl-fb.flux
+fi
+
+if [ "$1" = "setup" ]
+then
+    mkdir -p /espresso_data
+    echo "Create Folder /espresso_data"
+    echo "Done create!"
 fi
