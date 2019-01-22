@@ -16,6 +16,9 @@ const SideMenu = (props) => (
     <Menu.Item key="reports">
       <Link to={`/reports/${props.brand}`}>Báo cáo</Link>
     </Menu.Item>
+    <Menu.Item key="facebook">
+      <Link to={`/facebook/${props.brand}`}>Facebook</Link>
+    </Menu.Item>
   </Menu>
 );
 
