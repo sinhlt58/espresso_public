@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { List, Spin, Button, message } from "antd";
-import Wrapper from "../../hoc/Wrapper";
-import { getProductsByBrand } from "../../graphql-client/api";
+import React, { Component } from 'react';
+import { List, Spin, Button, message } from 'antd';
+import Wrapper from '../../hoc/Wrapper';
+import { getProductsByBrand } from '../../graphql-client/api';
 
 class Products extends Component {
   state = {
     initLoading: true,
     loading: true,
     offset: 0,
-    data: []
+    data: [],
   };
 
   componentDidMount() {
@@ -19,15 +19,15 @@ class Products extends Component {
     const res = await getProductsByBrand(
       this.props.match.params.name,
       this.props.match.params.keyword,
-      this.state.offset
+      this.state.offset,
     );
 
     if (res.networkStatus === 7) {
       if (res.data.getProducts.total === this.state.data.length) {
-        message.success("Đã tải hết toàn bộ sản phẩm của thương hiệu");
+        message.success('Đã tải hết toàn bộ sản phẩm của thương hiệu');
         this.setState({
           loading: false,
-          initLoading: false
+          initLoading: false,
         });
       } else {
         const data = [...this.state.data, ...res.data.getProducts.products];
@@ -36,21 +36,21 @@ class Products extends Component {
           initLoading: false,
           loading: false,
           data: data,
-          offset: newOffset
+          offset: newOffset,
         });
       }
     } else {
-      message.error("Có lỗi xảy ra vui lòng thử lại");
+      message.error('Có lỗi xảy ra vui lòng thử lại');
       this.setState({
         loading: false,
-        initLoading: false
+        initLoading: false,
       });
     }
   };
 
   onLoadMore = async () => {
     await this.setState({
-      loading: true
+      loading: true,
     });
 
     this.getData();
@@ -62,10 +62,10 @@ class Products extends Component {
       !initLoading && !loading ? (
         <div
           style={{
-            textAlign: "center",
+            textAlign: 'center',
             marginTop: 12,
             height: 32,
-            lineHeight: "32px"
+            lineHeight: '32px',
           }}
         >
           <Button onClick={this.onLoadMore}>More</Button>
@@ -73,10 +73,10 @@ class Products extends Component {
       ) : (
         <div
           style={{
-            textAlign: "center",
+            textAlign: 'center',
             marginTop: 12,
             height: 32,
-            lineHeight: "32px"
+            lineHeight: '32px',
           }}
         >
           <Spin />
@@ -85,16 +85,16 @@ class Products extends Component {
 
     return (
       <Wrapper isHome location={this.props.location.pathname}>
-        <div style={{ padding: "20px 80px" }}>
+        <div style={{ padding: '20px 20px' }}>
           <h2>
-            Các sản phẩm{" "}
-            <p style={{ color: "red", fontWeight: "500", display: "inline" }}>
+            Các sản phẩm{' '}
+            <p style={{ color: 'red', fontWeight: '500', display: 'inline' }}>
               {this.props.match.params.keyword}
-            </p>{" "}
-            của thương hiệu{" "}
-            <p style={{ color: "red", fontWeight: "500", display: "inline" }}>
+            </p>{' '}
+            của thương hiệu{' '}
+            <p style={{ color: 'red', fontWeight: '500', display: 'inline' }}>
               {this.props.match.params.name}
-            </p>{" "}
+            </p>{' '}
           </h2>
           <List
             className="demo-loadmore-list"
@@ -102,7 +102,7 @@ class Products extends Component {
             itemLayout="horizontal"
             loadMore={loadMore}
             dataSource={this.state.data}
-            renderItem={item => (
+            renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
                   title={
@@ -111,7 +111,7 @@ class Products extends Component {
                     </a>
                   }
                   description={`Giá ${Number(
-                    item.price
+                    item.price,
                   ).toLocaleString()}VNĐ tại ${item.source.domain}`}
                 />
               </List.Item>

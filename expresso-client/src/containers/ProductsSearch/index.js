@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Table,
   Input,
@@ -7,18 +7,18 @@ import {
   message,
   Button,
   Icon,
-  AutoComplete
-} from "antd";
-import { Link } from "react-router-dom";
-import Wrapper from "../../hoc/Wrapper";
-import { getBrands, productAutocomplete } from "../../graphql-client/api";
+  AutoComplete,
+} from 'antd';
+import { Link } from 'react-router-dom';
+import Wrapper from '../../hoc/Wrapper';
+import { getBrands, productAutocomplete } from '../../graphql-client/api';
 
 class ProductsSearch extends Component {
   state = {
     data: [],
     loading: false,
     completion: [],
-    keyword: ""
+    keyword: '',
   };
 
   // getColumnSearchProps = (dataIndex) => ({
@@ -92,39 +92,39 @@ class ProductsSearch extends Component {
   //   this.setState({ searchText: '' });
   // };
 
-  _onSearch = async text => {
+  _onSearch = async (text) => {
     await this.setState({
-      loading: true
+      loading: true,
     });
     const res = await getBrands(text);
 
     if (res.networkStatus === 7) {
       this.setState({
         data: res.data.getBrandsByProduct,
-        loading: false
+        loading: false,
       });
     } else {
-      message.error("Không tìm thấy thương hiệu nào ứng với sản phẩm");
+      message.error('Không tìm thấy thương hiệu nào ứng với sản phẩm');
     }
   };
 
-  _onInput = async text => {
-    if (text.trim() !== "") {
+  _onInput = async (text) => {
+    if (text.trim() !== '') {
       const res = await productAutocomplete(text.toLowerCase());
       const result = [text, ...res.data.productCompletion];
       this.setState({
-        completion: result
+        completion: result,
       });
     } else {
       this.setState({
-        completion: []
+        completion: [],
       });
     }
   };
 
-  _onSelectSuggester = text => {
+  _onSelectSuggester = (text) => {
     this.setState({
-      keyword: text
+      keyword: text,
     });
     this._onSearch(text);
   };
@@ -132,37 +132,37 @@ class ProductsSearch extends Component {
   render() {
     const columns = [
       {
-        title: "Tên thương hiệu",
-        dataIndex: "name",
-        key: "name",
-        render: text => <Link to={`/analytics/${text}`}>{text}</Link>
+        title: 'Tên thương hiệu',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text) => <Link to={`/analytics/${text}`}>{text}</Link>,
       },
       {
-        title: "Số lượng sản phẩm liên quan",
-        dataIndex: "count",
-        key: "count",
-        sorter: (a, b) => a.count - b.count
+        title: 'Số lượng sản phẩm liên quan',
+        dataIndex: 'count',
+        key: 'count',
+        sorter: (a, b) => a.count - b.count,
       },
       {
-        title: "",
-        dataIndex: "name",
-        key: "action",
-        render: text => (
+        title: '',
+        dataIndex: 'name',
+        key: 'action',
+        render: (text) => (
           <Link to={`/products/${text}/${this.state.keyword}`}>
             Xem chi tiết
           </Link>
-        )
-      }
+        ),
+      },
     ];
 
     return (
       <Wrapper location={this.props.location.pathname} isHome>
-        <div style={{ textAlign: "center", marginTop: 80, width: "100%" }}>
+        <div style={{ textAlign: 'center', marginTop: 80, width: '100%' }}>
           <h1>Nhập tên sản phẩm muốn tìm kiếm</h1>
           <AutoComplete
             className="auto"
             size="large"
-            style={{ width: "60%" }}
+            style={{ width: '60%' }}
             dataSource={this.state.completion}
             onSelect={this._onSelectSuggester}
             onChange={this._onInput}
@@ -179,19 +179,19 @@ class ProductsSearch extends Component {
         </div>
         <Row
           style={{
-            marginTop: "30px",
-            marginBottom: "30px",
-            textAlign: "center"
+            marginTop: '30px',
+            marginBottom: '30px',
+            textAlign: 'center',
           }}
         >
           <h2>
-            Các thương hiệu có sản phẩm{" "}
-            <p style={{ color: "red", fontWeight: "500", display: "inline" }}>
+            Các thương hiệu có sản phẩm{' '}
+            <p style={{ color: 'red', fontWeight: '500', display: 'inline' }}>
               {this.state.keyword}
-            </p>{" "}
+            </p>{' '}
           </h2>
-          <Col span={7} />
-          <Col span={10}>
+          <Col md={7} />
+          <Col md={10}>
             <Table
               columns={columns}
               dataSource={this.state.data}

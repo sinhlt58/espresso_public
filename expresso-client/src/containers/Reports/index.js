@@ -130,33 +130,17 @@ class Reports extends Component {
         brand={this.props.match.params.name}
       >
         <Row style={{ marginBottom: '20px' }}>
-          <h2 style={{ margin: '20px 0px 0px 50px' }}>
+          <h2 style={{ margin: '20px 0px 0px 20px' }}>
             Báo cáo liên quan đến từ khoá:{' '}
             <p style={{ color: 'red', fontWeight: '500', display: 'inline' }}>
               {this.props.match.params.name}
             </p>{' '}
           </h2>
         </Row>
-        <Row>
-          <Col span={1} />
-          <Col span={5}>
+        <Row style={{ padding: 10 }}>
+          <Col md={1} />
+          <Col md={5}>
             <h2>Kênh</h2>
-          </Col>
-          <Col span={1} />
-          <Col span={5}>
-            <h2>Đơn vị</h2>
-          </Col>
-          <Col span={1} />
-          <Col span={4}>
-            <h2>Từ</h2>
-          </Col>
-          <Col span={4}>
-            <h2>Đến</h2>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={1} />
-          <Col span={5}>
             <Cascader
               options={optionsDomain}
               style={{ width: '100%', marginBottom: '20px' }}
@@ -164,8 +148,9 @@ class Reports extends Component {
               onChange={this._onChangeDomain}
             />
           </Col>
-          <Col span={1} />
-          <Col span={5}>
+          <Col md={1} />
+          <Col md={5}>
+            <h2>Đơn vị</h2>
             <Cascader
               options={optionsRange}
               style={{ width: '100%', marginBottom: '20px' }}
@@ -173,8 +158,9 @@ class Reports extends Component {
               onChange={this._onChangeRange}
             />
           </Col>
-          <Col span={1} />
-          <Col span={4}>
+          <Col md={1} />
+          <Col md={4}>
+            <h2>Từ</h2>
             {this.state.optionRange[0] === 'date' ? (
               <DatePicker
                 placeholder={this.state.placeholder}
@@ -189,7 +175,8 @@ class Reports extends Component {
               />
             )}
           </Col>
-          <Col span={4}>
+          <Col md={4}>
+            <h2>Đến</h2>
             {this.state.optionRange[0] === 'date' ? (
               <DatePicker
                 placeholder={this.state.placeholder}
@@ -205,9 +192,10 @@ class Reports extends Component {
             )}
           </Col>
         </Row>
+
         {this.state.loading ? null : (
           <Row>
-            <Col span={8}>
+            <Col md={8}>
               <VictoryPie
                 data={this.state.cmtPercent}
                 height={300}
@@ -215,7 +203,7 @@ class Reports extends Component {
                 colorScale={['#42f47d', '#f44141']}
               />
             </Col>
-            <Col span={16}>
+            <Col md={16}>
               <VictoryChart
                 height={180}
                 domainPadding={20}

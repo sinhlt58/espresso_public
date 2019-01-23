@@ -1,5 +1,5 @@
-import { esClient } from "../database";
-import { SOURCE } from "../const";
+import { esClient } from '../database';
+import { SOURCE } from '../const';
 
 export default {
   Query: {
@@ -12,34 +12,34 @@ export default {
             bool: {
               must: [
                 {
-                  match_all: {}
-                }
+                  match_all: {},
+                },
               ],
               filter: {
                 term: {
-                  itemType: "product"
-                }
-              }
-            }
+                  itemType: 'product',
+                },
+              },
+            },
           },
           aggs: {
             brand_count: {
-              terms: {
-                field: "brand.keyword"
-              }
+              cardinality: {
+                field: 'brand.keyword',
+              },
             },
             author_count: {
-              terms: {
-                field: "author.keyword"
-              }
+              cardinality: {
+                field: 'author.keyword',
+              },
             },
             domain_count: {
               terms: {
-                field: "domain.keyword"
-              }
-            }
-          }
-        }
+                field: 'domain.keyword',
+              },
+            },
+          },
+        },
       });
 
       const cmtRes = await esClient.search({
@@ -50,25 +50,23 @@ export default {
             bool: {
               must: [
                 {
-                  match_all: {}
-                }
+                  match_all: {},
+                },
               ],
               filter: {
                 term: {
-                  itemType: "review"
-                }
-              }
-            }
-          }
-        }
+                  itemType: 'review',
+                },
+              },
+            },
+          },
+        },
       });
 
       let result = {};
       result.brands_count =
-        esRes.aggregations.brand_count.sum_other_doc_count +
-        esRes.aggregations.brand_count.buckets.length +
-        esRes.aggregations.author_count.sum_other_doc_count +
-        esRes.aggregations.author_count.buckets.length;
+        esRes.aggregations.brand_count.value +
+        esRes.aggregations.author_count.value;
 
       result.domain_count =
         esRes.aggregations.domain_count.sum_other_doc_count +
@@ -89,47 +87,50 @@ export default {
             bool: {
               must: [
                 {
-                  match_all: {}
-                }
+                  match_all: {},
+                },
               ],
               filter: {
                 term: {
-                  itemType: "review"
-                }
-              }
-            }
+                  itemType: 'review',
+                },
+              },
+            },
           },
           aggs: {
             group_by_brands: {
               terms: {
-                field: "brand.keyword",
-                size: 10
-              }
+                field: 'brand.keyword',
+                size: 15,
+              },
             },
             group_by_dealer: {
               terms: {
-                field: "parentAuthor.keyword",
-                size: 10
-              }
-            }
-          }
-        }
+                field: 'parentAuthor.keyword',
+                size: 10,
+              },
+            },
+          },
+        },
       });
 
       let brands = [];
       let dealers = [];
 
-      esRes.aggregations.group_by_brands.buckets.forEach(element => {
-        brands.push(element.key);
+      esRes.aggregations.group_by_brands.buckets.forEach((element) => {
+        const key = element.key.toLowerCase().trim();
+        if (key !== 'no brand' && key !== '' && key !== 'none') {
+          brands.push(element.key);
+        }
       });
 
-      esRes.aggregations.group_by_dealer.buckets.forEach(element => {
+      esRes.aggregations.group_by_dealer.buckets.forEach((element) => {
         dealers.push(element.key);
       });
 
       const result = {
         brands,
-        dealers
+        dealers,
       };
 
       return result;
@@ -143,53 +144,53 @@ export default {
             bool: {
               must: [
                 {
-                  match_all: {}
-                }
+                  match_all: {},
+                },
               ],
               filter: {
                 term: {
-                  itemType: "review"
-                }
-              }
-            }
+                  itemType: 'review',
+                },
+              },
+            },
           },
           aggs: {
             group_by_brands: {
               terms: {
-                field: "brand.keyword",
+                field: 'brand.keyword',
                 size: 1000,
                 order: {
-                  average: "asc"
+                  average: 'asc',
                 },
-                min_doc_count: 100
+                min_doc_count: 100,
               },
               aggs: {
                 average: {
                   avg: {
-                    field: "rate"
-                  }
-                }
-              }
+                    field: 'rate',
+                  },
+                },
+              },
             },
             group_by_dealer: {
               terms: {
-                field: "parentAuthor.keyword",
+                field: 'parentAuthor.keyword',
                 size: 1000,
                 order: {
-                  average: "asc"
+                  average: 'asc',
                 },
-                min_doc_count: 100
+                min_doc_count: 100,
               },
               aggs: {
                 average: {
                   avg: {
-                    field: "rate"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    field: 'rate',
+                  },
+                },
+              },
+            },
+          },
+        },
       });
 
       let brands = [];
@@ -205,10 +206,10 @@ export default {
 
       const result = {
         brands,
-        dealers
+        dealers,
       };
 
       return result;
-    }
-  }
+    },
+  },
 };

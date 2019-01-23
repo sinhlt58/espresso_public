@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Input, AutoComplete, Tag, Row, Col } from "antd";
-import { Link } from "react-router-dom";
-import Wrapper from "../../hoc/Wrapper";
+import React, { Component } from 'react';
+import { Input, AutoComplete, Tag, Row, Col } from 'antd';
+import { Link } from 'react-router-dom';
+import Wrapper from '../../hoc/Wrapper';
 import {
   brandAutocomplete,
   getAppStats,
   getPopuplarBrands,
-  getBadBrands
-} from "../../graphql-client/api";
+  getBadBrands,
+} from '../../graphql-client/api';
 
 const Search = Input.Search;
 
@@ -22,7 +22,7 @@ class Dashboard extends Component {
     brands: [],
     dealers: [],
     badBrands: [],
-    badDealers: []
+    badDealers: [],
   };
 
   async componentDidMount() {
@@ -33,14 +33,14 @@ class Dashboard extends Component {
         brands_count,
         comments_count,
         products_count,
-        domain_count
+        domain_count,
       } = res.data.getSummaryApp;
 
       this.setState({
         brands_count: Number(brands_count).toLocaleString(),
         comments_count: Number(comments_count).toLocaleString(),
         products_count: Number(products_count).toLocaleString(),
-        domain_count: Number(domain_count).toLocaleString()
+        domain_count: Number(domain_count).toLocaleString(),
       });
     }
 
@@ -59,26 +59,26 @@ class Dashboard extends Component {
     }
   }
 
-  _onInput = async text => {
-    if (text.trim() !== "") {
+  _onInput = async (text) => {
+    if (text.trim() !== '') {
       const res = await brandAutocomplete(text.toLowerCase());
       this.setState({
-        completion: res.data.brandCompletion
+        completion: res.data.brandCompletion,
       });
     } else {
       this.setState({
-        completion: []
+        completion: [],
       });
     }
   };
 
-  _onSelectSuggester = text => {
+  _onSelectSuggester = (text) => {
     this._onSearch(text);
   };
 
-  _onSearch = value => {
-    if (value.trim() === "" || value === undefined) {
-      alert("Vui lòng nhập tên thương hiệu trước khi tiếp tục");
+  _onSearch = (value) => {
+    if (value.trim() === '' || value === undefined) {
+      alert('Vui lòng nhập tên thương hiệu trước khi tiếp tục');
     } else {
       this.props.history.push(`/analytics/${value}`);
     }
@@ -89,17 +89,17 @@ class Dashboard extends Component {
       <Wrapper isHome location={this.props.location.pathname}>
         <div
           style={{
-            textAlign: "center",
+            textAlign: 'center',
             marginTop: 80,
-            width: "100%",
-            marginBottom: 100
+            width: '100%',
+            marginBottom: 100,
           }}
         >
           <h1>Nhập tên thương hiệu muốn phân tích</h1>
           <AutoComplete
             className="search-dashboard"
             size="large"
-            style={{ width: "60%" }}
+            style={{ width: '60%' }}
             dataSource={this.state.completion}
             onSelect={this._onSelectSuggester}
             onSearch={this._onInput}
@@ -117,26 +117,26 @@ class Dashboard extends Component {
         <div
           style={{
             paddingTop: 50,
-            backgroundColor: "white",
-            textAlign: "center",
-            paddingBottom: 50
+            backgroundColor: 'white',
+            textAlign: 'center',
+            paddingBottom: 50,
           }}
         >
           <h2>Phần mềm giúp đo lường sức khỏe thương hiệu</h2>
           <Row style={{ marginTop: 30 }}>
-            <Col span={6}>
+            <Col md={6}>
               <h1>{this.state.brands_count}</h1>
-              <p>Nhãn hàng và cửa hàng</p>
+              <p>Thương hiệu và cửa hàng</p>
             </Col>
-            <Col span={6}>
+            <Col md={6}>
               <h1>{this.state.products_count}</h1>
               <p>Sản phẩm</p>
             </Col>
-            <Col span={6}>
+            <Col md={6}>
               <h1>{this.state.comments_count}</h1>
               <p>Bình luận</p>
             </Col>
-            <Col span={6}>
+            <Col md={6}>
               <h1>{this.state.domain_count}</h1>
               <p>Trang thương mại điện tử</p>
             </Col>
@@ -147,7 +147,7 @@ class Dashboard extends Component {
             <h2 style={{ marginTop: 20, marginBottom: 20 }}>
               Các thương hiệu phổ biến nhất
             </h2>
-            {this.state.brands.map(item => (
+            {this.state.brands.map((item) => (
               <Tag color="#87d068">
                 <Link to={`/analytics/${item}`}>{item}</Link>
               </Tag>
@@ -155,7 +155,7 @@ class Dashboard extends Component {
             <h2 style={{ marginTop: 20, marginBottom: 20 }}>
               Các cửa hàng phổ biến nhất
             </h2>
-            {this.state.dealers.map(item => (
+            {this.state.dealers.map((item) => (
               <Tag color="#87d068">
                 <Link to={`/analytics/${item}`}>{item}</Link>
               </Tag>
@@ -163,7 +163,7 @@ class Dashboard extends Component {
             <h2 style={{ marginTop: 20, marginBottom: 20 }}>
               Các thương hiệu kém nhất
             </h2>
-            {this.state.badBrands.map(item => (
+            {this.state.badBrands.map((item) => (
               <Tag color="#f50">
                 <Link to={`/analytics/${item}`}>{item}</Link>
               </Tag>
@@ -171,7 +171,7 @@ class Dashboard extends Component {
             <h2 style={{ marginTop: 20, marginBottom: 20 }}>
               Các cửa hàng kém nhất
             </h2>
-            {this.state.badDealers.map(item => (
+            {this.state.badDealers.map((item) => (
               <Tag color="#f50">
                 <Link to={`/analytics/${item}`}>{item}</Link>
               </Tag>

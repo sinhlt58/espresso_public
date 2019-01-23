@@ -1,6 +1,7 @@
 import React from 'react';
 import { Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import './style.css';
 
 const SideMenu = (props) => (
   <Menu
@@ -9,6 +10,7 @@ const SideMenu = (props) => (
     style={props.style}
     defaultSelectedKeys={props.path}
     mode="inline"
+    className="side-menu"
   >
     <Menu.Item key="analytics">
       <Link to={`/analytics/${props.brand}`}>Chi tiết</Link>

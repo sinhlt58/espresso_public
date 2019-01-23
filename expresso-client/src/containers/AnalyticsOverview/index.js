@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Spin,
   Rate,
@@ -9,12 +9,12 @@ import {
   Button,
   Cascader,
   Pagination,
-  message
-} from "antd";
-import { getBrand, getComments } from "../../graphql-client/api";
-import Wrapper from "../../hoc/Wrapper";
-import { optionsDomain, optionsSort, optionsStar } from "../../constant";
-import CustomerCmt from "../../components/Comment";
+  message,
+} from 'antd';
+import { getBrand, getComments } from '../../graphql-client/api';
+import Wrapper from '../../hoc/Wrapper';
+import { optionsDomain, optionsSort, optionsStar } from '../../constant';
+import CustomerCmt from '../../components/Comment';
 
 const Search = Input.Search;
 
@@ -24,13 +24,13 @@ class AnalyticsOverview extends Component {
     loadingCmt: true,
     data: {},
     starPercent: [],
-    optionsDomain: ["ALL"],
-    optionsSort: ["DESC"],
-    optionsStar: ["0"],
+    optionsDomain: ['ALL'],
+    optionsSort: ['DESC'],
+    optionsStar: ['0'],
     dataCmts: [],
-    keyword: "",
+    keyword: '',
     page: 1,
-    totalCmt: 0
+    totalCmt: 0,
   };
 
   componentDidMount() {
@@ -43,13 +43,13 @@ class AnalyticsOverview extends Component {
 
     const res = await getBrand(
       this.props.match.params.name,
-      this.state.optionsDomain[0]
+      this.state.optionsDomain[0],
     );
 
     if (res.networkStatus === 7) {
       await this.setState({
         loading: false,
-        data: res.data.getBrand
+        data: res.data.getBrand,
       });
 
       let starPercent = [];
@@ -58,8 +58,8 @@ class AnalyticsOverview extends Component {
         if (temp - 1 === 0) {
           starPercent.push(
             Number(
-              ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2)
-            )
+              ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
+            ),
           );
         } else {
           for (let i = starPercent.length + 1; i < Number(element.star); i++) {
@@ -67,8 +67,8 @@ class AnalyticsOverview extends Component {
           }
           starPercent.push(
             Number(
-              ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2)
-            )
+              ((element.totalCmt / this.state.data.totalCmt) * 100).toFixed(2),
+            ),
           );
         }
       });
@@ -76,14 +76,14 @@ class AnalyticsOverview extends Component {
       starPercent.push(1, 2, 3, 4, 5);
 
       this.setState({
-        starPercent
+        starPercent,
       });
     } else {
-      if (this.state.optionsDomain[0] === "ALL") {
-        message.error("Không tìm thấy thương hiệu");
+      if (this.state.optionsDomain[0] === 'ALL') {
+        message.error('Không tìm thấy thương hiệu');
         this.props.history.goBack();
       } else {
-        message.error("Không tìm thấy thông tin thương hiệu ở kênh này");
+        message.error('Không tìm thấy thông tin thương hiệu ở kênh này');
       }
     }
   };
@@ -91,7 +91,7 @@ class AnalyticsOverview extends Component {
   getCustomerComments = async (keyword = this.state.keyword) => {
     await this.setState({
       keyword,
-      loadingCmt: true
+      loadingCmt: true,
     });
 
     const cmts = await getComments({
@@ -100,66 +100,66 @@ class AnalyticsOverview extends Component {
       star: this.state.optionsStar[0],
       domain: this.state.optionsDomain[0],
       sort: this.state.optionsSort[0],
-      keyword: this.state.keyword
+      keyword: this.state.keyword,
     });
 
     if (cmts.networkStatus === 7) {
       this.setState({
         loadingCmt: false,
         dataCmts: cmts.data.getComments.comments,
-        totalCmt: cmts.data.getComments.total
+        totalCmt: cmts.data.getComments.total,
       });
     } else {
-      message.error("Có lỗi xảy ra. Vui lòng thử lại!");
+      message.error('Có lỗi xảy ra. Vui lòng thử lại!');
     }
   };
 
-  _onChangeSort = async value => {
+  _onChangeSort = async (value) => {
     await this.setState({
       optionsSort: value,
-      page: 1
+      page: 1,
     });
 
     this.getCustomerComments();
   };
 
-  _onChangeDomain = async value => {
+  _onChangeDomain = async (value) => {
     await this.setState({
       optionsDomain: value,
-      page: 1
+      page: 1,
     });
     this.getBrandSummary();
     this.getCustomerComments();
   };
 
-  _onChangeStar = async value => {
+  _onChangeStar = async (value) => {
     await this.setState({
       optionsStar: value,
-      page: 1
+      page: 1,
     });
 
     this.getCustomerComments();
   };
 
-  _onClickStar = async star => {
+  _onClickStar = async (star) => {
     await this.setState({
       optionsStar: [`${star}`],
-      page: 1
+      page: 1,
     });
 
     this.getCustomerComments();
   };
 
-  _onSearch = async value => {
+  _onSearch = async (value) => {
     await this.setState({
-      page: 1
+      page: 1,
     });
     this.getCustomerComments(value);
   };
 
-  _onChangePage = async page => {
+  _onChangePage = async (page) => {
     await this.setState({
-      page
+      page,
     });
 
     this.getCustomerComments();
@@ -171,17 +171,17 @@ class AnalyticsOverview extends Component {
         location={this.props.location.pathname}
         brand={this.props.match.params.name}
       >
-        <Row style={{ marginBottom: "20px" }}>
-          <h2 style={{ margin: "20px 0px 0px 50px" }}>
-            Kết quả phân tích liên quan đến từ khoá:{" "}
-            <p style={{ color: "red", fontWeight: "500", display: "inline" }}>
+        <Row style={{ marginBottom: '20px' }}>
+          <h2 style={{ margin: '20px 0px 0px 50px' }}>
+            Kết quả phân tích liên quan đến từ khoá:{' '}
+            <p style={{ color: 'red', fontWeight: '500', display: 'inline' }}>
               {this.props.match.params.name}
-            </p>{" "}
+            </p>{' '}
           </h2>
         </Row>
-        <Row style={{ width: "100%" }}>
-          <Col span={1} />
-          <Col span={5}>
+        <Row style={{ width: '100%', padding: '10px' }}>
+          <Col md={1} />
+          <Col md={5}>
             {this.state.loading ? null : (
               <div>
                 <h2>Bình luận của khách hàng</h2>
@@ -210,15 +210,15 @@ class AnalyticsOverview extends Component {
                     >
                       <p
                         style={{
-                          paddingRight: "20px",
-                          display: "inline"
+                          paddingRight: '20px',
+                          display: 'inline',
                         }}
                       >
                         {this.state.starPercent[index + 5]} star
                       </p>
                       <Progress
                         percent={this.state.starPercent[index]}
-                        style={{ width: "80%" }}
+                        style={{ width: '80%' }}
                       />
                     </Button>
                   );
@@ -226,65 +226,71 @@ class AnalyticsOverview extends Component {
               </div>
             )}
           </Col>
-          <Col span={2} />
-          <Col span={14}>
+          <Col md={2} />
+          <Col md={14}>
             <Search
               placeholder="Nhập từ khoá để tìm kiếm bình luận"
               onSearch={this._onSearch}
               enterButton
-              style={{ width: "100%", marginBottom: "20px" }}
+              style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}
             />
-            <Row>
+            {/* <Row>
               <Col span={8}>
                 <h2>Sắp xếp</h2>
               </Col>
               <Col span={16}>
                 <h2>Lọc</h2>
               </Col>
-            </Row>
+            </Row> */}
             <Row>
-              <Col span={7}>
+              <Col md={7}>
+                <h2>Sắp xếp</h2>
                 <Cascader
                   options={optionsSort}
-                  style={{ width: "100%", marginBottom: "20px" }}
+                  style={{ width: '100%', marginBottom: '20px' }}
                   value={this.state.optionsSort}
                   onChange={this._onChangeSort}
                 />
               </Col>
-              <Col span={1} />
-              <Col span={7}>
-                <Cascader
-                  options={optionsDomain}
-                  style={{ width: "100%", marginBottom: "20px" }}
-                  value={this.state.optionsDomain}
-                  onChange={this._onChangeDomain}
-                />
-              </Col>
-              <Col span={1} />
-              <Col span={7}>
-                <Cascader
-                  options={optionsStar}
-                  style={{ width: "100%", marginBottom: "20px" }}
-                  value={this.state.optionsStar}
-                  onChange={this._onChangeStar}
-                />
+              <Col md={1} />
+              <Col md={16}>
+                <h2>Lọc</h2>
+                <Row>
+                  <Col md={10}>
+                    <Cascader
+                      options={optionsDomain}
+                      style={{ width: '100%', marginBottom: '20px' }}
+                      value={this.state.optionsDomain}
+                      onChange={this._onChangeDomain}
+                    />
+                  </Col>
+                  <Col md={2} />
+                  <Col md={10}>
+                    <Cascader
+                      options={optionsStar}
+                      style={{ width: '100%', marginBottom: '20px' }}
+                      value={this.state.optionsStar}
+                      onChange={this._onChangeStar}
+                    />
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Col>
         </Row>
         <hr
           style={{
-            alignSelf: "center",
-            width: "95%",
-            marginTop: "30px",
-            marginBottom: "30px"
+            alignSelf: 'center',
+            width: '95%',
+            marginTop: '30px',
+            marginBottom: '30px',
           }}
         />
         <Row>
           <Col span={1} />
           <Col span={23}>
             {this.state.loadingCmt ? (
-              <Spin style={{ margin: "0px 0px 0px 50%" }} size="large" />
+              <Spin style={{ margin: '0px 0px 0px 50%' }} size="large" />
             ) : (
               this.state.dataCmts.map((item, index) => (
                 <CustomerCmt
@@ -306,7 +312,7 @@ class AnalyticsOverview extends Component {
             total={this.state.totalCmt}
             onChange={this._onChangePage}
             pageSize={10}
-            style={{ marginBottom: "30px" }}
+            style={{ marginBottom: '30px' }}
           />
         </Row>
       </Wrapper>
