@@ -166,7 +166,7 @@ class ProductsSearch extends Component {
             dataSource={this.state.completion}
             onSelect={this._onSelectSuggester}
             onChange={this._onInput}
-            optionLabelProp="text"
+            optionLabelProp="value"
           >
             <Input.Search
               className="search-dashboard"

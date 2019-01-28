@@ -295,7 +295,7 @@ class Compare extends Component {
               dataSource={this.state.completionA}
               onSelect={this._onSelectSuggesterA}
               onSearch={this._onInputA}
-              optionLabelProp="text"
+              optionLabelProp="value"
             >
               <Search
                 placeholder="Ví dụ: Mango, Bitis..."
@@ -314,7 +314,7 @@ class Compare extends Component {
               dataSource={this.state.completionB}
               onSelect={this._onSelectSuggesterB}
               onSearch={this._onInputB}
-              optionLabelProp="text"
+              optionLabelProp="value"
             >
               <Search
                 placeholder="Ví dụ: Mango, Bitis..."

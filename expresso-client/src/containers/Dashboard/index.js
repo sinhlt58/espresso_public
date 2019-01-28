@@ -103,7 +103,7 @@ class Dashboard extends Component {
             dataSource={this.state.completion}
             onSelect={this._onSelectSuggester}
             onSearch={this._onInput}
-            optionLabelProp="text"
+            optionLabelProp="value"
           >
             <Search
               className="search-dashboard"
