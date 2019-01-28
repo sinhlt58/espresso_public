@@ -10,6 +10,7 @@ import Compare from './containers/Compare';
 import ProductsSearch from './containers/ProductsSearch';
 import Products from './containers/Products';
 import Facebook from './containers/Facebook';
+import FacebookTest from './containers/FacebookTest';
 import NotFound from './containers/NotFound';
 import './App.css';
 
@@ -27,6 +28,7 @@ class App extends Component {
             <Route path="/products" exact component={ProductsSearch} />
             <Route path="/products/:name/:keyword" component={Products} />
             <Route path="/facebook/:name" component={Facebook} />
+            <Route path="/facebooktest" component={FacebookTest} />
             <Route component={NotFound} />
           </Switch>
         </BrowserRouter>

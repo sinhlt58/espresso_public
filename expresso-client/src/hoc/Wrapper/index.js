@@ -30,6 +30,15 @@ class Wrapper extends Component {
       sentimentNav = '';
     }
 
+    let facebookNav = (
+      <Menu.Item key="fbtest">
+        <Link to="/facebooktest">Facebook</Link>
+      </Menu.Item>
+    );
+    if (!isDevelopment) {
+      facebookNav = '';
+    }
+
     return (
       <Layout style={this.props.style}>
         <Header>
@@ -60,6 +69,7 @@ class Wrapper extends Component {
               <Link to="/products">Sản phẩm</Link>
             </Menu.Item>
             {sentimentNav}
+            {facebookNav}
           </Menu>
         </Header>
         {this.props.isHome ? null : (
@@ -95,7 +105,7 @@ class Wrapper extends Component {
             <SideMenu
               path={this.state.selectedMenu}
               brand={this.props.brand}
-              style={{ flex: 1 }}
+              style={{ flex: 1, minHeight: '100vh' }}
             />
           )}
           <Content style={{ flex: 9 }}>{this.props.children}</Content>
