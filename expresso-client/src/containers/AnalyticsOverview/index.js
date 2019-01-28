@@ -234,14 +234,7 @@ class AnalyticsOverview extends Component {
               enterButton
               style={{ width: '100%', marginBottom: '20px', marginTop: '20px' }}
             />
-            {/* <Row>
-              <Col span={8}>
-                <h2>Sắp xếp</h2>
-              </Col>
-              <Col span={16}>
-                <h2>Lọc</h2>
-              </Col>
-            </Row> */}
+
             <Row>
               <Col md={7}>
                 <h2>Sắp xếp</h2>

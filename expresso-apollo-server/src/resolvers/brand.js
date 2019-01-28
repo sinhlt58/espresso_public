@@ -264,7 +264,7 @@ export default {
             group_by_brand: {
               terms: {
                 field: 'brand.keyword',
-                size: 5,
+                size: 10,
               },
             },
           },
@@ -295,7 +295,7 @@ export default {
             group_by_dealer: {
               terms: {
                 field: 'parentAuthor.keyword',
-                size: 5,
+                size: 10,
               },
             },
           },
@@ -306,10 +306,16 @@ export default {
         ...esBrand.aggregations.group_by_brand.buckets,
         ...esDealer.aggregations.group_by_dealer.buckets,
       ];
-      let result = [];
+      let tmp = [];
       tempArray.forEach((element) => {
-        result.push(element.key);
+        tmp.push(element.key);
       });
+
+      const tmpResult = tmp.filter((word) =>
+        word.toLowerCase().includes(args.keyword.toLowerCase()),
+      );
+
+      const result = [...new Set(tmpResult)];
 
       return result;
     },
