@@ -57,7 +57,11 @@ class FacebookTest extends Component {
     this.getData(this.state.name);
   };
 
-  _onSearch = (text) => {
+  _onSearch = async (text) => {
+    await this.setState({
+      data: [],
+      offset: 0,
+    });
     this.getData(text);
   };
 
