@@ -146,10 +146,20 @@ public class AggregationBrandSpout extends AbstractBrandSpout implements
 
         listIgnore = Arrays.asList(valueIgnore.split(","));
 
-        DBMap = DBMaker.fileDB(DBMakerFile).fileMmapEnable().make();
-        mapDB = DBMap
-            .hashMap("map", Serializer.STRING, Serializer.LONG)
-            .createOrOpen();
+        try {
+
+            DBMap = DBMaker.fileDB(DBMakerFile)
+            .fileMmapEnable()
+            .closeOnJvmShutdown()
+            .make();
+
+            mapDB = DBMap
+                .hashMap("map", Serializer.STRING, Serializer.LONG)
+                .createOrOpen();
+                
+        } catch (Exception e) {
+            LOG.error("Error in open file /espresso_data/timeLastGetBrand.db. ", e);
+        }
         
     }
 
@@ -163,7 +173,15 @@ public class AggregationBrandSpout extends AbstractBrandSpout implements
         int index = getRandomNumberInRange(0, partitionFieldsArray.length-1);
         String partitionField = partitionFieldsArray[index];
 
-        fromDate = mapDB.getOrDefault(nameFieldTime, timeLastGetBrandDefault);
+        // catch case sudden power outage and db is not closed
+        if(mapDB != null) {
+            fromDate = mapDB.getOrDefault(nameFieldTime, timeLastGetBrandDefault);
+        } else {
+            LOG.warn("File /espresso_data/timeLastGetBrand.db is error when open "
+                + "so time last get is set to default");
+            fromDate = timeLastGetBrandDefault;
+        }
+
         toDate = Long.sum(fromDate, nextTime);
 
         LOG.info("{} Populating buffer with {} from {} to {}", logIdprefix,
@@ -220,7 +238,7 @@ public class AggregationBrandSpout extends AbstractBrandSpout implements
     @Override
     public void close() {
         super.close();
-        if (DBMap != null)
+        if (DBMap != null && !DBMap.isClosed())
             try {
                 DBMap.close();
             } catch (Exception e) {}
@@ -235,7 +253,11 @@ public class AggregationBrandSpout extends AbstractBrandSpout implements
     @Override
     public void onResponse(SearchResponse response) {
 
-        mapDB.put(nameFieldTime, toDate);
+        if(mapDB != null) {
+            mapDB.put(nameFieldTime, toDate);
+        } else {
+            LOG.error("Error in put data to file /espresso_data/timeLastGetBrand.db. Map db is null.");
+        }
 
         long timeTaken = System.currentTimeMillis() - timeLastQuery;
 
