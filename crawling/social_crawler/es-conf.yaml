@@ -82,7 +82,9 @@ config:
 
   spout.brand.DBMaker.file.name: "/espresso_data/timeLastGetBrand.db"
 
-  spout.brand.time.last.get.default: 1546406121802
+  #spout.brand.time.last.get.default: 1546406121802
+  # time after fix bug not closed mapdb
+  spout.brand.time.last.get.default: 1547360121802
   
   spout.brand.next.time: 18000000
 

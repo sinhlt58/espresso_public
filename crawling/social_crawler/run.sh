@@ -26,7 +26,6 @@ fi
 
 if [ "$1" = "local" ]
 then
-    rm -f /espresso_data/timeLastGetBrand.db
     storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawl-fb-local.flux --sleep 864000000
 fi
 
@@ -40,4 +39,9 @@ then
     mkdir -p /espresso_data
     echo "Create Folder /espresso_data"
     echo "Done create!"
+fi
+
+if [ "$1" = "remove" ]
+then
+    rm -f /espresso_data/timeLastGetBrand.db
 fi
