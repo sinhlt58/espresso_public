@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, AutoComplete, Tag, Row, Col } from 'antd';
+import { Input, AutoComplete, Tag, Row, Col, message } from 'antd';
 import { Link } from 'react-router-dom';
 import Wrapper from '../../hoc/Wrapper';
 import {
@@ -8,6 +8,7 @@ import {
   getPopuplarBrands,
   getBadBrands,
 } from '../../graphql-client/api';
+import axios from 'axios';
 
 const Search = Input.Search;
 
@@ -76,11 +77,43 @@ class Dashboard extends Component {
     this._onSearch(text);
   };
 
-  _onSearch = (value) => {
-    if (value.trim() === '' || value === undefined) {
-      alert('Vui lòng nhập tên thương hiệu trước khi tiếp tục');
+  _onSearch = async (value) => {
+    const res = await brandAutocomplete(value.toLowerCase());
+
+    if (res.data.brandCompletion.length === 0) {
+      const botRes = await axios.post(
+        'https://chatbot.sachmem.vn/api/v1/bots/data_espresso/chat',
+        {
+          text: value,
+        },
+      );
+
+      if (botRes.data.rasa_intent.intent.name === null) {
+        message.error('Không tìm thấy thương hiệu');
+      } else if (botRes.data.rasa_intent.intent.name === 'tim_bl_xau') {
+        const entities = botRes.data.rasa_ner.merged_entities;
+        const brand = entities[0].value;
+        if (entities.length > 1) {
+          const time = entities[1].value;
+          this.props.history.push({
+            pathname: `/analytics/${brand}`,
+            state: { time, optionsSort: 'ASC' },
+          });
+        } else {
+          this.props.history.push({
+            pathname: `/analytics/${brand}`,
+            state: { optionsSort: 'ASC' },
+          });
+        }
+      }
     } else {
-      this.props.history.push(`/analytics/${value}`);
+      if (value.trim() === '' || value === undefined) {
+        alert('Vui lòng nhập tên thương hiệu trước khi tiếp tục');
+      } else {
+        this.props.history.push({
+          pathname: `/analytics/${value}`,
+        });
+      }
     }
   };
 

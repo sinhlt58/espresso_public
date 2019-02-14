@@ -10,11 +10,14 @@ import {
   Cascader,
   Pagination,
   message,
+  DatePicker,
 } from 'antd';
 import { getBrand, getComments } from '../../graphql-client/api';
 import Wrapper from '../../hoc/Wrapper';
 import { optionsDomain, optionsSort, optionsStar } from '../../constant';
 import CustomerCmt from '../../components/Comment';
+import moment from 'moment';
+import localization from 'moment/locale/vi';
 
 const Search = Input.Search;
 
@@ -31,11 +34,33 @@ class AnalyticsOverview extends Component {
     keyword: '',
     page: 1,
     totalCmt: 0,
+    to: moment(),
+    from: moment(1262304000000),
   };
 
   componentDidMount() {
+    moment()
+      .locale('vi', localization)
+      .format('LLL');
+
     this.getBrandSummary();
     this.getCustomerComments();
+
+    if (this.props.location.state !== undefined) {
+      if (this.props.location.state.time !== undefined) {
+        const { optionsSort, time } = this.props.location.state;
+        this.setState({
+          optionsSort: [`${optionsSort}`],
+          from: moment(time.from),
+          to: moment(time.to),
+        });
+      } else {
+        const { optionsSort } = this.props.location.state;
+        this.setState({
+          optionsSort: [`${optionsSort}`],
+        });
+      }
+    }
   }
 
   getBrandSummary = async (name, domain) => {
@@ -101,6 +126,8 @@ class AnalyticsOverview extends Component {
       domain: this.state.optionsDomain[0],
       sort: this.state.optionsSort[0],
       keyword: this.state.keyword,
+      from: (this.state.from.valueOf() / 1000).toString(),
+      to: (this.state.to.valueOf() / 1000).toString(),
     });
 
     if (cmts.networkStatus === 7) {
@@ -160,6 +187,22 @@ class AnalyticsOverview extends Component {
   _onChangePage = async (page) => {
     await this.setState({
       page,
+    });
+
+    this.getCustomerComments();
+  };
+
+  handleFromPanelChange = async (date, dateString) => {
+    await this.setState({
+      from: date,
+    });
+
+    this.getCustomerComments();
+  };
+
+  handleToPanelChange = async (date, dateString) => {
+    await this.setState({
+      to: date,
     });
 
     this.getCustomerComments();
@@ -267,6 +310,27 @@ class AnalyticsOverview extends Component {
                     />
                   </Col>
                 </Row>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col md={16}>
+                <Col md={12}>
+                  <h2>Từ</h2>
+                  <DatePicker
+                    placeholder="Chọn ngày"
+                    onChange={this.handleFromPanelChange}
+                    value={this.state.from}
+                  />
+                </Col>
+                <Col md={12}>
+                  <h2>Đến</h2>
+                  <DatePicker
+                    placeholder="Chọn ngày"
+                    onChange={this.handleToPanelChange}
+                    value={this.state.to}
+                  />
+                </Col>
               </Col>
             </Row>
           </Col>

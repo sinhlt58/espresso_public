@@ -20,6 +20,16 @@ export default {
             from: args.offset,
             query: {
               bool: {
+                must: [
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
+                ],
                 should: [
                   {
                     match_phrase: {
@@ -64,6 +74,14 @@ export default {
             query: {
               bool: {
                 must: [
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
                   {
                     match_phrase: {
                       content: args.keyword,
@@ -115,6 +133,14 @@ export default {
               bool: {
                 must: [
                   {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
+                  {
                     match: {
                       rate: args.star,
                     },
@@ -164,6 +190,14 @@ export default {
             query: {
               bool: {
                 must: [
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
                   {
                     match: {
                       rate: args.star,
@@ -220,6 +254,14 @@ export default {
               bool: {
                 must: [
                   {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
+                  {
                     match: {
                       domain: domainType,
                     },
@@ -269,6 +311,14 @@ export default {
             query: {
               bool: {
                 must: [
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
                   {
                     match: {
                       domain: domainType,
@@ -325,6 +375,14 @@ export default {
               bool: {
                 must: [
                   {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
+                  {
                     match: {
                       domain: domainType,
                     },
@@ -379,6 +437,14 @@ export default {
             query: {
               bool: {
                 must: [
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
                   {
                     match: {
                       domain: domainType,

@@ -37,10 +37,12 @@ export const getComments = async ({
   domain,
   sort,
   keyword,
+  from,
+  to,
 }) => {
   try {
     return await client.query({
-      variables: { offset, brand, star, sort, domain, keyword },
+      variables: { offset, brand, star, sort, domain, keyword, from, to },
       query: gql`
         query(
           $offset: Int!
@@ -49,6 +51,8 @@ export const getComments = async ({
           $sort: SortEnum
           $domain: DomainEnum
           $keyword: String
+          $from: String!
+          $to: String!
         ) {
           getComments(
             offset: $offset
@@ -57,6 +61,8 @@ export const getComments = async ({
             star: $star
             domain: $domain
             keyword: $keyword
+            from: $from
+            to: $to
           ) {
             total
             comments {
