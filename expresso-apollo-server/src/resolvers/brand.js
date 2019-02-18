@@ -315,9 +315,21 @@ export default {
         word.toLowerCase().includes(args.keyword.toLowerCase()),
       );
 
-      const result = [...new Set(tmpResult)];
+      const noDuplicateArray = tmpResult.reduce((result, element) => {
+        const normalize = (x) => x.toLowerCase();
 
-      return result;
+        var normalizedElement = normalize(element);
+        if (
+          result.every(
+            (otherElement) => normalize(otherElement) !== normalizedElement,
+          )
+        )
+          result.push(element);
+
+        return result;
+      }, []);
+
+      return noDuplicateArray;
     },
 
     getFacebookPage: async (parent, args) => {

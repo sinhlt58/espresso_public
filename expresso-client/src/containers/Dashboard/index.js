@@ -9,6 +9,7 @@ import {
   getBadBrands,
 } from '../../graphql-client/api';
 import axios from 'axios';
+import moment from 'moment';
 
 const Search = Input.Search;
 
@@ -146,6 +147,34 @@ class Dashboard extends Component {
               size="large"
             />
           </AutoComplete>
+        </div>
+        <div style={{ paddingLeft: '20%', paddingBottom: 30 }}>
+          <h3>Tìm kiếm nâng cao:</h3>
+          <Link
+            to={{
+              pathname: `/analytics/oem`,
+              state: { optionsSort: 'ASC' },
+            }}
+          >
+            <a href="#">Tìm bình luận xấu về oem</a>
+          </Link>
+          <br />
+          <Link
+            to={{
+              pathname: `/analytics/everest`,
+              state: {
+                optionsSort: 'ASC',
+                time: {
+                  from: moment()
+                    .subtract(1, 'month')
+                    .format('YYYY-MM-DD'),
+                  to: moment().format('YYYY-MM-DD'),
+                },
+              },
+            }}
+          >
+            <a href="#">Bình luận xấu về everest trong 1 tháng trước</a>
+          </Link>
         </div>
         <div
           style={{
