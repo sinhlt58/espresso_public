@@ -106,6 +106,14 @@ class Dashboard extends Component {
             state: { optionsSort: 'ASC' },
           });
         }
+      } else if (botRes.data.rasa_intent.name === 'so_sanh') {
+        const brand1 = botRes.data.rasa_ner.merged_entities[0].value;
+        const brand2 = botRes.data.rasa_ner.merged_entities[1].value;
+
+        this.props.history.push({
+          pathname: `/compare`,
+          state: { brand1, brand2 },
+        });
       }
     } else {
       if (value.trim() === '' || value === undefined) {
@@ -126,7 +134,7 @@ class Dashboard extends Component {
             textAlign: 'center',
             marginTop: 80,
             width: '100%',
-            marginBottom: 100,
+            marginBottom: 50,
           }}
         >
           <h1>Nhập tên thương hiệu muốn phân tích</h1>
@@ -175,6 +183,16 @@ class Dashboard extends Component {
           >
             <a href="#">Bình luận xấu về everest trong 1 tháng trước</a>
           </Link>
+          <br />
+          <Link
+            to={{
+              pathname: `/compare`,
+              state: { brand1: 'nike', brand2: 'adidas' },
+            }}
+          >
+            <a href="#">So sánh nike và adidas</a>
+          </Link>
+          <br />
         </div>
         <div
           style={{

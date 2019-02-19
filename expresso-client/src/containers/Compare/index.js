@@ -61,7 +61,21 @@ class Compare extends Component {
     dataB: [],
     dataHistogramB: [],
     starPercentB: [],
+    brandAStr: '',
+    brandBStr: '',
   };
+
+  componentDidMount() {
+    if (this.props.location.state !== undefined) {
+      const { brand1, brand2 } = this.props.location.state;
+      this.setState({
+        brandAStr: brand1,
+        brandBStr: brand2,
+      });
+      this._onSearchA(brand1);
+      this._onSearchB(brand2);
+    }
+  }
 
   _onSearchA = async (text) => {
     await this.setState({
@@ -237,6 +251,9 @@ class Compare extends Component {
   };
 
   _onInputA = async (text) => {
+    this.setState({
+      brandAStr: text,
+    });
     if (text.trim() !== '') {
       const res = await brandAutocomplete(text.toLowerCase());
       this.setState({
@@ -264,14 +281,14 @@ class Compare extends Component {
 
   _onSelectSuggesterA = async (text) => {
     this.setState({
-      brandA: text,
+      brandAStr: text,
     });
     this._onSearchA(text);
   };
 
   _onSelectSuggesterB = (text) => {
     this.setState({
-      brandB: text,
+      brandBStr: text,
     });
     this._onSearchB(text);
   };
@@ -296,6 +313,7 @@ class Compare extends Component {
               onSelect={this._onSelectSuggesterA}
               onSearch={this._onInputA}
               optionLabelProp="value"
+              value={this.state.brandAStr}
             >
               <Search
                 placeholder="Ví dụ: Mango, Bitis..."
@@ -315,6 +333,7 @@ class Compare extends Component {
               onSelect={this._onSelectSuggesterB}
               onSearch={this._onInputB}
               optionLabelProp="value"
+              value={this.state.brandBStr}
             >
               <Search
                 placeholder="Ví dụ: Mango, Bitis..."
