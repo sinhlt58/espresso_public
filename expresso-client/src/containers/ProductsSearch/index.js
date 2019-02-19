@@ -19,78 +19,19 @@ class ProductsSearch extends Component {
     loading: false,
     completion: [],
     keyword: '',
+    str: '',
   };
 
-  // getColumnSearchProps = (dataIndex) => ({
-  //   filterDropdown: ({
-  //     setSelectedKeys,
-  //     selectedKeys,
-  //     confirm,
-  //     clearFilters,
-  //   }) => (
-  //     <div style={{ padding: 8 }}>
-  //       <Input
-  //         ref={(node) => {
-  //           this.searchInput = node;
-  //         }}
-  //         placeholder={`Search ${dataIndex}`}
-  //         value={selectedKeys[0]}
-  //         onChange={(e) =>
-  //           setSelectedKeys(e.target.value ? [e.target.value] : [])
-  //         }
-  //         onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
-  //         style={{ width: 188, marginBottom: 8, display: 'block' }}
-  //       />
-  //       <Button
-  //         type="primary"
-  //         onClick={() => this.handleSearch(selectedKeys, confirm)}
-  //         icon="search"
-  //         size="small"
-  //         style={{ width: 90, marginRight: 8 }}
-  //       >
-  //         Search
-  //       </Button>
-  //       <Button
-  //         onClick={() => this.handleReset(clearFilters)}
-  //         size="small"
-  //         style={{ width: 90 }}
-  //       >
-  //         Reset
-  //       </Button>
-  //     </div>
-  //   ),
-  //   filterIcon: (filtered) => (
-  //     <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
-  //   ),
-  //   onFilter: (value, record) =>
-  //     record[dataIndex]
-  //       .toString()
-  //       .toLowerCase()
-  //       .includes(value.toLowerCase()),
-  //   onFilterDropdownVisibleChange: (visible) => {
-  //     if (visible) {
-  //       setTimeout(() => this.searchInput.select());
-  //     }
-  //   },
-  //   render: (text) => (
-  //     <Highlighter
-  //       highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-  //       searchWords={[this.state.searchText]}
-  //       autoEscape
-  //       textToHighlight={text.toString()}
-  //     />
-  //   ),
-  // });
-
-  // handleSearch = (selectedKeys, confirm) => {
-  //   confirm();
-  //   this.setState({ searchText: selectedKeys[0] });
-  // };
-
-  // handleReset = (clearFilters) => {
-  //   clearFilters();
-  //   this.setState({ searchText: '' });
-  // };
+  componentDidMount() {
+    if (this.props.location.state !== undefined) {
+      const { product } = this.props.location.state;
+      this.setState({
+        keyword: product,
+        str: product,
+      });
+      this._onSearch(product);
+    }
+  }
 
   _onSearch = async (text) => {
     await this.setState({
@@ -109,6 +50,9 @@ class ProductsSearch extends Component {
   };
 
   _onInput = async (text) => {
+    this.setState({
+      str: text,
+    });
     if (text.trim() !== '') {
       const res = await productAutocomplete(text.toLowerCase());
       const result = [text, ...res.data.productCompletion];
@@ -125,6 +69,7 @@ class ProductsSearch extends Component {
   _onSelectSuggester = (text) => {
     this.setState({
       keyword: text,
+      str: text,
     });
     this._onSearch(text);
   };
@@ -167,6 +112,7 @@ class ProductsSearch extends Component {
             onSelect={this._onSelectSuggester}
             onChange={this._onInput}
             optionLabelProp="value"
+            value={this.state.str}
           >
             <Input.Search
               className="search-dashboard"

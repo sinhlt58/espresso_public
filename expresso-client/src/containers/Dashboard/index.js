@@ -106,13 +106,27 @@ class Dashboard extends Component {
             state: { optionsSort: 'ASC' },
           });
         }
-      } else if (botRes.data.rasa_intent.name === 'so_sanh') {
+      } else if (botRes.data.rasa_intent.intent.name === 'so_sanh') {
         const brand1 = botRes.data.rasa_ner.merged_entities[0].value;
         const brand2 = botRes.data.rasa_ner.merged_entities[1].value;
 
         this.props.history.push({
           pathname: `/compare`,
           state: { brand1, brand2 },
+        });
+      } else if (botRes.data.rasa_intent.intent.name === 'tim_thuong_hieu') {
+        const entities = botRes.data.rasa_ner.merged_entities;
+        const product = entities[entities.length - 1].value;
+
+        this.props.history.push({
+          pathname: `/products`,
+          state: { product },
+        });
+      } else if (botRes.data.rasa_intent.intent.name === 'phan_tich_tu_khoa') {
+        const brand = botRes.data.rasa_ner.merged_entities[0].value;
+
+        this.props.history.push({
+          pathname: `/analytics/${brand}`,
         });
       }
     } else {
@@ -193,6 +207,22 @@ class Dashboard extends Component {
             <a href="#">So sánh nike và adidas</a>
           </Link>
           <br />
+          <Link
+            to={{
+              pathname: `/products`,
+              state: { product: 'giày nam' },
+            }}
+          >
+            <a href="#">Tìm shop bán giày nam</a>
+          </Link>
+          <br />
+          <Link
+            to={{
+              pathname: `/analytics/everest`,
+            }}
+          >
+            <a href="#">Phân tích everest</a>
+          </Link>
         </div>
         <div
           style={{
