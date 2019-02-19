@@ -41,3 +41,4 @@
 
 8. [Tài liệu sentiment notes](https://docs.google.com/document/d/1FxTRibnML77muX-j9FlS6LJhXoUeQPmbPBxDtfKBUzc/edit)
 
+9. [Tài liệu hướng dẫn sử dụng](https://docs.google.com/document/d/1EUMTWd0XELCvl82ZKkV9lygsWCBb_dTg5d2oNawAivo/edit)
