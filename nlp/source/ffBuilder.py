@@ -1,8 +1,9 @@
 import tensorflow as tf
+import numpy as np
 import os
 
 def _default_printer(*args):
-	print(args)
+	print(*args)
 
 def optimizeLossClean(train_logits, correct_ids, correct_output_length, optimizer="SGD", learning_rate=1.0, decay_fn=None, clip_gradients=5.0, name="optimizer"):
 	"""Create the optimize loss operator
@@ -26,7 +27,7 @@ def optimizeLossClean(train_logits, correct_ids, correct_output_length, optimize
 		global_step = tf.train.get_or_create_global_step()
 		return train_loss, token_loss, tf.contrib.layers.optimize_loss(train_loss, global_step, learning_rate, optimizer, learning_rate_decay_fn=decay_fn, clip_gradients=clip_gradients, name="backprop_op")
 
-def getOrCreateEmbedding(name, create=False, vocab_size=None, num_units=None):
+def getOrCreateEmbedding(name, create=False, vocab_size=None, num_units=None, scope="embeddings"):
 	"""Get or create an embedding function converting ids to embedding
 		Args:
 			name: the name of the embedding
@@ -35,7 +36,7 @@ def getOrCreateEmbedding(name, create=False, vocab_size=None, num_units=None):
 		Returns:
 			A lookup callable converting ids to embedding
 	"""
-	with tf.variable_scope("embeddings", reuse=not create):
+	with tf.variable_scope(scope, reuse=not create):
 		embedding = tf.get_variable(name, shape=[vocab_size, num_units] if create else None, initializer=tf.random_uniform_initializer(minval=-0.1, maxval=0.1))
 	return lambda x: tf.nn.embedding_lookup(embedding, x)
 
@@ -50,6 +51,7 @@ def createEncoderClean(embedded_inputs, cell_size=512, cell_type=tf.nn.rnn_cell.
 	"""
 	printer("Constructing encoder with setting values: {}".format(locals()))
 	with tf.variable_scope(name):
+		print("Current namescope {:s}".format(tf.get_variable_scope().name))
 		# Check for dropout, create a placeholder if not yet created
 		dropout = created_dropout
 		if(not isinstance(dropout, tf.Tensor)):
@@ -79,16 +81,17 @@ def createEncoderClean(embedded_inputs, cell_size=512, cell_type=tf.nn.rnn_cell.
 		else:
 			cell = createRNNCell(cell_type, cell_size, num_layers, dropout=dropout, name='encoder_cell')
 			
-			outputs, state = tf.nn.dynamic_rnn(cell, inputs, dtype=tf.float32)
+			outputs, state = tf.nn.dynamic_rnn(cell, embedded_inputs, dtype=tf.float32)
 		return outputs, state
 
-def createDecoderClean(inputs, encoder_state, inputs_length=None, embedding_fn=None, projection_layer=None, encoder_outputs=None, encoder_length=None, cell_size=512, cell_type=tf.nn.rnn_cell.BasicLSTMCell, num_layers=2, created_dropout=None, attention_mechanism=None, printer=_default_printer, name='decoder', variable_scope_reuse=False, beam_size=1, training=False, end_token=None, maximum_iterations=250):
+def createDecoderClean(inputs, encoder_state, vocab_size, inputs_length=None, embedding_fn=None, projection_layer=None, encoder_outputs=None, encoder_length=None, cell_size=512, cell_type=tf.nn.rnn_cell.BasicLSTMCell, num_layers=2, created_dropout=None, attention_mechanism=None, printer=_default_printer, name='decoder', variable_scope_reuse=False, beam_size=1, training=False, end_token=None, maximum_iterations=250):
 	"""Create a decoder with or without attention and beam
 		If using attention, encoder_outputs and encoder_length required as tensor [batch_size, src_len, embedding_size] and [batch_size]
 		If want to train|eval, set training=True and inputs is the correct inputs of the whole sentence; inputs_length required
 		If want to infer, set training=False and inputs is the starting [batch_size] of start_token; embedding_fn, beam_size, end_token required
 	Args: 
-			projection_layer: Required in all, convert cell output to probs
+#DEP	projection_layer: Required in all, convert cell output to probs
+			vocab_size: Required, the size of the projection. Replace to be self-contained
 			inputs: see above
 			variable_scope_reuse: set if this function had ran before
 			training: set if in training mode
@@ -105,9 +108,9 @@ def createDecoderClean(inputs, encoder_state, inputs_length=None, embedding_fn=N
 		assert inputs_length is not None, "Must have inputs_length in training"
 
 	with tf.variable_scope(name, reuse=variable_scope_reuse):
-		print("Overriding a projection layer inside namescope. Damn")
+		printer("Current namescope {:s}".format(tf.get_variable_scope().name))
 	# with tf.variable_scope("projection", reuse=tf.AUTO_REUSE):
-		projection_layer = tf.layers.Dense(len(tgt_vocab), use_bias=False, name="decoder_projection_layer")
+		projection_layer = tf.layers.Dense(vocab_size, use_bias=False, name="decoder_projection_layer")
 		# construct cell
 		cell = createRNNCell(cell_type, cell_size, num_layers, dropout=created_dropout, name='rnn_cell')
 		if(attention_mechanism):
@@ -131,12 +134,12 @@ def createDecoderClean(inputs, encoder_state, inputs_length=None, embedding_fn=N
 		if(training):
 			# Training decoder
 			helper = tf.contrib.seq2seq.TrainingHelper(inputs, inputs_length)
-			decoder = tf.contrib.seq2seq.BasicDecoder(cell, helper, initial_state)
+			decoder = tf.contrib.seq2seq.BasicDecoder(cell, helper, initial_state, output_layer=projection_layer)
 			# run the dynamic decode
 			outputs, final_state, final_length = tf.contrib.seq2seq.dynamic_decode(decoder)
-			unprojected_logits = outputs.rnn_output
+			logits = outputs.rnn_output
 			return { 
-				"logits": projection_layer(unprojected_logits), 
+				"logits": logits, 
 				"state": final_state, 
 				"length": final_length 
 			}
@@ -150,7 +153,7 @@ def createDecoderClean(inputs, encoder_state, inputs_length=None, embedding_fn=N
 			predictions = outputs.sample_id
 			alignment_history = final_state.alignment_history if attention_mechanism else None
 			return {
-				"predictions": tf.expand_dims(predictions, -1),
+				"predictions": tf.expand_dims(predictions, 1),
 				"state": final_state,
 				"length": tf.expand_dims(final_length, -1),
 				"log_probs": final_state,
@@ -158,19 +161,20 @@ def createDecoderClean(inputs, encoder_state, inputs_length=None, embedding_fn=N
 			}
 		else:
 			# tile the inputs and run the BeamSearchDecoder
-			start_tokens = tf.contrib.seq2seq.tile_batch(inputs, multiplier=beam_size)
-			start_tokens = tf.Print(start_tokens, [tf.shape(start_tokens), tf.shape(encoder_state), tf.shape(encoder_outputs), tf.shape(encoder_length)])
+			start_tokens = inputs
+#			start_tokens = tf.Print(start_tokens, [tf.shape(start_tokens), tf.shape(encoder_state), tf.shape(encoder_outputs), tf.shape(encoder_length)])
 			decoder = tf.contrib.seq2seq.BeamSearchDecoder(cell, embedding_fn, start_tokens, end_token, initial_state, beam_size, output_layer=projection_layer)
 			outputs, final_state, final_length = tf.contrib.seq2seq.dynamic_decode(decoder, maximum_iterations=maximum_iterations)
 			# get the necessary values
 			predictions = outputs.predicted_ids
-			print("Alignment history not available currently")
 #			alignment_history = final_state.alignment_history if attention_mechanism else Nonea
 			alignment_history = None
 			if(alignment_history):
 				batch_size = tf.shape(inputs)[0]
 				src_len = tf.shape(encoder_outputs)[1]
 				alignment_history = tf.reshape(alignment_history, [batch_size, beam_size, -1, src_len])
+			else:
+				printer("Alignment history not available currently")
 			return {
 				"predictions": tf.transpose(predictions, perm=[0, 2, 1]),
 				"state": final_state,
@@ -818,21 +822,129 @@ def saveToPath(session, path, global_step=None):
 	print("Saved data to location {}, global step value {}".format(path, global_step))
 	session.saver = saver
 
-def loadFromPath(session, path):
+def loadFromPath(session, path, checkpoint=None, debug=False):
 	saver = tf.train.Saver() if not hasattr(session, "saver") else session.saver
 	try:
-		directory, file_name = os.path.split(path)
-		latest_path = tf.train.latest_checkpoint(directory, latest_filename="checkpoint")
-		if(latest_path == None):
-			print("Latest checkpoint not found, should abort to skip")
+		if(checkpoint):
+			path = path + "-" + str(checkpoint)
 		else:
-			path = latest_path
+			directory, file_name = os.path.split(path)
+			latest_path = tf.train.latest_checkpoint(directory, latest_filename="checkpoint")
+			if(latest_path == None):
+				print("Latest checkpoint not found, should abort to skip")
+			else:
+				path = latest_path
 		saver.restore(session, path)
+		if(debug and (checkpoint is not None or latest_path is not None)):
+			# only initiate with a verified checkpoint
+			verifySessionLoadSuccess(session, latest_path)
+			session.latest_path = latest_path
 		print("Load data from location {} completed.".format(path))
+#		loaded = True
 	except tf.errors.NotFoundError:
 		print("Skip the load process @ path {} due to file not existing.".format(path))
+#		loaded = False
 	except ValueError:
 		print("Path {} not a valid checkpoint. Ignore and continue..".format(path))
+#		loaded = False
+#	if(not loaded):
+#		print("Session not loaded, perform initialization by default")
+#		session.run([tf.global_variables_initializer()])
 	session.saver = saver
 	return session
 
+def loadCheckpointVariables(checkpoint_path, tensor_names):
+	"""Copy from inspect_checkpoint tool"""
+#	# import the needed tool
+#	from tensorflow.python.tools import inspect_checkpoint
+	reader = tf.train.NewCheckpointReader(checkpoint_path)
+#	print(reader.debug_string())
+#	checkpoint_namelist = reader.get_variable_to_shape_map()
+	checkpoint_values = [reader.get_tensor(name) for name in tensor_names]
+	return checkpoint_values
+
+def verifySessionLoadSuccess(session, checkpoint_path, suppressError=True):
+	"""Verify that all variables in the checkpoint is loaded into the session
+		Args:
+			session: the session to be checked
+			checkpoint_path: the checkpoint path to be inspected and compare
+			suppressError: if False, will raise Error on wrong load; if True, print out the result of comparison and continue
+		Raise:
+			a general Exception if encounter a wrong load and suppressError flag set to False
+	"""
+#	if(args.debug):
+#		print("All trainable variables in session: {}".format([v.name for v in tf.trainable_variables()]))
+	# load all variables in as numpy
+	all_trainables = tf.trainable_variables()
+	# names are without :0
+	all_names = [v.name.replace(":0", "") for v in tf.trainable_variables()]
+	session_values = session.run(all_trainables)
+	checkpoint_values = loadCheckpointVariables(checkpoint_path, all_names)
+	print("Begin checkpoint verification...")
+	for name, session_val, checkpoint_val in zip(all_names, session_values, checkpoint_values):
+		if(not np.array_equal(session_val, checkpoint_val)):
+			if(not suppressError):
+				raise Exception("Tensor with name {:s} load failed!\nSession is {}, Checkpoint is {}".format(name, session_val, checkpoint_val))
+			else:
+				print("ERROR! Tensor with name {:s} load failed!\nSession is {}, Checkpoint is {}".format(name, session_val, checkpoint_val))
+		else:
+			if(suppressError):
+				print("Tensor {:s} load successfully".format(name))
+
+def exportMetaGraph(file_stream, checkpoint_path=None):
+	"""Load the meta graph at checkpoint_path and export it to a file
+		Args:
+			file_stream: the IOBuffer to feed the graph data into
+			checkpoint_path: if true, load the meta graph into the running session
+				WARNING! This operation will overwrite current default graph. Do not use during actual running operation
+	"""
+	if(checkpoint_path):
+		saver = tf.train.import_meta_graph(checkpoint_path + ".meta")
+	all_graph_ops = tf.get_default_graph().get_operations()
+	for item in all_graph_ops:
+		file_stream.write(str(item))
+	return file_stream
+
+def _createTrashValue(dtype):
+	if(dtype == tf.string):
+		return "trash trash trash"
+	elif(dtype.is_integer):
+		return 0
+	elif(dtype.is_floating):
+		return 0.0
+	elif(dtype.is_bool):
+		return False
+	else:
+		raise ValueError("Dtype {} unsupported".format(dtype))
+
+def _createTrashShapedValue(shape, dtype):
+#	print("Creating trash {} with shape {}".format(dtype, shape))
+	trash_value = _createTrashValue(dtype)
+	# shapify
+	for dim in reversed(shape):
+		trash_value = [trash_value] * dim
+	return np.array(trash_value)
+
+def trySaveSessionValues(session, feed_dict=None):
+	"""Save all session tensor state when feeded feed_dict|trash values """
+	graph = tf.get_default_graph()
+	if(feed_dict is None):
+		print("Generate trash data..")
+		placeholders = [x for x in graph.get_operations() if x.type == "Placeholder"]
+		placeholder_tensors = [graph.get_tensor_by_name(x.name + ":0") for x in placeholders]
+		placeholder_shapes = [x.get_shape().as_list() for x in placeholder_tensors]
+		trash_shapes = [[dim if dim is not None else 1 for dim in shape] for shape in placeholder_shapes]
+		trash_values = [_createTrashShapedValue(shape, tensor.dtype) for shape, tensor in zip(trash_shapes, placeholder_tensors)]
+#		print(trash_values)
+		feed_dict = {tensor:value for tensor, value in zip(placeholder_tensors, trash_values)}
+	# only take fetchable (branched condition) and non-save non-training tensor
+	all_tensors = [t for op in graph.get_operations() for t in op.values() if graph.is_fetchable(t)]
+	exclusions = ("while","save", "train", "Gradient", "Initializer", "Assign")
+	all_tensors = [t for t in all_tensors if all((ex not in t.name for ex in exclusions))]
+#	print([t.name for t in all_tensors])
+	all_tensor_values = session.run(all_tensors, feed_dict=feed_dict)
+#	all_tensor_values = [val.tolist() if isinstance(val, np.ndarray) 
+#											else str(val) if isinstance(val, (bytes, bytearray))
+#											else val 
+#														for val in all_tensor_values]
+	return {t.name:v for t, v in zip(all_tensors, all_tensor_values)}

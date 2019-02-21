@@ -3,12 +3,13 @@ import html
 
 NUMBER_RANGE = 3
 DEFAULT_SENTENCE_LENGTH = 50
+COUNTER_PRINT = 1000
 
 # refer to https://stackoverflow.com/questions/37579692/unicode-range-for-vietnamese
 # and http://kipalog.1upnote.me/post/KTfPN3Gkv43ykRQ1aRd5_w
 
 # all_vietnamese_characters_no_tone_marks = u"aAăĂâÂbBcCdDđĐeEêÊfFgGhHiIjJkKlLmMnNoOôÔơƠpPqQrRsStTuUưƯvVwWxXyYzZ"
-all_vietnamese_characters = u"aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ"
+all_vietnamese_characters = "aAàÀảẢãÃáÁạẠăĂằẰẳẲẵẴắẮặẶâÂầẦẩẨẫẪấẤậẬbBcCdDđĐeEèÈẻẺẽẼéÉẹẸêÊềỀểỂễỄếẾệỆfFgGhHiIìÌỉỈĩĨíÍịỊjJkKlLmMnNoOòÒỏỎõÕóÓọỌôÔồỒổỔỗỖốỐộỘơƠờỜởỞỡỠớỚợỢpPqQrRsStTuUùÙủỦũŨúÚụỤưƯừỪửỬữỮứỨựỰvVwWxXyYỳỲỷỶỹỸýÝỵỴzZ"
 all_vowels_no_diacritics = "AaEeIiOoUu"
 all_diacritics_vowels_no_tone_marks="ÂâĂăƠơƯưÊê"
 all_vowels_no_tone_marks = all_vowels_no_diacritics + all_diacritics_vowels_no_tone_marks
@@ -134,6 +135,11 @@ def replace_html_entity_reg(line):
 def replace_html_entity(line):
   return html.unescape(line)
 
+html_tag_regex = re.compile("<.*?>")
+# brute force removal
+def remove_html_tags(line):
+  return re.sub(html_tag_regex, " ", line)
+
 remove_leading_idx = re.compile("\\d+\t")
 # wikipedia have first number and tab
 def remove_first_number(line):
@@ -150,6 +156,11 @@ model_regex = re.compile("(?=[A-Z]+\-*[0-9]|[0-9]+\-*[A-Z])[A-Z0-9\-]{2,}(?=\s|$
 def replace_model_token(line):
 #  raise Exception("Faulty regex")
   return re.sub(model_regex, "<model> ", line)
+
+# emoticon default splitter
+emoticon_regex = re.compile("([{:s}-{:s}])".format(chr(0x1f600), chr(0x1f64f)))
+def split_emoticon(line):
+	return re.sub(emoticon_regex, " \1 ", line)
 
 # rejoin character plus . (eg: S. Truman)
 middle_name_regex = re.compile("(?=^|\s) ([A-Z])\s\.")
@@ -200,6 +211,12 @@ def splice_long_sentences(tokens, threshold=50, overlap=10):
     # splicing basing on the overlap
     num_split = (len(tokens) - threshold) // overlap + 1
     return [tokens[starter*10:starter*10+threshold] for starter in range(num_split)]
+
+REFORMATTER = ( ("-RRB", ")"), ("-LRB-", ")"), ("``", "\""), ("\'\'", "\""))
+def misc_reformat(line):
+	for src, tgt in REFORMATTER:
+		line = line.replace(src, tgt)
+	return line
 
 if __name__ == "__main__":
   mode = sys.argv[1]
