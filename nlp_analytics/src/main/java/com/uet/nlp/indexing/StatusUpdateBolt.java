@@ -60,11 +60,17 @@ public class StatusUpdateBolt extends BaseRichBolt implements
     static final String ESStatusDocTypeParamName = "es.status.doc.type";
     static final String ESStatusUpdateSkipParamName = "es.status.update.skip";
 
+    static final String ESSentimentScoreFieldNameParamName = "model.sentiment.score.field.name";
+    static final String ESSentimentStarFieldNameParamName = "model.sentiment.star.field.name";
+
     private String ESAnalysisStatusFieldParamName = "es.analysis.status.field";
     private String ESAnalysisStatusDoneParamName = "es.analysis.done";
 
     private String analysisStatusField = "";
     private String analysisStatusDone = "";
+
+    private String sentimentScoreFieldName = "";
+    private String sentimentStarFieldName = "";
 
     private String indexName;
     private String docType;
@@ -97,6 +103,11 @@ public class StatusUpdateBolt extends BaseRichBolt implements
         analysisStatusDone = ConfUtils.getString(conf, ESAnalysisStatusDoneParamName,
                     "DONE");
 
+        sentimentScoreFieldName = ConfUtils.getString(conf, ESSentimentScoreFieldNameParamName,
+                    "sentimentScoreV1");
+        sentimentStarFieldName = ConfUtils.getString(conf, ESSentimentStarFieldNameParamName,
+                    "sentimentStarV1");
+
         skipUpdate = ConfUtils.getBoolean(conf, ESStatusUpdateSkipParamName, false);
 
         waitAck = CacheBuilder.newBuilder()
@@ -120,7 +131,6 @@ public class StatusUpdateBolt extends BaseRichBolt implements
 
     @Override
     public void execute(Tuple tuple) {
-
         try {
             if (skipUpdate) {
                 _collector.ack(tuple);
@@ -131,6 +141,11 @@ public class StatusUpdateBolt extends BaseRichBolt implements
             
             XContentBuilder builder = jsonBuilder().startObject();
             builder.field(analysisStatusField, analysisStatusDone);
+            if (tuple.contains("sentimentScores")) {
+                float[] scores = (float[]) tuple.getValueByField("sentimentScores");
+                builder.field(sentimentScoreFieldName, scores[0]);
+                builder.field(sentimentStarFieldName, (int)scores[1]);
+            }
             builder.endObject();
 
             UpdateRequest updateRequest = new UpdateRequest(indexName, docType, docId)
