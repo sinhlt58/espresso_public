@@ -54,7 +54,12 @@ public class CallSentimentBolt implements IRichBolt {
             float[] sentimentScores = {0, 0};
 
             if (review.content.length() > 0) {
-                byte [][] inputStr = {review.content.getBytes("UTF-8")};
+                String tokenizedContent = Review.processString(review.content);
+
+                // LOG.info("Review: {}", review.content);
+                // LOG.info("Tokenized Review: {}", tokenizedContent);
+
+                byte [][] inputStr = {tokenizedContent.getBytes("UTF-8")};
                 Tensor<String> inputs = Tensor.create(inputStr, String.class);
                 List<Tensor<?>> resultTensors = tfSess.runner().feed("batch_input", inputs)
                                                     .fetch("raw")
@@ -62,6 +67,8 @@ public class CallSentimentBolt implements IRichBolt {
                                             
                 sentimentScores[0] = resultTensors.get(0).copyTo(new float[1])[0];
                 sentimentScores[1] = resultTensors.get(1).copyTo(new int[1])[0];;
+
+                // LOG.info("Scores: {}", sentimentScores);
             }
 
             _collector.emit(tuple, new Values(docId, doc, sentimentScores));

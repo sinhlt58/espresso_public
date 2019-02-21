@@ -65,7 +65,7 @@ config:
   # we don't have indexer for this one
   # we update a field instead
 
-  model.sentiment.path: "/home/sinhblack/works/expresso/nlp/model/1.2.2/export/20"
+  model.sentiment.path: "/home/ioit/works/expresso/nlp/model/1.2.2/export/20"
   model.sentiment.score.field.name: "sentimentScoreV1"
   model.sentiment.star.field.name: "sentimentStarV1"
 
