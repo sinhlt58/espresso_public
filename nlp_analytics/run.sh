@@ -73,6 +73,24 @@ then
 fi
 # Vocabulary nlp END
 
+# Apply sentiment model START
+
+if [ "$1" = "reset_apply_sentiment_status" ]
+then
+    ./update_analysis_status.sh v2_analysis apply_sentiment_status _done
+fi
+
+if [ "$1" = "apply_sentiment_local" ]
+then
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local models.local.yaml --sleep 864000000
+fi
+
+if [ "$1" = "apply_sentiment_remote" ]
+then
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote models.yaml
+fi
+# Apply sentiment model END
+
 if [ "$1" = "patch" ]
 then
     cd ../scripts
