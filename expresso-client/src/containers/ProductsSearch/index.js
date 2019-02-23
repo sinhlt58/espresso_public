@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 import Wrapper from '../../hoc/Wrapper';
 import { getBrands, productAutocomplete } from '../../graphql-client/api';
+import './style.css';
 
 class ProductsSearch extends Component {
   state = {
@@ -105,9 +106,8 @@ class ProductsSearch extends Component {
         <div style={{ textAlign: 'center', marginTop: 80, width: '100%' }}>
           <h1>Nhập tên sản phẩm muốn tìm kiếm</h1>
           <AutoComplete
-            className="auto"
+            className="search-dashboard"
             size="large"
-            style={{ width: '60%' }}
             dataSource={this.state.completion}
             onSelect={this._onSelectSuggester}
             onChange={this._onInput}
@@ -115,7 +115,6 @@ class ProductsSearch extends Component {
             value={this.state.str}
           >
             <Input.Search
-              className="search-dashboard"
               placeholder="Ví dụ: quần đùi, áo len"
               onSearch={this._onSearch}
               enterButton

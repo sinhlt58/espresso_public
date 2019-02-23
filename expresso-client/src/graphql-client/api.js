@@ -71,6 +71,7 @@ export const getComments = async ({
               content
               rate
               date
+              sentimentStar
               product {
                 source {
                   url

@@ -30,6 +30,7 @@ export default gql`
     date: String!
     product: Product!
     createdTime: String!
+    sentimentStar: String
   }
 
   enum DomainEnum {

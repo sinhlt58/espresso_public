@@ -10,6 +10,7 @@ import {
 } from '../../graphql-client/api';
 import axios from 'axios';
 import moment from 'moment';
+import './style.css';
 
 const Search = Input.Search;
 
@@ -155,7 +156,6 @@ class Dashboard extends Component {
           <AutoComplete
             className="search-dashboard"
             size="large"
-            style={{ width: '60%' }}
             dataSource={this.state.completion}
             onSelect={this._onSelectSuggester}
             onSearch={this._onInput}

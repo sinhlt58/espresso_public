@@ -357,6 +357,7 @@ class AnalyticsOverview extends Component {
                   content={item.content}
                   date={Number(item.date)}
                   url={item.product.source.url}
+                  sentimentStar={item.sentimentStar}
                 />
               ))
             )}

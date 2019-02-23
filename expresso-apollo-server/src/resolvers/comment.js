@@ -533,6 +533,7 @@ export default {
     rate: (parent) => parent._source.rate,
     date: (parent) => parent._source.date * 1000,
     createdTime: (parent) => parent._source.createdTime,
+    sentimentStar: (parent) => parent._source.sentimentStarV1,
     product: async (parent) => {
       const esRes = await esClient.search({
         index: SOURCE,

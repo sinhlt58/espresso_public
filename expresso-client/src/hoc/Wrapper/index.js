@@ -41,15 +41,8 @@ class Wrapper extends Component {
 
     return (
       <Layout style={this.props.style}>
-        <Header>
-          <div
-            className="logo"
-            style={{
-              float: 'left',
-              color: '#FFF',
-              margin: '0px 20px 0px 0px',
-            }}
-          >
+        <Header style={{ backgroundColor: '#3892F7' }}>
+          <div className="logo">
             <Link to="/">
               <h2 style={{ margin: '0px 0px 0px 0px', color: '#FFF' }}>
                 Espresso
@@ -60,7 +53,7 @@ class Wrapper extends Component {
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={[this.state.selectedMenu]}
-            style={{ lineHeight: '64px' }}
+            style={{ lineHeight: '64px', backgroundColor: '#3892F7' }}
           >
             <Menu.Item key="compare">
               <Link to={`/compare`}>So sánh</Link>

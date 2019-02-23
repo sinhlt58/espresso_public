@@ -1,8 +1,21 @@
+.logo {
+  float: left;
+  color: #fff;
+  margin: 0px 20px 0px 0px;
+  background-color: #3892f7;
+}
+
 .menu-mobile {
   display: none;
 }
 
 @media (max-width: 768px) {
+  .logo {
+    float: left;
+    color: #fff;
+    background-color: #3892f7;
+  }
+
   .menu-mobile {
     display: inline;
   }

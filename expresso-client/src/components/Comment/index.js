@@ -1,10 +1,10 @@
-import React from "react";
-import moment from "moment";
-import { Comment, Avatar, Rate, Tooltip } from "antd";
+import React from 'react';
+import moment from 'moment';
+import { Comment, Avatar, Rate, Tooltip } from 'antd';
 
-const avatar = require("../../service_default_avatar_182956.png");
+const avatar = require('../../service_default_avatar_182956.png');
 
-const CustomerCmt = props => (
+const CustomerCmt = (props) => (
   <Comment
     author={<p>{props.author}</p>}
     avatar={<Avatar src={avatar} alt={props.author} />}
@@ -13,21 +13,22 @@ const CustomerCmt = props => (
         <Rate
           disabled
           defaultValue={props.rate}
-          style={{ marginBottom: "10px" }}
+          style={{ marginBottom: '10px' }}
         />
-        -{" "}
+        - Sentiment: {props.sentimentStar}
+        {' - '}
         <a target="_blank" rel="noopener noreferrer" href={props.url}>
           Xem chi tiết
         </a>
       </span>
     }
     datetime={
-      <Tooltip title={moment(props.date).format("YYYY-MM-DD HH:mm:ss")}>
+      <Tooltip title={moment(props.date).format('YYYY-MM-DD HH:mm:ss')}>
         <span>{moment(props.date).fromNow()}</span>
       </Tooltip>
     }
     children={<p>{props.content}</p>}
-    style={{ marginBottom: "30px" }}
+    style={{ marginBottom: '30px' }}
   />
 );
 

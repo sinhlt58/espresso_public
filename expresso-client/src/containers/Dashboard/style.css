@@ -1,0 +1,9 @@
+.search-dashboard {
+  width: 60%;
+}
+
+@media (max-width: 768px) {
+  .search-dashboard {
+    width: 90%;
+  }
+}

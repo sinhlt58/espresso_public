@@ -119,7 +119,7 @@ export default {
 
       esRes.aggregations.group_by_brands.buckets.forEach((element) => {
         const key = element.key.toLowerCase().trim();
-        if (key !== 'no brand' && key !== '' && key !== 'none') {
+        if (key !== 'no brand' && key !== '' && key !== 'none' && key !== 'oem') {
           brands.push(element.key);
         }
       });
