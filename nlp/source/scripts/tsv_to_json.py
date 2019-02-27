@@ -1,9 +1,12 @@
 import sys, io, re, itertools, json, os
 
-tsvToken = re.compile("\d+-\d+\t\d+-\d+\t(.+?)\t(_|\d\[\d+\])")
+tsvToken = re.compile("\d+-\d+\t(\d+)-(\d+)\t(.+?)\t(_|\d\[\d+\])")
 tsvLine = re.compile("#Text=(.+)")
 
-def readTSVIntoBlocks(lines):
+def _read_token_and_rating(matcher_obj):
+	return matcher_obj.group(3), matcher_obj.group(4)
+
+def readTSVIntoBlocks(lines, read_fn=_read_token_and_rating):
 	# split the lines to blocks
 	block = []
 	for idx, line in enumerate(lines):
@@ -27,7 +30,7 @@ def readTSVIntoBlocks(lines):
 				print("Line {:s} error, cannot match.".format(line.strip()))
 				continue
 			else:
-				block.append( (matcher.group(1), matcher.group(2)) )
+				block.append(read_fn(matcher))
 	if(len(block) > 0):
 		# flush out the last
 		yield current_line, block

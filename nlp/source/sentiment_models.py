@@ -380,16 +380,17 @@ class SentimentRNNAttention(SentimentModel):
 			self._prev_stat = self.saveSession(self._default_compare_function, model_idx=(i+1))
 		print("All training phase completed, time passed {:.2f}".format(time.time()-timer))
 	
-	def evalSession(self, eval_dataset, detailed=False, alignment_sample=False, alignment_file_path=None):
+	def evalSession(self, eval_dataset, detailed=False, alignment_sample=False, alignment_file_path=None, external_fn=None):
 		"""Evaluate the session on the eval_dataset
 			Args:
 				eval_dataset: the iterable containing (line, score) both in raw format (str)
 				detailed: if true, print the trace of every line
 				alignment_sample: if True, evaluate the result and print out the best and worst sample. Currently set to 10 samples each
+				external_fn: a callable that will change the ratings. Use to implement dictionary
 			Returns:
 				a tuple of correct_score, correct_positivity, and negative mean_difference to help during saveSession if not in alignment mode
 		"""
-		scored_dataset = self._scoreDataset(eval_dataset, alignment_sample=alignment_sample)
+		scored_dataset = self._scoreDataset(eval_dataset, alignment_sample=alignment_sample, external_fn=external_fn)
 		if(not alignment_sample):
 			def print_line(sentence, correct_rating, pred_rating):
 				if(detailed):
@@ -434,11 +435,12 @@ class SentimentRNNAttention(SentimentModel):
 				createHeatmapImage(worst_file, worst_sentences, worst_alignments, worst_score, image_title="Worst Result", attention_names=self._attention_names)
 			print("Exported worst results to {}".format(worst_file_path))
 
-	def _scoreDataset(self, dataset, alignment_sample=False):
+	def _scoreDataset(self, dataset, alignment_sample=False, external_fn=None):
 		"""Evaluate the session on the eval_dataset
 			Args:
 				eval_dataset: the iterable containing (line, score) both in raw format (str)
 				alignment_sample: if True, append alignments data
+				external_fn: an external function to change the predictions
 			Returns:
 				tupled and iterable data containing prediction score
 		"""
@@ -453,16 +455,25 @@ class SentimentRNNAttention(SentimentModel):
 			alignment_tensor = self._session_dictionary["attentions"]
 			eval_predictions, eval_alignments = [], []
 			for eval_batch in batched_eval_inputs:
+				# eval for each batch with alignments
 				eval_preds, eval_aligns = session.run([prediction_tensor, alignment_tensor], feed_dict={input_pl:eval_batch})
 				eval_predictions.extend(eval_preds)
 				eval_alignments.extend(eval_aligns)
+			if(external_fn and callable(external_fn)):
+				# run rectifier if exist
+				print("Using internal rectifiers")
+				eval_inputs, eval_predictions = external_fn(eval_inputs, eval_predictions)
 			return list(zip(eval_inputs, eval_results, eval_predictions, eval_alignments))
 		else:
 			eval_predictions = []
 			for eval_batch in batched_eval_inputs:
+				# eval for each batch without alignments
 				eval_preds = session.run(prediction_tensor, feed_dict={input_pl:eval_batch})
 				eval_predictions.extend(eval_preds)
-			#eval_predictions = session.run(prediction_tensor, feed_dict={input_pl:list(eval_inputs)})
+			if(external_fn and callable(external_fn)):
+				print("Using internal rectifiers")
+				# run rectifier if exist
+				eval_inputs, eval_predictions = external_fn(eval_inputs, eval_predictions)
 			return zip(eval_inputs, eval_results, eval_predictions)
 
 	def _showResult(self, bundled_data_and_scores, per_line_func=None, end_func=None):
@@ -1042,3 +1053,10 @@ def _createWeightCorrectionFn(val_range, debug=False):
 		print("Weight correction rat_dict: {}".format(rat_dict))
 	return lambda val: rat_dict[val]
 
+def _createSimpleTokenizationOperations(strings, op_name="tokenized"):
+	from scripts.tokenize_word import spacer, space_reductor
+	spacer, space_reductor = spacer.pattern(), space_reductor.pattern()
+	# first, add spaces to all
+	strings = tf.regex_replace(strings, spacer, " \\g<0> ", name="add_spacing")
+	strings = tf.regex_replace(strings, space_reductor, " ", name=op_name)
+	return strings
