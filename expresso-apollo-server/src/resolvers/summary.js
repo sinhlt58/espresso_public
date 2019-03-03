@@ -119,7 +119,12 @@ export default {
 
       esRes.aggregations.group_by_brands.buckets.forEach((element) => {
         const key = element.key.toLowerCase().trim();
-        if (key !== 'no brand' && key !== '' && key !== 'none' && key !== 'oem') {
+        if (
+          key !== 'no brand' &&
+          key !== '' &&
+          key !== 'none' &&
+          key !== 'oem'
+        ) {
           brands.push(element.key);
         }
       });
@@ -211,5 +216,127 @@ export default {
 
       return result;
     },
+    getAllBrand: async (parent, args) => {
+      let esRes;
+
+      if (args.by === 'brand') {
+        esRes = await esClient.search({
+          index: SOURCE,
+          body: {
+            size: 0,
+            query: {
+              bool: {
+                must: [
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
+                ],
+                filter: {
+                  term: {
+                    itemType: 'review',
+                  },
+                },
+              },
+            },
+            aggs: {
+              group_by_brands: {
+                terms: {
+                  field: 'brand.keyword',
+                  size: 10000,
+                },
+                aggs: {
+                  average: {
+                    avg: {
+                      field: 'rate',
+                    },
+                  },
+                  group_by_posneg: {
+                    range: {
+                      field: 'rate',
+                      ranges: [
+                        {
+                          to: 3,
+                        },
+                        {
+                          from: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+      } else {
+        esRes = await esClient.search({
+          index: SOURCE,
+          body: {
+            size: 0,
+            query: {
+              bool: {
+                must: [
+                  {
+                    range: {
+                      date: {
+                        gte: args.from,
+                        lte: args.to,
+                      },
+                    },
+                  },
+                ],
+                filter: {
+                  term: {
+                    itemType: 'review',
+                  },
+                },
+              },
+            },
+            aggs: {
+              group_by_brands: {
+                terms: {
+                  field: 'parentAuthor.keyword',
+                  size: 10000,
+                },
+                aggs: {
+                  average: {
+                    avg: {
+                      field: 'rate',
+                    },
+                  },
+                  group_by_posneg: {
+                    range: {
+                      field: 'rate',
+                      ranges: [
+                        {
+                          to: 3,
+                        },
+                        {
+                          from: 3,
+                        },
+                      ],
+                    },
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      return esRes.aggregations.group_by_brands.buckets;
+    },
+  },
+  BrandStatistic: {
+    name: (parent) => parent.key,
+    totalCmts: (parent) => parent.doc_count,
+    avg: (parent) => parent.average.value.toFixed(2),
+    positive: (parent) => parent.group_by_posneg.buckets[1].doc_count,
+    negative: (parent) => parent.group_by_posneg.buckets[0].doc_count,
   },
 };

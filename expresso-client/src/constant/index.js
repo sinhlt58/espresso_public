@@ -42,6 +42,17 @@ export const optionsRange = [
   },
 ];
 
+export const optionsType = [
+  {
+    value: 'brand',
+    label: 'Theo thương hiệu',
+  },
+  {
+    value: 'shop',
+    label: 'Theo cửa hàng',
+  },
+];
+
 export const optionsStar = [
   {
     value: '0',

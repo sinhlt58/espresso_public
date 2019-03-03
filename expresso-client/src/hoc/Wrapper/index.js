@@ -61,6 +61,9 @@ class Wrapper extends Component {
             <Menu.Item key="products">
               <Link to="/products">Sản phẩm</Link>
             </Menu.Item>
+            <Menu.Item key="rank">
+              <Link to="/ranking">Xếp hạng</Link>
+            </Menu.Item>
             {sentimentNav}
             {facebookNav}
           </Menu>

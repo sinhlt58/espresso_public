@@ -291,3 +291,24 @@ export const getFbPages = async (name, offset) => {
     return err;
   }
 };
+
+export const getRanking = async ({ from, to, by }) => {
+  try {
+    return await client.query({
+      variables: { from, to, by },
+      query: gql`
+        query($from: String, $to: String, $by: String) {
+          getAllBrand(from: $from, to: $to, by: $by) {
+            name
+            totalCmts
+            avg
+            positive
+            negative
+          }
+        }
+      `,
+    });
+  } catch (err) {
+    return err;
+  }
+};

@@ -12,6 +12,7 @@ import Products from './containers/Products';
 import Facebook from './containers/Facebook';
 import FacebookTest from './containers/FacebookTest';
 import NotFound from './containers/NotFound';
+import BrandRanking from './containers/BrandRanking';
 import './App.css';
 
 class App extends Component {
@@ -29,6 +30,7 @@ class App extends Component {
             <Route path="/products/:name/:keyword" component={Products} />
             <Route path="/facebook/:name" component={Facebook} />
             <Route path="/facebooktest" component={FacebookTest} />
+            <Route path="/ranking" component={BrandRanking} />
             <Route component={NotFound} />
           </Switch>
         </BrowserRouter>
