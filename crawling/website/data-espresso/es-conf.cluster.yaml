@@ -4,7 +4,7 @@ config:
   # ES indexer bolt
   # adresses can be specified as a full URL
   # if not we assume that the protocol is http and the port 9200
-  es.indexer.addresses: "http://192.168.1.171"
+  es.indexer.addresses: "elasticsearchStorm"
   es.indexer.index.name: "v2_index"
   es.indexer.bulkActions: 500
   es.indexer.flushInterval: "2s"
@@ -19,14 +19,14 @@ config:
   # sinh.luutruong
 
   # ES metricsConsumer
-  es.metrics.addresses: "http://192.168.1.171"
+  es.metrics.addresses: "elasticsearchStorm"
   es.metrics.index.name: "v2_metrics"
   es.metrics.doc.type: "datapoint"
   es.metrics.settings:
     cluster.name: "elasticsearch"
   
   # ES spout and persistence bolt
-  es.status.addresses: "http://192.168.1.171"
+  es.status.addresses: "elasticsearchStorm"
   es.status.index.name: "v2_status"
   es.status.doc.type: "v2_status"
   #es.status.user: "USERNAME"
