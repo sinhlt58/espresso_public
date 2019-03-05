@@ -9,6 +9,7 @@ export default gql`
       to: String!
       interval: Int!
       domain: DomainEnum
+      scoreBy: String
     ): [BrandHistogramItem!]
     brandCompletion(keyword: String!): [String!]
     getFacebookPage(name: String!, offset: Int!): [FacebookPage!]

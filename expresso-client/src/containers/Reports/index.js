@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { Spin, Row, Col, Button, Cascader, DatePicker, message } from 'antd';
 import Wrapper from '../../hoc/Wrapper';
-import { optionsDomain, optionsRange } from '../../constant';
+import { optionsDomain, optionsRateBy } from '../../constant';
 import { getHistogram } from '../../graphql-client/api';
 import {
   VictoryBar,
@@ -32,7 +32,7 @@ class Reports extends Component {
     to: moment(new Date()).endOf('month'),
     placeholder: PICKER_FORMAT['date'].placeholder,
     optionsDomain: ['ALL'],
-    optionRange: ['date'],
+    optionRange: ['user'],
     data: [],
   };
 
@@ -51,6 +51,7 @@ class Reports extends Component {
       to: (this.state.to.valueOf() / 1000).toString(),
       interval: 86400,
       domain: this.state.optionsDomain[0],
+      scoreBy: this.state.optionRange[0],
     });
 
     if (response.networkStatus === 7) {
@@ -97,10 +98,11 @@ class Reports extends Component {
   };
 
   _onChangeRange = async (value) => {
-    // await this.setState({
-    //   optionRange: value,
-    //   placeholder: PICKER_FORMAT[value[0]].placeholder,
-    // });
+    await this.setState({
+      optionRange: value,
+    });
+
+    this.getHistogram();
   };
 
   handleFromPanelChange = async (date, dateString) => {
@@ -150,9 +152,9 @@ class Reports extends Component {
           </Col>
           <Col md={1} />
           <Col md={5}>
-            <h2>Đơn vị</h2>
+            <h2>Đánh giá</h2>
             <Cascader
-              options={optionsRange}
+              options={optionsRateBy}
               style={{ width: '100%', marginBottom: '20px' }}
               value={this.state.optionRange}
               onChange={this._onChangeRange}
@@ -161,35 +163,19 @@ class Reports extends Component {
           <Col md={1} />
           <Col md={4}>
             <h2>Từ</h2>
-            {this.state.optionRange[0] === 'date' ? (
-              <DatePicker
-                placeholder={this.state.placeholder}
-                onChange={this.handleFromPanelChange}
-                value={this.state.from}
-              />
-            ) : (
-              <MonthPicker
-                placeholder={this.state.placeholder}
-                onChange={this.handleFromPanelChange}
-                value={this.state.from}
-              />
-            )}
+            <DatePicker
+              placeholder={this.state.placeholder}
+              onChange={this.handleFromPanelChange}
+              value={this.state.from}
+            />
           </Col>
           <Col md={4}>
             <h2>Đến</h2>
-            {this.state.optionRange[0] === 'date' ? (
-              <DatePicker
-                placeholder={this.state.placeholder}
-                onChange={this.handleToPanelChange}
-                value={this.state.to}
-              />
-            ) : (
-              <MonthPicker
-                placeholder={this.state.placeholder}
-                onChange={this.handleToPanelChange}
-                value={this.state.to}
-              />
-            )}
+            <DatePicker
+              placeholder={this.state.placeholder}
+              onChange={this.handleToPanelChange}
+              value={this.state.to}
+            />
           </Col>
         </Row>
 

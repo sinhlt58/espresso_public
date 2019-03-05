@@ -93,10 +93,11 @@ export const getHistogram = async ({
   to,
   interval,
   domain,
+  scoreBy,
 }) => {
   try {
     return await client.query({
-      variables: { brandName, from, to, interval, domain },
+      variables: { brandName, from, to, interval, domain, scoreBy },
       query: gql`
         query(
           $brandName: String!
@@ -104,6 +105,7 @@ export const getHistogram = async ({
           $to: String!
           $interval: Int!
           $domain: DomainEnum
+          $scoreBy: String
         ) {
           brandHistogram(
             brandName: $brandName
@@ -111,6 +113,7 @@ export const getHistogram = async ({
             to: $to
             interval: $interval
             domain: $domain
+            scoreBy: $scoreBy
           ) {
             timestamp
             total

@@ -116,125 +116,248 @@ export default {
 
     brandHistogram: async (parent, args) => {
       let esRes;
-      if (args.domain === 'ALL') {
-        esRes = await esClient.search({
-          index: SOURCE,
-          body: {
-            size: 0,
-            query: {
-              bool: {
-                must: [
-                  {
-                    range: {
-                      date: {
-                        gte: args.from,
-                        lte: args.to,
+      if (args.scoreBy === 'user') {
+        if (args.domain === 'ALL') {
+          esRes = await esClient.search({
+            index: SOURCE,
+            body: {
+              size: 0,
+              query: {
+                bool: {
+                  must: [
+                    {
+                      range: {
+                        date: {
+                          gte: args.from,
+                          lte: args.to,
+                        },
+                      },
+                    },
+                  ],
+                  should: [
+                    {
+                      match_phrase: {
+                        brand: args.brandName,
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        parentAuthor: args.brandName,
+                      },
+                    },
+                  ],
+                  minimum_should_match: 1,
+                  filter: [{ term: { itemType: 'review' } }],
+                },
+              },
+              aggs: {
+                cmt_histogram: {
+                  histogram: {
+                    field: 'date',
+                    interval: args.interval,
+                  },
+                  aggs: {
+                    cmt_ranges: {
+                      range: {
+                        field: 'rate',
+                        ranges: [
+                          {
+                            to: 3.0,
+                          },
+                          {
+                            from: 3.0,
+                          },
+                        ],
                       },
                     },
                   },
-                ],
-                should: [
-                  {
-                    match_phrase: {
-                      brand: args.brandName,
-                    },
-                  },
-                  {
-                    match_phrase: {
-                      parentAuthor: args.brandName,
-                    },
-                  },
-                ],
-                minimum_should_match: 1,
-                filter: [{ term: { itemType: 'review' } }],
-              },
-            },
-            aggs: {
-              cmt_histogram: {
-                histogram: {
-                  field: 'date',
-                  interval: args.interval,
-                },
-                aggs: {
-                  cmt_ranges: {
-                    range: {
-                      field: 'rate',
-                      ranges: [
-                        {
-                          to: 3.0,
-                        },
-                        {
-                          from: 3.0,
-                        },
-                      ],
-                    },
-                  },
                 },
               },
             },
-          },
-        });
+          });
+        } else {
+          esRes = await esClient.search({
+            index: SOURCE,
+            body: {
+              size: 0,
+              query: {
+                bool: {
+                  must: [
+                    {
+                      match: { domain: getDomain(args.domain) },
+                    },
+                    {
+                      range: {
+                        date: {
+                          gte: args.from,
+                          lte: args.to,
+                        },
+                      },
+                    },
+                  ],
+                  should: [
+                    {
+                      match_phrase: {
+                        brand: args.brandName,
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        parentAuthor: args.brandName,
+                      },
+                    },
+                  ],
+                  minimum_should_match: 1,
+                  filter: [{ term: { itemType: 'review' } }],
+                },
+              },
+              aggs: {
+                cmt_histogram: {
+                  histogram: {
+                    field: 'date',
+                    interval: 86400,
+                  },
+                  aggs: {
+                    cmt_ranges: {
+                      range: {
+                        field: 'rate',
+                        ranges: [
+                          {
+                            to: 3.0,
+                          },
+                          {
+                            from: 3.0,
+                          },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          });
+        }
       } else {
-        esRes = await esClient.search({
-          index: SOURCE,
-          body: {
-            size: 0,
-            query: {
-              bool: {
-                must: [
-                  {
-                    match: { domain: getDomain(args.domain) },
+        if (args.domain === 'ALL') {
+          esRes = await esClient.search({
+            index: SOURCE,
+            body: {
+              size: 0,
+              query: {
+                bool: {
+                  must: [
+                    {
+                      range: {
+                        date: {
+                          gte: args.from,
+                          lte: args.to,
+                        },
+                      },
+                    },
+                  ],
+                  should: [
+                    {
+                      match_phrase: {
+                        brand: args.brandName,
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        parentAuthor: args.brandName,
+                      },
+                    },
+                  ],
+                  minimum_should_match: 1,
+                  filter: [{ term: { itemType: 'review' } }],
+                },
+              },
+              aggs: {
+                cmt_histogram: {
+                  histogram: {
+                    field: 'date',
+                    interval: args.interval,
                   },
-                  {
-                    range: {
-                      date: {
-                        gte: args.from,
-                        lte: args.to,
+                  aggs: {
+                    cmt_ranges: {
+                      range: {
+                        field: 'sentimentStarV1',
+                        ranges: [
+                          {
+                            to: 3.0,
+                          },
+                          {
+                            from: 3.0,
+                          },
+                        ],
                       },
                     },
                   },
-                ],
-                should: [
-                  {
-                    match_phrase: {
-                      brand: args.brandName,
-                    },
-                  },
-                  {
-                    match_phrase: {
-                      parentAuthor: args.brandName,
-                    },
-                  },
-                ],
-                minimum_should_match: 1,
-                filter: [{ term: { itemType: 'review' } }],
-              },
-            },
-            aggs: {
-              cmt_histogram: {
-                histogram: {
-                  field: 'date',
-                  interval: 86400,
-                },
-                aggs: {
-                  cmt_ranges: {
-                    range: {
-                      field: 'rate',
-                      ranges: [
-                        {
-                          to: 3.0,
-                        },
-                        {
-                          from: 3.0,
-                        },
-                      ],
-                    },
-                  },
                 },
               },
             },
-          },
-        });
+          });
+        } else {
+          esRes = await esClient.search({
+            index: SOURCE,
+            body: {
+              size: 0,
+              query: {
+                bool: {
+                  must: [
+                    {
+                      match: { domain: getDomain(args.domain) },
+                    },
+                    {
+                      range: {
+                        date: {
+                          gte: args.from,
+                          lte: args.to,
+                        },
+                      },
+                    },
+                  ],
+                  should: [
+                    {
+                      match_phrase: {
+                        brand: args.brandName,
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        parentAuthor: args.brandName,
+                      },
+                    },
+                  ],
+                  minimum_should_match: 1,
+                  filter: [{ term: { itemType: 'review' } }],
+                },
+              },
+              aggs: {
+                cmt_histogram: {
+                  histogram: {
+                    field: 'date',
+                    interval: 86400,
+                  },
+                  aggs: {
+                    cmt_ranges: {
+                      range: {
+                        field: 'sentimentStarV1',
+                        ranges: [
+                          {
+                            to: 3.0,
+                          },
+                          {
+                            from: 3.0,
+                          },
+                        ],
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          });
+        }
       }
 
       return esRes.aggregations.cmt_histogram.buckets;

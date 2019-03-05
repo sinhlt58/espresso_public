@@ -31,6 +31,17 @@ export const optionsDomain = [
   },
 ];
 
+export const optionsRateBy = [
+  {
+    value: 'user',
+    label: 'Theo người dùng',
+  },
+  {
+    value: 'sentiment',
+    label: 'Theo hệ thống sentiment',
+  },
+];
+
 export const optionsRange = [
   {
     value: 'date',
