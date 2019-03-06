@@ -21,10 +21,10 @@ spouts:
 bolts:
   - id: "partitioner"
     className: "com.digitalpebble.stormcrawler.bolt.URLPartitionerBolt"
-    parallelism: 1
+    parallelism: 2
   - id: "fetcher"
     className: "com.digitalpebble.stormcrawler.bolt.FetcherBolt"
-    parallelism: 1
+    parallelism: 2
     properties:
       - name: "apiJsUrl"
         value: "http://localhost:3000/api/v1/viewDom?url="

@@ -13,3 +13,4 @@ log.txt
 debug.html
 __pycache__/
 bin
+package-lock.json
