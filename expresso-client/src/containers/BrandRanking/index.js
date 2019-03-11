@@ -90,6 +90,26 @@ class BrandRanking extends Component {
         sorter: (a, b) => a.negative - b.negative,
       },
       {
+        title: 'Tỷ lệ bình luận tốt',
+        dataIndex: 'positivePer',
+        key: 'positivePer',
+        render: (num, row) => (
+          <p>{(row.positive / row.totalCmts).toFixed(2)}</p>
+        ),
+        sorter: (a, b) => {
+          return a.positive / a.totalCmts - b.positive / b.totalCmts;
+        },
+      },
+      {
+        title: 'Tỷ lệ bình luận xấu',
+        dataIndex: 'negative',
+        key: 'negativePer',
+        render: (num, row) => <p>{(num / row.totalCmts).toFixed(2)}</p>,
+        sorter: (a, b) => {
+          return a.negative / a.totalCmts - b.negative / b.totalCmts;
+        },
+      },
+      {
         title: 'Đánh giá trung bình',
         dataIndex: 'avg',
         key: 'avg',

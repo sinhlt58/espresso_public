@@ -69,6 +69,7 @@ class AnalyticsOverview extends Component {
     const res = await getBrand(
       this.props.match.params.name,
       this.state.optionsDomain[0],
+      'user',
     );
 
     if (res.networkStatus === 7) {

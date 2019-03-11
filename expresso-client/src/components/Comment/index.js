@@ -15,7 +15,7 @@ const CustomerCmt = (props) => (
           defaultValue={props.rate}
           style={{ marginBottom: '10px' }}
         />
-        - Sentiment: {props.sentimentStar}
+        {props.sentimentStar ? `- Sentiment: ${props.sentimentStar}` : ''}
         {' - '}
         <a target="_blank" rel="noopener noreferrer" href={props.url}>
           Xem chi tiết

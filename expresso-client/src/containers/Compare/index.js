@@ -12,7 +12,7 @@ import {
   AutoComplete,
 } from 'antd';
 import Wrapper from '../../hoc/Wrapper';
-import { optionsDomain, optionsRange } from '../../constant';
+import { optionsDomain, optionsRateBy } from '../../constant';
 import {
   getHistogram,
   getBrand,
@@ -52,7 +52,7 @@ class Compare extends Component {
     to: moment(new Date()).endOf('month'),
     placeholder: PICKER_FORMAT['date'].placeholder,
     optionsDomain: ['ALL'],
-    optionRange: ['date'],
+    optionsRateBy: ['user'],
     brandA: '',
     dataA: [],
     dataHistogramA: [],
@@ -88,7 +88,11 @@ class Compare extends Component {
       this.setState({ brandA: text });
     }
 
-    const res = await getBrand(text, this.state.optionsDomain[0]);
+    const res = await getBrand(
+      text,
+      this.state.optionsDomain[0],
+      this.state.optionsRateBy[0],
+    );
 
     if (res.networkStatus === 7) {
       await this.setState({
@@ -148,7 +152,11 @@ class Compare extends Component {
     } else {
       this.setState({ brandB: text });
     }
-    const res = await getBrand(text, this.state.optionsDomain[0]);
+    const res = await getBrand(
+      text,
+      this.state.optionsDomain[0],
+      this.state.optionsRateBy[0],
+    );
     if (res.networkStatus === 7) {
       await this.setState({
         dataB: res.data.getBrand,
@@ -202,20 +210,15 @@ class Compare extends Component {
       optionsDomain: value,
     });
 
-    if (this.state.brandA !== '') {
-      this._onSearchA();
-    }
-
-    if (this.state.brandB !== '') {
-      this._onSearchB();
-    }
+    this.reloadData();
   };
 
-  _onChangeRange = async (value) => {
-    // await this.setState({
-    //   optionRange: value,
-    //   placeholder: PICKER_FORMAT[value[0]].placeholder,
-    // });
+  _onChangeRateBy = async (value) => {
+    await this.setState({
+      optionsRateBy: value,
+    });
+
+    this.reloadData();
   };
 
   handleFromPanelChange = async (date, dateString) => {
@@ -223,13 +226,7 @@ class Compare extends Component {
       from: date,
     });
 
-    if (this.state.brandA !== '') {
-      this._onSearchA();
-    }
-
-    if (this.state.brandB !== '') {
-      this._onSearchB();
-    }
+    this.reloadData();
   };
 
   handleToPanelChange = async (date, dateString) => {
@@ -240,13 +237,7 @@ class Compare extends Component {
         to: date,
       });
 
-      if (this.state.brandA !== '') {
-        this._onSearchA();
-      }
-
-      if (this.state.brandB !== '') {
-        this._onSearchB();
-      }
+      this.reloadData();
     }
   };
 
@@ -291,6 +282,16 @@ class Compare extends Component {
       brandBStr: text,
     });
     this._onSearchB(text);
+  };
+
+  reloadData = () => {
+    if (this.state.brandA !== '') {
+      this._onSearchA();
+    }
+
+    if (this.state.brandB !== '') {
+      this._onSearchB();
+    }
   };
 
   render() {
@@ -357,46 +358,30 @@ class Compare extends Component {
           </Col>
           <Col md={1} />
           <Col md={5}>
-            <h2>Đơn vị</h2>
+            <h2>Đánh giá</h2>
             <Cascader
-              options={optionsRange}
+              options={optionsRateBy}
               style={{ width: '100%', marginBottom: '20px' }}
-              value={this.state.optionRange}
-              onChange={this._onChangeRange}
+              value={this.state.optionsRateBy}
+              onChange={this._onChangeRateBy}
             />
           </Col>
           <Col md={1} />
           <Col md={4}>
             <h2>Từ</h2>
-            {this.state.optionRange[0] === 'date' ? (
-              <DatePicker
-                placeholder={this.state.placeholder}
-                onChange={this.handleFromPanelChange}
-                value={this.state.from}
-              />
-            ) : (
-              <MonthPicker
-                placeholder={this.state.placeholder}
-                onChange={this.handleFromPanelChange}
-                value={this.state.from}
-              />
-            )}
+            <DatePicker
+              placeholder={this.state.placeholder}
+              onChange={this.handleFromPanelChange}
+              value={this.state.from}
+            />
           </Col>
           <Col md={4}>
             <h2>Đến</h2>
-            {this.state.optionRange[0] === 'date' ? (
-              <DatePicker
-                placeholder={this.state.placeholder}
-                onChange={this.handleToPanelChange}
-                value={this.state.to}
-              />
-            ) : (
-              <MonthPicker
-                placeholder={this.state.placeholder}
-                onChange={this.handleToPanelChange}
-                value={this.state.to}
-              />
-            )}
+            <DatePicker
+              placeholder={this.state.placeholder}
+              onChange={this.handleToPanelChange}
+              value={this.state.to}
+            />
           </Col>
         </Row>
 

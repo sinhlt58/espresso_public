@@ -1,13 +1,13 @@
 import gql from 'graphql-tag';
 import client from './client';
 
-export const getBrand = async (name, domain) => {
+export const getBrand = async (name, domain, scoreBy) => {
   try {
     return await client.query({
-      variables: { name, domain },
+      variables: { name, domain, scoreBy },
       query: gql`
-        query($name: String!, $domain: DomainEnum) {
-          getBrand(name: $name, domain: $domain) {
+        query($name: String!, $domain: DomainEnum, $scoreBy: String) {
+          getBrand(name: $name, domain: $domain, scoreBy: $scoreBy) {
             totalCmt
             rate {
               average

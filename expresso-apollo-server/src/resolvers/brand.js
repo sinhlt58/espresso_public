@@ -6,109 +6,236 @@ export default {
   Query: {
     getBrand: async (parent, args) => {
       let esRes;
-      if (args.domain === 'ALL') {
-        esRes = await esClient.search({
-          index: SOURCE,
-          body: {
-            size: 0,
-            query: {
-              bool: {
-                should: [
-                  {
-                    match_phrase: {
-                      brand: args.name,
+      if (args.scoreBy === 'user') {
+        if (args.domain === 'ALL') {
+          esRes = await esClient.search({
+            index: SOURCE,
+            body: {
+              size: 0,
+              query: {
+                bool: {
+                  must_not: {
+                    term: {
+                      rate: 0,
                     },
                   },
-                  {
-                    match_phrase: {
-                      parentAuthor: args.name,
+                  should: [
+                    {
+                      match_phrase: {
+                        brand: args.name,
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        parentAuthor: args.name,
+                      },
+                    },
+                  ],
+                  minimum_should_match: 1,
+                  filter: [{ term: { itemType: 'review' } }],
+                },
+              },
+              aggs: {
+                summary_by_domains: {
+                  terms: {
+                    field: 'domain.keyword',
+                  },
+                  aggs: {
+                    avg_rating: {
+                      avg: {
+                        field: 'rate',
+                      },
                     },
                   },
-                ],
-                minimum_should_match: 1,
-                filter: [{ term: { itemType: 'review' } }],
+                },
+                avg_rating: {
+                  avg: {
+                    field: 'rate',
+                  },
+                },
+                summary_by_rate: {
+                  terms: {
+                    field: 'rate',
+                    order: { _key: 'asc' },
+                  },
+                },
               },
             },
-            aggs: {
-              summary_by_domains: {
-                terms: {
-                  field: 'domain.keyword',
+          });
+        } else {
+          esRes = await esClient.search({
+            index: SOURCE,
+            body: {
+              size: 0,
+              query: {
+                bool: {
+                  must_not: {
+                    term: {
+                      rate: 0,
+                    },
+                  },
+                  should: [
+                    {
+                      match_phrase: {
+                        brand: args.name,
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        parentAuthor: args.name,
+                      },
+                    },
+                  ],
+                  minimum_should_match: 1,
+                  filter: [
+                    { term: { itemType: 'review' } },
+                    { term: { domain: getDomain(args.domain) } },
+                  ],
                 },
-                aggs: {
-                  avg_rating: {
-                    avg: {
-                      field: 'rate',
+              },
+              aggs: {
+                summary_by_domains: {
+                  terms: {
+                    field: 'domain.keyword',
+                  },
+                  aggs: {
+                    avg_rating: {
+                      avg: {
+                        field: 'rate',
+                      },
                     },
                   },
                 },
-              },
-              avg_rating: {
-                avg: {
-                  field: 'rate',
+                avg_rating: {
+                  avg: {
+                    field: 'rate',
+                  },
                 },
-              },
-              summary_by_rate: {
-                terms: {
-                  field: 'rate',
-                  order: { _key: 'asc' },
+                summary_by_rate: {
+                  terms: {
+                    field: 'rate',
+                    order: { _key: 'asc' },
+                  },
                 },
               },
             },
-          },
-        });
+          });
+        }
       } else {
-        esRes = await esClient.search({
-          index: SOURCE,
-          body: {
-            size: 0,
-            query: {
-              bool: {
-                should: [
-                  {
-                    match_phrase: {
-                      brand: args.name,
+        if (args.domain === 'ALL') {
+          esRes = await esClient.search({
+            index: SOURCE,
+            body: {
+              size: 0,
+              query: {
+                bool: {
+                  must_not: {
+                    term: {
+                      sentimentStarV1: 0,
                     },
                   },
-                  {
-                    match_phrase: {
-                      parentAuthor: args.name,
+                  should: [
+                    {
+                      match_phrase: {
+                        brand: args.name,
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        parentAuthor: args.name,
+                      },
+                    },
+                  ],
+                  minimum_should_match: 1,
+                  filter: [{ term: { itemType: 'review' } }],
+                },
+              },
+              aggs: {
+                summary_by_domains: {
+                  terms: {
+                    field: 'domain.keyword',
+                  },
+                  aggs: {
+                    avg_rating: {
+                      avg: {
+                        field: 'sentimentStarV1',
+                      },
                     },
                   },
-                ],
-                minimum_should_match: 1,
-                filter: [
-                  { term: { itemType: 'review' } },
-                  { term: { domain: getDomain(args.domain) } },
-                ],
+                },
+                avg_rating: {
+                  avg: {
+                    field: 'sentimentStarV1',
+                  },
+                },
+                summary_by_rate: {
+                  terms: {
+                    field: 'sentimentStarV1',
+                    order: { _key: 'asc' },
+                  },
+                },
               },
             },
-            aggs: {
-              summary_by_domains: {
-                terms: {
-                  field: 'domain.keyword',
+          });
+        } else {
+          esRes = await esClient.search({
+            index: SOURCE,
+            body: {
+              size: 0,
+              query: {
+                bool: {
+                  must_not: {
+                    term: {
+                      sentimentStarV1: 0,
+                    },
+                  },
+                  should: [
+                    {
+                      match_phrase: {
+                        brand: args.name,
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        parentAuthor: args.name,
+                      },
+                    },
+                  ],
+                  minimum_should_match: 1,
+                  filter: [
+                    { term: { itemType: 'review' } },
+                    { term: { domain: getDomain(args.domain) } },
+                  ],
                 },
-                aggs: {
-                  avg_rating: {
-                    avg: {
-                      field: 'rate',
+              },
+              aggs: {
+                summary_by_domains: {
+                  terms: {
+                    field: 'domain.keyword',
+                  },
+                  aggs: {
+                    avg_rating: {
+                      avg: {
+                        field: 'sentimentStarV1',
+                      },
                     },
                   },
                 },
-              },
-              avg_rating: {
-                avg: {
-                  field: 'rate',
+                avg_rating: {
+                  avg: {
+                    field: 'sentimentStarV1',
+                  },
                 },
-              },
-              summary_by_rate: {
-                terms: {
-                  field: 'rate',
-                  order: { _key: 'asc' },
+                summary_by_rate: {
+                  terms: {
+                    field: 'sentimentStarV1',
+                    order: { _key: 'asc' },
+                  },
                 },
               },
             },
-          },
-        });
+          });
+        }
       }
 
       return [esRes, args.name];
