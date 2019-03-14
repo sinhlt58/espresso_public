@@ -1,6 +1,7 @@
 import io, os, json, sys, re
 from scripts.cleaner import generate_tranform_dict, vietnamese_ghost_characters_cleaner
 import argparse
+from sentiment_data import _loadJSONConfig
 
 CSV_PATH = "/home/quan/Workspace/Data/espresso/VnEmoLex.csv"
 TXT_PATH = "/home/quan/Workspace/Data/espresso/VietSentiWordnet_Ver1.3.5.txt"
@@ -262,7 +263,7 @@ def jsonDataReader(file_path=DEBUG_FILE_LOCATION):
 	sentences, ratings = zip(*data)
 	return list(sentences), [int(list(rat.keys())[0]) for rat in ratings]
 
-LIST_AVAILABLE_FILES = {"VnEmoLex": CSV_PATH, "VnSentiWordnet": TXT_PATH}
+LIST_AVAILABLE_FILES, LIST_REV_PATHS = _loadJSONConfig()["sentiment_dictionary"]
 # TODO list the negative & exclamation later. For now, the 
 
 if __name__ == "__main__":
