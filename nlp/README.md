@@ -49,3 +49,21 @@ Response:
     ]
 }
 ```
+
+### Train models
+
+```
+cd nlp
+```
+
+#### Train
+
+```
+python source\sentiment.py --model_structure attention_extended_v2 --data_config json_20k_rectified --balance_reduce_mode 2worst --model_dir .\model\test
+```
+
+#### Eval
+
+```
+python source\sentiment.py --model_structure attention_extended_v2 --data_config json_20k_rectified --balance_reduce_mode 2worst --model_dir .\model\test --mode eval
+```
