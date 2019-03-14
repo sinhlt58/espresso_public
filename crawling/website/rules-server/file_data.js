@@ -157,3 +157,5 @@ exports.removeUrlFromSeeds = function(url, hostname) {
     writeLines(FILE_SEEDS, lines);
 }
 // URL rules end
+
+exports.getLines = getLines;

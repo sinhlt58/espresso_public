@@ -1,0 +1,47 @@
+config:
+  fetchInterval.default: 5760
+  fetchInterval.error: -1
+  fetchInterval.fetch.error: 120
+  fetcher.queue.mode: byHost
+  fetcher.server.delay: 1.0
+  fetcher.server.min.delay: 0.0
+  fetcher.threads.number: 22
+  fetcher.threads.per.queue: 10
+  fetcher.maxThreads.www.lazada.vn: 2
+  http.agent.description: built with StormCrawler Archetype 1.11
+  http.agent.email: someone@someorganization.com
+  http.agent.name: Espresso crawler
+  http.agent.url: http://someorganization.com/
+  http.agent.version: '1.0'
+  http.content.limit: -1
+  http.timeout: 120000
+  indexer.canonical.name: canonical
+  indexer.created_time: created_time
+  indexer.md.mapping:
+  - domain=domain
+  indexer.url.fieldname: url
+  metadata.persist:
+  - _redirTo
+  - error.cause
+  - error.source
+  - isSitemap
+  - isSitemap
+  - isFeed
+  # conganh add
+  mongo.domain.delay: 1.0
+  mongo.jsRender.delay: 10.0
+  mongo.legalUrl.delay: 10.0
+  mongo.server.min.delay: 0.0
+  # end conganh add
+  parsefilters.config.file: parsefilters.json
+  topology.debug: false
+  topology.kryo.register:
+  - com.digitalpebble.stormcrawler.Metadata
+  topology.max.spout.pending: 100
+  topology.message.timeout.secs: 300
+  topology.metrics.consumer.register:
+  - class: org.apache.storm.metric.LoggingMetricsConsumer
+    parallelism.hint: 1
+  topology.workers: 2
+  urlfilters.config.file: urlfilters.json
+  worker.heap.memory.mb: 4096

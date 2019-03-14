@@ -6,13 +6,21 @@ const elasticsearch = require('elasticsearch');
 const client = new elasticsearch.Client({
   host: 'localhost:9200'
 });
+const remoteClient = new elasticsearch.Client({
+    host: '103.220.68.79:9200'
+});
 
 let index_name = 'v2_status';
 let index_type = 'v2_status';
 
-exports.addUrlToEsStatus = async function(url, hostname) {
+exports.addUrlToEsStatus = async function(url, hostname, remote=false) {
     try {
-        const res =  await client.index({
+        let clientEs = client;
+        if (remote) {
+            clientEs = remoteClient;
+        }
+
+        const res =  await clientEs.index({
             index: index_name,
             type: index_type,
             id: crypto.createHash('sha256').update(url).digest('hex'),
