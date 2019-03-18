@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import moment from 'moment';
+import React, { Component } from "react";
+import moment from "moment";
 import {
   Spin,
   Row,
@@ -9,16 +9,16 @@ import {
   DatePicker,
   message,
   Input,
-  AutoComplete,
-} from 'antd';
-import Wrapper from '../../hoc/Wrapper';
-import { optionsDomain, optionsRateBy } from '../../constant';
+  AutoComplete
+} from "antd";
+import Wrapper from "../../hoc/Wrapper";
+import { optionsDomain, optionsRateBy } from "../../constant";
 import {
   getHistogram,
   getBrand,
-  brandAutocomplete,
-} from '../../graphql-client/api';
-import CompareResult from '../../components/CompareResult';
+  brandAutocomplete
+} from "../../graphql-client/api";
+import CompareResult from "../../components/CompareResult";
 import {
   VictoryBar,
   VictoryAxis,
@@ -27,19 +27,19 @@ import {
   VictoryStack,
   VictoryLegend,
   VictoryPie,
-  VictoryGroup,
-} from 'victory';
+  VictoryGroup
+} from "victory";
 
 const Search = Input.Search;
 const MonthPicker = DatePicker.MonthPicker;
 
 const PICKER_FORMAT = {
   date: {
-    placeholder: 'Chọn ngày',
+    placeholder: "Chọn ngày"
   },
   month: {
-    placeholder: 'Chọn tháng',
-  },
+    placeholder: "Chọn tháng"
+  }
 };
 
 class Compare extends Component {
@@ -48,21 +48,21 @@ class Compare extends Component {
     loadingB: true,
     completionA: [],
     completionB: [],
-    from: moment(new Date()).startOf('month'),
-    to: moment(new Date()).endOf('month'),
-    placeholder: PICKER_FORMAT['date'].placeholder,
-    optionsDomain: ['ALL'],
-    optionsRateBy: ['user'],
-    brandA: '',
+    from: moment(new Date()).startOf("month"),
+    to: moment(new Date()).endOf("month"),
+    placeholder: PICKER_FORMAT["date"].placeholder,
+    optionsDomain: ["ALL"],
+    optionsRateBy: ["user"],
+    brandA: "",
     dataA: [],
     dataHistogramA: [],
     starPercentA: [],
-    brandB: '',
+    brandB: "",
     dataB: [],
     dataHistogramB: [],
     starPercentB: [],
-    brandAStr: '',
-    brandBStr: '',
+    brandAStr: "",
+    brandBStr: ""
   };
 
   componentDidMount() {
@@ -70,16 +70,16 @@ class Compare extends Component {
       const { brand1, brand2 } = this.props.location.state;
       this.setState({
         brandAStr: brand1,
-        brandBStr: brand2,
+        brandBStr: brand2
       });
       this._onSearchA(brand1);
       this._onSearchB(brand2);
     }
   }
 
-  _onSearchA = async (text) => {
+  _onSearchA = async text => {
     await this.setState({
-      loadingA: true,
+      loadingA: true
     });
 
     if (text === undefined) {
@@ -91,12 +91,12 @@ class Compare extends Component {
     const res = await getBrand(
       text,
       this.state.optionsDomain[0],
-      this.state.optionsRateBy[0],
+      this.state.optionsRateBy[0]
     );
 
     if (res.networkStatus === 7) {
       await this.setState({
-        dataA: res.data.getBrand,
+        dataA: res.data.getBrand
       });
 
       let starPercent = [];
@@ -104,17 +104,17 @@ class Compare extends Component {
         starPercent.push({
           x: `${element.star}*`,
           y: Number(
-            ((element.totalCmt / this.state.dataA.totalCmt) * 100).toFixed(2),
-          ),
+            ((element.totalCmt / this.state.dataA.totalCmt) * 100).toFixed(2)
+          )
         });
       });
 
       this.setState({ starPercentA: starPercent });
     } else {
-      if (this.state.optionsDomain[0] === 'ALL') {
-        message.error('Không tìm thấy thương hiệu');
+      if (this.state.optionsDomain[0] === "ALL") {
+        message.error("Không tìm thấy thương hiệu");
       } else {
-        message.error('Không tìm thấy thông tin thương hiệu ở kênh này');
+        message.error("Không tìm thấy thông tin thương hiệu ở kênh này");
       }
     }
 
@@ -123,28 +123,28 @@ class Compare extends Component {
       from: (this.state.from.valueOf() / 1000).toString(),
       to: (this.state.to.valueOf() / 1000).toString(),
       interval: 86400,
-      domain: this.state.optionsDomain[0],
+      domain: this.state.optionsDomain[0]
     });
 
     if (response.networkStatus === 7) {
       if (response.data.brandHistogram.length > 0) {
         this.setState({
           loadingA: false,
-          dataHistogramA: response.data.brandHistogram,
+          dataHistogramA: response.data.brandHistogram
         });
       } else {
         message.warn(
-          'Không có bình luận nào trong khoảng thời gian hoặc kênh này',
+          "Không có bình luận nào trong khoảng thời gian hoặc kênh này"
         );
       }
     } else {
-      message.error('Có lỗi xảy ra vui lòng thử lại');
+      message.error("Có lỗi xảy ra vui lòng thử lại");
     }
   };
 
-  _onSearchB = async (text) => {
+  _onSearchB = async text => {
     await this.setState({
-      loadingB: true,
+      loadingB: true
     });
 
     if (text === undefined) {
@@ -155,11 +155,11 @@ class Compare extends Component {
     const res = await getBrand(
       text,
       this.state.optionsDomain[0],
-      this.state.optionsRateBy[0],
+      this.state.optionsRateBy[0]
     );
     if (res.networkStatus === 7) {
       await this.setState({
-        dataB: res.data.getBrand,
+        dataB: res.data.getBrand
       });
 
       let starPercent = [];
@@ -167,17 +167,17 @@ class Compare extends Component {
         starPercent.push({
           x: `${element.star}*`,
           y: Number(
-            ((element.totalCmt / this.state.dataB.totalCmt) * 100).toFixed(2),
-          ),
+            ((element.totalCmt / this.state.dataB.totalCmt) * 100).toFixed(2)
+          )
         });
       });
 
       this.setState({ starPercentB: starPercent });
     } else {
-      if (this.state.optionsDomain[0] === 'ALL') {
-        message.error('Không tìm thấy thương hiệu');
+      if (this.state.optionsDomain[0] === "ALL") {
+        message.error("Không tìm thấy thương hiệu");
       } else {
-        message.error('Không tìm thấy thông tin thương hiệu ở kênh này');
+        message.error("Không tìm thấy thông tin thương hiệu ở kênh này");
       }
     }
 
@@ -186,36 +186,36 @@ class Compare extends Component {
       from: (this.state.from.valueOf() / 1000).toString(),
       to: (this.state.to.valueOf() / 1000).toString(),
       interval: 86400,
-      domain: this.state.optionsDomain[0],
+      domain: this.state.optionsDomain[0]
     });
 
     if (response.networkStatus === 7) {
       if (response.data.brandHistogram.length > 0) {
         this.setState({
           loadingB: false,
-          dataHistogramB: response.data.brandHistogram,
+          dataHistogramB: response.data.brandHistogram
         });
       } else {
         message.warn(
-          'Không có bình luận nào trong khoảng thời gian hoặc kênh này',
+          "Không có bình luận nào trong khoảng thời gian hoặc kênh này"
         );
       }
     } else {
-      message.error('Có lỗi xảy ra vui lòng thử lại');
+      message.error("Có lỗi xảy ra vui lòng thử lại");
     }
   };
 
-  _onChangeDomain = async (value) => {
+  _onChangeDomain = async value => {
     await this.setState({
-      optionsDomain: value,
+      optionsDomain: value
     });
 
     this.reloadData();
   };
 
-  _onChangeRateBy = async (value) => {
+  _onChangeRateBy = async value => {
     await this.setState({
-      optionsRateBy: value,
+      optionsRateBy: value
     });
 
     this.reloadData();
@@ -223,7 +223,7 @@ class Compare extends Component {
 
   handleFromPanelChange = async (date, dateString) => {
     await this.setState({
-      from: date,
+      from: date
     });
 
     this.reloadData();
@@ -231,65 +231,68 @@ class Compare extends Component {
 
   handleToPanelChange = async (date, dateString) => {
     if (date < this.state.from) {
-      message.error('Không chọn ngày kết thúc nhỏ hơn ngày bắt đầu');
+      message.error("Không chọn ngày kết thúc nhỏ hơn ngày bắt đầu");
     } else {
       await this.setState({
-        to: date,
+        to: date
       });
 
       this.reloadData();
     }
   };
 
-  _onInputA = async (text) => {
+  _onInputA = async text => {
     this.setState({
-      brandAStr: text,
+      brandAStr: text
     });
-    if (text.trim() !== '') {
+    if (text.trim() !== "") {
       const res = await brandAutocomplete(text.toLowerCase());
       this.setState({
-        completionA: res.data.brandCompletion,
+        completionA: res.data.brandCompletion
       });
     } else {
       this.setState({
-        completionA: [],
+        completionA: []
       });
     }
   };
 
-  _onInputB = async (text) => {
-    if (text.trim() !== '') {
-      const res = await brandAutocomplete(text.toLowerCase());
-      this.setState({
-        completionB: res.data.brandCompletion,
-      });
-    } else {
-      this.setState({
-        completionB: [],
-      });
-    }
-  };
-
-  _onSelectSuggesterA = async (text) => {
+  _onInputB = async text => {
     this.setState({
-      brandAStr: text,
+      brandBStr: text
+    });
+    if (text.trim() !== "") {
+      const res = await brandAutocomplete(text.toLowerCase());
+      this.setState({
+        completionB: res.data.brandCompletion
+      });
+    } else {
+      this.setState({
+        completionB: []
+      });
+    }
+  };
+
+  _onSelectSuggesterA = async text => {
+    this.setState({
+      brandAStr: text
     });
     this._onSearchA(text);
   };
 
-  _onSelectSuggesterB = (text) => {
+  _onSelectSuggesterB = text => {
     this.setState({
-      brandBStr: text,
+      brandBStr: text
     });
     this._onSearchB(text);
   };
 
   reloadData = () => {
-    if (this.state.brandA !== '') {
+    if (this.state.brandA !== "") {
       this._onSearchA();
     }
 
-    if (this.state.brandB !== '') {
+    if (this.state.brandB !== "") {
       this._onSearchB();
     }
   };
@@ -297,8 +300,8 @@ class Compare extends Component {
   render() {
     return (
       <Wrapper location={this.props.location.pathname} isHome>
-        <Row style={{ marginBottom: '20px' }}>
-          <h2 style={{ margin: '20px 0px 0px 20px' }}>
+        <Row style={{ marginBottom: "20px" }}>
+          <h2 style={{ margin: "20px 0px 0px 20px" }}>
             Nhập tên 2 thương hiệu cần so sánh
           </h2>
         </Row>
@@ -309,7 +312,7 @@ class Compare extends Component {
             <AutoComplete
               className="search-dashboard"
               size="large"
-              style={{ width: '100%', marginBottom: '20px' }}
+              style={{ width: "100%", marginBottom: "20px" }}
               dataSource={this.state.completionA}
               onSelect={this._onSelectSuggesterA}
               onSearch={this._onInputA}
@@ -329,7 +332,7 @@ class Compare extends Component {
             <AutoComplete
               className="search-dashboard"
               size="large"
-              style={{ width: '100%', marginBottom: '20px' }}
+              style={{ width: "100%", marginBottom: "20px" }}
               dataSource={this.state.completionB}
               onSelect={this._onSelectSuggesterB}
               onSearch={this._onInputB}
@@ -351,7 +354,7 @@ class Compare extends Component {
             <h2>Kênh</h2>
             <Cascader
               options={optionsDomain}
-              style={{ width: '100%', marginBottom: '20px' }}
+              style={{ width: "100%", marginBottom: "20px" }}
               value={this.state.optionsDomain}
               onChange={this._onChangeDomain}
             />
@@ -361,7 +364,7 @@ class Compare extends Component {
             <h2>Đánh giá</h2>
             <Cascader
               options={optionsRateBy}
-              style={{ width: '100%', marginBottom: '20px' }}
+              style={{ width: "100%", marginBottom: "20px" }}
               value={this.state.optionsRateBy}
               onChange={this._onChangeRateBy}
             />
@@ -425,42 +428,42 @@ class Compare extends Component {
                 orientation="horizontal"
                 style={{
                   labels: { fontSize: 5 },
-                  border: { stroke: 'black' },
-                  title: { fontSize: 5 },
+                  border: { stroke: "black" },
+                  title: { fontSize: 5 }
                 }}
                 data={[
                   {
                     name: this.state.brandA,
-                    symbol: { fill: 'rgb(51, 77, 92)' },
+                    symbol: { fill: "rgb(51, 77, 92)" }
                   },
                   {
                     name: this.state.brandB,
-                    symbol: { fill: 'rgb(69, 178, 157)' },
-                  },
+                    symbol: { fill: "rgb(69, 178, 157)" }
+                  }
                 ]}
               />
               <VictoryAxis
-                tickFormat={(x) => moment(Number(x)).format('DD/MM')}
+                tickFormat={x => moment(Number(x)).format("DD/MM")}
                 style={{
                   axisLabel: { fontSize: 5, padding: 10 },
                   tickLabels: { fontSize: 3, padding: 2 },
-                  ticks: { size: 1 },
+                  ticks: { size: 1 }
                 }}
                 label="Ngày (DD/MM)"
                 fixLabelOverlap={true}
               />
               <VictoryAxis
                 dependentAxis
-                tickFormat={(x) => `${Math.round(x)}`}
+                tickFormat={x => `${Math.round(x)}`}
                 style={{
                   axisLabel: { fontSize: 5, padding: 10 },
                   tickLabels: { fontSize: 4, padding: 2 },
-                  ticks: { size: 1 },
+                  ticks: { size: 1 }
                 }}
                 label="Số bình luận"
                 fixLabelOverlap={true}
               />
-              <VictoryGroup offset={3} colorScale={'qualitative'}>
+              <VictoryGroup offset={3} colorScale={"qualitative"}>
                 <VictoryBar
                   data={this.state.dataHistogramA}
                   x="timestamp"
