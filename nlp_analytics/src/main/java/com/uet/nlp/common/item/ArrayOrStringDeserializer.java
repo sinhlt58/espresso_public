@@ -16,7 +16,7 @@ public class ArrayOrStringDeserializer extends JsonDeserializer<String> {
 	public String deserialize(JsonParser parser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		try {
             JsonNode node = mapper.readValue(parser, JsonNode.class);
-
+        
             if (node.isArray()) {
                 return node.get(0).asText();
             } else if (node.isValueNode()) {

@@ -52,7 +52,7 @@ public class PreprocessReviewBolt implements IRichBolt {
 
         try {
             TTNItem ttnItem = Document.mapper.treeToValue(jsonNode, TTNItem.class);
-            
+
             ttnItem.generateId();
             items.add(ttnItem);
 

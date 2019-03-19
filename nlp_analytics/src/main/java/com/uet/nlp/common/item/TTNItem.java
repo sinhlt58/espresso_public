@@ -21,7 +21,9 @@ public class TTNItem extends CrawledItem {
     public String author;
     public String deliverFrom;
     public String productId;
+
     @JsonProperty
+    @JsonDeserialize(using = ArrayOrStringDeserializer.class)
     public String breadcrumb;
 
     static Pattern pattern = Pattern.compile("\\d+");
@@ -88,6 +90,7 @@ public class TTNItem extends CrawledItem {
     }
 
     @JsonProperty("mieu_ta")
+    @JsonDeserialize(using = ArrayOrStringDeserializer.class)
     public void _setDescription(String v) {
         this.description = v;
     }
