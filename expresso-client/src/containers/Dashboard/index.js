@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, AutoComplete, Tag, Row, Col, message } from "antd";
+import { Input, AutoComplete, Tag, Row, Col, message, Spin, Icon } from "antd";
 import { Link } from "react-router-dom";
 import Wrapper from "../../hoc/Wrapper";
 import {
@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import moment from "moment";
 import "./style.css";
+import Modal from "react-responsive-modal";
 
 const Search = Input.Search;
 
@@ -25,7 +26,8 @@ class Dashboard extends Component {
     brands: [],
     dealers: [],
     badBrands: [],
-    badDealers: []
+    badDealers: [],
+    modalOpen: false
   };
 
   async componentDidMount() {
@@ -80,6 +82,9 @@ class Dashboard extends Component {
   };
 
   _onSearch = async value => {
+    this.setState({
+      modalOpen: true
+    });
     const res = await brandAutocomplete(value.toLowerCase());
 
     if (res.data.brandCompletion.length === 0) {
@@ -142,6 +147,8 @@ class Dashboard extends Component {
   };
 
   render() {
+    const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
+
     return (
       <Wrapper isHome location={this.props.location.pathname}>
         <div
@@ -288,6 +295,24 @@ class Dashboard extends Component {
             ))}
           </div>
         )}
+        <Modal
+          closeOnEsc={true}
+          closeOnOverlayClick={true}
+          open={this.state.modalOpen}
+          onClose={() => this.setState({ modalOpen: false })}
+          center
+          showCloseIcon={false}
+          styles={{
+            modal: {
+              borderRadius: 10
+            }
+          }}
+        >
+          <div style={{ textAlign: "center" }}>
+            <h4>Đang tải...</h4>
+            <Spin indicator={antIcon} />
+          </div>
+        </Modal>
       </Wrapper>
     );
   }
