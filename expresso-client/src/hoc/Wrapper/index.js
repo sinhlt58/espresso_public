@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import { Layout, Menu, Row, Col, Icon } from 'antd';
-import { Link } from 'react-router-dom';
-import SideMenu from '../../components/SideMenu';
-import './style.css';
+import React, { Component } from "react";
+import { Layout, Menu, Row, Col, Icon, Drawer } from "antd";
+import { Link } from "react-router-dom";
+import SideMenu from "../../components/SideMenu";
+import windowSize from "react-window-size";
+import "./style.css";
 
 const { Header, Content } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -10,24 +11,52 @@ const MenuItemGroup = Menu.ItemGroup;
 
 class Wrapper extends Component {
   state = {
-    selectedMenu: '',
+    selectedMenu: "",
+    mobileMenuOpen: false,
+    setIsMobileMenu: false
   };
 
   componentWillMount() {
     this.setState({
-      selectedMenu: this.props.location.split('/')[1],
+      selectedMenu: this.props.location.split("/")[1]
     });
   }
 
+  componentDidMount() {
+    if (this.props.windowWidth < 768) {
+      this.setState({
+        setIsMobileMenu: true
+      });
+    }
+  }
+
+  renderNavLinks = () => [
+    <Menu.Item key="compare">
+      <Link to={`/compare`}>So sánh</Link>
+    </Menu.Item>,
+    <Menu.Item key="products">
+      <Link to="/products">Sản phẩm</Link>
+    </Menu.Item>,
+    <Menu.Item key="rank">
+      <Link to="/ranking">Xếp hạng</Link>
+    </Menu.Item>
+  ];
+
+  toggleMobileMenuOpen = () => {
+    this.setState({
+      mobileMenuOpen: false
+    });
+  };
+
   render() {
-    const isDevelopment = process.env.NODE_ENV === 'development';
+    const isDevelopment = process.env.NODE_ENV === "development";
     let sentimentNav = (
       <Menu.Item key="sentiment">
         <Link to="/sentiment">Sentiment</Link>
       </Menu.Item>
     );
     if (!isDevelopment) {
-      sentimentNav = '';
+      sentimentNav = "";
     }
 
     let facebookNav = (
@@ -36,15 +65,33 @@ class Wrapper extends Component {
       </Menu.Item>
     );
     if (!isDevelopment) {
-      facebookNav = '';
+      facebookNav = "";
     }
+
+    const { mobileMenuOpen } = this.state;
 
     return (
       <Layout style={this.props.style}>
-        <Header style={{ backgroundColor: '#3892F7' }}>
+        <Drawer
+          title="Espresso"
+          placement="right"
+          closable={true}
+          visible={mobileMenuOpen}
+          onClose={this.toggleMobileMenuOpen}
+          mask={true}
+          maskClosable={true}
+        >
+          <Menu>{this.renderNavLinks()}</Menu>
+        </Drawer>
+        <Header
+          style={{
+            backgroundColor: "#3892F7",
+            paddingRight: this.state.setIsMobileMenu ? "0" : "0 10%"
+          }}
+        >
           <div className="logo">
             <Link to="/">
-              <h2 style={{ margin: '0px 0px 0px 0px', color: '#FFF' }}>
+              <h2 style={{ margin: "0px 0px 0px 0px", color: "#FFF" }}>
                 Espresso
               </h2>
             </Link>
@@ -53,19 +100,20 @@ class Wrapper extends Component {
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={[this.state.selectedMenu]}
-            style={{ lineHeight: '64px', backgroundColor: '#3892F7' }}
+            style={{ lineHeight: "64px", backgroundColor: "#3892F7" }}
           >
-            <Menu.Item key="compare">
-              <Link to={`/compare`}>So sánh</Link>
-            </Menu.Item>
-            <Menu.Item key="products">
-              <Link to="/products">Sản phẩm</Link>
-            </Menu.Item>
-            <Menu.Item key="rank">
-              <Link to="/ranking">Xếp hạng</Link>
-            </Menu.Item>
-            {sentimentNav}
-            {facebookNav}
+            {this.state.setIsMobileMenu ? null : this.renderNavLinks()}
+            {this.state.setIsMobileMenu ? (
+              <Menu.Item
+                style={{
+                  float: "right"
+                }}
+              >
+                <a onClick={() => this.setState({ mobileMenuOpen: true })}>
+                  <Icon type="bars" style={{ fontSize: 20, color: "white" }} />
+                </a>
+              </Menu.Item>
+            ) : null}
           </Menu>
         </Header>
         {this.props.isHome ? null : (
@@ -75,7 +123,7 @@ class Wrapper extends Component {
             selectedKeys={[this.state.current]}
             mode="horizontal"
             theme="light"
-            style={{ textAlign: 'center' }}
+            style={{ textAlign: "center" }}
           >
             <Menu.Item key="analytics">
               <Link to={`/analytics/${this.props.brand}`}>Chi tiết</Link>
@@ -91,17 +139,17 @@ class Wrapper extends Component {
 
         <Row
           style={{
-            display: '-webkit-flex',
-            display: '-ms-flexbox',
-            display: 'flex',
-            overflow: 'hidden',
+            display: "-webkit-flex",
+            display: "-ms-flexbox",
+            display: "flex",
+            overflow: "hidden"
           }}
         >
           {this.props.isHome ? null : (
             <SideMenu
               path={this.state.selectedMenu}
               brand={this.props.brand}
-              style={{ flex: 1, minHeight: '100vh' }}
+              style={{ flex: 1, minHeight: "100vh" }}
             />
           )}
           <Content style={{ flex: 9 }}>{this.props.children}</Content>
@@ -111,4 +159,4 @@ class Wrapper extends Component {
   }
 }
 
-export default Wrapper;
+export default windowSize(Wrapper);

@@ -1,15 +1,5 @@
 import React, { Component } from "react";
-import {
-  Input,
-  AutoComplete,
-  Tag,
-  Row,
-  Col,
-  message,
-  Button,
-  Icon
-} from "antd";
-import SpeechRecognition from "react-speech-recognition";
+import { Input, AutoComplete, Tag, Row, Col, message } from "antd";
 import { Link } from "react-router-dom";
 import Wrapper from "../../hoc/Wrapper";
 import {
@@ -24,10 +14,6 @@ import "./style.css";
 
 const Search = Input.Search;
 
-const options = {
-  autoStart: false
-};
-
 class Dashboard extends Component {
   state = {
     completion: [],
@@ -39,9 +25,7 @@ class Dashboard extends Component {
     brands: [],
     dealers: [],
     badBrands: [],
-    badDealers: [],
-    listening: false,
-    strValue: ""
+    badDealers: []
   };
 
   async componentDidMount() {
@@ -79,11 +63,7 @@ class Dashboard extends Component {
   }
 
   _onInput = async text => {
-    this.stopVoice();
     if (text.trim() !== "") {
-      await this.setState({
-        strValue: text
-      });
       const res = await brandAutocomplete(text.toLowerCase());
       this.setState({
         completion: res.data.brandCompletion
@@ -100,13 +80,7 @@ class Dashboard extends Component {
   };
 
   _onSearch = async value => {
-    let res;
-    this.stopVoice();
-    if (this.state.strValue === "") {
-      res = await brandAutocomplete(this.props.transcript);
-    } else {
-      res = await brandAutocomplete(this.state.strValue.toLowerCase());
-    }
+    const res = await brandAutocomplete(value.toLowerCase());
 
     if (res.data.brandCompletion.length === 0) {
       const botRes = await axios.post(
@@ -167,34 +141,7 @@ class Dashboard extends Component {
     }
   };
 
-  _onListen = async () => {
-    if (this.state.listening === true) {
-      this.stopVoice();
-    } else {
-      await this.setState({
-        listening: true,
-        strValue: ""
-      });
-      this.props.startListening();
-    }
-  };
-
-  stopVoice = async () => {
-    await this.setState({
-      listening: false,
-      strValue: this.props.transcript
-    });
-    this.props.abortListening();
-    this.props.resetTranscript();
-  };
-
   render() {
-    const { browserSupportsSpeechRecognition, transcript } = this.props;
-
-    if (!browserSupportsSpeechRecognition) {
-      return null;
-    }
-
     return (
       <Wrapper isHome location={this.props.location.pathname}>
         <div
@@ -213,9 +160,6 @@ class Dashboard extends Component {
             onSelect={this._onSelectSuggester}
             onSearch={this._onInput}
             optionLabelProp="value"
-            value={
-              this.state.strValue === "" ? transcript : this.state.strValue
-            }
           >
             <Search
               className="search-dashboard"
@@ -223,14 +167,6 @@ class Dashboard extends Component {
               onSearch={this._onSearch}
               enterButton
               size="large"
-              prefix={
-                <Button
-                  type={this.state.listening ? "primary" : "normal"}
-                  onClick={this._onListen}
-                >
-                  <Icon type="notification" />
-                </Button>
-              }
             />
           </AutoComplete>
         </div>
@@ -357,4 +293,4 @@ class Dashboard extends Component {
   }
 }
 
-export default SpeechRecognition(options)(Dashboard);
+export default Dashboard;
