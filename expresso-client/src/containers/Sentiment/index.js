@@ -7,6 +7,7 @@ import { getTopWords } from "../../graphql-client/api";
 import { apiUri } from "../../constant";
 import Elasticsearch from "elasticsearch";
 import moment from "moment";
+import { addLog } from "../../graphql-client/api";
 
 const esClient = Elasticsearch.Client({
   host: "http://103.220.68.79:9200/"
@@ -57,17 +58,13 @@ class Sentiment extends Component {
           });
 
           if (this.state.checked) {
-            const esRes = await esClient.index({
-              index: "v2_log",
-              type: "_doc",
-              body: {
-                type: "sentiment",
-                text: text,
-                score: res.data.outputs.output[0],
-                star: res.data.outputs.output_rating[0],
-                time: moment().valueOf() / 1000
-              }
+            const log = await addLog({
+              text: text,
+              score: res.data.outputs.output[0],
+              star: res.data.outputs.output_rating[0],
+              time: String(moment().valueOf() / 1000)
             });
+            console.log(log);
           }
         } else {
           message.error("Something wrong! Try again");

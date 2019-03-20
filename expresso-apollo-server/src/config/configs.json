@@ -1,5 +1,5 @@
 {
-    "port": 8000,
-    "nlp_sentiment_url": "http://103.220.68.79:8501/v1/models/predict_score:predict",
-    "elasticsearch_url": "http://103.220.68.79:9200/"
+  "port": 8000,
+  "nlp_sentiment_url": "http://103.220.68.79:8501/v1/models/predict_score:predict",
+  "elasticsearch_url": "http://103.220.68.79:9200/"
 }
