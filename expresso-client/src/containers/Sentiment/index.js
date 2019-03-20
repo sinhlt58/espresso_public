@@ -46,8 +46,8 @@ class Sentiment extends Component {
 
   _onSearch = async text => {
     axios
-      .post(`http://103.220.68.79:8501/v1/models/predict_score:predict`, {
-        inputs: [`${text}`]
+      .post(`${apiUri}/sentiment/predict`, {
+        sentences: [`${text}`]
       })
       .then(async res => {
         if (res.status === 200) {
