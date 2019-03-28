@@ -34,6 +34,11 @@ then
     storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawl-fb.flux
 fi
 
+if [ "$1" = "cluster" ]
+then
+    storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawl-fb-cluster.flux
+fi
+
 if [ "$1" = "setup" ]
 then
     mkdir -p /espresso_data
