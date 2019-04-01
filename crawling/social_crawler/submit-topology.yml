@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  social_crawler:
+    container_name: crawl_fb
+    build: .
+
+volumes:
+  esdata:

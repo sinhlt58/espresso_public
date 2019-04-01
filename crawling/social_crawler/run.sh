@@ -19,11 +19,6 @@ then
     cd $crr_dir
 fi
 
-if [ "$1" = "update_analysis_status" ]
-then
-    ./update_analysis_status.sh
-fi
-
 if [ "$1" = "local" ]
 then
     storm jar target/social_crawler-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawl-fb-local.flux --sleep 864000000

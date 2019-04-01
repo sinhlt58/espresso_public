@@ -3,7 +3,7 @@ config:
   # ES indexer bolt
   # adresses can be specified as a full URL
   # if not we assume that the protocol is http and the port 9200
-  es.indexer.addresses: "http://192.168.1.15:9200"
+  es.indexer.addresses: "http://192.168.1.20:9200"
   es.indexer.index.name: "fb_index"
   # es.indexer.pipeline: "_PIPELINE_"
   es.indexer.doc.type: "_doc"
@@ -12,7 +12,7 @@ config:
     cluster.name: "elasticsearch"
 
   # ES spout and persistence bolt
-  es.status.addresses: "http://192.168.1.15:9200"
+  es.status.addresses: "http://192.168.1.20:9200"
   es.status.index.name: "fb_status"
   es.status.doc.type: "_doc"
 

@@ -1,8 +1,10 @@
 
 const crypto = require('crypto');
 const elasticsearch = require('elasticsearch');
+const elasticHost = process.env.ES_HOST || 'localhost'
+const elasticPort = process.env.ES_PORT || '9200'
 const client = new elasticsearch.Client({
-  host: 'localhost:9200'
+  host: elasticHost+':'+elasticPort
 });
 
 let index_name = 'fb_status';

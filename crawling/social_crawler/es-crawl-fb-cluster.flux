@@ -25,19 +25,19 @@ spouts:
 bolts:
   - id: "fetcher"
     className: "com.uet.crawling.social.bolt.FetcherBolt"
-    parallelism: 1
+    parallelism: 2
 
   - id: "discover"
     className: "com.uet.crawling.social.bolt.NodesDiscoverBolt"
-    parallelism: 1
+    parallelism: 10
 
   - id: "indexer"
     className: "com.uet.crawling.social.elasticsearch.bolt.IndexerBolt"
-    parallelism: 1
+    parallelism: 2
 
   - id: "status"
     className: "com.uet.crawling.social.elasticsearch.persistence.StatusUpdaterBolt"
-    parallelism: 1
+    parallelism: 2
 
   # uncomment if need delete Status.Error
   #- id: "deletion"
