@@ -5,7 +5,7 @@ import SideMenu from "../../components/SideMenu";
 import windowSize from "react-window-size";
 import "./style.css";
 
-const { Header, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
@@ -154,6 +154,7 @@ class Wrapper extends Component {
           )}
           <Content style={{ flex: 9 }}>{this.props.children}</Content>
         </Row>
+        <Footer style={{ textAlign: "center" }}>©2019 Data Espresso</Footer>
       </Layout>
     );
   }
