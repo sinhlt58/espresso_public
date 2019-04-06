@@ -85,7 +85,7 @@ services:
     #   - "nimbus:127.0.0.1"
     #   - "zookeeper:127.0.0.1"
     #   - "supervisor1:127.0.0.1"
-      - "supervisor2:192.168.1.171"
+      - "supervisor2:192.168.1.8"
 
   ui:
     image: storm
