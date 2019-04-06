@@ -45,3 +45,18 @@ if [ "$1" = "remove" ]
 then
     rm -f /espresso_data/timeLastGetBrand.db
 fi
+
+if [ "$1" = "docker_start" ]
+then
+    sudo docker-compose up --build -d
+fi
+
+if [ "$1" = "docker_submit" ]
+then
+    sudo docker-compose -f submit-topology.yml up --build
+fi
+
+if [ "$1" = "docker_supervisor" ]
+then
+    sudo docker-compose -f submit-topology.yml up --build
+fi

@@ -116,24 +116,6 @@ services:
   #   restart: always
   #   ports:
   #     - 8000:8000
-    
-  # social_crawler:
-  #   container_name: crawl_fb
-  #   build: .
-  #   depends_on:
-  #     - nimbus
-  #     - zookeeper
-  #     - elasticsearch
-  #   links:
-  #     - nimbus
-  #     - zookeeper
-  #     - elasticsearch
-    # environment: # Set ENV vars
-    #  - ES_HOST=localhost
-    #  - ES_PORT=9200
-    # ports:
-    #   #- "3000:3000" # Expose API port
-    #   - "9229:9229" # Expose Node process debug port (disable in production)
 
 volumes:
   esdata:

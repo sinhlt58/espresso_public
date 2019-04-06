@@ -4,3 +4,5 @@ services:
   social_crawler:
     container_name: crawl_fb
     build: .
+    env_file:
+      - ./env_file.env
