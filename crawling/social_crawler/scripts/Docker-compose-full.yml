@@ -1,0 +1,418 @@
+version: '3'
+services:
+  webapp:
+    build:
+      # context path
+      context: ./dir
+      # Dockerfilename if change default
+      dockerfile: Dockerfile-alternate
+      # arguments
+      args:
+        - buildno: 1
+      # cache from
+      cache_from:
+        - alpine:latest
+        - corp/web_app:3.14
+      # Add metadata to the resulting image using Docker labels
+      labels:
+        - "com.example.description=Accounting webapp"
+        - "com.example.department=Finance"
+        - "com.example.label-with-empty-value"
+      # Set the size of the /dev/shm partition for this build’s containers
+      shm_size: '2gb'
+      #shm_size: 10000000
+      # target name
+      target: prod
+
+    # Add or drop container capabilities
+    cap_add:
+      - ALL
+    cap_drop:
+      - NET_ADMIN
+      - SYS_ADMIN
+
+    # Specify an optional parent cgroup for the container.
+    cgroup_parent: m-executor-abcd
+
+    # Override the default command in docker file
+    command: bundle exec thin -p 3000
+    command: ["bundle", "exec", "thin", "-p", "3000"]
+    # Specify a custom container name, rather than a generated default name.
+    container_name: my-web-container
+
+    # Configure the credential spec for managed service account. This option is only used for services using Windows containers. The credential_spec must be in the format file://<filename> or registry://<value-name>.
+    credential_spec:
+      file: my-credential-spec.json
+    
+    # Express dependency between services, Service dependencies cause the following behaviors
+    # depends_on does not wait for <other container> to be “ready” before starting <app> - only until they have been started
+    depends_on:
+      - <name of other container which this container depend on>
+
+    # Specify configuration related to the deployment and running of services. This only takes effect when deploying to a swarm with docker stack deploy, and is ignored by docker-compose up and docker-compose run
+    deploy:
+      # Specify a service discovery method for external clients connecting to a swarm: vip (visual ip) / dnsrr (DNS round-robin)
+      endpoint_mode: vip
+      labels:
+        com.example.description: "This label will appear on the web service"
+      # Either global (exactly one container per swarm node) or replicated (a specified number of containers). The default is replicated
+      mode: replicated
+      # Specify placement of constraints and preferences
+      placement:
+        constraints:
+          - node.role == manager
+          - engine.labels.operatingsystem == ubuntu 14.04
+        preferences:
+          - spread: node.labels.zone
+      # specify the number of containers that should be running at any given time
+      replicas: 6
+      # Configures resource constraints. 
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 50M
+        reservations:
+          cpus: '0.25'
+          memory: 20M
+      # Configures if and how to restart containers when they exit. Replaces restart.
+      restart_policy:
+        # (none, on-failure or any (default: any).)
+        condition: on-failure 
+        delay: 5s
+        #  How many times to attempt to restart a container before giving up (default: never give up)
+        max_attempts: 3
+        # How long to wait before deciding if a restart has succeeded, specified as a duration (default: decide immediately).
+        window: 120s
+      # Configures how the service should be updated. Useful for configuring rolling updates.
+      update_config:
+        # The number of containers to update at a time.
+        parallelism: 2
+        # The time to wait between updating a group of containers.
+        delay: 10s
+        # What to do if an update fails. One of continue, rollback, or pause (default: pause).
+        failure_action: rollback
+        # Duration after each task update to monitor for failure (ns|us|ms|s|m|h) (default 0s).
+        monitor: 1s
+        # Failure rate to tolerate during an update.
+        max_failure_ratio: 0.1
+        # Order of operations during updates. One of stop-first (old task is stopped before starting new one), or start-first (new task is started first, and the running tasks briefly overlap) (default stop-first) 
+        order: stop-first
+
+    # List of device mappings. Uses the same format as the --device docker client create option.
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    dns:
+      - 8.8.8.8
+      - 9.9.9.9
+    # Custom DNS search domains. Can be a single value or a list.
+    dns_search:
+      - dc1.example.com
+      - dc2.example.com
+    # Override the default entrypoint in dockerfile.
+    entrypoint:
+      - php
+      - -d
+      - zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
+      - -d
+      - memory_limit=-1
+      - vendor/bin/phpunit
+    env_file:
+      - ./common.env
+      - ./apps/web.env
+      - /opt/secrets.env
+    environment:
+      - RACK_ENV=development
+      - SHOW=true
+      - SESSION_SECRET
+    # Expose ports without publishing them to the host machine - they’ll only be accessible to linked services. Only the internal port can be specified.
+    expose:
+      - "3000"
+      - "8000"
+    # Link to containers started outside this docker-compose.yml or even outside of Compose, especially for containers that provide shared or common services. external_links follow semantics similar to the legacy option links when specifying both the container name and the link alias (CONTAINER:ALIAS).
+    external_links:
+      - redis_1
+      - project_db_1:mysql
+      - project_db_1:postgresql
+    # Add hostname mappings. Use the same values as the docker client --add-host parameter.
+    extra_hosts:
+      - "somehost:162.242.195.82"
+      - "otherhost:50.31.209.229"
+    # Configure a check that’s run to determine whether or not containers for this service are “healthy”
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      # test: ["CMD-SHELL", "curl -f http://localhost || exit 1"]
+      # test: curl -f https://localhost || exit 1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+      # disable: true
+    # Specify the image to start the container from. Can either be a repository/tag or a partial image ID.
+    # example-registry.com:4000/postgresql
+    # tutum/influxdb
+    image: redis
+    # Run an init inside the container that forwards signals and reaps processes. Either set a boolean value to use the default init, or specify a path to a custom one.
+    init: /usr/libexec/docker-init
+    # Link to containers in another service. Either specify both the service name and a link alias (SERVICE:ALIAS), or just the service name.
+    # sharing environmental variables between containers
+    # Links also express dependency between services in the same way as depends_on, so they determine the order of service startup.
+    links:
+      - db
+      - db:database
+      - redis
+    # Logging configuration for the service.
+    logging:
+      driver: syslog
+      options:
+        syslog-address: "tcp://192.168.0.42:123"
+        max-size: "200k"
+        max-file: "10"
+    # "bridge","host","none","service:[service name]","container:[container name/id]"
+    network_mode: "bridge"
+    # networks:
+    #  - some-network
+    #  - other-network
+    # networks:
+    #   some-network:
+    #      # Aliases (alternative hostnames) for this service on the network.
+    #     aliases:
+    #      - alias1
+    #      - alias3
+    #   other-network:
+    #     aliases:
+    #      - alias2
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+        ipv6_address: 2001:3984:3989::10
+
+# networks:
+#   app_net:
+#     driver: bridge
+#     enable_ipv6: true
+#     ipam:
+#       driver: default
+#       config:
+#       -
+#         subnet: 172.16.238.0/24
+#       -
+#         subnet: 2001:3984:3989::/64
+
+    pid: "host"
+    ports:
+      - "3000"
+      - "3000-3005"
+      - "8000:8000"
+      - "9090-9091:8080-8081"
+      - "49100:22"
+      - "127.0.0.1:8001:8001"
+      - "127.0.0.1:5000-5010:5000-5010"
+      - "6060:6060/udp"
+    # ports:
+    #   - target: 80
+    #     published: 8080
+    #     protocol: tcp
+    #     mode: host
+
+    # no is the default restart policy, and it does not restart a container under any circumstance. When always is specified, the container always restarts. The on-failure policy restarts a container if the exit code indicates an on-failure error.
+    # "no",always,on-failure,unless-stopped
+    restart: always
+
+# version: "3.3"
+# services:
+#   redis:
+#     image: redis:latest
+#     deploy:
+#       replicas: 1
+#     # Grant access to configs on a per-service basis using the per-service configs configuration
+#     configs:
+#       - my_config
+#       - my_other_config
+# configs:
+#   my_config:
+#     file: ./my_config.txt
+#   my_other_config:
+#     external: true
+
+# version: "3.3"
+# services:
+#   redis:
+#     image: redis:latest
+#     deploy:
+#       replicas: 1
+#     configs:
+#       - source: my_config
+#         target: /redis_config
+#         uid: '103'
+#         gid: '103'
+#         mode: 0440
+# configs:
+#   my_config:
+#     file: ./my_config.txt
+#   my_other_config:
+#     external: true
+
+# version: "3.1"
+# services:
+#   redis:
+#     image: redis:latest
+#     deploy:
+#       replicas: 1
+#     secrets:
+#       - my_secret
+#       - my_other_secret
+# secrets:
+#   my_secret:
+#     file: ./my_secret.txt
+#   my_other_secret:
+#     external: true
+
+# version: "3.1"
+# services:
+#   redis:
+#     image: redis:latest
+#     deploy:
+#       replicas: 1
+#     secrets:
+#       - source: my_secret
+#         target: redis_secret
+#         uid: '103'
+#         gid: '103'
+#         mode: 0440
+# secrets:
+#   my_secret:
+#     file: ./my_secret.txt
+#   my_other_secret:
+#     external: true
+    security_opt:
+    - label:user:USER
+    - label:role:ROLE
+    stop_grace_period: 1s
+    stop_signal: SIGUSR1
+    # Kernel parameters to set in the container
+    sysctls:
+      - net.core.somaxconn=1024
+      - net.ipv4.tcp_syncookies=0
+    # Mount a temporary file system inside the container
+    tmpfs:
+      - /run
+      - /tmp
+    # Override the default ulimits for a container
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    userns_mode: "host"
+    volumes:
+      # Just specify a path and let the Engine create a volume
+      - /var/lib/mysql
+      # Specify an absolute path mapping
+      - /opt/data:/var/lib/mysql
+      # Path on the host, relative to the Compose file
+      - ./cache:/tmp/cache
+      # User-relative path
+      - ~/configs:/etc/configs/:ro
+      # Named volume
+      - datavolume:/var/lib/mysql
+      # - type: volume (volume, bind or tmpfs)
+      #   source: mydata
+      #   target: /data
+      #   volume:
+      #     nocopy: true
+
+    # user: postgresql
+    # working_dir: /code
+    # domainname: foo.com
+    # hostname: foo
+    # ipc: host
+    # mac_address: 02:42:ac:11:65:43
+    # privileged: true
+    # read_only: true
+    # shm_size: 64M
+    # stdin_open: true
+    # tty: true
+
+volumes:
+  data-volume:
+    # Specify which volume driver should be used for this volume (default: local)
+    driver: foobar
+    # Specify a list of options as key-value pairs to pass to the driver for this volume. 
+    driver_opts:
+      type: "nfs"
+      o: "addr=10.40.0.199,nolock,soft,rw"
+      device: ":/docker/example"
+    # If set to true, specifies that this volume has been created outside of Compose. docker-compose up does not attempt to create it, and raises an error if it doesn’t exist.
+    external: true
+    # external:
+    #   name: actual-name-of-volume
+    # labels:
+    #   com.example.description: "Database volume"
+    #   com.example.department: "IT/Ops"
+    #   com.example.label-with-empty-value: ""
+    # Set a custom name for this volume
+    name: my-app-data
+
+networks:
+  # Specify which driver should be used for this network.
+  driver: overlay (bride - single node, overlay - on swarm)
+  hostnet:
+    external: true
+    name: host
+  # Only used when the driver is set to overlay. If set to true, then standalone containers can attach to this network, in addition to services. If a standalone container attaches to an overlay network, it can communicate with services and standalone containers that are also attached to the overlay network from other Docker daemons.
+  attachable: true
+
+ipam:
+  driver: default
+  config:
+    - subnet: 172.28.0.0/16
+
+
+# version: '3.7'
+# services:
+#   web:
+#     networks:
+#       hostnet: {}
+
+# networks:
+#   hostnet:
+#     external: true
+#     name: host
+
+
+# services:
+#   web:
+#     ...
+#     networks:
+#       nonet: {}
+
+# networks:
+#   nonet:
+#     external: true
+#     name: none
+
+
+# Extension fields
+# x-<name>
+
+
+
+
+# Not supported for docker stack deploy
+#     build
+#     cgroup_parent
+#     container_name
+#     devices
+#     tmpfs
+#     external_links
+#     links
+#     network_mode
+#     restart
+#     security_opt
+#     sysctls
+#     userns_mode
+
+
+
+
+

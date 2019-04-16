@@ -1,0 +1,160 @@
+
+# escape=\ (backslash)
+# escape=` (backtick)
+
+
+ADD
+COPY
+ENV
+EXPOSE
+FROM
+LABEL
+STOPSIGNAL
+USER
+VOLUME
+WORKDIR
+
+
+FROM <image> [AS <name>]
+FROM <image>[:<tag>] [AS <name>]
+FROM <image>[@<digest>] [AS <name>]
+
+# An ARG declared before a FROM is outside of a build stage, so it can’t be used in any instruction after a FROM.
+# To use the default value of an ARG declared before the first FROM use an ARG instruction without a value inside of a build stage:
+ARG VERSION=latest
+FROM busybox:$VERSION
+ARG VERSION
+RUN echo $VERSION > image_version
+
+
+RUN <command> (shell form)
+RUN ["executable", "param1", "param2"]  (exec form) Unlike the shell form, the exec form does not invoke a command shell
+RUN /bin/bash -c 'source $HOME/.bashrc; echo $HOME'
+# The cache for RUN instructions can be invalidated by using the --no-cache flag, for example docker build --no-cache
+
+# The main purpose of a CMD is to provide defaults for an executing container
+CMD ["executable","param1","param2"] (exec form, this is the preferred form)
+CMD ["param1","param2"] (as default parameters to ENTRYPOINT)
+CMD command param1 param2 (shell form)
+
+# The LABEL instruction adds metadata to an image
+LABEL <key>=<value> <key>=<value> <key>=<value> ...
+
+EXPOSE <port> [<port>/<protocol>...]
+
+ENV <key> <value>
+ENV <key>=<value> ...
+
+
+# The ADD instruction copies new files, directories or remote file URLs from <src> and adds them to the filesystem of the image at the path <dest>.
+# Multiple <src> resources may be specified but if they are files or directories, their paths are interpreted as relative to the source of the context of the build.
+# ---- unpacked ----
+ADD [--chown=<user>:<group>] <src>... <dest>
+ADD [--chown=<user>:<group>] ["<src>",... "<dest>"] (this form is required for paths containing whitespace)
+
+ADD hom* /mydir/        # adds all files starting with "hom"
+ADD hom?.txt /mydir/    # ? is replaced with any single character, e.g., "home.txt"
+ADD test relativeDir/          # adds "test" to `WORKDIR`/relativeDir/
+ADD test /absoluteDir/         # adds "test" to /absoluteDir/
+ADD --chown=55:mygroup files* /somedir/
+ADD --chown=bin files* /somedir/
+ADD --chown=1 files* /somedir/
+ADD --chown=10:11 files* /somedir/
+
+
+# The <src> path must be inside the context of the build; you cannot ADD ../something /something, 
+# because the first step of a docker build is to send the context directory (and subdirectories) to the docker daemon.
+
+# If <src> is a URL and <dest> does not end with a trailing slash (\, /), 
+# then a file is downloaded from the URL and copied to <dest>.
+
+
+
+COPY [--chown=<user>:<group>] <src>... <dest>
+COPY [--chown=<user>:<group>] ["<src>",... "<dest>"] (this form is required for paths containing whitespace)
+
+COPY hom* /mydir/        # adds all files starting with "hom"
+COPY hom?.txt /mydir/    # ? is replaced with any single character, e.g., "home.txt"
+COPY test relativeDir/   # adds "test" to `WORKDIR`/relativeDir/
+COPY test /absoluteDir/  # adds "test" to /absoluteDir/
+COPY --chown=55:mygroup files* /somedir/
+COPY --chown=bin files* /somedir/
+COPY --chown=1 files* /somedir/
+COPY --chown=10:11 files* /somedir/
+
+
+# Command line arguments to docker run <image> will be appended after all elements in an exec form ENTRYPOINT, and will override all elements specified using CMD
+ENTRYPOINT ["executable", "param1", "param2"] (exec form, preferred)
+ENTRYPOINT command param1 param2 (shell form)
+
+#!/usr/bin/env bash
+set -e
+
+if [ "$1" = 'postgres' ]; then
+    chown -R postgres "$PGDATA"
+
+    if [ -z "$(ls -A "$PGDATA")" ]; then
+        gosu postgres initdb
+    fi
+
+    exec gosu postgres "$@"
+fi
+
+exec "$@"
+
+
+
+
+# Dockerfile should specify at least one of CMD or ENTRYPOINT commands.
+# ENTRYPOINT should be defined when using the container as an executable.
+# CMD should be used as a way of defining default arguments for an ENTRYPOINT command or for executing an ad-hoc command in a container.
+# CMD will be overridden when running the container with alternative arguments.
+
+
+VOLUME ["/data"]
+VOLUME /myvol
+
+USER <user>[:<group>] or
+USER <UID>[:<GID>]
+
+# The WORKDIR instruction sets the working directory for any RUN, CMD, ENTRYPOINT, COPY and ADD instructions that follow it in the Dockerfile. 
+# If the WORKDIR doesn’t exist, it will be created even if it’s not used in any subsequent Dockerfile instruction.
+# The WORKDIR instruction can be used multiple times in a Dockerfile. 
+# If a relative path is provided, it will be relative to the path of the previous WORKDIR instruction
+WORKDIR /path/to/workdir
+
+# An ARG variable definition comes into effect from the line on which it is defined in the Dockerfile not from the argument’s use on the command-line or elsewhere
+ARG <name>[=<default value>]
+
+# immediately after the FROM
+ONBUILD [INSTRUCTION]
+
+[...]
+ONBUILD ADD . /app/src
+ONBUILD RUN /usr/local/bin/python-build --dir /app/src
+[...]
+
+
+STOPSIGNAL signal
+
+
+HEALTHCHECK [OPTIONS] CMD command (check container health by running a command inside the container)
+HEALTHCHECK NONE (disable any healthcheck inherited from the base image)
+
+SHELL ["executable", "parameters"]
+
+FROM microsoft/windowsservercore
+
+# Executed as cmd /S /C echo default
+RUN echo default
+
+# Executed as cmd /S /C powershell -command Write-Host default
+RUN powershell -command Write-Host default
+
+# Executed as powershell -command Write-Host hello
+SHELL ["powershell", "-command"]
+RUN Write-Host hello
+
+# Executed as cmd /S /C echo hello
+SHELL ["cmd", "/S", "/C"]
+RUN echo hello

@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+
+  supervisor:
+    image: storm
+    container_name: supervisor
+    command: storm supervisor
+    # name host supervisor
+    hostname: supervisor2
+    restart: always
+    ports:
+      - 6700:6700
+      - 6701:6701
+      - 6702:6702
+      - 6703:6703
+    # Do dung dia chi ao nen phai extra hosts, moi may trong mang deu phai biet dia chi ao cua cac may khac
+    # Thay dia chi ao cua cac thanh phan duoi day bang dia chi ao deply mong muon
+    extra_hosts:
+      - "nimbus:192.168.1.4"
+      - "zookeeper:192.168.1.4"
+      - "supervisor1:192.168.1.4"
+      # - "supervisor3:192.168.1.4"
+      # ....

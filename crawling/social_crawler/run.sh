@@ -58,5 +58,5 @@ fi
 
 if [ "$1" = "docker_supervisor" ]
 then
-    sudo docker-compose -f submit-topology.yml up --build
+    sudo docker-compose -f submit-supervisor.yml up --build
 fi
