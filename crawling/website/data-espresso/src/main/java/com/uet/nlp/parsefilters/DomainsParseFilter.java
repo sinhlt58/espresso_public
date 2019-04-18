@@ -5,7 +5,7 @@ import java.util.*;
 import com.digitalpebble.stormcrawler.mongodb.models.DomainEntity;
 import com.digitalpebble.stormcrawler.mongodb.models.Rules;
 import com.digitalpebble.stormcrawler.mongodb.services.DomainService;
-import org.jsoup.parser.Parser;
+// import org.jsoup.parser.Parser;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,7 +131,7 @@ public class DomainsParseFilter extends ParseFilter {
     public void filter(String URL, byte[] content, DocumentFragment doc, ParseResult parse) {
         ParseData parseData = parse.get(URL);
         Metadata metadata = parseData.getMetadata();
-        String html = metadata.getFirstValue("html");
+        // String html = metadata.getFirstValue("html");
 
         try {
 

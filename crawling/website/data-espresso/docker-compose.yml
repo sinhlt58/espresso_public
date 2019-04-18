@@ -1,0 +1,11 @@
+version: '3'
+services:
+  rules-server:
+    build: ../rules-server
+    volumes:
+      - rule_server:/node_modules
+    ports:
+      - "1111:1111"
+
+volumes:
+  rule_server:

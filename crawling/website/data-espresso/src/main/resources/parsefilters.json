@@ -524,6 +524,23 @@
             "tiki.vn": "div.espresso-review-time",
             "www.lazada.vn": "div.espresso-review-time"
           }
+        },
+        "article": {
+          "category": {
+            "vnexpress.net": ".breadcrumb.pc_breadcrumb.left li, .sub_breadcrumb.left li"
+          },
+          "title": {
+            "vnexpress.net": "section#col_sticky > h1"
+          },
+          "time": {
+            "vnexpress.net": "section#col_sticky header > span"
+          },
+          "description": {
+            "vnexpress.net": "section#col_sticky > p.description"
+          },
+          "content": {
+            "vnexpress.net": "div#article_content"
+          }
         }
       }
     },

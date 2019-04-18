@@ -6,10 +6,10 @@
     ]
   },
   {
-    "scope" : "domain:stormcrawler.net",
-    "patterns" : [ 
-        "AllowPath /digitalpebble/", 
-        "DenyPath .+"
+    "scope": "domain:stormcrawler.net",
+    "patterns": [
+      "AllowPath /digitalpebble/",
+      "DenyPath .+"
     ]
   },
   {
@@ -45,7 +45,7 @@
     "scope": "domain:tiki.vn",
     "patterns": [
       "AllowPathQuery src=tree|page=|src=category-page|page=",
-      "AllowPathQuery \/thuong-hieu|cua-hang",
+      "AllowPathQuery /thuong-hieu|cua-hang",
       "DenyPathQuery .+"
     ]
   },
@@ -53,16 +53,16 @@
     "scope": "domain:www.lazada.vn",
     "patterns": [
       "AllowPathQuery i[0-9]{5,}-s[0-9]{5,}",
-      "AllowPathQuery \/products\/",
+      "AllowPathQuery /products/",
       "AllowPathQuery page=",
-      "AllowPathQuery \/shop\/",
+      "AllowPathQuery /shop/",
       "DenyPathQuery .+"
     ]
   },
   {
     "scope": "domain:shopee.vn",
     "patterns": [
-      "DenyPathQuery \/amp\/",
+      "DenyPathQuery /amp/",
       "AllowPathQuery ([0-9]{2,})\\.([0-9]{2,})",
       "AllowPathQuery page=",
       "AllowPathQuery tab=product",
@@ -130,8 +130,8 @@
   {
     "scope": "domain:vnexpress.net",
     "patterns": [
-      "AllowPathQuery vnexpress.net",
-      "DenyPathQuery .+"
+      "DenyPathQuery /goc-nhin",
+      "AllowPathQuery .+"
     ]
   }
 ]

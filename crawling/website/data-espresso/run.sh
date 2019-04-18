@@ -7,6 +7,11 @@ then
     ./change_fields.sh
 fi
 
+if [ "$1" = "index_article" ]
+then
+    ./ES_Article_IndexInit.sh
+fi
+
 if [ "$1" = "add_host" ]
 then
     cd scripts
@@ -54,6 +59,16 @@ fi
 if [ "$1" = "cluster" ]
 then
     storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawler.cluster.flux --sleep 86400000
+fi
+
+if [ "$1" = "article_local" ]
+then
+    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawler-article.local.flux
+fi
+
+if [ "$1" = "submit_article" ]
+then
+    sudo docker-compose -f submit-article-topo.yml up --build
 fi
 
 if [ "$1" = "patch" ]
