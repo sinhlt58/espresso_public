@@ -10,8 +10,8 @@ const remoteClient = new elasticsearch.Client({
     host: '103.220.68.79:9200'
 });
 
-let index_name = 'v2_status';
-let index_type = 'v2_status';
+let index_name = 'article_status';
+let index_type = 'article_status';
 
 exports.addUrlToEsStatus = async function(url, hostname, remote=false) {
     try {
