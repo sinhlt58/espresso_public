@@ -21,8 +21,10 @@ Ví dụ export data cho domain `motor_car` từ tháng 1 đến tháng 4 với 
 
 ### Lưu ý
 
-Tối đa export data một lần là 30 bình luận khác nhau.
+Tối đa export data một lần là 30000 bình luận khác nhau.
 
 Ví dụ file output có thể xem trong folder `example_out`.
 
 Các luật để phân loại domain đang dựa theo trường breadcrumb.
+
+Timestamp convert: https://www.epochconverter.com/
