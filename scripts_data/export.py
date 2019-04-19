@@ -19,6 +19,11 @@ domain_rules = {
         'Vitamin, thực phẩm bổ sung và đồ dùng cho mẹ',
         'Dinh dưỡng cho bé',
         'Mother & Baby Feeding'
+    ],
+    'motor_car': [
+        'Ô tô - xe máy - xe đạp',
+        'Ô Tô - Xe Máy - Xe Đạp',
+        'Motors'
     ]
 }
 
