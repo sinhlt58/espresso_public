@@ -13,7 +13,7 @@ Ví dụ export data cho domain `food_kid` từ tháng 1 đến tháng 4 với t
 
 Ví dụ export data cho domain `thoi_trang_nu` từ tháng 1 đến tháng 4 với tất cả các loại sao.
 
-`python export.py --domain food_kid --stars 1,2,3,4,5 --start_time 1546304400000 --end_time 1554080400000`
+`python export.py --domain thoi_trang_nu --stars 1,2,3,4,5 --start_time 1546304400000 --end_time 1554080400000`
 
 Ví dụ export data cho domain `motor_car` từ tháng 1 đến tháng 4 với tất cả các loại sao 1,2,3.
 
