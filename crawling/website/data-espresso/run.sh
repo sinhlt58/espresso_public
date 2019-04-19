@@ -63,6 +63,11 @@ fi
 
 if [ "$1" = "article_local" ]
 then
+    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawler-article.local.flux --sleep 86400000
+fi
+
+if [ "$1" = "article_remote" ]
+then
     storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote es-crawler-article.local.flux
 fi
 
