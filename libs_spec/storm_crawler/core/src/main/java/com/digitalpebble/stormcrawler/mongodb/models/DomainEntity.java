@@ -13,7 +13,10 @@ public class DomainEntity extends BaseEntity {
     private String esname;
 
     @Embedded
-    private ArrayList<Rules> properties = new ArrayList<>();
+    private ArrayList<Rules> rules = new ArrayList<>();
+
+    @Embedded
+    private ArrayList<Schedules> schedules = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -39,12 +42,20 @@ public class DomainEntity extends BaseEntity {
         this.esname = esname;
     }
 
-    public ArrayList<Rules> getProperties() {
-        return properties;
+    public ArrayList<Rules> getRules() {
+        return rules;
     }
 
-    public void setProperties(ArrayList<Rules> properties) {
-        this.properties = properties;
+    public void setRules(ArrayList<Rules> rules) {
+        this.rules = rules;
+    }
+
+    public ArrayList<Schedules> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedule(ArrayList<Schedules> schedules) {
+        this.schedules = schedules;
     }
 
 }

@@ -11,7 +11,7 @@ public class LegalUrlService extends BaseService{
 
     public static final Logger LOG = LoggerFactory
             .getLogger(LegalUrlService.class);
-    public static List<LegalUrlEntity> getRulesByHost(String hostname){
+    public static List<LegalUrlEntity> getDatasByHost(String hostname){
         Query<LegalUrlEntity> query = datastore.createQuery(LegalUrlEntity.class);
 
         String global = "GLOBAL";

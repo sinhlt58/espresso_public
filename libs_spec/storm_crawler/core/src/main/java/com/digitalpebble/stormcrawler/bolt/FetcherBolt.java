@@ -897,7 +897,7 @@ public class FetcherBolt extends StatusEmitterBolt{
         Metadata metadata = (Metadata) input.getValueByField("metadata");
         if (metadata!= null && metadata.keySet().contains("hostname")){
             String hostname = metadata.getFirstValue("hostname");
-            JsRenderEntity jsRenderEntity = JsRenderService.getRuleByHost(hostname);
+            JsRenderEntity jsRenderEntity = JsRenderService.getDataByHost(hostname);
             if(jsRenderEntity != null){
                 metadata.setValue("jsRender", "1");
                 String scopes = jsRenderEntity.getScopes();

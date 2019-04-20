@@ -5,7 +5,6 @@ import java.util.*;
 import com.digitalpebble.stormcrawler.mongodb.models.DomainEntity;
 import com.digitalpebble.stormcrawler.mongodb.models.Rules;
 import com.digitalpebble.stormcrawler.mongodb.services.DomainService;
-import org.jsoup.parser.Parser;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -180,12 +179,12 @@ public class DomainsParseFilter extends ParseFilter {
     }
 
     public void getRules(String host){
-        List<DomainEntity> domainEntities = DomainService.getRulesByHost(host);
+        List<DomainEntity> domainEntities = DomainService.getDatasByHost(host);
         for (DomainEntity domainEntity :domainEntities) {
             String domainKey = domainEntity.getEsname();
             //LOG.info("Domain name: {}", domainKey);
 
-            ArrayList<Rules> properties = domainEntity.getProperties();
+            ArrayList<Rules> properties = domainEntity.getRules();
 
             Map<String, ArrayList<CustomRule>> fieldRulesMap = new HashMap<>();
             domainFieldRulesMap.put(domainKey, fieldRulesMap);
