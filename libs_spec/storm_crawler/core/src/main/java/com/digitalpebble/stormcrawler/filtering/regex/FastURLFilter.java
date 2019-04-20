@@ -187,7 +187,7 @@ public class FastURLFilter implements URLFilter/*, JSONResource */{ // conganh c
 
     // conganh add
     void getRules(String hostname){
-        List<LegalUrlEntity> legalUrlEntities = LegalUrlService.getRulesByHost(hostname);
+        List<LegalUrlEntity> legalUrlEntities = LegalUrlService.getDatasByHost(hostname);
         Rules rules = new Rules();
         for (LegalUrlEntity legalUrlEntity: legalUrlEntities) {
             Scope scope = new Scope();

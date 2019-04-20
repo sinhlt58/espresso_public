@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DomainService extends BaseService{
 
-    public static List<DomainEntity> getRulesByHost(String hostname){
+    public static List<DomainEntity> getDatasByHost(String hostname){
         return datastore.createQuery(DomainEntity.class).field("hostname").equal(hostname).asList();
     }
 

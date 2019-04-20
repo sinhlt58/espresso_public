@@ -46,9 +46,9 @@ for (let esname in param){
         domainEntity.name = detail[esname];
         domainEntity.esname = esname;
         domainEntity.hostname = hostname;
-        domainEntity.properties = [];
-        for(let property in tmp[hostname]){
-            domainEntity.properties.push(tmp[hostname][property]);
+        domainEntity.rules = [];
+        for(let rule in tmp[hostname]){
+            domainEntity.rules.push(tmp[hostname][rule]);
         }
         domainEntities.push(domainEntity);
     }

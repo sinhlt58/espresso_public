@@ -180,17 +180,17 @@ public class DomainsParseFilter extends ParseFilter {
     }
 
     public void getRules(String host){
-        List<DomainEntity> domainEntities = DomainService.getRulesByHost(host);
+        List<DomainEntity> domainEntities = DomainService.getDatasByHost(host);
         for (DomainEntity domainEntity :domainEntities) {
             String domainKey = domainEntity.getEsname();
             //LOG.info("Domain name: {}", domainKey);
 
-            ArrayList<Rules> properties = domainEntity.getProperties();
+            ArrayList<Rules> rules = domainEntity.getRules();
 
             Map<String, ArrayList<CustomRule>> fieldRulesMap = new HashMap<>();
             domainFieldRulesMap.put(domainKey, fieldRulesMap);
 
-            for (Rules rule:properties) {
+            for (Rules rule:rules) {
                 String fieldKey = rule.getLabel();
                 //LOG.info("Field: {}", fieldKey);
 
