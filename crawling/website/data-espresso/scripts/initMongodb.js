@@ -12,27 +12,28 @@ let detail = {
 let domainEntities = [];
 
 for (let esname in param){
-    let properties = param[esname];
-    let tmp = {};
+    // get rules
+    let ruleProperties = param[esname]['rules'];
+    let tmpRules = {};
 
     // khởi tạo array rules
-    for(let property in properties){
-        let rules = properties[property];
+    for(let property in ruleProperties){
+        let rules = ruleProperties[property];
         for(let host in rules){
             let rule = rules[host];
             if(rule.length>0){
-                tmp[host] = []; //*
+                tmpRules[host] = []; //*
             }
         }
     }
 
     // push rules
-    for(let property in properties){
-        let rules = properties[property];
+    for(let property in ruleProperties){
+        let rules = ruleProperties[property];
         for(let host in rules){
             let rule = rules[host];
             if(rule.length>0){
-                tmp[host].push({
+                tmpRules[host].push({
                     label:property,
                     rule: rule
                 })
@@ -40,15 +41,49 @@ for (let esname in param){
         }
     }
 
+
+    // get schedules
+    let scheduleProperties = param[esname]['schedules'];
+    let tmpSchedules = {};
+
+    // khởi tạo array schedules
+    for(let property in scheduleProperties){
+        let schedules = scheduleProperties[property];
+        for(let host in schedules){
+            let schedule = schedules[host];
+            if(schedule){
+                tmpSchedules[host] = []; 
+            }
+        }
+    }
+
+    // push schedules
+    for(let property in scheduleProperties){
+        let schedules = scheduleProperties[property];
+        for(let host in schedules){
+            let schedule = schedules[host];
+            if(schedule){
+                tmpSchedules[host].push({
+                    regex: property,
+                    nextFecthDate: schedule
+                })
+            }
+        }
+    }
+
     // push entity
-    for(let hostname in tmp){
+    for(let hostname in tmpRules){
         let domainEntity = {};
         domainEntity.name = detail[esname];
         domainEntity.esname = esname;
         domainEntity.hostname = hostname;
         domainEntity.rules = [];
-        for(let rule in tmp[hostname]){
-            domainEntity.rules.push(tmp[hostname][rule]);
+        domainEntity.schedules = [];
+        for(let property in tmpRules[hostname]){
+            domainEntity.rules.push(tmpRules[hostname][property]);
+        }
+        for(let property in tmpSchedules[hostname]){
+            domainEntity.schedules.push(tmpSchedules[hostname][property]);
         }
         domainEntities.push(domainEntity);
     }

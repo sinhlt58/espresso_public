@@ -5,7 +5,6 @@ import java.util.*;
 import com.digitalpebble.stormcrawler.mongodb.models.DomainEntity;
 import com.digitalpebble.stormcrawler.mongodb.models.Rules;
 import com.digitalpebble.stormcrawler.mongodb.services.DomainService;
-// import org.jsoup.parser.Parser;
 import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
