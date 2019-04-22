@@ -47,25 +47,25 @@ for (let esname in param){
     let tmpSchedules = {};
 
     // khởi tạo array schedules
-    for(let property in scheduleProperties){
-        let schedules = scheduleProperties[property];
-        for(let host in schedules){
-            let schedule = schedules[host];
-            if(schedule){
+    for(let host in scheduleProperties){
+        let schedules = scheduleProperties[host];
+        for(let schedule in schedules){
+            let nextFecthDate = schedules[schedule];
+            if(nextFecthDate){
                 tmpSchedules[host] = []; 
             }
         }
     }
 
     // push schedules
-    for(let property in scheduleProperties){
-        let schedules = scheduleProperties[property];
-        for(let host in schedules){
-            let schedule = schedules[host];
-            if(schedule){
+    for(let host in scheduleProperties){
+        let schedules = scheduleProperties[host];
+        for(let schedule in schedules){
+            let nextFecthDate = schedules[schedule];
+            if(nextFecthDate){
                 tmpSchedules[host].push({
-                    regex: property,
-                    nextFecthDate: schedule
+                    regex: schedule,
+                    nextFecthDate: nextFecthDate
                 })
             }
         }

@@ -462,12 +462,10 @@
               "batdongsan.com.vn": ""
             }
           },
-          "schedules": {
-
-          }
+          "schedules": {}
         },
         "general": {
-          "rules":{
+          "rules": {
             "breadcrumb": {
               "shopee.vn": ".page-product__breadcrumb",
               "tiki.vn": ".breadcrumb",
@@ -531,9 +529,7 @@
               "www.lazada.vn": "div.espresso-review-time"
             }
           },
-          "schedules":{
-            
-          }
+          "schedules": {}
         }
       }
     },

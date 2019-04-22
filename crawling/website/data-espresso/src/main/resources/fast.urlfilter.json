@@ -126,12 +126,5 @@
       "AllowPathQuery /can-ban|/cho-thue|/can-mua|/can-thue|[0-9]{5,}\\.html|per_page",
       "DenyPathQuery .+"
     ]
-  },
-  {
-    "scope": "domain:vnexpress.net",
-    "patterns": [
-      "AllowPathQuery vnexpress.net",
-      "DenyPathQuery .+"
-    ]
   }
 ]
