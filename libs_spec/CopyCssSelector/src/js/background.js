@@ -70,8 +70,8 @@ function createContextMenus(domainsData) {
     domainsData.forEach(domainData => {
         let domainName = domainData['name'];
         createContextMenu(domainName, domainName);
-        domainData['fields'].forEach(field => {
-            const id_title = `${domainName}@${field}`;
+        domainData['rules'].forEach(rule => {
+            const id_title = `${domainName}@${rule}`;
             createContextMenu(id_title, id_title, domainName);
         })
     });
