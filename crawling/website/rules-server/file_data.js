@@ -56,8 +56,8 @@ exports.updateJsoupRules = function(domain, field, host, rule) {
     const jsoupData = exports.getJsoupData(rules);
 
     if (jsoupData.hasOwnProperty(domain)){
-        if (jsoupData[domain].hasOwnProperty(field)){
-            const fieldData = jsoupData[domain][field];
+        if (jsoupData[domain]['rules'].hasOwnProperty(field)){
+            const fieldData = jsoupData[domain]['rules'][field];
             if (fieldData.hasOwnProperty(host)) {
                 if (!fieldData[host].includes(rule)) {
                     let rules = fieldData[host].split(', ');

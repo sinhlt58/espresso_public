@@ -29,10 +29,13 @@ router.get('/domains', async (req, res) => {
     for (let domain in jsoupRulesData) {
         domainData = {
             name: domain,
-            fields: []
+            rules: [],
+            // schedules: [],
+            // fields: []
         };
-        for (let field in jsoupRulesData[domain]) {
-            domainData.fields.push(field);
+        for (let field in jsoupRulesData[domain]['rules']) {
+            // domainData.fields.push(field);
+            domainData.rules.push(field);
         }
         domainsData.push(domainData);
     }

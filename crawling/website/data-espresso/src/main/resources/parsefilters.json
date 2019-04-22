@@ -560,14 +560,14 @@
           },
           "schedules": {
             "vnexpress.net": {
-              "https:\/\/vnexpress\\.net/{0,1}": 120,
-              "https:\/\/vnexpress\\.net.{2,}(?<!html)$": 240,
-              "https:\/\/vnexpress\\.net.{2,}\\.html": 68373000
+              "https://vnexpress\\.net/{0,1}": 120,
+              "https://vnexpress\\.net.{2,}(?<!html)$": 240,
+              "https://vnexpress\\.net.{2,}\\.html": 68373000
             },
             "dantri.com.vn": {
-              "https:\/\/dantri\\.com\\.vn/{0,1}": 120,
-              "https:\/\/dantri\\.com\\.vn.{2,}\\D{1,}\\.htm": 240,
-              "https:\/\/dantri\\.com\\.vn.{2,}\\d{1,}\\.htm": 68373000
+              "https://dantri\\.com\\.vn/{0,1}": 120,
+              "https://dantri\\.com\\.vn.{2,}\\D{1,}\\.htm": 240,
+              "https://dantri\\.com\\.vn.{2,}\\d{1,}\\.htm": 68373000
             }
           }
         }
