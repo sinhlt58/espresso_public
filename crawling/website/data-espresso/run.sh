@@ -36,6 +36,11 @@ then
     storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-injector.flux --sleep 30000
 fi
 
+if [ "$1" = "inject_article" ]
+then
+    storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-injector-article.flux --sleep 30000
+fi
+
 if [ "$1" = "crawl" ]
 then
     storm jar target/data-espresso-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local es-crawler.local.flux --sleep 864000000
