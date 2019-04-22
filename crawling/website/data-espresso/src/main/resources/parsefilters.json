@@ -530,6 +530,7 @@
             }
           },
           "schedules": {}
+<<<<<<< HEAD
         },
         "article": {
           "rules": {
@@ -570,6 +571,8 @@
               "https://dantri\\.com\\.vn.{2,}\\d{1,}\\.htm": 68373000
             }
           }
+=======
+>>>>>>> master
         }
       }
     },

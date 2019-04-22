@@ -126,6 +126,7 @@
       "AllowPathQuery /can-ban|/cho-thue|/can-mua|/can-thue|[0-9]{5,}\\.html|per_page",
       "DenyPathQuery .+"
     ]
+<<<<<<< HEAD
   },
   {
     "scope": "domain:vnexpress.net",
@@ -147,5 +148,7 @@
       "DenyPathQuery /media",
       "AllowPathQuery .+"
     ]
+=======
+>>>>>>> master
   }
 ]
