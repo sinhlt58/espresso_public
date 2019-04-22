@@ -34,10 +34,16 @@ import com.digitalpebble.stormcrawler.mongodb.models.Schedules;
 import com.digitalpebble.stormcrawler.mongodb.services.DomainService;
 import com.digitalpebble.stormcrawler.util.ConfUtils;
 
+import org.slf4j.LoggerFactory;
+
+
 /**
  * Schedules a nextFetchDate based on the configuration
  **/
 public class DefaultScheduler extends Scheduler {
+
+    private static final org.slf4j.Logger LOG = LoggerFactory
+        .getLogger(DefaultScheduler.class);
 
     /** Date far in the future used for never-refetch items. */
     public static final Date NEVER = new Calendar.Builder()
@@ -111,15 +117,22 @@ public class DefaultScheduler extends Scheduler {
                 new CustomInterval[intervals.size()]);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.digitalpebble.stormcrawler.persistence.Scheduler#schedule(com.
-     * digitalpebble. stormcrawler.persistence .Status,
-     * com.digitalpebble.stormcrawler.Metadata)
-     */
+    // conganh comment
+    // /*
+    //  * (non-Javadoc)
+    //  * 
+    //  * @see com.digitalpebble.stormcrawler.persistence.Scheduler#schedule(com.
+    //  * digitalpebble. stormcrawler.persistence .Status,
+    //  * com.digitalpebble.stormcrawler.Metadata)
+    //  */
+    // @Override
+    // public Date schedule(Status status, Metadata metadata, String url) {
+    // end conganh
+
+    // conganh add
     @Override
-    public Date schedule(Status status, Metadata metadata) {
+    public Date schedule(Status status, Metadata metadata, String url) {
+    // end conganh
 
         int minutesIncrement = 0;
 
@@ -138,7 +151,6 @@ public class DefaultScheduler extends Scheduler {
         // conganh add
         int customefetchInterval = 0;
         String host = metadata.getFirstValue("hostname");
-        String url = metadata.getFirstValue("url");
         List<DomainEntity> domainEntities = DomainService.getDatasByHost(host);
         for (DomainEntity domainEntity : domainEntities) {
             // hien tai dang lay nextFetchDate tu mongo la lay ban dau tien roi break
@@ -148,16 +160,15 @@ public class DefaultScheduler extends Scheduler {
             for (Schedules schedule : schedules){
                 if(url.matches(schedule.getRegex())){
                     customefetchInterval = schedule.getNextFecthDate();
+                    if(customefetchInterval > 0){
+                        defaultfetchInterval = customefetchInterval;
+                    }
                     check = true;
                     break;
                 }
             }
             if(check) break;
         }
-        if(customefetchInterval != 0){
-            defaultfetchInterval = customefetchInterval;
-        }
-        // end conganh
 
         if (customInterval.isPresent()) {
             minutesIncrement = customInterval.get();

@@ -462,12 +462,10 @@
               "batdongsan.com.vn": ""
             }
           },
-          "schedules": {
-
-          }
+          "schedules": {}
         },
         "general": {
-          "rules":{
+          "rules": {
             "breadcrumb": {
               "shopee.vn": ".page-product__breadcrumb",
               "tiki.vn": ".breadcrumb",
@@ -531,47 +529,46 @@
               "www.lazada.vn": "div.espresso-review-time"
             }
           },
-          "schedules":{
-            
-          }
+          "schedules": {}
         },
         "article": {
-          "rules":{
-            "meta_description": {
-              "vnexpress.net": "meta[name=description]@content",
-              "dantri.com.vn": "meta[name=description]@content"
-            },
-            "meta_keywords": {
-              "vnexpress.net": "meta[name=keywords]@content",
-              "dantri.com.vn": "meta[name=keywords]@content"
-            },
+          "rules": {
             "category": {
               "vnexpress.net": ".breadcrumb.pc_breadcrumb.left li, .sub_breadcrumb.left li",
               "dantri.com.vn": ".breadcrumb>li span",
               "www.nhandan.com.vn": "div#wrapper div.row.pt-0.noprint > div > ul"
             },
             "title": {
-              "vnexpress.net": "section#col_sticky > h1",
+              "vnexpress.net": "section.sidebar_1 > h1",
               "dantri.com.vn": "div#ctl00_IDContent_ctl00_divContent > h1"
             },
             "time": {
-              "vnexpress.net": "section#col_sticky header > span",
+              "vnexpress.net": "section.sidebar_1 header > span",
               "dantri.com.vn": "div#ctl00_IDContent_ctl00_divContent div.box26.clearfix > span"
             },
             "description": {
-              "vnexpress.net": "section#col_sticky > p.description",
+              "vnexpress.net": "section.sidebar_1 > p.description",
               "dantri.com.vn": "div#ctl00_IDContent_ctl00_divContent > h2"
             },
             "content": {
-              "vnexpress.net": "div#article_content",
+              "vnexpress.net": "section.sidebar_1 > .content_detail",
               "dantri.com.vn": "div#divNewsContent"
             },
             "tags": {
               "dantri.com.vn": "div#divNewsContent span.news-tags-item"
             }
           },
-          "schedules":{
-            
+          "schedules": {
+            "vnexpress.net": {
+              "https:\/\/vnexpress\\.net/{0,1}": 120,
+              "https:\/\/vnexpress\\.net.{2,}(?<!html)$": 240,
+              "https:\/\/vnexpress\\.net.{2,}\\.html": 68373000
+            },
+            "dantri.com.vn": {
+              "https:\/\/dantri\\.com\\.vn/{0,1}": 120,
+              "https:\/\/dantri\\.com\\.vn.{2,}\\D{1,}\\.htm": 240,
+              "https:\/\/dantri\\.com\\.vn.{2,}\\d{1,}\\.htm": 68373000
+            }
           }
         }
       }
