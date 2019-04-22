@@ -3,15 +3,18 @@ var exports = module.exports;
 const crypto = require('crypto');
 
 const elasticsearch = require('elasticsearch');
+const port = process.env.ES_PORT || 9200;
+const local = "localhost:" + port;
+const remote = (process.env.ES_REMOTE || '103.220.68.79:9200') + ":" + port;
 const client = new elasticsearch.Client({
-  host: 'localhost:9200'
+  host: local
 });
 const remoteClient = new elasticsearch.Client({
-    host: '103.220.68.79:9200'
+    host: remote
 });
 
-let index_name = 'v2_status';
-let index_type = 'v2_status';
+let index_name = process.env.ES_INDEX_NAME || 'v2_status';
+let index_type = process.env.ES_INDEX_TYPE || 'v2_status';
 
 exports.addUrlToEsStatus = async function(url, hostname, remote=false) {
     try {
