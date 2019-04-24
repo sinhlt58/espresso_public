@@ -137,7 +137,7 @@
   {
     "scope": "domain:dantri.com.vn",
     "patterns": [
-      "DenyPathQuery /video",
+      "DenyPathQuery /video|/kid-lab",
       "AllowPathQuery .+"
     ]
   },
