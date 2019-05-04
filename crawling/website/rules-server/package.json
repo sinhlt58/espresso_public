@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env ES_INDEX_NAME=article_status ES_INDEX_TYPE=article_status node index",
+    "start": "cross-env ES_INDEX_NAME=article_status_v2 ES_INDEX_TYPE=article_status_v2 node index",
     "v2_status": "node index",
     "custome": "ES_INDEX_NAME=<<name>> ES_INDEX_TYPE=<<name>> ES_PORT=<<es_port>> ES_REMOTE=<<ip_remote>> node index"
   },

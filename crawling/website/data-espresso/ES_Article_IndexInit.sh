@@ -3,15 +3,15 @@ ESCREDENTIALS="-u elastic:passwordhere"
 
 # deletes and recreates a status index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/article_status/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/article_status_v2/" >  /dev/null
 
-echo "Deleted article_status index"
+echo "Deleted article_status_v2 index"
 
 # http://localhost:9200/status/_mapping/status?pretty
 
-echo "Creating article_status index with mapping"
+echo "Creating article_status_v2 index with mapping"
 
-curl $ESCREDENTIALS -s -XPUT $ESHOST/article_status -H 'Content-Type: application/json' -d '
+curl $ESCREDENTIALS -s -XPUT $ESHOST/article_status_v2 -H 'Content-Type: application/json' -d '
 {
 	"settings": {
 		"index": {
@@ -24,7 +24,7 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/article_status -H 'Content-Type: applicatio
 		}
 	},
 	"mappings": {
-		"article_status": {
+		"article_status_v2": {
 			"dynamic_templates": [{
 				"metadata": {
 					"path_match": "metadata.*",
@@ -55,17 +55,17 @@ curl $ESCREDENTIALS -s -XPUT $ESHOST/article_status -H 'Content-Type: applicatio
 
 # deletes and recreates a status index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/article_metrics/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/article_metrics_v2/" >  /dev/null
 
 echo ""
-echo "Deleted article_metrics index"
+echo "Deleted article_metrics_v2 index"
 
 echo "Creating metrics index with mapping"
 
 # http://localhost:9200/metrics/_mapping/status?pretty
 curl $ESCREDENTIALS -s -XPOST $ESHOST/_template/storm-metrics-template -H 'Content-Type: application/json' -d '
 {
-  "template": "article_metrics",
+  "template": "article_metrics_v2",
   "settings": {
     "index": {
       "number_of_shards": 1,
@@ -109,11 +109,11 @@ curl $ESCREDENTIALS -s -XPOST $ESHOST/_template/storm-metrics-template -H 'Conte
 
 # deletes and recreates a doc index with a bespoke schema
 
-curl $ESCREDENTIALS -s -XDELETE "$ESHOST/article_index/" >  /dev/null
+curl $ESCREDENTIALS -s -XDELETE "$ESHOST/article_index_v2/" >  /dev/null
 
 echo ""
-echo "Deleted docs article_index"
+echo "Deleted docs article_index_v2"
 
-echo "Creating docs article_index with mapping"
+echo "Creating docs article_index_v2 with mapping"
 
-curl $ESCREDENTIALS -s -XPUT $ESHOST/article_index -H 'Content-Type: application/json' -d @scripts/es_index_mapping.json
+curl $ESCREDENTIALS -s -XPUT $ESHOST/article_index_v2 -H 'Content-Type: application/json' -d @scripts/es_index_mapping.json
