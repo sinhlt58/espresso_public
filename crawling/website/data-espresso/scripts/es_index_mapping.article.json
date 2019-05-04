@@ -10,7 +10,7 @@
         }
     },
     "mappings": {
-        "article_index_v2": {
+        "_doc": {
             "properties": {
                 "google_date_published": {
                     "type": "date",
