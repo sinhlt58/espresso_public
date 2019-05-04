@@ -17,6 +17,10 @@ config:
   # sinh.luutruong
   es.indexer.domainfieldname: "domain_type"
   # sinh.luutruong
+  # conganh add
+  # es.indexer.fieldsMustHaveName: ""
+  es.indexer.minSizeRecordName: 2;
+  # end conganh
 
   # ES metricsConsumer
   es.metrics.addresses: "elasticsearchStorm"

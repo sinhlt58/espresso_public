@@ -26,6 +26,7 @@ import java.util.ArrayList;
 // sinh.luutruong
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.storm.metric.api.MultiCountMetric;
 import org.apache.storm.metric.api.MultiReducedMetric;
@@ -71,6 +72,11 @@ public class IndexerBolt extends AbstractIndexerBolt implements
     private static String ESDomainFieldTypeName = "es.indexer.domainfieldname";
     // sinh.luutruong end
 
+    // conganh add
+    private static String ESFieldsMustHaveName = "es.indexer.fieldsMustHaveName";
+    private static String ESMinSizeRecordName = "es.indexer.minSizeRecordName";
+    // end conganh
+
     private OutputCollector _collector;
 
     private String indexName;
@@ -91,6 +97,11 @@ public class IndexerBolt extends AbstractIndexerBolt implements
     // sinh.luutruong added
     private String domainFieldTypeName;
     // sinh.luutruong end
+
+    // conganh add
+    private String fieldsMustHave;
+    private int minSizeRecord;
+    // end conganh
 
     public IndexerBolt() {
     }
@@ -120,8 +131,13 @@ public class IndexerBolt extends AbstractIndexerBolt implements
 
         // sinh.luutruong added
         domainFieldTypeName = ConfUtils.getString(conf, IndexerBolt.ESDomainFieldTypeName,
-                             "domain_type");
+                "domain_type");
         // sinh.luutruong end
+
+        // conganh add
+        fieldsMustHave = ConfUtils.getString(conf, IndexerBolt.ESFieldsMustHaveName, null);
+        minSizeRecord =  ConfUtils.getInt(conf, IndexerBolt.ESMinSizeRecordName,0);
+        // end conganh
 
         try {
             connection = ElasticSearchConnection.getConnection(conf,
@@ -210,7 +226,7 @@ public class IndexerBolt extends AbstractIndexerBolt implements
             for (String domain : domainsData.keySet()) {
                 ArrayList<Map<String, ArrayList<String>>> records = domainsData.get(domain);
 
-                if (records.size() > 0 && records.get(0).size() > 1) {
+                if (records.size() > 0 && records.get(0).size() >= minSizeRecord) {
                     // builder.startArray(domain);
                     // for (Map<String, ArrayList<String>> record : records) {
                     //     builder.startObject();
@@ -226,8 +242,14 @@ public class IndexerBolt extends AbstractIndexerBolt implements
                     //     builder.endObject();
                     // }
                     // builder.endArray();
+
+                    Set<String> keys = records.get(0).keySet();
+                    if(fieldsMustHave != null && !checkFields(fieldsMustHave, keys)){
+                        continue;
+                    }
+                    
                     builder.field(domainFieldTypeName, domain);
-                    for (String field : records.get(0).keySet()) {
+                    for (String field : keys) {
                         ArrayList<String> values = records.get(0).get(field);
                         if (values.size() == 1) {
                             builder.field(field, values.get(0));
@@ -283,6 +305,17 @@ public class IndexerBolt extends AbstractIndexerBolt implements
             _collector.fail(tuple);
         }
     }
+
+    // conganh add
+    private boolean checkFields(String source, Set<String> test){
+        for (String element : test) {
+            if(!source.contains(element)){
+                return false;
+            }
+        }
+        return true;
+    }
+    // end conganh
 
     /**
      * Must be overridden for implementing custom index names based on some
