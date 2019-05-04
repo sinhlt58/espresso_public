@@ -116,4 +116,4 @@ echo "Deleted docs article_index_v2"
 
 echo "Creating docs article_index_v2 with mapping"
 
-curl $ESCREDENTIALS -s -XPUT $ESHOST/article_index_v2 -H 'Content-Type: application/json' -d @scripts/es_index_mapping.json
+curl $ESCREDENTIALS -s -XPUT $ESHOST/article_index_v2 -H 'Content-Type: application/json' -d @scripts/es_index_mapping.article.json

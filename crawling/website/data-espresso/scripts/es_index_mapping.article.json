@@ -1,0 +1,22 @@
+{
+    "settings": {
+        "index": {
+            "number_of_shards": 10,
+            "number_of_replicas": 0,
+            "refresh_interval": "10s",
+            "blocks": {
+                "read_only_allow_delete": "false"
+            }
+        }
+    },
+    "mappings": {
+        "article_index_v2": {
+            "properties": {
+                "google_date_published": {
+                    "type": "date",
+                    "format": "dateOptionalTime"
+                }
+            }
+        }
+    }
+}

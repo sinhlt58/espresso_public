@@ -32,7 +32,7 @@ config:
   # ES spout and persistence bolt
   es.status.addresses: "http://localhost:9200"
   es.status.index.name: "article_status_v2"
-  es.status.doc.type: "article_status"
+  es.status.doc.type: "article_status_v2"
   #es.status.user: "USERNAME"
   #es.status.password: "PASSWORD"
   # the routing is done on the value of 'partition.url.mode'
