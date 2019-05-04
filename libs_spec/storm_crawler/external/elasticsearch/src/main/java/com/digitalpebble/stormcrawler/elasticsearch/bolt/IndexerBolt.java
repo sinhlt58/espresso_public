@@ -101,6 +101,7 @@ public class IndexerBolt extends AbstractIndexerBolt implements
     // conganh add
     private String fieldsMustHave;
     private int minSizeRecord;
+    private String[] fieldsMustHaveArray = null;
     // end conganh
 
     public IndexerBolt() {
@@ -136,6 +137,9 @@ public class IndexerBolt extends AbstractIndexerBolt implements
 
         // conganh add
         fieldsMustHave = ConfUtils.getString(conf, IndexerBolt.ESFieldsMustHaveName, null);
+        if(fieldsMustHave != null){
+            fieldsMustHaveArray = fieldsMustHave.trim().split(",");
+        }
         minSizeRecord =  ConfUtils.getInt(conf, IndexerBolt.ESMinSizeRecordName,0);
         // end conganh
 
@@ -244,10 +248,10 @@ public class IndexerBolt extends AbstractIndexerBolt implements
                     // builder.endArray();
 
                     Set<String> keys = records.get(0).keySet();
-                    if(fieldsMustHave != null && !checkFields(fieldsMustHave, keys)){
+                    if(fieldsMustHaveArray != null && !checkFields(fieldsMustHaveArray, keys)){
                         continue;
                     }
-                    
+
                     builder.field(domainFieldTypeName, domain);
                     for (String field : keys) {
                         ArrayList<String> values = records.get(0).get(field);
@@ -307,9 +311,9 @@ public class IndexerBolt extends AbstractIndexerBolt implements
     }
 
     // conganh add
-    private boolean checkFields(String source, Set<String> test){
-        for (String element : test) {
-            if(!source.contains(element)){
+    private boolean checkFields(String[] source, Set<String> test){
+        for (String element : source) {
+            if(!test.contains(element)){
                 return false;
             }
         }
