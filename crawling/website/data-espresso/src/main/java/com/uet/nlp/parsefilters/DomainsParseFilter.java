@@ -114,7 +114,9 @@ public class DomainsParseFilter extends ParseFilter {
             ArrayList<String> res = new ArrayList<>();
             for (Element e : els) {
                 try {
-                    JsonNode root = mapper.readTree(e.data());
+                    String data = e.data();
+                    data = data.replaceAll("<!--.*?-->", "");
+                    JsonNode root = mapper.readTree(data);
                     JsonNode node = root.at(path);
                     if(!node.isMissingNode()){
                         res.add(node.textValue());
