@@ -15,6 +15,9 @@ import com.digitalpebble.stormcrawler.Metadata;
 import com.digitalpebble.stormcrawler.parse.ParseData;
 import com.digitalpebble.stormcrawler.parse.ParseFilter;
 import com.digitalpebble.stormcrawler.parse.ParseResult;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.w3c.dom.DocumentFragment;
 
 public class DomainsParseFilter extends ParseFilter {
@@ -23,8 +26,10 @@ public class DomainsParseFilter extends ParseFilter {
 
     private final Map<String, Map<String, ArrayList<CustomRule>>> domainFieldRulesMap = new HashMap<>();
 
+    private ObjectMapper mapper = new ObjectMapper();
+
     public enum RuleType {
-        NORMAL, CONCAT, ATTRIBUTE, OWNTEXT
+        NORMAL, CONCAT, ATTRIBUTE, OWNTEXT, JSON_SCRIPT
     }
 
     public class CustomRule {
@@ -37,6 +42,8 @@ public class DomainsParseFilter extends ParseFilter {
 
             if (type == RuleType.OWNTEXT) {
                 selectorExpression = selectorExpression.replace("rule_own_text", "");
+            } else if (type == RuleType.JSON_SCRIPT){
+                selectorExpression = selectorExpression.replace("rule_json_script", "");
             }
         }
 
@@ -47,6 +54,8 @@ public class DomainsParseFilter extends ParseFilter {
                 return RuleType.ATTRIBUTE;
             } else if (selector.contains("rule_own_text")) {
                 return RuleType.OWNTEXT;
+            } else if (selector.contains("rule_json_script")) {
+                return RuleType.JSON_SCRIPT;
             } else {
                 return RuleType.NORMAL;
             }
@@ -65,16 +74,22 @@ public class DomainsParseFilter extends ParseFilter {
                 return evaluateOwnText(docJsoup);
             }
 
+            if (type == RuleType.JSON_SCRIPT) {
+                return evaluateJsonScript(docJsoup);
+            }
+
             return evaluateNormal(docJsoup);
         }
 
         public ArrayList<String> evaluateNormal(Document docJsoup) {
+
             Elements els = docJsoup.select(selectorExpression);
 
             ArrayList<String> res = new ArrayList<>();
             for (Element e : els) {
                 res.add(e.text());
             }
+
 
             return res;
         }
@@ -87,6 +102,27 @@ public class DomainsParseFilter extends ParseFilter {
                 res.add(e.ownText());
             }
 
+            return res;
+        }
+
+        public ArrayList<String> evaluateJsonScript(Document docJsoup) {
+            String[] tokens = selectorExpression.split("rootpath");
+            String selector = tokens[0].trim();
+            String path     = tokens[1].trim();
+
+            Elements els = docJsoup.select(selector);
+            ArrayList<String> res = new ArrayList<>();
+            for (Element e : els) {
+                try {
+                    JsonNode root = mapper.readTree(e.data());
+                    JsonNode node = root.at(path);
+                    if(!node.isMissingNode()){
+                        res.add(node.textValue());
+                    }
+                } catch (Exception exception) {
+                    LOG.error("Error in read json script: {}", exception);
+                }                
+            }
             return res;
         }
 
@@ -161,6 +197,8 @@ public class DomainsParseFilter extends ParseFilter {
                                 record.put(fieldName, fieldValues);
                             }
                             fieldValues.addAll(values);
+
+                            LOG.info("Field {}, Rule: {}, values: {}", fieldName, rule.selectorExpression, values.toString());
                             break; // We use only the first matching rule
                             // can xem xet lai khi 1 host co nhieu esname
                         }

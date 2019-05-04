@@ -130,7 +130,7 @@
   {
     "scope": "domain:vnexpress.net",
     "patterns": [
-      "DenyPathQuery /goc-nhin",
+      "DenyPathQuery /goc-nhin|/longform|/tags",
       "AllowPathQuery .+"
     ]
   },

@@ -534,7 +534,7 @@
         "article": {
           "rules": {
             "category": {
-              "vnexpress.net": ".breadcrumb.left li, .sub_breadcrumb.left li",
+              "vnexpress.net": ".breadcrumb.left li",
               "dantri.com.vn": ".breadcrumb>li span, .blg-header",
               "www.nhandan.com.vn": "div#wrapper div.row.pt-0.noprint > div > ul"
             },
@@ -542,11 +542,19 @@
               "vnexpress.net": "section.sidebar_1 > h1",
               "dantri.com.vn": "div#ctl00_IDContent_ctl00_divContent > h1, a#ctl00_IDContent_BlogDetail1_hplTitle"
             },
-            "time": {
-              "vnexpress.net": "section.sidebar_1 header > span",
+            "publication_time": {
+              "vnexpress.net": "meta[name='its_publication']@content",
               "dantri.com.vn": "div#ctl00_IDContent_ctl00_divContent div.box26.clearfix > span, .blg-date"
             },
+            "keywords": {
+              "vnexpress.net": "meta[name='keywords']@content",
+              "dantri.com.vn": "meta[name='keywords']@content"
+            },
             "description": {
+              "vnexpress.net": "meta[name='description']@content",
+              "dantri.com.vn": "meta[name='description']@content"
+            },
+            "description_article": {
               "vnexpress.net": "section.sidebar_1 > .description",
               "dantri.com.vn": "div#ctl00_IDContent_ctl00_divContent > h2, .blogsapo"
             },
@@ -556,6 +564,14 @@
             },
             "tags": {
               "dantri.com.vn": "div#divNewsContent span.news-tags-item"
+            },
+            "google_date_published": {
+              "vnexpress.net": "rule_json_script script[type='application/ld+json'] rootpath/datePublished",
+              "dantri.com.vn": "rule_json_script script[type='application/ld+json'] rootpath/datePublished"
+            },
+            "google_image": {
+              "vnexpress.net": "rule_json_script script[type='application/ld+json'] rootpath/image/url",
+              "dantri.com.vn": "rule_json_script script[type='application/ld+json'] rootpath/image/url"
             }
           },
           "schedules": {
