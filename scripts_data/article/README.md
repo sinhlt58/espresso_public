@@ -8,7 +8,7 @@
 
 Ví dụ export data tối đa 5000 bản ghi mới nhất trên một catagory
 
-`node exportData --number=5000`
+`node exportData.js --number=5000`
 
 ### Lưu ý
 
