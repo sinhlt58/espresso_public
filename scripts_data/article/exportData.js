@@ -140,7 +140,6 @@ process.argv.forEach(function (val, index, array) {
                         let max_number = number <= obj.doc_count ? number : obj.doc_count;
                         let times = Math.floor(max_number/max_record);
                         if(max_number%max_record > 0) times++;
-                        console.log(obj.doc_count + " : " + times)
                         let size = number <= max_record ? number : max_record
                         let interval = size <= 2000 ? 2000 : size;
         
@@ -160,12 +159,9 @@ process.argv.forEach(function (val, index, array) {
                                 } catch (error) {
                                     console.log(error)
                                 }
-                                console.log(j + " : " + obj.key + " : " + size)
         
                                 await timeout(interval);
                             }
-        
-                            console.log(data)
         
                             writeFile(nameFile, JSON.stringify(data));
         
