@@ -130,7 +130,7 @@ process.argv.forEach(function (val, index, array) {
             if(allowArg.includes(arg) && !isNaN(number)){
                 getAllCategoryKey().then(async resp => {
                     let category_keys = resp.aggregations.category_keys.buckets;
-                    // writeFile("./data/countData.json",  JSON.stringify(category_keys));
+                    writeFile("./data/countData.json",  JSON.stringify(category_keys));
             
                     // let interval = 10 * 1000; // 10 seconds;
         
@@ -141,8 +141,13 @@ process.argv.forEach(function (val, index, array) {
                         let times = Math.floor(max_number/max_record);
                         if(max_number%max_record > 0) times++;
                         let size = number <= max_record ? number : max_record
-                        let interval = size <= 2000 ? 2000 : size;
-        
+                        let interval = 10*1000;
+                        if(size <= 2000){
+                            interval = 2000;
+                        } else {
+                            interval = size/2;
+                        }
+
                         if(allow.includes(obj.key)){
         
                             let data = [];
@@ -159,6 +164,7 @@ process.argv.forEach(function (val, index, array) {
                                 } catch (error) {
                                     console.log(error)
                                 }
+                                // console.log(data)
         
                                 await timeout(interval);
                             }
