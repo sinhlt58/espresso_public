@@ -119,85 +119,64 @@ function timeout(ms) {
 }
 
 const max_record = 10000;
-const readline = require('readline');
-const reader = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-})
-reader.question("Nhập số lượng bản ghi tối da mỗi categogy muốn xuất: ", number => {
-    if(!isNaN(number)){
-        getAllCategoryKey().then(async resp => {
-            let category_keys = resp.aggregations.category_keys.buckets;
-            writeFile("./data/countData.json",  JSON.stringify(category_keys));
-    
-            // let interval = 10 * 1000; // 10 seconds;
+const allowArg = ["--number"];
 
-            for(let i=0; i< category_keys.length; i++){
-
-                let obj = category_keys[i]
-                let max_number = number <= obj.doc_count ? number : obj.doc_count;
-                let times = Math.floor(max_number/max_record);
-                if(max_number%max_record > 0) times++;
-                console.log(obj.doc_count + " : " + times)
-                let size = number <= max_record ? number : max_record
-                let interval = size <= 2000 ? 2000 : size;
-
-                if(allow.includes(obj.key)){
-
-                    let data = [];
-                    let nameFile = "./data/" + change_alias(obj.key) + "_" + max_number + ".json";
-
-                    for(let j=0; j<times; j++){
-                        try {
-                            let from = j*max_record;
-                            let res = await getDataCategory(obj.key, from, size);
-                            let hits = res.hits.hits;
-                            for(let k=0; k<hits.length; k++){
-                                data.push(hits[k]._source)
+process.argv.forEach(function (val, index, array) {
+    if(val.includes('=') && val.includes('--') && index == 2){
+        try {
+            let arr = val.split('=');
+            let arg = arr[0];
+            let number = arr[1];
+            if(allowArg.includes(arg) && !isNaN(number)){
+                getAllCategoryKey().then(async resp => {
+                    let category_keys = resp.aggregations.category_keys.buckets;
+                    // writeFile("./data/countData.json",  JSON.stringify(category_keys));
+            
+                    // let interval = 10 * 1000; // 10 seconds;
+        
+                    for(let i=0; i< category_keys.length; i++){
+        
+                        let obj = category_keys[i]
+                        let max_number = number <= obj.doc_count ? number : obj.doc_count;
+                        let times = Math.floor(max_number/max_record);
+                        if(max_number%max_record > 0) times++;
+                        console.log(obj.doc_count + " : " + times)
+                        let size = number <= max_record ? number : max_record
+                        let interval = size <= 2000 ? 2000 : size;
+        
+                        if(allow.includes(obj.key)){
+        
+                            let data = [];
+                            let nameFile = "./data/" + change_alias(obj.key) + "_" + max_number + ".json";
+        
+                            for(let j=0; j<times; j++){
+                                try {
+                                    let from = j*max_record;
+                                    let res = await getDataCategory(obj.key, from, size);
+                                    let hits = res.hits.hits;
+                                    for(let k=0; k<hits.length; k++){
+                                        data.push(hits[k]._source)
+                                    }
+                                } catch (error) {
+                                    console.log(error)
+                                }
+                                console.log(j + " : " + obj.key + " : " + size)
+        
+                                await timeout(interval);
                             }
-                        } catch (error) {
-                            console.log(error)
+        
+                            console.log(data)
+        
+                            writeFile(nameFile, JSON.stringify(data));
+        
                         }
-                        console.log(j + " : " + obj.key + " : " + size)
-
-                        await timeout(interval);
                     }
-
-                    console.log(data)
-
-                    writeFile(nameFile, JSON.stringify(data));
-
-                }
+                }, function (err) {
+                    console.log(err.message);
+                });
             }
-        }, function (err) {
-            console.log(err.message);
-        });
+        } catch (error) {
+            console.log(error)
+        }
     }
-})
-
-// getAllCategoryKey().then(async resp => {
-//     let category_keys = resp.aggregations.category_keys.buckets;
-//     writeFile("./data/countData.json",  JSON.stringify(category_keys));
-
-//     let interval = 10 * 1000; // 10 seconds;
-//     for(let i=0; i< category_keys.length; i++){
-//         let obj = category_keys[i]
-//         if(allow.includes(obj.key)){
-//             try {
-//                 let res = await getDataCategory(obj.key);
-//                 let nameFile = "./data/" + change_alias(obj.key) + "_" + obj.doc_count + ".json";
-//                 let data = [];
-//                 let hits = res.hits.hits;
-//                 for(let j=0; j<hits.length; j++){
-//                     data.push(hits[j]._source)
-//                 }
-//                 writeFile(nameFile, JSON.stringify(data));
-//             } catch (error) {
-//                 console.log(error)
-//             }
-//             await timeout(interval);
-//         }
-//     }
-// }, function (err) {
-//     console.log(err.message);
-// });
+});
