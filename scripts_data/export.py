@@ -55,6 +55,25 @@ def get_reviews_data(buckets):
         res.append(review_data)
     return res
 
+def export_article_research(from_date, to_date):
+    body = {
+        "query": {
+            "range": {
+                "google_date_published": {
+                    "gte": from_date,
+                    "lte": to_date
+                }
+            }
+        }, 
+        "size": 10000
+    }
+    print ('Downloading...')
+    es_res = es.search(index='article_index_v2', body=body, request_timeout=120)
+    hits = es_res['hits']['hits']
+    f = 'article_research_{}_{}.json'.format(from_date, to_date)
+    print ('Exported: {}'.format(f))
+    write_json_data(f, hits)
+
 MAX_AGG = 30000
 def export_by_domain(domain, stars, start_time, end_time, amout=5):
     should = to_wildcard(domain_rules[domain])
@@ -141,14 +160,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Helper')
     parser.add_argument('--domain', metavar='path', required=True,
                         help='The domain name in this list [thoi_trang_nu, food_kid]')
-    parser.add_argument('--stars', metavar='path', required=True,
+    parser.add_argument('--stars', metavar='path', required=False,
                         help='The stars in reviews')
-    parser.add_argument('--start_time', metavar='path', required=True,
+    parser.add_argument('--start_time', metavar='path', required=False,
                         help='Start timestamp')
-    parser.add_argument('--end_time', metavar='path', required=True,
+    parser.add_argument('--end_time', metavar='path', required=False,
                         help='End timestamp')
     args = parser.parse_args()
+    
+    if args.domain == 'article_research':
+        export_article_research("2019-05-01", "2019-05-07")
+    else:
+        stars = [int(star) for star in args.stars.split(',')]
 
-    stars = [int(star) for star in args.stars.split(',')]
-
-    export_by_domain(args.domain, stars, int(args.start_time), int(args.end_time))
+        export_by_domain(args.domain, stars, int(args.start_time), int(args.end_time))
