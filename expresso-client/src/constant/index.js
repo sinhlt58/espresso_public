@@ -19,15 +19,23 @@ export const optionsDomain = [
   },
   {
     value: 'TIKI',
-    label: 'Tiki.vn',
+    label: 'tiki.vn',
   },
   {
     value: 'SHOPEE',
-    label: 'Shopee.vn',
+    label: 'shopee.vn',
   },
   {
     value: 'LAZADA',
-    label: 'Lazada.vn',
+    label: 'lazada.vn',
+  },
+  {
+    value: 'YES24',
+    label: 'yes24.vn',
+  },
+  {
+    value: 'VATGIA',
+    label: 'vatgia.com',
   },
 ];
 

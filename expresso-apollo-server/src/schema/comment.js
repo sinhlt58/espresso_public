@@ -38,6 +38,8 @@ export default gql`
     SHOPEE
     TIKI
     LAZADA
+    YES24
+    VATGIA
   }
 
   enum SortEnum {

@@ -6,6 +6,10 @@ export const getDomain = (enumValue) => {
       return 'tiki.vn';
     case 'LAZADA':
       return 'lazada.vn';
+    case 'YES24':
+      return 'yes24.vn';
+    case 'VATGIA':
+      return 'vatgia.com';
     default:
       return '';
   }
