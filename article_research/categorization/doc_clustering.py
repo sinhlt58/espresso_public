@@ -31,8 +31,8 @@ def create_classifier(structure):
 
 if __name__ == "__main__":
 	mode = sys.argv[1]
-	train_features, train_labels = load_data("Data/espresso/article_v1/train.tsv")
-	eval_features, eval_labels = load_data("Data/espresso/article_v1/dev.tsv")
+	train_features, train_labels = load_data("./dev.tsv")
+	eval_features, eval_labels = load_data("./test.tsv")
 	# convert related labels into linear_svc compatible
 	labels = LabelEncoder().fit(train_labels)
 	train_labels = labels.transform(train_labels)
