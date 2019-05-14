@@ -25,7 +25,7 @@ class Custering:
         else:
             keys = []
 
-        keys.append(source['title'])
+        # keys.append(source['title'])
 
         keys = list(map(lambda t: t.strip(), keys))
         
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     from_date = '2019-05-01'
-    to_date = '2019-05-10'
+    to_date = '2019-05-12'
     domains = [
         'Thế giới',
         'Thể thao',
@@ -148,18 +148,18 @@ if __name__ == "__main__":
     train_configs = {
         'algorithms': ['mean_shift', 'dbscan', 'birch'],
         'mean_shift': {
-            'bandwidth': 4,
+            'bandwidth': 8,
             'n_jobs': 4
         },
         'dbscan': {
-            'eps': 5,
+            'eps': 8,
             'min_samples': 2,
             'n_jobs': 4
         },
         'birch': {
-            'branching_factor': 50,
+            'branching_factor': 40,
             'n_clusters': None,
-            'threshold': 0.2,
+            'threshold': 0.6,
             'compute_labels': True
         },
         'class_map': {
