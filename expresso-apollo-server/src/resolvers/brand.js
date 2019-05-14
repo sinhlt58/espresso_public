@@ -89,7 +89,7 @@ export default {
                   minimum_should_match: 1,
                   filter: [
                     { term: { itemType: 'review' } },
-                    { term: { domain: getDomain(args.domain) } },
+                    { term: { 'domain.keyword': getDomain(args.domain) } },
                   ],
                 },
               },
@@ -204,7 +204,7 @@ export default {
                   minimum_should_match: 1,
                   filter: [
                     { term: { itemType: 'review' } },
-                    { term: { domain: getDomain(args.domain) } },
+                    { term: { 'domain.keyword': getDomain(args.domain) } },
                   ],
                 },
               },
