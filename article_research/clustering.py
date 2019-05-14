@@ -146,7 +146,8 @@ if __name__ == "__main__":
         'all'
     ]
     train_configs = {
-        'algorithms': ['mean_shift', 'dbscan', 'birch'],
+        'algorithms': ['mean_shift', 'dbscan'],
+        # 'algorithms': ['birch'],
         'mean_shift': {
             'bandwidth': 8,
             'n_jobs': 4
