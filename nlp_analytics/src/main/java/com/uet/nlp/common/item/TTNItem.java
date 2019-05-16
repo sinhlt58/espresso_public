@@ -76,6 +76,7 @@ public class TTNItem extends CrawledItem {
 
     // setters
     @JsonProperty("gia")
+    @JsonDeserialize(using = ArrayOrStringDeserializer.class)
     public void _setPrice(String priceStr) {
         priceStr = priceStr.replace(".", "");
         priceStr = priceStr.replace(",", "");
@@ -95,11 +96,13 @@ public class TTNItem extends CrawledItem {
         this.description = v;
     }
 
+    @JsonDeserialize(using = ArrayOrStringDeserializer.class)
     @JsonProperty("thuong_hieu")
     public void _setBrand(String v) {
         this.brand = v;
     }
 
+    @JsonDeserialize(using = ArrayOrStringDeserializer.class)
     @JsonProperty("nguoi_dang")
     public void _setAuthor(String v) {
         this.author = v;
