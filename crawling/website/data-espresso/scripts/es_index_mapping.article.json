@@ -14,7 +14,7 @@
             "properties": {
                 "google_date_published": {
                     "type": "date",
-                    "format": "dateOptionalTime"
+                    "format": "strict_date_optional_time||MM/dd/yyyy HH:mm:ss aa"
                 }
             }
         }

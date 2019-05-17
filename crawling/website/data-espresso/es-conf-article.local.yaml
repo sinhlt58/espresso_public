@@ -18,7 +18,7 @@ config:
   es.indexer.domainfieldname: "domain_type"
   # sinh.luutruong
   # conganh add
-  es.indexer.fieldsMustHaveName: "content"
+  es.indexer.fieldsMustHaveName: "content,google_date_published"
   es.indexer.minSizeRecordName: 2
   # end conganh
 

@@ -571,7 +571,7 @@
             },
             "google_image": {
               "vnexpress.net": "rule_json_script script[type='application/ld+json'] rootpath/image/url",
-              "dantri.com.vn": "rule_json_script script[type='application/ld+json'] rootpath/image/url"
+              "dantri.com.vn": "rule_json_script script[type='application/ld+json'] rootpath/image"
             }
           },
           "schedules": {
