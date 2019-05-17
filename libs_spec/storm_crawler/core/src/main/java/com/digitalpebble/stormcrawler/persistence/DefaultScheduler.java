@@ -150,18 +150,19 @@ public class DefaultScheduler extends Scheduler {
 
         // conganh add
         int customefetchInterval = 0;
+        Boolean check = false;
         String host = metadata.getFirstValue("hostname");
         List<DomainEntity> domainEntities = DomainService.getDatasByHost(host);
         for (DomainEntity domainEntity : domainEntities) {
             // hien tai dang lay nextFetchDate tu mongo la lay ban dau tien roi break
             // neu phat trien them can config them nhieu linh vuc can thay query de lay 1 domainentity
-            Boolean check = false;
+            check = false;
             ArrayList<Schedules> schedules = domainEntity.getSchedules();
             for (Schedules schedule : schedules){
                 if(url.matches(schedule.getRegex())){
                     customefetchInterval = schedule.getNextFecthDate();
-                    if(customefetchInterval > 0){
-                        defaultfetchInterval = customefetchInterval;
+                    if(customefetchInterval < 0){
+                        customefetchInterval = defaultfetchInterval;
                     }
                     check = true;
                     break;
@@ -173,9 +174,17 @@ public class DefaultScheduler extends Scheduler {
         if (customInterval.isPresent()) {
             minutesIncrement = customInterval.get();
         } else {
+            if(!check){
+                customefetchInterval = defaultfetchInterval;
+            }
             switch (status) {
+            // conganh comment
+            // case FETCHED:
+            //     minutesIncrement = defaultfetchInterval;
+            //     break;
+            // end conganh
             case FETCHED:
-                minutesIncrement = defaultfetchInterval;
+                minutesIncrement = customefetchInterval;
                 break;
             case FETCH_ERROR:
                 minutesIncrement = fetchErrorFetchInterval;
