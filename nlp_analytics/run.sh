@@ -27,6 +27,16 @@ if [ "$1" = "remote" ]
 then
     storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote analytics.yaml
 fi
+
+if [ "$1" = "local_vien" ]
+then
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --local analytics.vien.local.yaml --sleep 864000000
+fi
+
+if [ "$1" = "remote_vien" ]
+then
+    storm jar target/nlp_analytics-1.0-SNAPSHOT.jar  org.apache.storm.flux.Flux --remote analytics.vien.yaml
+fi
 # Analysis from crawling data END
 
 # Sentiment nlp START

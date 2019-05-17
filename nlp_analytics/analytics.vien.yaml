@@ -1,0 +1,77 @@
+name: "v2_nlp_analytics_vien"
+
+includes:
+  - resource: false
+    file: "base_config.yaml"
+    override: false
+
+config:
+  # spout read from ES
+  es.analysis.addresses: "localhost:9200"
+  es.analysis.index.name: "raw_data"
+
+  es.analysis.status.field: "analysis_status"
+  es.analysis.done: "done"
+  es.analysis.hit.from: 0
+  es.analysis.hit.size: 40
+
+  # Write after analysis
+  es.indexer.addresses: "localhost:9200"
+  es.indexer.index.name: "v2_analysis"
+
+  # Write update status after analysis
+  es.status.update.skip: false
+  es.status.addresses: "localhost:9200"
+  es.status.index.name: "raw_data"
+
+spouts:
+  - id: "spout"
+    className: "com.uet.nlp.spout.AggregationSpout"
+    parallelism: 1
+
+bolts:
+  - id: "preprocessreview"
+    className: "com.uet.nlp.nlp_analytics.PreprocessReviewBolt"
+    parallelism: 2
+
+  - id: "normalizer"
+    className: "com.uet.nlp.nlp_analytics.NormalizerBolt"
+    parallelism: 2
+
+  - id: "removeduplicate"
+    className: "com.uet.nlp.nlp_analytics.RemoveDuplicateBolt"
+    parallelism: 2
+
+  - id: "indexer"
+    className: "com.uet.nlp.indexing.IndexerBolt"
+    parallelism: 2
+
+  - id: "status"
+    className: "com.uet.nlp.indexing.StatusUpdateBolt"
+    parallelism: 1
+
+streams:
+  - from: "spout"
+    to: "preprocessreview"
+    grouping:
+      type: SHUFFLE
+
+  - from: "preprocessreview"
+    to: "normalizer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "normalizer"
+    to: "removeduplicate"
+    grouping:
+      type: SHUFFLE
+
+  - from: "removeduplicate"
+    to: "indexer"
+    grouping:
+      type: SHUFFLE
+
+  - from: "indexer"
+    to: "status"
+    grouping:
+      type: SHUFFLE
