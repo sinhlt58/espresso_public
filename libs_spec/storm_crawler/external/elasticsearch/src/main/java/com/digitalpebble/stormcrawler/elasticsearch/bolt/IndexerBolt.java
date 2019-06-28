@@ -74,6 +74,7 @@ public class IndexerBolt extends AbstractIndexerBolt implements
 
     // conganh add
     private static String ESFieldsMustHaveName = "es.indexer.fieldsMustHaveName";
+    private static String ESFieldsNeedOneName = "es.indexer.fieldsNeedOneName";
     private static String ESMinSizeRecordName = "es.indexer.minSizeRecordName";
     // end conganh
 
@@ -91,7 +92,7 @@ public class IndexerBolt extends AbstractIndexerBolt implements
     private MultiCountMetric eventCounter;
 
     private ElasticSearchConnection connection;
-	
+
 	private MultiReducedMetric perSecMetrics;
 
     // sinh.luutruong added
@@ -100,8 +101,10 @@ public class IndexerBolt extends AbstractIndexerBolt implements
 
     // conganh add
     private String fieldsMustHave;
+    private String fieldsNeedOne;
     private int minSizeRecord;
     private String[] fieldsMustHaveArray = null;
+    private String[] fieldsNeedOneArray = null;
     // end conganh
 
     public IndexerBolt() {
@@ -140,6 +143,10 @@ public class IndexerBolt extends AbstractIndexerBolt implements
         if(fieldsMustHave != null){
             fieldsMustHaveArray = fieldsMustHave.trim().split(",");
         }
+        fieldsNeedOne = ConfUtils.getString(conf, IndexerBolt.ESFieldsNeedOneName, null);
+        if(fieldsNeedOne != null){
+            fieldsNeedOneArray = fieldsNeedOne.trim().split(",");
+        }
         minSizeRecord =  ConfUtils.getInt(conf, IndexerBolt.ESMinSizeRecordName,0);
         // end conganh
 
@@ -175,7 +182,7 @@ public class IndexerBolt extends AbstractIndexerBolt implements
 
         Metadata metadata = (Metadata) tuple.getValueByField("metadata");
         String text = tuple.getStringByField("text");
-        
+
         // sinh.luutruong comment out start
         // we always index :DDDDDDDD
         // boolean keep = filterDocument(metadata);
@@ -248,7 +255,10 @@ public class IndexerBolt extends AbstractIndexerBolt implements
                     // builder.endArray();
 
                     Set<String> keys = records.get(0).keySet();
-                    if(fieldsMustHaveArray != null && !checkFields(fieldsMustHaveArray, keys)){
+                    if(fieldsMustHaveArray != null && !checkFieldsMustHave(fieldsMustHaveArray, keys)){
+                        continue;
+                    }
+                    if(fieldsNeedOneArray != null && !checkFieldsNeedOne(fieldsNeedOneArray, keys)){
                         continue;
                     }
 
@@ -294,7 +304,7 @@ public class IndexerBolt extends AbstractIndexerBolt implements
                 connection.getProcessor().add(indexRequest);
 
                 eventCounter.scope("Indexed").incrBy(1);
-				
+
 				perSecMetrics.scope("Indexed").update(1);
             }
             // sinh.luutruong end
@@ -311,13 +321,22 @@ public class IndexerBolt extends AbstractIndexerBolt implements
     }
 
     // conganh add
-    private boolean checkFields(String[] source, Set<String> test){
+    private boolean checkFieldsMustHave(String[] source, Set<String> test){
         for (String element : source) {
             if(!test.contains(element)){
                 return false;
             }
         }
         return true;
+    }
+
+    private boolean checkFieldsNeedOne(String[] source, Set<String> test){
+        for (String element : source) {
+            if(test.contains(element)){
+                return true;
+            }
+        }
+        return false;
     }
     // end conganh
 

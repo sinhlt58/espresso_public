@@ -1,5 +1,6 @@
 config:
-  fetchInterval.default: 5760
+  # 2 thang
+  fetchInterval.default: 86400
   fetchInterval.error: -1
   fetchInterval.fetch.error: 120
   fetcher.queue.mode: byHost

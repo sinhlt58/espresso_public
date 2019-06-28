@@ -1,11 +1,11 @@
 # configuration for Elasticsearch resources
-  
+
 config:
   # ES indexer bolt
   # adresses can be specified as a full URL
   # if not we assume that the protocol is http and the port 9200
   es.indexer.addresses: "elasticsearchStorm"
-  es.indexer.index.name: "v2_index"
+  es.indexer.index.name: "book_index"
   es.indexer.bulkActions: 500
   es.indexer.flushInterval: "2s"
   es.indexer.concurrentRequests: 10
@@ -19,20 +19,21 @@ config:
   # sinh.luutruong
   # conganh add
   # es.indexer.fieldsMustHaveName: ""
+  es.indexer.fieldsNeedOneName: "muc_luc_sach,ly_thuyet_or_bai_tap"
   es.indexer.minSizeRecordName: 2
   # end conganh
 
   # ES metricsConsumer
   es.metrics.addresses: "elasticsearchStorm"
-  es.metrics.index.name: "v2_metrics"
+  es.metrics.index.name: "book_metrics"
   es.metrics.doc.type: "datapoint"
   es.metrics.settings:
     cluster.name: "elasticsearch"
-  
+
   # ES spout and persistence bolt
   es.status.addresses: "elasticsearchStorm"
-  es.status.index.name: "v2_status"
-  es.status.doc.type: "v2_status"
+  es.status.index.name: "book_status"
+  es.status.doc.type: "book_status"
   #es.status.user: "USERNAME"
   #es.status.password: "PASSWORD"
   # the routing is done on the value of 'partition.url.mode'
@@ -45,17 +46,17 @@ config:
   es.status.concurrentRequests: 10
   es.status.settings:
     cluster.name: "elasticsearch"
-  
+
   ################
   # spout config #
   ################
-  
+
   # positive or negative filter parsable by the Lucene Query Parser
   # es.status.filterQuery: "-(metadata.hostname:stormcrawler.net)"
 
   # time in secs for which the URLs will be considered for fetching after a ack of fail
   spout.ttl.purgatory: 30
-  
+
   # Min time (in msecs) to allow between 2 successive queries to ES
   spout.min.delay.queries: 2000
 
@@ -73,9 +74,9 @@ config:
   # field to sort the buckets
   es.status.global.sort.field: "nextFetchDate"
 
-  # CollapsingSpout : limits the deep paging by resetting the start offset for the ES query 
+  # CollapsingSpout : limits the deep paging by resetting the start offset for the ES query
   es.status.max.start.offset: 500
-  
+
   # AggregationSpout : sampling improves the performance on large crawls
   es.status.sample: false
 

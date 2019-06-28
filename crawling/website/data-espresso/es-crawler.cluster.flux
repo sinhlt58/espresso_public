@@ -1,4 +1,4 @@
-name: "v2_crawler_cluster"
+name: "book_crawler_cluster"
 
 includes:
     - resource: true
@@ -45,7 +45,7 @@ streams:
   - from: "spout"
     to: "partitioner"
     grouping:
-      type: SHUFFLE   
+      type: SHUFFLE
 
   - from: "partitioner"
     to: "fetcher"

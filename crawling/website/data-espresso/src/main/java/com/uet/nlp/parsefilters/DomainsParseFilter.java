@@ -17,6 +17,8 @@ import com.digitalpebble.stormcrawler.parse.ParseFilter;
 import com.digitalpebble.stormcrawler.parse.ParseResult;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.w3c.dom.DocumentFragment;
 
@@ -29,7 +31,7 @@ public class DomainsParseFilter extends ParseFilter {
     private ObjectMapper mapper = new ObjectMapper();
 
     public enum RuleType {
-        NORMAL, CONCAT, ATTRIBUTE, OWNTEXT, JSON_SCRIPT
+        NORMAL, CONCAT, ATTRIBUTE, OWNTEXT, JSON_SCRIPT, INNER_HTML, NESTED
     }
 
     public class CustomRule {
@@ -44,6 +46,10 @@ public class DomainsParseFilter extends ParseFilter {
                 selectorExpression = selectorExpression.replace("rule_own_text", "");
             } else if (type == RuleType.JSON_SCRIPT){
                 selectorExpression = selectorExpression.replace("rule_json_script", "");
+            } else if(type == RuleType.INNER_HTML) {
+                selectorExpression = selectorExpression.replace("rule_inner_html", "");
+            } else if(type == RuleType.NESTED) {
+                selectorExpression = selectorExpression.replace("rule_nested_ul", "");
             }
         }
 
@@ -56,6 +62,10 @@ public class DomainsParseFilter extends ParseFilter {
                 return RuleType.OWNTEXT;
             } else if (selector.contains("rule_json_script")) {
                 return RuleType.JSON_SCRIPT;
+            } else if (selector.contains("rule_inner_html")) {
+                return RuleType.INNER_HTML;
+            } else if (selector.contains("rule_nested_ul")) {
+                return RuleType.NESTED;
             } else {
                 return RuleType.NORMAL;
             }
@@ -78,6 +88,14 @@ public class DomainsParseFilter extends ParseFilter {
                 return evaluateJsonScript(docJsoup);
             }
 
+            if (type == RuleType.INNER_HTML) {
+                return evaluateInnerHtml(docJsoup);
+            }
+
+            if (type == RuleType.NESTED) {
+                return evaluateNested(docJsoup);
+            }
+
             return evaluateNormal(docJsoup);
         }
 
@@ -89,7 +107,6 @@ public class DomainsParseFilter extends ParseFilter {
             for (Element e : els) {
                 res.add(e.text());
             }
-
 
             return res;
         }
@@ -123,9 +140,61 @@ public class DomainsParseFilter extends ParseFilter {
                     }
                 } catch (Exception exception) {
                     LOG.error("Error in read json script: {}", exception);
-                }                
+                }
             }
             return res;
+        }
+
+        public ArrayList<String> evaluateInnerHtml(Document docJsoup) {
+            String[] tokens = selectorExpression.split("%remove%");
+            String selector = tokens[0].trim();
+
+            Elements els = docJsoup.select(selector);
+            ArrayList<String> res = new ArrayList<>();
+            for (Element e : els) {
+                if(tokens.length > 1){
+                    for(int i=0; i<tokens.length; i++) {
+                        Elements removeElements = e.select(tokens[i].trim());
+                        if(removeElements != null){
+                           removeElements.remove();
+                        }
+                    }
+                }
+                String innerHtml = e.html();
+                if(innerHtml != null && innerHtml.trim().length() > 0) res.add(innerHtml);
+            }
+            return res;
+        }
+
+        public ArrayList<String> evaluateNested(Document docJsoup) {
+
+            Elements els = docJsoup.select(selectorExpression);
+            ArrayList<String> res = new ArrayList<>();
+            ArrayNode arrayRoot = mapper.createObjectNode().arrayNode();
+            for (Element e : els) {
+                arrayRoot.add(buildJsonNested(e).toString());
+            }
+            if(arrayRoot.size()>0) res.add((arrayRoot.toString()));
+            return res;
+
+        }
+
+        private ObjectNode buildJsonNested(Element e) {
+            ObjectNode node = mapper.createObjectNode();
+            String spec_header = e.child(0).text();
+            node.put("name", spec_header);
+
+            if(e.children().size() > 1){
+                Elements lis = e.child(1).children();
+                ArrayNode arrayNode = mapper.createObjectNode().arrayNode();
+                for (Element li : lis) {
+                    arrayNode.add(buildJsonNested(li));
+                }
+                if(arrayNode.size() > 0) node.put("children", arrayNode);
+            }
+
+            return node;
+
         }
 
         public ArrayList<String> evaluateConcat(Document docJsoup) {
@@ -199,8 +268,9 @@ public class DomainsParseFilter extends ParseFilter {
                                 record.put(fieldName, fieldValues);
                             }
                             fieldValues.addAll(values);
-                            
-                            break; // We use only the first matching rule
+
+                            // break; // We use only the first matching rule
+                            // dieu nay lam cho 1 field cua 1 esname co nhieu luat nhung ko duoc xet het
                             // can xem xet lai khi 1 host co nhieu esname
                         }
                     }
