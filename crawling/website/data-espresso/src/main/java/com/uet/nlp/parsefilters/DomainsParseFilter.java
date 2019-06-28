@@ -172,7 +172,7 @@ public class DomainsParseFilter extends ParseFilter {
             ArrayList<String> res = new ArrayList<>();
             ArrayNode arrayRoot = mapper.createObjectNode().arrayNode();
             for (Element e : els) {
-                arrayRoot.add(buildJsonNested(e).toString());
+                arrayRoot.add(buildJsonNested(e));
             }
             if(arrayRoot.size()>0) res.add((arrayRoot.toString()));
             return res;
