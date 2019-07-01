@@ -172,26 +172,40 @@ public class DomainsParseFilter extends ParseFilter {
             ArrayList<String> res = new ArrayList<>();
             ArrayNode arrayRoot = mapper.createObjectNode().arrayNode();
             for (Element e : els) {
-                arrayRoot.add(buildJsonNested(e));
+                arrayRoot.add(buildJsonNested(e, true));
             }
             if(arrayRoot.size()>0) res.add((arrayRoot.toString()));
             return res;
 
         }
 
-        private ObjectNode buildJsonNested(Element e) {
+        private ObjectNode buildJsonNested(Element e, boolean isFisrt) {
             ObjectNode node = mapper.createObjectNode();
             String spec_header = e.child(0).text();
             node.put("name", spec_header);
 
-            if(e.children().size() > 1){
-                Elements lis = e.child(1).children();
-                ArrayNode arrayNode = mapper.createObjectNode().arrayNode();
-                for (Element li : lis) {
-                    arrayNode.add(buildJsonNested(li));
-                }
-                if(arrayNode.size() > 0) node.put("children", arrayNode);
+            // if(e.children().size() > 1){
+            //     Elements lis = e.child(1).children();
+            //     ArrayNode arrayNode = mapper.createObjectNode().arrayNode();
+            //     for (Element li : lis) {
+            //         arrayNode.add(buildJsonNested(li));
+            //     }
+            //     if(arrayNode.size() > 0) node.put("children", arrayNode);
+            // }
+
+            // Lay header cua phan tu dau tien lam 'name' neu trong ul cha khong co 1 the khac lam tieu de
+            Elements lis = null;
+            if(e.children().size() > 1 && isFisrt == false){
+                lis = e.child(1).children();
+            } else {
+                lis = e.child(0).children();
             }
+            // ???
+            ArrayNode arrayNode = mapper.createObjectNode().arrayNode();
+            for (Element li : lis) {
+                arrayNode.add(buildJsonNested(li, false));
+            }
+            if(arrayNode.size() > 0) node.put("children", arrayNode);
 
             return node;
 
