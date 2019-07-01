@@ -1,0 +1,16 @@
+.vscode/
+node_modules/
+target/
+.project
+.classpath
+.factorypath
+.settings/
+.idea/
+*.iml
+index.json
+*.xls
+log.txt
+debug.html
+__pycache__/
+bin
+package-lock.json
