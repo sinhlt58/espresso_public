@@ -23,12 +23,12 @@ function getAllBook() {
             "query": {
                 "exists": { "field": "ten_sach" }
             },
-            "from" : 0, "size" : 1000
+            "from": 0, "size": 1000
         }
     })
 }
 
-function updateBook(id, payload) {
+function update(id, payload) {
     return client.update({
         index: index_name,
         type: index_type,
@@ -37,44 +37,67 @@ function updateBook(id, payload) {
     })
 }
 
-function sleep(ms) {
-    return new Promise(resolve=>{
-        setTimeout(resolve,ms)
+function getUnits() {
+    return client.search({
+        index: index_name,
+        type: index_type,
+        body: {
+            "query": {
+                "bool": {
+                    "must_not": {
+                        "exists": {
+                            "field": "refix"
+                        }
+                    },
+                    "must": [
+                        { "exists": { "field": "ly_thuyet_or_bai_tap" } }
+                    ]
+                }
+            },
+            "from": 0, "size": 1000
+        }
     })
 }
 
-getAllBook().then(async data => {
-    let hits = data.hits.hits;
-    for(let i=0; i<hits.length; i++){
 
-        let source = hits[i]._source;
-        let id = hits[i]._id;
+function sleep(ms) {
+    return new Promise(resolve => {
+        setTimeout(resolve, ms)
+    })
+}
 
-        let dom = JSDOM.fragment(source.muc_luc_sach);
+// getAllBook().then(async data => {
+//     let hits = data.hits.hits;
+//     for (let i = 0; i < hits.length; i++) {
 
-        let nodes = dom.children;
-        let arrayNodes = [];
-        for (let i = 0; i < nodes.length; i++) {
-            arrayNodes.push(buildJsonNested(nodes[i], true));
-        }
+//         let source = hits[i]._source;
+//         let id = hits[i]._id;
 
-        let payload = {
-            doc: {
-                muc_luc_sach_json: JSON.stringify(arrayNodes),
-                refix: 1
-            }
-        }
+//         let dom = JSDOM.fragment(source.muc_luc_sach);
 
-        updateBook(id, payload).then(res => {
-            console.log(res)
-        }).catch(err => {
-            console.log(err)
-        })
+//         let nodes = dom.children;
+//         let arrayNodes = [];
+//         for (let i = 0; i < nodes.length; i++) {
+//             arrayNodes.push(buildJsonNested(nodes[i], true));
+//         }
 
-        sleep(200)
+//         let payload = {
+//             doc: {
+//                 muc_luc_sach_json: JSON.stringify(arrayNodes),
+//                 refix: 1
+//             }
+//         }
 
-    }
-})
+//         update(id, payload).then(res => {
+//             console.log(res)
+//         }).catch(err => {
+//             console.log(err)
+//         })
+
+//         sleep(200)
+
+//     }
+// })
 
 //  template nested
 // li
@@ -121,3 +144,33 @@ function buildJsonNested(parent, isFisrt) {
     return node;
 
 }
+
+async function updateUnits() {
+    while (true) {
+        let data = await getUnits();
+        let hits = data.hits.hits;
+        if (hits.length == 0) break;
+
+        for (let index = 0; index < hits.length; index++) {
+
+            const source = hits[index]._source;
+
+            let payload = {
+                doc: {
+                    ly_thuyet_or_bai_tap: source.ly_thuyet_or_bai_tap.replace('loigiaihay.com', '').replace('Loigiaihay.com', ''),
+                    refix: 1
+                }
+            }
+
+            update(hits[index]._id, payload).then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.log(err)
+            })
+
+            sleep(200)
+        }
+    }
+}
+
+// updateUnits();
