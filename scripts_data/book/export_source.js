@@ -5,53 +5,31 @@ const reqES = require('./queryElasticsearch');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const DetailSection = require('./detailSection');
-// const validate = require('./validate_katex')
 
 // const book = "Toán lớp 12";
-let books = ["Ngữ văn 12"]
+let books = ["Ngữ văn 12", "Công nghệ 12", "Địa lí lớp 12", "GDCD lớp 12", "Hóa học lớp 12 Nâng cao", "Hóa lớp 12", "Lịch sử lớp 12", "Sinh lớp 12 Nâng cao",
+    "Sinh lớp 12", "Soạn văn 12 siêu ngắn", "Tác giả - Tác phẩm Văn 12", "Tin học lớp 12", "Tập bản đồ Địa lí 12", "Toán 12 Nâng cao", "Toán lớp 12",
+    "Văn mẫu lớp 12", "Văn mẫu lớp 12", "Vật lí lớp 12 Nâng cao"
+]
 const maxDepth = 3;
-const excepts = ["văn", "toán", "lý", "lí", "hóa", "sinh", "đọc hiểu", "sử", "địa", "gdcd", "công nghệ", "tin"];
-const grade = '12'
-const PATH = './export/'
+const PATH = './source/'
 
-reqES.searchBookByKey(grade).then(data => {
-    let hits = data.hits.hits;
-    if (hits.length == 0) return;
+books.forEach(book => {
 
-    hits.forEach(async hit => {
+    reqES.searchBookByName(book).then(async data => {
 
-        let source = hit._source;
-
-        let bookName = source.ten_sach.toLowerCase();
-        let check = false;
-        // if(bookName == "Toán lớp 12") check = true
-        for (let index = 0; index < excepts.length; index++) {
-            if(bookName.indexOf(excepts[index]) > -1) {
-                check = true;
-                break;
-            }
-        }
-        if(!check) return;
+        let hits = data.hits.hits;
+        if (hits.length == 0) return;
 
         let dom = new JSDOM('<!doctype html><html><body></body></html>');
         let document = dom.window.document;
-        let style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = '.titleBlue { color: blue; } .subTitle { color: grey; font-size:24px; font-style: italic;}';
+
+        let source = hits[0]._source;
 
         let list = JSON.parse(source.muc_luc_sach_json);
         let detailElement = await renderDetailBook(list, document, 1, source.ten_sach);
 
-        let startElement = document.createElement('div');
-        startElement.appendChild(document.createTextNode('==START=='))
-        let endElement = document.createElement('div');
-        endElement.appendChild(document.createTextNode('==END=='))
-        startElement.className = 'subTitle'
-        endElement.className = 'subTitle'
-
         document.body.appendChild(detailElement);
-
-        // console.log(dom.serialize())
 
         const div_body = document.body.children[0];
 
@@ -65,19 +43,14 @@ reqES.searchBookByKey(grade).then(data => {
             if (count > 200000 || (index == div_body.children.length-1 && lastIndex<index)) {
                 let subDom = new JSDOM('<!doctype html><html><body></body></html>');
                 let subDocument = subDom.window.document;
-                subDocument.head.appendChild(style.cloneNode(true))
-                subDocument.body.appendChild(startElement.cloneNode(true))
                 for (let i = lastIndex + 1; i <= index; i++) {
                     const child = div_body.children[i];
                     subDocument.body.appendChild(child.cloneNode(true));
                 }
-                subDocument.body.appendChild(endElement.cloneNode(true));
-                const bookName = source.ten_sach.trim().replace(' ', '_') + '_' + number + '.html'
-                fs.writeFile(PATH + bookName, subDom.serialize(), err => {
+                fs.writeFile(PATH + 'source_' + source.ten_sach.trim().replace(' ', '_') + '_' + number + '.html', subDom.serialize(), err => {
                     if (err) console.log(err, "!!!!!Book: " + source.ten_sach + ", number: " + number);
                 });
                 console.log('!!!!!!Done export: ' + source.ten_sach + ", number: " + number + '\n===========\n');
-                // validate(subDom, bookName);
                 count = 0;
                 number++;
                 lastIndex = index;
@@ -85,18 +58,14 @@ reqES.searchBookByKey(grade).then(data => {
         }
 
         if (number == 0) {
-            document.head.appendChild(style.cloneNode(true));
-            document.body.appendChild(startElement.cloneNode(true));
-            document.body.children[0].before(endElement.cloneNode(true));
-            const bookName = source.ten_sach.trim().replace(' ', '_') + '.html';
-            fs.writeFile(PATH + bookName, dom.serialize(), err => {
+            fs.writeFile(PATH + 'source_' + source.ten_sach.trim().replace(' ', '_') + '.html', dom.serialize(), err => {
                 if (err) console.log(err)
             });
             console.log('!!!!!!Done export: ' + source.ten_sach + '\n===========\n');
-            // validate(dom, bookName);
         }
-    });
-})
+
+    })
+});
 
 async function renderDetailBook(list, document, size, book) {
 
@@ -110,7 +79,7 @@ async function renderDetailBook(list, document, size, book) {
         let text = document.createTextNode(list[i].name);
         let aNode = document.createElement("a");
         aNode.appendChild(text);
-        aNode.className='titleBlue';
+        aNode.setAttribute("style", "color: blue;")
         heading.appendChild(aNode);
         liNode.appendChild(heading);
 
@@ -153,7 +122,7 @@ async function getDetailUnit(isTheory, document, book, unit, size) {
         let headerDetail = document.createElement("h" + size);
         let textHeaderDetail = document.createTextNode(title);
         headerDetail.appendChild(textHeaderDetail);
-        headerDetail.className = 'titleBlue';
+        headerDetail.setAttribute("style", "color: blue;")
         detail.appendChild(headerDetail);
     }
 
@@ -185,11 +154,11 @@ async function getDetailUnit(isTheory, document, book, unit, size) {
         }
         let textHeader = document.createTextNode(text);
         header.appendChild(textHeader);
-        header.className = 'titleBlue'
+        header.setAttribute("style", "color: blue;");
 
         let stringInnerHTML = source.ly_thuyet_or_bai_tap;
         let detailSection = new DetailSection(document, stringInnerHTML, text, book);
-        detailSection.buildDetail(isTheory, false);
+        detailSection.buildDetail(isTheory, true);
 
         section.appendChild(header);
         section.appendChild(detailSection.element);

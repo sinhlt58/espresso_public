@@ -4,15 +4,14 @@ const fs = require('fs');
 const reqES = require('./queryElasticsearch');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
-const DetailSection = require('./detailSection');
-// const validate = require('./validate_katex')
+// const DetailSection = require('./detailSection');
 
 // const book = "Toán lớp 12";
-let books = ["Ngữ văn 12"]
 const maxDepth = 3;
 const excepts = ["văn", "toán", "lý", "lí", "hóa", "sinh", "đọc hiểu", "sử", "địa", "gdcd", "công nghệ", "tin"];
 const grade = '12'
-const PATH = './export/'
+const PATH = './source/'
+
 
 reqES.searchBookByKey(grade).then(data => {
     let hits = data.hits.hits;
@@ -187,12 +186,13 @@ async function getDetailUnit(isTheory, document, book, unit, size) {
         header.appendChild(textHeader);
         header.className = 'titleBlue'
 
-        let stringInnerHTML = source.ly_thuyet_or_bai_tap;
-        let detailSection = new DetailSection(document, stringInnerHTML, text, book);
-        detailSection.buildDetail(isTheory, false);
+        // let stringInnerHTML = source.ly_thuyet_or_bai_tap;
+        // let detailSection = new DetailSection(document, stringInnerHTML, text, book);
+        // detailSection.buildDetail(isTheory, true);
 
         section.appendChild(header);
-        section.appendChild(detailSection.element);
+        // section.appendChild(detailSection.element);;
+        section.appendChild(source.ly_thuyet_or_bai_tap)
         detail.appendChild(section);
 
     }

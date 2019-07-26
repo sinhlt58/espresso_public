@@ -8,12 +8,36 @@ const index_name = 'book_index';
 const index_type = '_doc';
 
 module.exports = {
+    searchBookByKey: searchBookByKey,
     searchBookByName: searchBookByName,
     searchUnitByBookAndName: searchUnitByBookAndName,
     getAllBook: getAllBook,
     update: update,
     getUnits: getUnits,
     sleep: sleep
+}
+
+function searchBookByKey(key) {
+    return client.search({
+        index: index_name,
+        type: index_type,
+        body: {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "match": {
+                                "ten_sach": {
+                                    "query": key
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "from": 0, "size": 1000
+        }
+    })
 }
 
 function searchBookByName(key) {
@@ -70,9 +94,15 @@ function searchUnitByBookAndName(book, unit, isTheory) {
                 }
             },
             "sort": [
+                // {
+                //     "tieu_de.keyword": {
+                //         "order": "asc"
+                //     }
+                // }
+                // ,
                 {
                     "created_time": {
-                        "order": "desc"
+                        "order": "asc"
                     }
                 }
             ],
