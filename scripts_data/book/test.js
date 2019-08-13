@@ -257,353 +257,142 @@ let normals = `<h2 class="s14 lineheight"></h2>
 
 let multipleChoises = `<h2 class="s14 lineheight"></h2>
 <p><strong class="content_question">Đề bài</strong></p>
-<p style="text-align: justify;"><strong>Câu 1:</strong> Tìm tập xác định D của hàm số \(y = \tan \left( {2x + \dfrac{\pi }{3}} \right)\)</p>
-<p style="text-align: justify;"><strong>A.</strong> \(D = R{\rm{\backslash }}\left\{ {\dfrac{\pi }{6} + k\left. \pi&nbsp; \right|k \in Z} \right\}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(D = R{\rm{\backslash }}\left\{ {\dfrac{\pi }{{12}} + k\left. {\dfrac{\pi }{2}} \right|k \in Z} \right\}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(D = R{\rm{\backslash }}\left\{ {\dfrac{\pi }{{12}} + k\left. \pi&nbsp; \right|k \in Z} \right\}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(D = R{\rm{\backslash }}\left\{ { - \dfrac{\pi }{6} + k\left. {\dfrac{\pi }{2}} \right|k \in Z} \right\}\).</p>
-<p style="text-align: justify;"><strong>Câu 2: </strong>Tính diện tích toàn phần của hình trụ có bán kính <em>a </em>và đường cao \(a\sqrt 3 \).</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\pi {a^2}\left( {\sqrt 3&nbsp; + 1} \right)\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(2\pi {a^2}\left( {\sqrt 3&nbsp; + 1} \right)\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(2\pi {a^2}\left( {\sqrt 3&nbsp; - 1} \right)\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\pi {a^2}\sqrt 3 \).</p>
-<p style="text-align: justify;"><strong>Câu 3: </strong>Nhân dịp lễ sơ kết học kì 1, để thưởng cho 3 học sinh có thành tích tốt nhất lớp cô An đã mua 10 cuốn sách khác nhau và chọn ngẫu nhiên ra 3 cuốn để phát thưởng cho 3 học sinh đó mỗi học sinh nhận 1 cuốn. Hỏi cô An có bao nhiêu cách phát thưởng.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(C_{10}^3\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \({10^3}\).&nbsp;</p>
-<p style="text-align: justify;"><strong>C.</strong> \(3C_{10}^3\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(A_{10}^3\).</p>
-<p style="text-align: justify;"><strong>Câu 4: </strong>Trong mặt phẳng tọa độ <em>Oxy,</em> cho đường tròn \((C):{(x - 2)^2} + {(y + 1)^2} = 9\). Gọi <em>(C’)</em> là ảnh của đường tròn <em>(C)</em> qua việc thực hiện liên tiếp phép vị tự tâm O, tỉ số \(k =&nbsp; - \dfrac{1}{3}\) và phép tịnh tiến theo vectơ \(\overrightarrow v&nbsp; = (1; - 3)\). Tìm bán kính <em>R’</em> của đường tròn <em>(C’)</em>.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(R' = 3\).</p>
-<p style="text-align: justify;"><strong>B.</strong>\(R' = 27\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(R' = 1\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(R' = 9\). <em></em></p>
-<p style="text-align: justify;"><strong>Câu 5: </strong>Hàm số \(y = {x^3} + 2a{x^2} + 4bx - 2018,\,\,(a,\,b \in R)\) đạt cực trị tại \(x =&nbsp; - 1\). Khi đó hiệu \(a - b\) là:</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\dfrac{4}{3}\).&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>B.</strong> -1.</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{3}{4}\).&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>D.</strong> \( - \dfrac{3}{4}\).</p>
-<p style="text-align: justify;"><strong>Câu 6: </strong>Tính tổng \(S = 1 + 2.2 + {3.2^2} + {4.2^3} + ... + {2018.2^{2017}}\)</p>
-<p style="text-align: justify;"><strong>A.</strong> \(S = {2017.2^{2018}} + 1\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(S = {2018.2^{2018}} + 1\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(S = {2017.2^{2018}}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(S = {2019.2^{2018}} + 1\)</p>
-<p style="text-align: justify;"><strong>Câu 7: </strong>Hình nào dưới đây không phải hình đa diện?</p>
-<p style="text-align: justify;" align="center"><img style="width: 100%; max-width: 577px;" src="https://img./picture/2019/0111/hinh-de-41-1.jpg" alt="">&nbsp;</p>
-<p style="text-align: justify;"><strong>A.</strong> Hình 4.</p>
-<p style="text-align: justify;"><strong>B.</strong> Hình 1.</p>
-<p style="text-align: justify;"><strong>C.</strong> Hình 3.</p>
-<p style="text-align: justify;"><strong>D.</strong> Hình 2.</p>
-<p style="text-align: justify;"><strong>Câu 8: </strong>Cho \(x &gt; 0,\,\,y &gt; 0\). Viết biểu thức \({x^{\dfrac{4}{5}}}\sqrt[6]{{{x^5}\sqrt x }}\) về dạng \({x^m}\) và biểu thức \({y^{\dfrac{4}{5}}}:\sqrt[6]{{{y^5}\sqrt y }}\) về dạng \({y^n}\). Ta có \(m - n = ?\)</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\dfrac{8}{5}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \( - \dfrac{8}{5}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{{11}}{6}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>D.</strong> \( - \dfrac{{11}}{6}\).</p>
-<p style="text-align: justify;"><strong>Câu 9: </strong>Gọi M, N là giao điểm của đường thẳng \(y = x + 1\) và đồ thị của hàm số \(y = \dfrac{{2x + 4}}{{x - 1}}\). Khi đó, hoành độ trung điểm I của đoạn thẳng MN là:</p>
-<p style="text-align: justify;"><strong>A.</strong> 1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>B.</strong> -1.</p>
-<p style="text-align: justify;"><strong>C.</strong> \( - \dfrac{5}{2}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D.</strong> 2.</p>
-<p style="text-align: justify;"><strong>Câu 10: </strong>Trong không gian, cho tam giác ABC vuông tại A, \(AB = a,\,\,AC = a\sqrt 3 \). Tính độ dài đường sinh <em>l</em> của hình nón có được khi quay tam giác ABC xung quanh trục AB.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(l = 2a\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(l = \sqrt 2 a\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(l = a\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(l = \sqrt 3 a\).</p>
-<p style="text-align: justify;"><strong>Câu 11: </strong>Cho \(f(n) = {\left( {{n^2} + n + 1} \right)^2} + 1,\,\,\forall n \in {\mathbb{N}^*}\). Đặt \({u_n} = \dfrac{{f(1).f(3)...f(2n - 1)}}{{f(2).f(4)...f(2n)}}\). Tìm số <em>n</em> nguyên dương nhỏ nhất sao cho \({u_n}\) thỏa mãn điều kiện \({\log _2}{u_n} + u{ _n} &lt; &nbsp;- \dfrac{{10239}}{{1024}}\).</p>
-<p style="text-align: justify;"><strong>A.</strong> 33.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B.</strong> 21.</p>
-<p style="text-align: justify;"><strong>C.</strong> 29.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D.</strong> 23.</p>
-<p style="text-align: justify;"><strong>Câu 12: </strong>Một người gửi ngân hàng 100 triệu đồng theo hình thức lãi kép, lãi xuất \(r = 0,5\% \) một tháng (kể từ tháng thứ 2, tiền lãi được tính theo phần trăm tổng tiền có được của tháng trước đó với tiền lãi của tháng trước đó). Sau ít nhất bao nhiêu tháng, người đó có nhiều hơn 125 triệu.</p>
-<p style="text-align: justify;"><strong>A.</strong> 46 tháng.</p>
-<p style="text-align: justify;"><strong>B.</strong> 47 tháng.</p>
-<p style="text-align: justify;"><strong>C.</strong> 45 tháng.</p>
-<p style="text-align: justify;"><strong>D.</strong> 44 tháng.</p>
-<p style="text-align: justify;"><strong>Câu 13: </strong>Xét khối tứ ABCD có cạnh AD, BC thỏa mãn \(A{B^2} + C{D^2} = 18\) và các cạnh còn lại đều bằng 5. Biết thể tích của khối tứ diện ABCD đạt giá trị lớn nhất có dạn\({V_{\max }} = \dfrac{{x\sqrt y }}{4};\,\,x,y \in {N^*};\,\,(x;y) = 1\). Khi đó, \(x,\,y\) thỏa mãn bất đằng thức nào dưới đây?</p>
-<p style="text-align: justify;"><strong>A.</strong> \(x + {y^2} - xy &gt; 4550\).</p>
-<p style="text-align: justify;"><strong>B.</strong>&nbsp; \(xy + 2x + y &gt; 2550\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \({x^2} - xy + {y^2} &lt; 5240\)</p>
-<p style="text-align: justify;"><strong>D.</strong> \({x^3} - y &gt; 19602\).</p>
-<p style="text-align: justify;"><strong>Câu 14</strong><strong>: </strong>Cho hàm số \(y = f(x)\) có đồ thị như hình vẽ bên:</p>
-<p style="text-align: justify;"><img style="width: 100%; max-width: 171px;" src="https://img.loigiaihay.com/picture/2019/0111/hinh-de-41-2.jpg" alt=""></p>
-<p style="text-align: justify;">Số nghiệm của phương trình \(2\left| {f(x - 1)} \right| - 3 = 0\) là:</p>
-<p style="text-align: justify;"><strong>A.</strong> 2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B.</strong> 3.</p>
-<p style="text-align: justify;"><strong>C.</strong> 1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D.</strong> 4.</p>
-<p style="text-align: justify;"><strong>Câu 15: </strong>Một vật chuyển động trong 3 giờ với vận tốc \(v\,\,(km/h)\) phụ thuộc vào thời gian \(t\,\,(h)\) có đồ thị vận tốc như hình bên. Trong khoảng thời gian 1 giờ kể từ khi bắt đầu chuyển động, đồ thị đó là một phần của đường parabol có đỉnh \(I(2;5)\) và có trục đối xứng song song với trục tung, khoảng thời gian còn lại của đồ thị là một đoạn thẳng song song với trục hoành. Tính quãng đường mà vật di chuyển được trong 3 giờ đó.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(15\,\,(km)\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{{35}}{3}\,\,(km)\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(12\,\,(km)\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\dfrac{{32}}{3}\,\,(km)\).</p>
-<p style="text-align: justify;">&nbsp;<img style="width: 100%; max-width: 339px;" src="https://img.loigiaihay.com/picture/2019/0111/hinh-de-41-3.jpg" alt=""></p>
-<p style="text-align: justify;"><strong>Câu 16: </strong>Nghiệm của phương trình \({2^x} + {2^{x + 1}} = {3^x} + {3^{x + 1}}\) là:</p>
-<p style="text-align: justify;"><strong>A.</strong> \(x = 1\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(x = {\log _{\dfrac{3}{2}}}\dfrac{3}{4}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>C.</strong> \(x = {\log _{\dfrac{3}{4}}}\dfrac{3}{2}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>D.</strong> \(x = {\log _{\dfrac{4}{3}}}\dfrac{2}{3}\).</p>
-<p style="text-align: justify;"><strong>Câu 17: </strong>Cho hàm số \(y = f(x)\)liên tục và có đạo hàm trên R thỏa mãn \(f(2) =&nbsp; - 2,\,\,\int\limits_0^2 {f(x)dx}&nbsp; = 1\).</p>
-<p style="text-align: justify;">Tính tích phân \(I = \int\limits_0^4 {f'(\sqrt x )dx} \).</p>
-<p style="text-align: justify;"><strong>A.</strong> \(I =&nbsp; - 18\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(I =&nbsp; - 5\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(I = 0\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(I =&nbsp; - 10\).</p>
-<p style="text-align: justify;"><strong>Câu 18: </strong>Cho hàm số \(y = f(x)\)liên tục trên \(\left[ {a;b} \right]\). Diện tích hình phẳng (H) giới hạn bởi đồ thị hàm số \(y = f(x)\), trục hoành và hai đường thẳng \(x = a;\,\,x = b\) được tính theo công thức</p>
-<p style="text-align: justify;"><strong>A.</strong> \(S = \pi \int\limits_a^b {{{\left[ {f(x)} \right]}^2}dx} \).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(S = \int\limits_a^b {\left| {f(x)} \right|dx} \).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(S = \pi \int\limits_a^b {\left| {f(x)} \right|dx} \).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(S = \int\limits_b^a {\left| {f(x)} \right|dx} \).</p>
-<p style="text-align: justify;"><strong>Câu 19: </strong>Cho hình lăng trụ đều <em>ABC.A’B’C’ </em>có tất cả các cạnh bằng <em>a.</em> Gọi <em>M</em> là trung điểm của <em>AB</em> và \(\alpha \) là góc tạo bởi đường thẳng <em>MC’</em>&nbsp; và mặt phẳng <em>(ABC)</em>. Khi đó \(\tan \alpha \) bằng</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\sqrt {\dfrac{3}{7}} \).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{{2\sqrt 3 }}{3}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{{\sqrt 3 }}{2}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\dfrac{{2\sqrt 7 }}{7}\).</p>
-<p style="text-align: justify;"><strong>Câu 20: </strong>Cho hình hộp đứng <em>ABCD.A’B’C’D’</em> có đáy <em>ABCD</em> là hình thoi cạnh <em>a</em> và \(\widehat {BAD} = {60^0}\), <em>AB’</em> hợp với đáy <em>(ABCD)</em> một góc \({30^0}\). Thể tích của khối hộp là</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\dfrac{{{a^3}}}{2}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{{{a^3}}}{6}\).&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{{{a^3}\sqrt 2 }}{6}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\dfrac{{3{a^3}}}{2}\).</p>
-<p style="text-align: justify;"><strong>Câu 21: </strong>Đội thanh niên xung kích của trường THPT Chuyên Biên Hòa có 12 học sinh gồm 5 học sinh khối 12, 4 học sinh khối 11 và 3 học sinh khối 10. Chọn ngẫu nhiên 4 học sinh để làm nhiệm vụ mỗi buổi sáng. Tính xác suất sao cho 4 học sinh được chọn không quá 2 khối.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\dfrac{6}{{11}}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{5}{{22}}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{5}{{11}}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\dfrac{{21}}{{22}}\).</p>
-<p style="text-align: justify;"><strong>Câu 22: </strong>Cho hình chóp S.ABCD có đáy ABCD là hình vuông cạnh bằng 2<em>a</em>, cạnh SB vuông góc với đáy và mặt phẳng (SAD) tạo với đáy một góc \({60^0}\). Tính thể tích khối chóp S.ABCD.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(V = \dfrac{{3{a^3}\sqrt 3 }}{4}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(V = \dfrac{{3{a^3}\sqrt 3 }}{8}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(V = \dfrac{{4{a^3}\sqrt 3 }}{3}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(V = \dfrac{{8{a^3}\sqrt 3 }}{3}\).</p>
-<p style="text-align: justify;"><strong>Câu 23: </strong>Gọi <em>m</em> là giá trị để hàm số \(y = \dfrac{{x - {m^2}}}{{x + 8}}\) có giá trị nhỏ nhất trên \(\left[ {0;3} \right]\) bằng -2. Mệnh đề nào sau đây là đúng?</p>
-<p style="text-align: justify;"><strong>A.</strong> \({m^2} \ne 16\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(3 &lt; m &lt; 5\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\left| m \right| = 5\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\left| m \right| &lt; 5\)</p>
-<p style="text-align: justify;"><strong>Câu 24: </strong>Biết \(\int\limits_{\dfrac{\pi }{3}}^{\dfrac{\pi }{2}} {\cos xdx}&nbsp; = a + b\sqrt 3 ,\,\,\left( {a,\,b \in Q} \right)\). Tính \(T = 2a + 6b\).</p>
-<p style="text-align: justify;"><strong>A.</strong> \(T =&nbsp; - 4\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(T = 3\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(T =&nbsp; - 1\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(T = 2\).</p>
-<p style="text-align: justify;"><strong>Câu 25: </strong>Cho hình nón \({N_1}\) có chiều cao bằng 40cm. Người ta cắt hình nón \({N_1}\) bằng một mặt phẳng song song với đáy của có để được một hình nón nhỏ \({N_2}\) có thể tích bằng \(\dfrac{1}{8}\)thể tích \({N_1}\). Tính chiều cao h của hình nón \({N_2}\)?</p>
-<p style="text-align: justify;"><strong>A.</strong> 20 cm.</p>
-<p style="text-align: justify;"><strong>B.</strong> 10 cm.</p>
-<p style="text-align: justify;"><strong>C.</strong> 5 cm.</p>
-<p style="text-align: justify;"><strong>D.</strong> 40 cm.</p>
-<p style="text-align: justify;"><strong>Câu 26: </strong>Tính giới hạn \(\mathop {\lim }\limits_{x \to&nbsp; - {2^ - }}&nbsp; = \dfrac{{3 + 2x}}{{x + 2}}\).</p>
-<p style="text-align: justify;"><strong>A.</strong> \( + \infty \).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B.</strong> \( - \infty \).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{3}{2}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D.</strong> \(2\).</p>
-<p style="text-align: justify;"><strong>Câu 27: </strong>Hình vẽ sau đây là hình dạng của đồ thị hàm số nào?</p>
-<p style="text-align: justify;"><strong>A.</strong> \(y = \dfrac{{x + 2}}{{x - 1}}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(y = \dfrac{{x + 2}}{{x + 1}}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(y = \dfrac{x}{{x - 1}}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(y = \dfrac{{x - 2}}{{x - 1}}\)</p>
-<p style="text-align: justify;"><strong><img style="width: 100%; max-width: 291px;" src="https://img.loigiaihay.com/picture/2019/0111/hinh-de-41-4.jpg" alt="">&nbsp;&nbsp;</strong><strong></strong></p>
-<p style="text-align: justify;"><strong>Câu 28: </strong>Cho tập hợp A có 20 phần tử. Có bao nhiêu tập con của A khác rỗng và số phần tử là số chẵn.</p>
-<p style="text-align: justify;"><strong>A.</strong> \({2^{19}} - 1\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \({2^{19}}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>C.</strong> \({2^{20}}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>D.</strong> \({2^{20}} - 1\).</p>
-<p style="text-align: justify;"><strong>Câu 29: </strong>Tính thể tích V của một vật tròn xoay tạo thành khi quay quanh hình phẳng (H) giới hạn bởi các đường \(y = {x^2};\,\,y = \sqrt x \) quanh trục O<em>x</em>.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(V = \dfrac{{7\pi }}{{10}}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(V = \dfrac{{9\pi }}{{10}}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(V = \dfrac{{3\pi }}{{10}}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(V = \dfrac{\pi }{{10}}\)</p>
-<p style="text-align: justify;"><strong>Câu 30: </strong>Biểu thức \({\log _2}\left( {\sin \dfrac{\pi }{{12}}} \right) + {\log _2}\left( {\cos \dfrac{\pi }{{12}}} \right)\) có giá trị bằng:</p>
-<p style="text-align: justify;"><strong>A.</strong> \({\log _2}\sqrt 3&nbsp; - 1\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>B.</strong> 1.</p>
-<p style="text-align: justify;"><strong>C.</strong> -2.</p>
-<p style="text-align: justify;"><strong>D.</strong> -1.</p>
-<p style="text-align: justify;"><strong>Câu 31: </strong>Tính \(I = \int\limits_0^1 {{e^{3x}}dx} \).</p>
-<p style="text-align: justify;"><strong>A.</strong> \(I = e - 1\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(I = {e^3} - 1\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{{{e^3} - 1}}{3}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \({e^3} + \dfrac{1}{2}\).</p>
-<p style="text-align: justify;"><strong>Câu 32: </strong>Tìm tất cả các giá trị thực của <em>m </em>để hàm số \(f(x) = \left\{ \begin{array}{l}\dfrac{{\sqrt {x + 1}&nbsp; - 1}}{x}\,\,khi\,\,\,x &gt; 0\\\sqrt {{x^2} + 1}&nbsp; - m\,\,khi\,\,x \le 0\end{array} \right.\,\,\)liên tục trên <em>R.</em></p>
-<p style="text-align: justify;"><strong>A.</strong> \(m = \dfrac{3}{2}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(m = \dfrac{1}{2}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(m =&nbsp; - 2\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(m =&nbsp; - \dfrac{1}{2}\).&nbsp;</p>
-<p style="text-align: justify;"><strong>Câu 33: </strong>Cho hình chóp <em>S.ABC</em> có đáy <em>ABC</em> là tam giác vuông tại B và BA = BC = <em>a.</em> Cạnh bên <em>SA = 2a</em> và vuông góc với mặt phẳng <em>(ABC).</em> Bán kính mặt cầu ngoại tiếp khối chóp <em>S.ABC</em> là:</p>
-<p style="text-align: justify;"><strong>A.</strong> \(3a\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{{a\sqrt 6 }}{2}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{{a\sqrt 2 }}{2}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(a\sqrt 6 \).</p>
-<p style="text-align: justify;"><strong>Câu 34: </strong>Cho hàm số \(y = f(x)\) có bảng biến thiên như hình dưới đây:&nbsp;</p>
-<p style="text-align: justify;"><img style="width: 100%; max-width: 588px;" src="https://img.loigiaihay.com/picture/2019/0111/hinh-de-41-5.jpg" alt=""></p>
-<p style="text-align: justify;">Số mệnh đề sai trong các mệnh đề sau đây?</p>
-<p style="text-align: justify;">I. Hàm số đồng biến trên khoảng \(\left( { - 3; - 2} \right)\).&nbsp;</p>
-<p style="text-align: justify;">II. Hàm số đồng biến trên khoảng \(\left( { - \infty ;5} \right)\).</p>
-<p style="text-align: justify;">III. Hàm số nghịch biến trên khoảng&nbsp; \(\left( { - 2; + \infty } \right)\).</p>
-<p style="text-align: justify;">IV. Hàm số đồng biến trên khoảng \(\left( { - \infty ; - 2} \right)\).</p>
-<p style="text-align: justify;"><strong>A.</strong> 4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B.</strong> 2.</p>
-<p style="text-align: justify;"><strong>C.</strong> 1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D.</strong> 3.</p>
-<p style="text-align: justify;"><strong>Câu 35: </strong>Cho hàm số \(y = f(x)\)có đồ thị như hình vẽ bên</p>
-<p style="text-align: justify;">Hàm số đạt cực đại tại điểm :</p>
-<p style="text-align: justify;"><strong>A.</strong> \(x =&nbsp; - 3\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(x = 0\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(x =&nbsp; - 1\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(x = 1\).</p>
-<p style="text-align: justify;"><strong>&nbsp;<img style="width: 100%; max-width: 173px;" src="https://img.loigiaihay.com/picture/2019/0111/hinh-de-41-6.jpg" alt=""></strong></p>
-<p style="text-align: justify;"><strong>Câu 36: </strong>Cho hình chóp S.ABCD có đáy ABCD là hình vuông cạnh bằng <em>a</em>, \(SA \bot (ABCD)\), \(SA = a\sqrt 3 \). Gọi M là trung điểm của <em>SD.</em> Tính khoảng cách giữa hai đường thẳng AB và CM.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\dfrac{{2a\sqrt 3 }}{3}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{{a\sqrt 3 }}{2}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{{a\sqrt 3 }}{4}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\dfrac{{3a}}{4}\).</p>
-<p style="text-align: justify;"><strong>Câu 37: </strong>Tìm \(\int {x\cos 2xdx} \).</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\dfrac{1}{2}x\sin 2x + \dfrac{1}{2}\cos 2x + C\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{1}{2}x\sin 2x - \dfrac{1}{4}\cos 2x + C\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(x\sin 2x + \cos 2x + C\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\dfrac{1}{2}x\sin 2x + \dfrac{1}{4}\cos 2x + C\).</p>
-<p style="text-align: justify;"><strong>Câu 38: </strong>Cho hình chóp S.ABC có \({V_{S.ABC}} = 6{a^3}\). Gọi M, N, Q lần lượt là các điểm trên cạnh SA, SB, SC sao cho SM = MA, SN = NB, SQ = 2QC. Tính \({V_{S.MNQ}}\):</p>
-<p style="text-align: justify;"><strong>A.</strong> \(2{a^3}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{{{a^3}}}{2}\).&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>C.</strong> \({a^3}\).&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>D.</strong> \(3{a^3}\).</p>
-<p style="text-align: justify;"><strong>Câu 39: </strong>Phương trình \({\log _2}x + {\log _2}(x - 1) = 1\) có tập nghiệm là :</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\left\{ 1 \right\}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\left\{ { - 1;3} \right\}\).</p>
-<p style="text-align: justify;"><strong>C.</strong>\(\left\{ 2 \right\}\).&nbsp;</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\left\{ {1;3} \right\}\).</p>
-<p style="text-align: justify;"><strong>Câu 40: </strong>Cho hàm số \(y = f(x)\) có đồ thị hàm số \(y = f'(x)\) như hình vẽ bên:</p>
-<p style="text-align: justify;"><img style="width: 100%; max-width: 241px;" src="https://img.loigiaihay.com/picture/2019/0111/hinh-de-41-7.jpg" alt=""></p>
-<p style="text-align: justify;">Xét hàm số \(g(x) = 2f(x) + 2{x^3} - 4x - 3m - 6\sqrt 5 \) với <em>m</em> là số thực. Để \(g(x) \le 0,\,\,\forall x \in \left[ { - \sqrt 5 ;\sqrt 5 } \right]\) thì điều kiện của <em>m</em> là:</p>
-<p style="text-align: justify;"><strong>A.</strong> \(m \ge \dfrac{2}{3}f\left( {\sqrt 5 } \right)\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(m \le \dfrac{2}{3}f\left( {\sqrt 5 } \right)\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(m \ge \dfrac{2}{3}f\left( { - \sqrt 5 } \right) - 4\sqrt 5 \).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(m \le \dfrac{2}{3}f\left( 0 \right) - 2\sqrt 5 \).</p>
-<p style="text-align: justify;"><strong>Câu 41: </strong>Tìm tập nghiệm của bất phương trình \({5^{{x^2} - x}} &lt; 25\) là:</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\left( {2; + \infty } \right)\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\left( { - \infty ;1} \right) \cup \left( {2; + \infty } \right)\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\mathbb{R}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(( - 1;2)\).</p>
-<p style="text-align: justify;"><strong>Câu 42: </strong>Phương trình \(\sqrt 3 \sin \,x - \cos x = 1\) tương đương với phương trình nào sau đây</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\sin \left( {x - \dfrac{\pi }{6}} \right) = 1\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\cos \left( {x + \dfrac{\pi }{3}} \right) = \dfrac{1}{2}\).</p>
-<p style="text-align: justify;"><strong>C.</strong>&nbsp; \(\sin \left( {\dfrac{\pi }{6} - x} \right) = \dfrac{1}{2}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\sin \left( {x - \dfrac{\pi }{6}} \right) = \dfrac{1}{2}\).</p>
-<p style="text-align: justify;"><strong>Câu 43: </strong>Đường tiệm cận ngang của đồ thị hàm số \(y = \dfrac{{\sqrt[3]{{ - {x^3} + 3{x^2}}}}}{{x - 1}}\)có phương trình</p>
-<p style="text-align: justify;"><strong>A.</strong> \(y =&nbsp; - 1\,\,\&amp; \,\,y = 1\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(y =&nbsp; - 1\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(x =&nbsp; - 1\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(y = 1\).</p>
-<p style="text-align: justify;"><strong>Câu 44: </strong>Cho hình chóp <em>S.ABC </em>có đáy là tam giác <em>ABC</em> đều, đường cao <em>SH</em> với <em>H</em> nằm trong tam giác <em>ABC </em>và <em>2SH = BC, (SBC)</em> tạo với mặt phẳng <em>(ABC)</em> một góc \({60^0}\). Biết có một điểm <em>O</em> nằm trên đường cao <em>SH </em>sao cho \(d(O;AB) = d(O;AC) = 2d(O;(SBC)) = 1\). Tính thể tích khối cầu ngoại tiếp hình chóp đã cho.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(\dfrac{{500\pi }}{{81}}\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\dfrac{{343\pi }}{{48}}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\dfrac{{256\pi }}{{81}}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\dfrac{{125\pi }}{{162}}\).</p>
-<p style="text-align: justify;"><strong>Câu 45: </strong>Số nghiệm của phương trình \(2{\sin ^2}2x + \cos 2x + 1 = 0\) trong \(\left[ {0;2018\pi } \right]\) là</p>
-<p style="text-align: justify;"><strong>A.</strong> 2018.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B.</strong> 1009.</p>
-<p style="text-align: justify;"><strong>C.</strong> 2017.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D.</strong> 1008.</p>
-<p style="text-align: justify;"><strong>Câu 46: </strong>Trong mặt phẳng tọa đô <em>Oxy</em>, cho đường thẳng \(d:3x - y + 2 = 0\). Viết phương trình của đường thẳng <em>d’</em> là ảnh của <em>d</em> qua phép quay tâm O góc quay \( - {90^0}\)</p>
-<p style="text-align: justify;"><strong>A.</strong> \(d':x + 3y - 2 = 0\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(d':3x - y - 6 = 0\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(d':x - 3y - 2 = 0\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(d':x + 3y + 2 = 0\)</p>
-<p style="text-align: justify;"><strong>Câu 47: </strong>Cho hàm số \(y = f(x)\) xác định và có đạo hàm trên R thỏa mãn \({\left[ {f(1 + 2x)} \right]^2} = x - {\left[ {f(1 - x)} \right]^3}\). Viết phương trình tiếp tuyến của đồ thị hàm số&nbsp; \(y = f(x)\) tại điểm có hoành độ bằng 1.</p>
-<p style="text-align: justify;"><strong>A.</strong> \(y =&nbsp; - x + \dfrac{6}{7}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-<p style="text-align: justify;"><strong>B.</strong> \(y = \dfrac{1}{7}x - \dfrac{8}{7}\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(y =&nbsp; - \dfrac{1}{7}x + \dfrac{8}{7}\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(y =&nbsp; - \dfrac{1}{7}x - \dfrac{6}{7}\).</p>
-<p style="text-align: justify;"><strong>Câu 48: </strong>Cho hàm số \(y = f(x)\) xác định trên R và có đạo hàm \(f'(x)\)thỏa mãn \(f'(x) = (1 - x)(x + 2)g(x) + 2018\) trong đó \(g(x) &lt; 0,\,\,\forall x \in R\). Hàm số \(y = f(1 - x) + 2018x + 2019\) nghịch biến trên khoảng nào?</p>
-<p style="text-align: justify;"><strong>A.</strong>\(\left( {3; + \infty } \right)\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(\left( {0;3} \right)\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(\left( { - \infty ;3} \right)\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(\left( {1; + \infty } \right)\).</p>
-<p style="text-align: justify;"><strong>Câu 49: </strong>Tìm tất cả các giá trị của tham số <em>m</em> để phương trình \(\log _3^2x - (m + 2){\log _3}x + 3m - 1 = 0\) có 2 nghiệm \({x_1},\,\,{x_2}\) thỏa mãn \({x_1}{x_2} = 27\).</p>
-<p style="text-align: justify;"><strong>A.</strong> \(m = 2\).</p>
-<p style="text-align: justify;"><strong>B.</strong> \(m = 1\).</p>
-<p style="text-align: justify;"><strong>C.</strong> \(m =&nbsp; - 2\).</p>
-<p style="text-align: justify;"><strong>D.</strong> \(m =&nbsp; - 1\).</p>
-<p style="text-align: justify;"><strong>Câu 50: </strong>Cho hàm số \(f(x) = {3^{2x}} - {2.3^x}\) có đồ thị như hình vẽ sau:</p>
-<p style="text-align: justify;">Có bao nhiêu mệnh đề đúng trong các mệnh đề sau?</p>
-<p style="text-align: justify;">(1) Đường thẳng \(y = 0\) cắt đồ thị hàm số <em>(C)</em> tại điểm có hoành độ \(x = {\log _3}2\).</p>
-<p style="text-align: justify;">(2) Bất phương trình \(f(x) \ge&nbsp; - 1\) có nghiệm duy nhất.</p>
-<p style="text-align: justify;">(3) Bất phương trình \(f(x) \ge 0\) có tập nghiệm là \(\left( { - \infty ;{{\log }_3}2} \right)\).</p>
-<p style="text-align: justify;">(4) Đường thẳng&nbsp; \(y = 0\) cắt đồ thị hàm số <em>(C)</em> tại 2 điểm phân biệt.</p>
-<p style="text-align: justify;"><strong>A.</strong> 2.</p>
-<p style="text-align: justify;"><strong>B.</strong> 1.</p>
-<p style="text-align: justify;"><strong>C.</strong> 4.</p>
-<p style="text-align: justify;"><strong>D.</strong> 3.&nbsp;<strong></strong></p>
-<p style="text-align: justify;"><img style="width: 100%; max-width: 378px;" src="https://img.loigiaihay.com/picture/2019/0111/hinh-de-41-8.jpg" alt=""></p>
+<p style="text-align: justify;"><strong>I. Phần trắc nghiệm</strong>&nbsp;<em>(4 điểm)</em></p>
+<p style="text-align: justify;"><strong>Câu 1:</strong>&nbsp;Tại sao đột biến gen thường có hại cho cơ thể sinh vật nhưng vẫn có vai trò quan trọng trong quá trình tiến hóa?</p>
+<p style="text-align: justify;">(1): tần số đột biến gen trong tự nhiên là không đáng kể nên tần số alen đột biến có hại là rất thấp.</p>
+<p style="text-align: justify;">(2): khi môi trường thay đổi, thể đột biến có thể thay đổi giá trị thích nghi.</p>
+<p style="text-align: justify;">(3): giá trị thích nghi của đột biến tùy thuộc vào tổ hợp gen.</p>
+<p style="text-align: justify;">(4): đột biến gen thường có hại nhưng nó tồn tại ở dạng dị hợp nên không gây hại.</p>
+<p style="text-align: justify;">Câu trả lời đúng nhất là</p>
+<p style="text-align: justify;">A. (3) và (4).</p>
+<p style="text-align: justify;">B. (2) và (4).</p>
+<p style="text-align: justify;">C. (1) và (3).</p>
+<p style="text-align: justify;">D. (2) và (3).</p>
+<p style="text-align: justify;"><strong>Câu 2:</strong>&nbsp;Các nhân tố tiến hóa nào vừa làm thay đổi tần số tương đối các alen của gen vừa làm thay đổi thành phần kiểu gen của quần thể? (1): chọn lọc tự nhiên; (2): giao phối không ngẫu nhiên; (3): di - nhập gen; (4): đột biến; (5): các yêu tố ngẫu nhiên. Trả lời đúng là</p>
+<p style="text-align: justify;">A. (1), (2), (4), (5).</p>
+<p style="text-align: justify;">B. (1), (2), (3), (4).</p>
+<p style="text-align: justify;">C. (1), (3), (4), (5).</p>
+<p style="text-align: justify;">D. Tất cả các nhân tố trên.</p>
+<p style="text-align: justify;"><strong>Câu 3:</strong>&nbsp;Trong rừng mưa nhiệt đới, những cây thân gỗ có chiều cao vượt lên tầng trên của tán rừng thuộc nhóm thực vật</p>
+<p style="text-align: justify;">A. ưa sáng.</p>
+<p style="text-align: justify;">B. chịu bóng.</p>
+<p style="text-align: justify;">C. ưa bóng.</p>
+<p style="text-align: justify;">D. ưa bóng và ưa ẩm.</p>
+<p style="text-align: justify;"><strong>Câu 4:</strong>&nbsp;Thành phần hữu sinh của một hệ sinh thái bao gồm:</p>
+<p style="text-align: justify;">A. sinh vật sản xuất, sinh vật tiêu thụ, sinh vật phân giải</p>
+<p style="text-align: justify;">B. sinh vật sản xuất, sinh vật ăn thực vật, sinh vật phân giải</p>
+<p style="text-align: justify;">C. sinh vật ăn thực vật, sinh vật ăn động vật, sinh vật phân giải</p>
+<p style="text-align: justify;">D. sinh vật sản xuất, sinh vật ăn động vật, sinh vật phân giải</p>
+<p style="text-align: justify;"><strong>Câu 5:</strong>&nbsp;Tác động của vi khuẩn nitrát hóa là:</p>
+<p style="text-align: justify;">A. cố định nitơ trong đất thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
+<p style="text-align: justify;">B. cố định nitơ trong nước thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
+<p style="text-align: justify;">C. biến đổi nitrit (NO<sub>2</sub><sup>-</sup>) thành nitrát (NO<sub>3</sub><sup>-</sup>)</p>
+<p style="text-align: justify;">D. biến đổi nitơ trong khí quyển thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
+<p style="text-align: justify;"><strong>Câu 6:</strong>&nbsp;Trong chu trình cacbon, điều nào dưới đây là không đúng:</p>
+<p style="text-align: justify;">A. cacbon đi vào chu trình dưới dạng cacbonđiôxit</p>
+<p style="text-align: justify;">B. thông qua quang hợp, thực vật lấy CO<sub>2</sub>&nbsp;để tạo ra chất hữu cơ</p>
+<p style="text-align: justify;">C. động vật ăn cỏ sử dụng thực vật làm thức ăn chuyển các hợp chất chứa cacbon cho động vật ăn thịt</p>
+<p style="text-align: justify;">D. phần lớn CO<sup>2</sup>&nbsp;được lắng đọng, không hoàn trả vào chu trình</p>
+<p style="text-align: justify;"><strong>Câu 7:</strong>&nbsp;Sinh vật sản xuất là những sinh vật:</p>
+<p style="text-align: justify;">A. phân giải vật chất (xác chết, chất thải) thành những chất vô cơ trả lại cho môi trường</p>
+<p style="text-align: justify;">B. động vật ăn thực vật và động vật ăn động vật</p>
+<p style="text-align: justify;">C. có khả năng tự tổng hợp nên các chất hữu cơ để tự nuôi sống bản thân</p>
+<p style="text-align: justify;">D. chỉ gồm các sinh vật có khả năng hóa tổng hợp</p>
+<p style="text-align: justify;"><strong>Câu 8:</strong>&nbsp;Để cải tạo đất nghèo đạm, nâng cao năng suất cây trồng người ta sử dụng biện pháp sinh học nào?</p>
+<p style="text-align: justify;">A. trồng các cây họ Đậu</p>
+<p style="text-align: justify;">B. trồng các cây lâu năm</p>
+<p style="text-align: justify;">C. trồng các cây một năm</p>
+<p style="text-align: justify;">D. bổ sung phân đạm hóa học.</p>
+<p style="text-align: justify;"><strong>II. Phần tự luận</strong>&nbsp;<em>(6 điểm)</em></p>
+<p style="text-align: justify;"><strong>Câu 1</strong>&nbsp;(3 điểm): So sánh hệ sinh thái tự nhiên và hệ sinh thái nhân tạo.</p>
+<p style="text-align: justify;"><strong>Câu 2</strong>&nbsp;(3 điểm): Mô tả đặc điểm và ý nghĩa cuả các kiểu phân bố cơ bản trong quần thể.</p>
 <p><strong class="content_detail">Lời giải chi tiết</strong></p>
+<p style="text-align: justify;"><strong>I. Phần trắc nghiệm</strong>&nbsp;<em>(4 điểm)</em></p>
+<p style="text-align: justify;"><em>Mỗi câu trả lời đúng 0.5 điểm</em></p>
 <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
- <colgroup>
-  <col span="5" width="64">
- </colgroup>
  <tbody>
   <tr>
-   <td class="xl65 " style="text-align: center;" width="64" height="20"><strong>1. B</strong></td>
-   <td class="xl65 " style="text-align: center;" width="64"><strong>11. D</strong></td>
-   <td class="xl65 " style="text-align: center;" width="64"><strong>21. C</strong></td>
-   <td class="xl65 " style="text-align: center;" width="64"><strong>31. C</strong></td>
-   <td class="xl65 " style="text-align: center;" width="64"><strong>41. D</strong></td>
+   <td valign="top" width="128"> <p align="center"><strong>1.D</strong></p> </td>
+   <td valign="top" width="128"> <p align="center"><strong>2.C</strong></p> </td>
+   <td valign="top" width="128"> <p align="center"><strong>3.A</strong></p> </td>
+   <td valign="top" width="128"> <p align="center"><strong>4.A</strong></p> </td>
+   <td valign="top" width="128"> <p align="center"><strong>5.C</strong></p> </td>
   </tr>
   <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>2. B</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>12. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>22. D</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>32. B</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>42. D</strong></td>
-  </tr>
-  <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>3. D</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>13. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>23. D</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>33. B</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>43. B</strong></td>
-  </tr>
-  <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>4. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>14. D</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>24. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>34. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>44. B</strong></td>
-  </tr>
-  <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>5. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>15. D</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>25. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>35. B</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>45. A</strong></td>
-  </tr>
-  <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>6. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>16. B</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>26. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>36. B</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>46. A</strong></td>
-  </tr>
-  <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>7. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>17. D</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>27. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>37. D</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>47. D</strong></td>
-  </tr>
-  <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>8. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>18. B</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>28. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>38. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>48. A</strong></td>
-  </tr>
-  <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>9. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>19. B</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>29. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>39. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>49. B</strong></td>
-  </tr>
-  <tr>
-   <td class="xl65 " style="text-align: center;" height="20"><strong>10. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>20. A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>30. C</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>40.A</strong></td>
-   <td class="xl65 " style="text-align: center;"><strong>50. B</strong></td>
+   <td valign="top" width="128"> <p align="center"><strong>6.D</strong></p> </td>
+   <td valign="top" width="128"> <p align="center"><strong>7.C</strong></p> </td>
+   <td valign="top" width="128"> <p align="center"><strong>8.A</strong></p> </td>
+   <td valign="top" width="128"> <p align="center"><strong>&nbsp;</strong></p> </td>
+   <td valign="top" width="128"> <p align="center"><strong>&nbsp;</strong></p> </td>
   </tr>
  </tbody>
 </table>
-<div style="text-align: left;" align="center">
- <strong><br>Xem thêm: Lời giải chi tiết Đề thi thử THPT Quốc gia môn Toán tại Tuyensinh247.com</strong>
-</div>
-<div style="text-align: right;" align="center">
- <strong><br></strong>
-</div>
-<div style="text-align: right;" align="center">
- <strong></strong>
-</div>
+<p style="text-align: justify;">&nbsp;<strong>II. Phần tự luận</strong>&nbsp;<em>(6 điểm)</em></p>
+<p style="text-align: justify;"><strong>Câu 1</strong></p>
+<p style="text-align: justify;"><strong>* Giống nhau: (1 điểm)</strong></p>
+<p style="text-align: justify;">- Hệ sinh thái tự nhiên và nhân tạo đều có những đặc điếm chung về thành phần cấu trúc, bao gồm thành phần vật chất vô sinh và thành phần hữu sinh.</p>
+<p style="text-align: justify;">- Thành phần vật chất vô sinh là môi trường vật lí (sinh cảnh) và thành phần hữu sinh là quần xã sinh vật.</p>
+<p style="text-align: justify;">- Các sinh vật trong quần xã luôn tác động lẫn nhau và đồng thời tác động với các thành phần vô sinh của sinh cảnh.</p>
+<p style="text-align: justify;"><strong>* Khác nhau:</strong></p>
+<table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
+ <tbody>
+  <tr>
+   <td valign="top"> <p>Hệ sinh thái tự nhiên</p> </td>
+   <td valign="top"> <p>Hệ sinh thái nhân tạo</p> </td>
+   <td valign="top"> <p>Điểm</p> </td>
+  </tr>
+  <tr>
+   <td valign="top"> <p>Thành phần loài đa dạng</p> </td>
+   <td valign="top"> <p>Thành phần loài ít, ít đa dạng</p> </td>
+   <td valign="top"> <p>0,5</p> </td>
+  </tr>
+  <tr>
+   <td valign="top"> <p>Ít chịu sự chi phối của con người</p> </td>
+   <td valign="top"> <p>Chịu sự chi phối, điều khiển của con người</p> </td>
+   <td valign="top"> <p>0,5</p> </td>
+  </tr>
+  <tr>
+   <td valign="top"> <p>Sự tăng trưởng của các cá thể chậm, phụ thuộc vào điều kiện môi trường</p> </td>
+   <td valign="top"> <p>Được áp dụng các biện pháp canh tác và kĩ thuật hiện đại nên sinh trưởng của các cá thể nhanh, năng suất sinh học cao</p> </td>
+   <td valign="top"> <p>0,5</p> </td>
+  </tr>
+  <tr>
+   <td valign="top"> <p>Tính ổn định cao, tự điều chỉnh, mắc bệnh ít chuyển thành dịch</p> </td>
+   <td valign="top"> <p>Tính ổn định thấp, dễ bị biến đổi, dễ mắc dịch bệnh</p> </td>
+   <td valign="top"> <p>0,5</p> </td>
+  </tr>
+ </tbody>
+</table>
+<p style="text-align: justify;"><strong>Câu 2</strong></p>
+<table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
+ <tbody>
+  <tr>
+   <td valign="top"> <p>Kiểu phân bố</p> </td>
+   <td valign="top"> <p>Đặc điểm</p> </td>
+   <td valign="top"> <p>Ý nghĩa sinh thái</p> </td>
+   <td valign="top"> <p>Điểm</p> </td>
+  </tr>
+  <tr>
+   <td valign="top"> <p>Phân bố theo nhóm</p> </td>
+   <td valign="top"> <p>Là kiểu phân bố phổ biến nhất, các cá thể của quần thể tập trung theo từng nhóm ở những nơi có điều kiện sống tốt nhất. Phân bố theo nhóm xuất hiện nhiều ở sinh vật sống thành bầy đàn, khi chúng trú đông, ngủ đông, di cư...</p> </td>
+   <td valign="top"> <p>Các cá thể hỗ trợ lẫn nhau chống lại điều kiện bất lợi của môi trường.</p> </td>
+   <td valign="top"> <p>1</p> </td>
+  </tr>
+  <tr>
+   <td valign="top"> <p>Phân bố đồng đều</p> </td>
+   <td valign="top"> <p>Thường gặp khi điều kiện sống phân bố một cách đồng đều trong môi trường và khi có sự cạnh tranh gay gắt giữa các cá thể của quần thể.</p> </td>
+   <td valign="top"> <p>Làm giảm mức độ cạnh tranh giữa các cá thể trong quần thể.</p> </td>
+   <td valign="top"> <p>1</p> </td>
+  </tr>
+  <tr>
+   <td valign="top"> <p>Phân bố ngẫu nhiên</p> </td>
+   <td valign="top"> <p>Là dạng trung gian của hai dạng trên.</p> </td>
+   <td valign="top"> <p>Sinh vật tận dụng được nguồn sống tiềm tàng trong môi trường.</p> </td>
+   <td valign="top"> <p>1</p> </td>
+  </tr>
+ </tbody>
+</table>
+<p style="text-align: right;"><strong>&nbsp;</strong></p>
 <div class="clearfix"></div>`;
 
 // multipleChoises = `<h2 class="s14 lineheight"></h2>
@@ -1035,79 +824,79 @@ normals =`<h2 class="s14 lineheight"></h2>
 <p style="text-align: right;"><strong></strong></p>
 <div class="clearfix"></div>`
 
-multipleChoises = `<h2 class="s14 lineheight"></h2>
-<p><strong class="content_question">Đề bài</strong></p>
-<p style="text-align: justify;"><strong>I. PHẦN TRẮC NGHIỆM (3 điểm)</strong></p>
-<p style="text-align: justify;"><strong>Câu 1</strong>. Hầu hết các kim loại đều có ánh kim là do</p>
-<p style="text-align: justify;">A. các electron tự do trong kim loại phản xạ những tia sáng nhìn thấy.</p>
-<p style="text-align: justify;">B. kim loại hấp thu được các tia sáng tới.</p>
-<p style="text-align: justify;">C. các kim loại đều ở thể rắn.</p>
-<p style="text-align: justify;">D. kim loại màu trắng bạc nên giữ được các tia sáng trên bề mặt kim loại.</p>
-<p style="text-align: justify;"><strong>Câu 2.</strong> Những kim loại nào sau đây có thể điều chế được từ oxit, bằng phương pháp nhiệt luyện nhờ chất khử \({H_2}\)?</p>
-<p style="text-align: justify;">A. Fe, Al, Cu.</p>
-<p style="text-align: justify;">&nbsp;B. Zn, Mg, Fe.</p>
-<p style="text-align: justify;">C. Fe, Mn, Ni.</p>
-<p style="text-align: justify;">&nbsp;D. Ni, Cu, Ca.</p>
-<p style="text-align: justify;"><strong>Câu 3</strong>. Thép dễ bị ăn mòn trong không khí ẩm. Cách nào sau đây không có tác dụng bảo vệ thép khỏi bị ăn mòn?</p>
-<p style="text-align: justify;">A. Hàn thêm một mẩu Sn vào thép.</p>
-<p style="text-align: justify;">B. Mạ một lớp kim loại như Zn, Cr lên bề mặt của thép.</p>
-<p style="text-align: justify;">C. Sơn một lớp mỏng.</p>
-<p style="text-align: justify;">D. Bôi một lớp dầu, mỡ (parafin) lên bề mặt của thép.</p>
-<p style="text-align: justify;"><strong>Câu 4</strong>. Cho dung dịch \(FeC{l_2}\) tác dụng với dung dịch \(AgN{O_3}\) dư, thu được phần không tan Z. Trong Z có chứa</p>
-<p style="text-align: justify;">A. Ag.&nbsp;&nbsp;</p>
-<p style="text-align: justify;">B. AgCl.</p>
-<p style="text-align: justify;">C. Ag, AgCl.</p>
-<p style="text-align: justify;">D. Ag, AgCl, Fe.</p>
-<p style="text-align: justify;"><strong>Câu 5</strong>. Điện phân 200 ml dung dịch chứa \(AgN{O_3}\) 0,2M và \(Cu{\left( {N{O_3}} \right)_2}\) 0,3M với dòng điện có cường độ 9,65A trong 10 phút. Điện cực trơ. Khối lượng kim loại bám trên catot là</p>
-<p style="text-align: justify;">A. 4,32 gam.</p>
-<p style="text-align: justify;">B. 5,6 gam.</p>
-<p style="text-align: justify;">C. 8,16 gam.&nbsp;&nbsp;</p>
-<p style="text-align: justify;">D. 4,96 gam.</p>
-<p style="text-align: justify;"><strong>Câu 6</strong>. Ngâm một đinh sắt sạch vào 100 ml dung dịch \(CuS{O_4}\) sau khi phản ứng kết thúc lấy đinh sắt ra khỏi dung dịch, rửa sạch, làm khô thấy khối lượng đinh sắt tăng thêm 1,6 gam. Nồng độ mol của dung dịch \(CuS{O_4}\) ban đầu là</p>
-<p style="text-align: justify;">A. 0,25M.</p>
-<p style="text-align: justify;">B. 1 M.</p>
-<p style="text-align: justify;">C. 2 M.&nbsp;</p>
-<p style="text-align: justify;">D. 0,5 M.</p>
-<p style="text-align: justify;"><strong>II. PHẦN TỰ LUẬN (7 điểm).</strong></p>
-<p style="text-align: justify;"><strong>Câu 1</strong>. (3 điểm)</p>
-<p style="text-align: justify;">a) Viết các phương trình phản ứng điều chế (trực tiếp hoặc gián tiếp) các kim loại sau từ các nguyên liêu tương ứng: \(BaC{O_3},Fe{\left( {OH} \right)_3},AgN{O_3}.\) Mỗi kim loại sử dụng một phương pháp riêng.</p>
-<p style="text-align: justify;">b) Nếu phương pháp hóa học tách riêng các kim loại từ hỗn hợp: Au, Cu, Fe.</p>
-<p style="text-align: justify;"><strong>Câu 2</strong>. (1 điểm). Viết các phương trình phản ứng sau:</p>
-<p style="text-align: justify;">\(\begin{array}{*{20}{l}}{a){\rm{ }}Fe + C{l_2}}\\{b)Zn + CuS{O_4}}\\{c)Al + F{e_3}{O_4}}\\{d)Na + {H_2}O}\end{array}\)</p>
-<p style="text-align: justify;"><strong>Câu 3</strong>. (3 điểm). Hỗn hợp A gồm 3 kim loại vụn nguyên chất Cu, Mg và Ba có khối lượng 10 gam.</p>
-<p style="text-align: justify;">+ Cho A tác dụng với dung dịch HCl dư, sau đó lọc lấy phần không tan riêng ra, rửa sạch đem nung trong không khí cho đến khi phản ứng hoàn toàn, sản phẩm thu được có khối lượng 8 gam.</p>
-<p style="text-align: justify;">+ Cho thêm để NaOH dư vào phần nước lọc, lấy kết tủa riêng ra, rửa sạch đem nung ở nhiệt độ cao đến khi khối lượng không đổi, sản phẩm thu được có khối lượng 4 ga,.</p>
-<p style="text-align: justify;">Tính khối lượng của từng kim loại trong hỗn hợp A.</p>
-<p style="text-align: justify;">&nbsp;</p>
-<p><strong class="content_detail">Lời giải chi tiết</strong></p>
-<p style="text-align: justify;"><strong>I. PHẦN TRẮC NGHIỆM (3 điểm)</strong></p>
-<p style="text-align: justify;"><strong>Câu 1.</strong> Chọn A.</p>
-<p style="text-align: justify;"><strong>Câu 2</strong>. Chọn C.</p>
-<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \({H_2}\) có thể khử được các kim loại trừ \(Zn \to Cu.\)</p>
-<p style="text-align: justify;"><strong>Câu 3</strong>. Chọn A.</p>
-<p style="text-align: justify;">Vì Sn yếu hơn sắt, không bảo vệ được sắt.</p>
-<p style="text-align: justify;">C, D đúng vì đây là phương pháp cách li kim loại với môi trường.</p>
-<p style="text-align: justify;">B đúng: Phương pháp kết hợp: Cách li và dùng kim loại mạnh chịu ăn mòn thay.</p>
-<p style="text-align: justify;"><strong>Câu 4.</strong> Chọn C.</p>
-<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \(\begin{array}{l}F{e^{2 + }} + A{g^ + } \to Ag + F{e^{3 + }}\\C{l^ - } + A{g^ + } \to AgCl\end{array}\)</p>
-<p style="text-align: justify;"><strong>Câu 5</strong>. Chọn D.</p>
-<p style="text-align: justify;">\({t_{Ag}} = \dfrac{{{n_{Ag}}.1.F}}{I} = \dfrac{{0,04.96500}}{{9,65}} = 400s &lt; 10\) phút</p>
-<p style="text-align: justify;">\( \to \) thời gian còn lại: 200s. Nếu \(Cu{(N{O_3})_2}\) dư</p>
-<p style="text-align: justify;">\(\begin{array}{l}{n_{Cu}} = \dfrac{{I.t}}{{2F}} = \dfrac{{9,65.200}}{{2.96500}} = 0,01mol &lt; 0,03\\{n_A} = 0,04.108 + 0,01.64 = 4,96gam.\end{array}\)</p>
-<p style="text-align: justify;"><strong>Câu 6</strong>. Chọn C.</p>
-<p style="text-align: justify;">1 mol Fe tan tạo ra có 1 mol Cu bám vào \( \to \) m<sub>giảm </sub>=64 – 56 = 8 gam.</p>
-<p style="text-align: justify;">Mà m giảm 1,6 gam \( \to \) n<sub>Fe phản ứng </sub>= \({n_{CuS{O_4}}} = 0,2mol.\)</p>
-<p style="text-align: justify;"><strong>II. PHẦN TỰ LUẬN (7 điểm)</strong></p>
-<p style="text-align: justify;"><strong>Câu 1</strong>. (3 điểm)</p>
-<p style="text-align: justify;">&nbsp;<img style="width: 100%; max-width: 400px;" src="https://img./picture/2018/1109/45p-de-1-chuong-5-c1-tl_1.jpg" alt=""></p>
-<p style="text-align: justify;">b) Cho hỗn hợp vào dung dịch HCl dư thu được dung dịch \(FeC{l_2}\) và hỗn hợp Au, Cu. Cho hỗn hợp vào dung dịch \(HN{O_3}\) loãng thu được dung dịch \(Cu{(N{O_3})_2}\) và còn lại Au. Điện phân các dung dịch để được các kim loai tương ứng.</p>
-<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<img style="width: 100%; max-width: 300px;" src="https://img.loigiaihay.com/picture/2018/1109/a1_1.jpg" alt=""></p>
-<p style="text-align: justify;"><strong>Câu 2</strong>. (1 điểm)</p>
-<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style="width: 100%; max-width: 300px;" src="https://img.loigiaihay.com/picture/2018/1109/45p-de-1-chuong-5-c2-tl-phan-giai_2.jpg" alt="">&nbsp;&nbsp;&nbsp; &nbsp;</p>
-<p style="text-align: justify;"><strong>Câu 3</strong>. (3 điểm).</p>
-<p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<img style="width: 100%; max-width: 400px;" src="https://img.loigiaihay.com/picture/2018/1109/2345.jpg" alt=""></p>
-<p style="text-align: right;"><strong></strong></p>
-<div class="clearfix"></div>`
+// multipleChoises = `<h2 class="s14 lineheight"></h2>
+// <p><strong class="content_question">Đề bài</strong></p>
+// <p style="text-align: justify;"><strong>I. PHẦN TRẮC NGHIỆM (3 điểm)</strong></p>
+// <p style="text-align: justify;"><strong>Câu 1</strong>. Hầu hết các kim loại đều có ánh kim là do</p>
+// <p style="text-align: justify;">A. các electron tự do trong kim loại phản xạ những tia sáng nhìn thấy.</p>
+// <p style="text-align: justify;">B. kim loại hấp thu được các tia sáng tới.</p>
+// <p style="text-align: justify;">C. các kim loại đều ở thể rắn.</p>
+// <p style="text-align: justify;">D. kim loại màu trắng bạc nên giữ được các tia sáng trên bề mặt kim loại.</p>
+// <p style="text-align: justify;"><strong>Câu 2.</strong> Những kim loại nào sau đây có thể điều chế được từ oxit, bằng phương pháp nhiệt luyện nhờ chất khử \({H_2}\)?</p>
+// <p style="text-align: justify;">A. Fe, Al, Cu.</p>
+// <p style="text-align: justify;">&nbsp;B. Zn, Mg, Fe.</p>
+// <p style="text-align: justify;">C. Fe, Mn, Ni.</p>
+// <p style="text-align: justify;">&nbsp;D. Ni, Cu, Ca.</p>
+// <p style="text-align: justify;"><strong>Câu 3</strong>. Thép dễ bị ăn mòn trong không khí ẩm. Cách nào sau đây không có tác dụng bảo vệ thép khỏi bị ăn mòn?</p>
+// <p style="text-align: justify;">A. Hàn thêm một mẩu Sn vào thép.</p>
+// <p style="text-align: justify;">B. Mạ một lớp kim loại như Zn, Cr lên bề mặt của thép.</p>
+// <p style="text-align: justify;">C. Sơn một lớp mỏng.</p>
+// <p style="text-align: justify;">D. Bôi một lớp dầu, mỡ (parafin) lên bề mặt của thép.</p>
+// <p style="text-align: justify;"><strong>Câu 4</strong>. Cho dung dịch \(FeC{l_2}\) tác dụng với dung dịch \(AgN{O_3}\) dư, thu được phần không tan Z. Trong Z có chứa</p>
+// <p style="text-align: justify;">A. Ag.&nbsp;&nbsp;</p>
+// <p style="text-align: justify;">B. AgCl.</p>
+// <p style="text-align: justify;">C. Ag, AgCl.</p>
+// <p style="text-align: justify;">D. Ag, AgCl, Fe.</p>
+// <p style="text-align: justify;"><strong>Câu 5</strong>. Điện phân 200 ml dung dịch chứa \(AgN{O_3}\) 0,2M và \(Cu{\left( {N{O_3}} \right)_2}\) 0,3M với dòng điện có cường độ 9,65A trong 10 phút. Điện cực trơ. Khối lượng kim loại bám trên catot là</p>
+// <p style="text-align: justify;">A. 4,32 gam.</p>
+// <p style="text-align: justify;">B. 5,6 gam.</p>
+// <p style="text-align: justify;">C. 8,16 gam.&nbsp;&nbsp;</p>
+// <p style="text-align: justify;">D. 4,96 gam.</p>
+// <p style="text-align: justify;"><strong>Câu 6</strong>. Ngâm một đinh sắt sạch vào 100 ml dung dịch \(CuS{O_4}\) sau khi phản ứng kết thúc lấy đinh sắt ra khỏi dung dịch, rửa sạch, làm khô thấy khối lượng đinh sắt tăng thêm 1,6 gam. Nồng độ mol của dung dịch \(CuS{O_4}\) ban đầu là</p>
+// <p style="text-align: justify;">A. 0,25M.</p>
+// <p style="text-align: justify;">B. 1 M.</p>
+// <p style="text-align: justify;">C. 2 M.&nbsp;</p>
+// <p style="text-align: justify;">D. 0,5 M.</p>
+// <p style="text-align: justify;"><strong>II. PHẦN TỰ LUẬN (7 điểm).</strong></p>
+// <p style="text-align: justify;"><strong>Câu 1</strong>. (3 điểm)</p>
+// <p style="text-align: justify;">a) Viết các phương trình phản ứng điều chế (trực tiếp hoặc gián tiếp) các kim loại sau từ các nguyên liêu tương ứng: \(BaC{O_3},Fe{\left( {OH} \right)_3},AgN{O_3}.\) Mỗi kim loại sử dụng một phương pháp riêng.</p>
+// <p style="text-align: justify;">b) Nếu phương pháp hóa học tách riêng các kim loại từ hỗn hợp: Au, Cu, Fe.</p>
+// <p style="text-align: justify;"><strong>Câu 2</strong>. (1 điểm). Viết các phương trình phản ứng sau:</p>
+// <p style="text-align: justify;">\(\begin{array}{*{20}{l}}{a){\rm{ }}Fe + C{l_2}}\\{b)Zn + CuS{O_4}}\\{c)Al + F{e_3}{O_4}}\\{d)Na + {H_2}O}\end{array}\)</p>
+// <p style="text-align: justify;"><strong>Câu 3</strong>. (3 điểm). Hỗn hợp A gồm 3 kim loại vụn nguyên chất Cu, Mg và Ba có khối lượng 10 gam.</p>
+// <p style="text-align: justify;">+ Cho A tác dụng với dung dịch HCl dư, sau đó lọc lấy phần không tan riêng ra, rửa sạch đem nung trong không khí cho đến khi phản ứng hoàn toàn, sản phẩm thu được có khối lượng 8 gam.</p>
+// <p style="text-align: justify;">+ Cho thêm để NaOH dư vào phần nước lọc, lấy kết tủa riêng ra, rửa sạch đem nung ở nhiệt độ cao đến khi khối lượng không đổi, sản phẩm thu được có khối lượng 4 ga,.</p>
+// <p style="text-align: justify;">Tính khối lượng của từng kim loại trong hỗn hợp A.</p>
+// <p style="text-align: justify;">&nbsp;</p>
+// <p><strong class="content_detail">Lời giải chi tiết</strong></p>
+// <p style="text-align: justify;"><strong>I. PHẦN TRẮC NGHIỆM (3 điểm)</strong></p>
+// <p style="text-align: justify;"><strong>Câu 1.</strong> Chọn A.</p>
+// <p style="text-align: justify;"><strong>Câu 2</strong>. Chọn C.</p>
+// <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \({H_2}\) có thể khử được các kim loại trừ \(Zn \to Cu.\)</p>
+// <p style="text-align: justify;"><strong>Câu 3</strong>. Chọn A.</p>
+// <p style="text-align: justify;">Vì Sn yếu hơn sắt, không bảo vệ được sắt.</p>
+// <p style="text-align: justify;">C, D đúng vì đây là phương pháp cách li kim loại với môi trường.</p>
+// <p style="text-align: justify;">B đúng: Phương pháp kết hợp: Cách li và dùng kim loại mạnh chịu ăn mòn thay.</p>
+// <p style="text-align: justify;"><strong>Câu 4.</strong> Chọn C.</p>
+// <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \(\begin{array}{l}F{e^{2 + }} + A{g^ + } \to Ag + F{e^{3 + }}\\C{l^ - } + A{g^ + } \to AgCl\end{array}\)</p>
+// <p style="text-align: justify;"><strong>Câu 5</strong>. Chọn D.</p>
+// <p style="text-align: justify;">\({t_{Ag}} = \dfrac{{{n_{Ag}}.1.F}}{I} = \dfrac{{0,04.96500}}{{9,65}} = 400s &lt; 10\) phút</p>
+// <p style="text-align: justify;">\( \to \) thời gian còn lại: 200s. Nếu \(Cu{(N{O_3})_2}\) dư</p>
+// <p style="text-align: justify;">\(\begin{array}{l}{n_{Cu}} = \dfrac{{I.t}}{{2F}} = \dfrac{{9,65.200}}{{2.96500}} = 0,01mol &lt; 0,03\\{n_A} = 0,04.108 + 0,01.64 = 4,96gam.\end{array}\)</p>
+// <p style="text-align: justify;"><strong>Câu 6</strong>. Chọn C.</p>
+// <p style="text-align: justify;">1 mol Fe tan tạo ra có 1 mol Cu bám vào \( \to \) m<sub>giảm </sub>=64 – 56 = 8 gam.</p>
+// <p style="text-align: justify;">Mà m giảm 1,6 gam \( \to \) n<sub>Fe phản ứng </sub>= \({n_{CuS{O_4}}} = 0,2mol.\)</p>
+// <p style="text-align: justify;"><strong>II. PHẦN TỰ LUẬN (7 điểm)</strong></p>
+// <p style="text-align: justify;"><strong>Câu 1</strong>. (3 điểm)</p>
+// <p style="text-align: justify;">&nbsp;<img style="width: 100%; max-width: 400px;" src="https://img./picture/2018/1109/45p-de-1-chuong-5-c1-tl_1.jpg" alt=""></p>
+// <p style="text-align: justify;">b) Cho hỗn hợp vào dung dịch HCl dư thu được dung dịch \(FeC{l_2}\) và hỗn hợp Au, Cu. Cho hỗn hợp vào dung dịch \(HN{O_3}\) loãng thu được dung dịch \(Cu{(N{O_3})_2}\) và còn lại Au. Điện phân các dung dịch để được các kim loai tương ứng.</p>
+// <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<img style="width: 100%; max-width: 300px;" src="https://img.loigiaihay.com/picture/2018/1109/a1_1.jpg" alt=""></p>
+// <p style="text-align: justify;"><strong>Câu 2</strong>. (1 điểm)</p>
+// <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img style="width: 100%; max-width: 300px;" src="https://img.loigiaihay.com/picture/2018/1109/45p-de-1-chuong-5-c2-tl-phan-giai_2.jpg" alt="">&nbsp;&nbsp;&nbsp; &nbsp;</p>
+// <p style="text-align: justify;"><strong>Câu 3</strong>. (3 điểm).</p>
+// <p style="text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<img style="width: 100%; max-width: 400px;" src="https://img.loigiaihay.com/picture/2018/1109/2345.jpg" alt=""></p>
+// <p style="text-align: right;"><strong></strong></p>
+// <div class="clearfix"></div>`
 
 multipleChoise = `<h2 class="s14 lineheight"></h2>
 <p>Trong phân tử đisaccarit, số thứ tự C ở mỗi gốc monosaccarit<strong></strong></p>
@@ -1115,7 +904,7 @@ multipleChoise = `<h2 class="s14 lineheight"></h2>
 <p>B. Được bắt đầu từ nhóm \(C{H_2}OH\)</p>
 <p>C. Được bắt đầu từ C liên kết với cầu O nối liền 2 gốc monosaccarit.</p>
 <p>D. Được ghi như ở mỗi monosaccarit hợp thành.</p>
-<p><strong>Giả</strong>i :</p>
+<p><strong>Giả</strong>i:</p>
 <p>Đáp án D</p>
 <p style="text-align: right;"><strong></strong></p>
 <div class="clearfix"></div>`
@@ -1202,203 +991,348 @@ normals = `<h2 class="s14 lineheight"></h2>
 
 testU = `<h2 class="s14 lineheight"></h2>
 <p><strong class="content_question">Đề bài</strong></p>
-<p style="text-align: justify;">Đọc đoạn trích văn bản sau và thực hiện các yêu cầu từ câu 1 đến câu 4</p>
-<p style="text-align: justify;">&nbsp; &nbsp; &nbsp; <em>Ở nhiều điểm đến tham quan, du lịch khác cũng diễn ra các hành vi thiếu văn hóa của những vị khách thiệu ý thức. Ngay cả những nơi linh thiêng như khu tượng đài danh nhân, tưởng niệm các anh hùng liệt sĩ và di tích văn hóa – lịch sử mang tính biểu tượng, họ cũng không tha khi trèo bám, đánh đu, phô diễn hình thể, thậm chí còn ngồi cả lên đầu rùa Văn Miếu, hôn môi tượng danh nhân, leo lên hiện vật trong bảo tàng để chụp ảnh. Điều đáng buồn là số đông trong các vị khách du lịch, tham quan ấy lại là giới trẻ&nbsp; và có cả một vài diễn viên hài vốn được coi là “người của công chúng”. Các hình ảnh phản cảm được họ hả hê, khoái chí tung khoe trên Facebook hoặc các diễn đàn mạng, coi đó như một kỉ niệm của mình trong chuyến đi. Tại nhiều điểm đến đáng lẽ được bảo vệ nghiêm ngặt thì sự vô ý thức của một bộ phận du khách cũng hủy hoại và làm hoen ố vẻ đẹp của các di tích, danh thắng bởi những hành vi như dùng dao, dùng bút, than, phấn để khắc hình, ký tên, vẽ nhăng cuội, chi chít trê di tích. Có những hang động với hệ thống nhũ đá tuyệt đẹp hình thành từ hàng nghìn năm, vậy mà sau vài mùa đón khách tham quan đã bị rơi rụng hay vỡ nát do các du khách đau nhau lén lấy đá đập đề nghe âm thanh hoặc tìm kiếm một mẩu nhũ mang về. Tình trạng rác rưởi do khách vô ý thức vứt ra bừa bãi cũng làm dâu đầu ban quản lý các khu di tích, danh thắng trong công tác xử lí. Ngay cả di sản và kỳ quan thế giới Vịnh Hạ Long cũng bị du khách vô tư xả rác xuống mặt biển, mặc dù ban quản lí đã tăng cường nhắc nhở, xử phạt. Không thể đổ hết trách nhiệm lên đầu các cơ quan chức năng địa phương, bởi có những lúc số lượng khách đổ về quá đông mà lực lượng bảo vệ thu gom rác lại mỏng, có làm việc hết công suất cũng không xuể.</em></p>
-<p style="text-align: right;" align="right">(<em>Nâng cao ý thức khách tham quan</em>, du lịch, Theo http://nhandan.com.vn, ngày 09.11.2013)</p>
-<p style="text-align: justify;"><strong>Câu 1:&nbsp;</strong>Chủ đề của đoạn trích trên là gì?</p>
-<p style="text-align: justify;"><strong>Câu 2:&nbsp;</strong>Đoạn trích được trình bày theo phong cách ngôn ngữ nào?</p>
-<p style="text-align: justify;"><strong>Câu 3:</strong>&nbsp;Anh/chị dựa vào những đặc trưng nào để xác định phong cách ngôn ngữ của đoạn trích?</p>
-<p style="text-align: justify;"><strong>Câu 4:&nbsp;</strong>Theo anh/chị, cần làm gì để hạn chế các hành vi thiếu ý thức của khách du lịch tại các khu di tích lịch sử, danh lam thắng cảnh?</p>
-<p style="text-align: justify;"><strong>PHẦN II: LÀM VĂN</strong></p>
-<p style="text-align: justify;"><strong>Câu 1: </strong></p>
-<p style="text-align: justify;">Dựa vào một nội dung đoạn trích ở phần Đọc hiểu, anh/chị hãy viết đoạn văn ngắn (khoảng 200 chữ) trình bày suy nghĩ của mình về trách nhiệm của tuổi trẻ đối với việc bảo vệ các di sản văn hóa của dân tộc.</p>
-<p style="text-align: justify;"><strong>Câu 2:</strong></p>
-<p style="text-align: justify;">Cảm nhận vẻ đẹp phẩm hạnh của nhân vật “thị” trong truyện ngắn <em>Vợ nhặt</em> của nhà văn Kim Lân (Ngữ Văn 12, tập hai, NXB Giáo dục, 2017). Từ đó, liên hệ với nhân vật thị Nở trong truyện ngắn <em>Chí Phèo</em> của nhà văn Nam Cao (Ngữ Văn 11, tập một, NXB Giáo dục, 2017) để thấy điểm gặp gỡ trong quan niệm về vẻ đẹp con người của nhà văn Kim Lân và Nam Cao qua hai nhân vật này.</p>
+<p style="text-align: justify;"><strong>Câu 1:</strong> Cho hình nón có tỉ lệ giữa bán kính đáy và đường sinh bằng&nbsp;\(\dfrac{1}{3}\). Hình cầu nội tiếp hình nón này có thể tích bằng V. Thể tích hình nón bằng.</p>
+<p style="text-align: justify;">A. 2V&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; B. 4V&nbsp;</p>
+<p style="text-align: justify;">C. 5V&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; D. 3V</p>
+<p style="text-align: justify;"><strong>Câu 2:</strong> Cho hình lập phương có cạnh bằng a và một hình trụ có hai đáy là hai hình tròn nội tiếp hai mặt đối diện của hình lập phương. gọi&nbsp;S<sub>1</sub>là diện tích 6 mặt của hình lập phương,&nbsp;S<sub>2</sub><sub>&nbsp;</sub>là diện tích xung quanh của hình trụ. Hãy tính tỷ số&nbsp;\(\dfrac{{{S_1}}}{{{S_2}}}\)&nbsp;và chọn đáp án&nbsp;<strong>đúng</strong>:&nbsp;</p>
+<p style="text-align: justify;">\(A.\,\,\dfrac{{{S_1}}}{{{S_2}}} = \dfrac{1}{2}\)&nbsp; &nbsp; &nbsp; &nbsp; \(B.\,\,\dfrac{{{S_1}}}{{{S_2}}} = \dfrac{\pi }{6}\)</p>
+<p style="text-align: justify;">\(C.\,\,\dfrac{{{S_1}}}{{{S_2}}} = \pi \)&nbsp; &nbsp; &nbsp; &nbsp;\(D.\,\,\dfrac{{{S_1}}}{{{S_2}}} = \dfrac{\pi }{2}\)</p>
+<p style="text-align: justify;"><strong>Câu 3:</strong> Cho hình lăng trụ tam giác đều ABC.A'B'C' có tất cả các cạnh đều bằng a. Diện tích của mặt cầu ngoại tiếp hình lăng trụ tính theo a bằng:</p>
+<p style="text-align: justify;">\\(A.\,\,\dfrac{{7\pi {a^2}}}{3}\\)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \\(B.\,\,\dfrac{{2\pi {a^2}}}{3}\\)</p>
+<p style="text-align: justify;">\\(C.\,\,\dfrac{{8\pi {a^2}}}{3}\\)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \\(D.\,\,\dfrac{{5\pi {a^2}}}{3}\\)</p>
+<p style="text-align: justify;"><strong>Câu 4:</strong> Một hình trụ có bán kính đáy&nbsp;r = 5cm và khoảng cách giữa hai đáy bằng&nbsp;7cm. Khi đó thể tích của khối trụ được tạo nên là:</p>
+<p style="text-align: justify;">A. 459,77 cm<sup>3</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B. 549,77 cm3&nbsp;&nbsp;</p>
+<p style="text-align: justify;">C. 594,77 cm<sup>3&nbsp; </sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D. 281,1 cm<sup>3</sup></p>
+<p style="text-align: justify;"><strong>Câu 5:</strong> Trong các khẳng định sau, hãy lựa chọn khẳng định&nbsp;<strong>sai</strong>:</p>
+<p style="text-align: justify;">A. Có một mặt cầu đi qua các đỉnh của một hình tứ diện bất kỳ</p>
+<p style="text-align: justify;">B. Có một mặt cầu đi qua các đỉnh của một hình chóp đều.</p>
+<p style="text-align: justify;">C. Có một mặt cầu đi qua các đỉnh của một hình lăng trụ có đáy là một tứ giác lồi</p>
+<p style="text-align: justify;">D. Có một mặt cầu đi qua các đỉnh của một hình hộp chữ nhật</p>
+<p style="text-align: justify;"><strong>Câu 6:</strong> Trong một chiếc hộp hình trụ, người ta bỏ vào đấy ba quả tennis, biết rằng đáy của hình trụ bằng hình tròn lớn trên quả banh và chiều cao của hình trụ bằng ba lần đường kính quả banh. gọi&nbsp;S<sub>1</sub>&nbsp;là tổng diện tích của ba quả banh,&nbsp;S<sub>2</sub>&nbsp;là diện tích xung quanh hình trụ. Tỷ số diện tích \(\dfrac{{{S_1}}}{{{S_2}}}\)&nbsp;là:</p>
+<p style="text-align: justify;">A. 5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B. 1</p>
+<p style="text-align: justify;">C. 4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D. 2</p>
+<p style="text-align: justify;"><strong>Câu 7:</strong> Một hình trụ có bán kính đáy&nbsp;r = 5 cm và khoảng cách giữa hai đáy bằng&nbsp;7cm. Khi đó diện tích xung quanh của hình trụ là:</p>
+<p style="text-align: justify;">A. 219,91 cm<sup>2</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B. 921,91 cm<sup>2</sup></p>
+<p style="text-align: justify;">C. 19,91 cm<sup>2</sup>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D. 291,91 cm<sup>2</sup></p>
+<p style="text-align: justify;"><strong>Câu 8:</strong> Cho hình lập phương ABCD. A'B'C'D'. Gọi (H) là hình cầu nội tiếp hình lập phương đó. Khi đó&nbsp;\(\dfrac{{{V_{(H)}}}}{{{V_{ABCD.A'B'C'D'}}}}\) bằng:</p>
+<p style="text-align: justify;">\(A.\,\,\dfrac{\pi }{{\sqrt 3 }}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;\(B.\,\,\dfrac{\pi }{6}\)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">\(C.\,\,\dfrac{\pi }{3}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \(D.\,\,\dfrac{\pi }{4}\)</p>
+<p style="text-align: justify;"><strong>Câu 9:</strong> Cho hình lập phương ABCD.A'B'C'D'. Gọi (H) là hình nón tròn xoay nội tiếp hình lập phương đó. Khi đó \(\dfrac{{{V_{(H)}}}}{{{V_{ABCD.A'B'C'D'}}}}\) bằng:</p>
+<p style="text-align: justify;">\(A.\,\,\dfrac{\pi }{6}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \(B.\,\,\dfrac{\pi }{{12}}\)&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">\(C.\,\,\dfrac{1}{3}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; \(D.\,\,\dfrac{\pi }{8}\)</p>
+<p style="text-align: justify;"><strong>Câu 10:</strong> <br> Cho tứ diện&nbsp;ABCD&nbsp;có&nbsp;AD⊥(ABC) và&nbsp;BD⊥BC. Khi quay tứ điện đó xung quanh trục là cạnh&nbsp;AB, có bao nhiêu hình nón được tạo thành.</p>
+<p style="text-align: justify;">A. 2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;B. 1&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">C. 4&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;D. 3</p>
 <p><strong class="content_detail">Lời giải chi tiết</strong></p>
-<p style="text-align: justify;"><strong>PHẦN I. ĐỌC HIỂU </strong></p>
-<p style="text-align: justify;"><strong>Câu 1:</strong></p>
-<p style="text-align: justify;">Chủ đề: Tình trạng thiếu ý thức của các khách du lịch hiện nay.</p>
-<p style="text-align: justify;"><strong>Câu 2:</strong></p>
-<p style="text-align: justify;">Phong cách ngôn ngữ: Báo chí</p>
-<p style="text-align: justify;"><strong>Câu 3:</strong></p>
-<p style="text-align: justify;">_ Tính thông tin thời sự: phản ánh thực trạng thiếu ý thức của các khách du lịch tại các điểm tham quan, các danh lam thắng cảnh.</p>
-<p style="text-align: justify;">_ Tính sinh động, hấp dẫn: thể hiện trong cách lấy dẫn chứng phong phú, cách dùng từ đặt câu: “người của công chúng”,…</p>
-<p style="text-align: justify;"><strong>Câu 4:</strong></p>
-<p style="text-align: justify;">Biện pháp:</p>
-<p style="text-align: justify;">_ Tuyên truyền để khách du lịch thấy được những tác hại do hành vi thiếu ý thức của mình gây ra.</p>
-<p style="text-align: justify;">_ Có biện pháp xử phạt nghiêm minh.</p>
-<p style="text-align: justify;">_ Tự mỗi cá nhân cần có ý thức bảo vệ cảnh quan du lịch, các danh lam thắng cảnh.</p>
-<p style="text-align: justify;"><strong>PHẦN II.LÀM VĂN&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong></p>
-<p style="text-align: justify;"><strong>Câu 1:</strong></p>
-<p><strong><strong>•&nbsp;</strong>Giới thiệu vấn đề</strong></p>
-<p><strong><strong>•&nbsp;</strong>Giải thích vấn đề</strong></p>
-<p style="text-align: justify;">_ Di sản văn hóa: là di sản của các hiện vật vật lý và các thuộc tính phi vật thể của một nhóm hay xã hội được kế thừa từ các thế hệ trước, đã duy trì đến hiện nay và dành cho các thế hệ mai sau. Di sản văn hóa bao gồm tài sản văn hóa (như các tòa nhà, cảnh quan, di tích, sách, tác phẩm nghệ thuật, và các hiện vật), văn hóa phi vật thể (như văn hóa dân gian, truyền thống, ngôn ngữ và kiến thức) và di sản tự nhiên (bao gồm cảnh quan có tính văn hóa quan trọng và đa dạng sinh học).</p>
-<p style="text-align: justify;">⟹&nbsp;Giữ gìn, bảo tồn những di sản văn hóa là trách nhiệm của tất cả mọi người đặc biệt là giới trẻ, những người chủ nhân tương lai của đất nước.</p>
-<p><strong><strong>•&nbsp;</strong>Bàn luận vấn đề</strong></p>
-<p style="text-align: justify;">_ Thực trạng di sản văn hóa hiện nay:</p>
-<p style="text-align: justify;">Hiện nay, công tác bảo vệ và phát huy giá trị di sản văn hóa cũng còn nhiều bất cập:</p>
-<p style="text-align: justify;">+ Nguy cơ thất truyền, mai một của nhiều loại hình di sản văn hóa phi vật thể và sự xuống cấp của các di tích lịch sửở mức báo động;</p>
-<p style="text-align: justify;">+ Việc phát huy giá trị các lễ hội truyền thống còn nhiều hạn chế, hiện tượng thương mại hóa trong lễ hội chưa được ngăn chặn một cách có hiệu quả;</p>
-<p style="text-align: justify;">+ Nạn trộm cắp, buôn bán cổ vật vẫn diễn biến phức tạp, tình trạng lấn chiếm di tích, danh lam, thắng cảnh;</p>
-<p style="text-align: justify;">+ Hiện tượng xây dựng trái phép, tu bổ di tích sai nguyên tắc chưa có biện pháp ngăn chặn kịp thời…</p>
-<p style="text-align: justify;">+ Thực trạng phá hoại di sản như trèo bám, ngồi lên, đánh đu,… lên các di sản diễn ra phổ biến. Hiện tượng vứt rác bừa bãi ở những khu du lịch diễn ra ngày càng nghiêm trọng.</p>
-<p style="text-align: justify;">_ Trách nhiệm của giới trẻ:</p>
-<p style="text-align: justify;">+ Giới trẻ cần ứng xử với di sản văn hóa bằng lòng tự hào dân tộc, bằng hiểu biết và niềm đam mê cái đẹp - di sản văn hóa.</p>
-<p style="text-align: justify;">+ Chúng ta cần tăng cường giáo dục thẩm mỹ, giáo dục sự hiểu biết các tri thức văn hóa nói chung và di sản văn hóa dân tộc nói riêng, từ đó khơi dậy và nhân lên niềm đam mê, ý thức bảo vệ di sản trong thế hệ trẻ.</p>
-<p style="text-align: justify;">+ Có những hành động thiết thực bảo vệ di sản văn hóa như: tuyên truyền đến mọi người, …</p>
-<p style="text-align: justify;">_ Liên hệ bản thân: em đã làm gì để bảo vệ di sản tại quê hương mình</p>
-<p style="text-align: justify;"><strong>Câu 2:</strong></p>
-<p><strong><strong>•&nbsp;</strong>Giới thiệu tác, tác phẩm</strong></p>
-<p style="text-align: justify;">_Kim Lân là cây bút xuất sắc của văn học hiện đại Việt Nam và nhà văn chuyên viết truyện ngắn. Thế giới nghệ thuật của ông là khung cảnh làng quê và hình tượng người nông dân – mảng hiện thực mà ông gắn bó và hiểu biết sâu sắc. Ông viết chân thực và xúc động về đời sống người dân quê mà ông hiểu sâu sắc cảnh ngộ và tâm lí của họ - những con người gắn bó tha thiết, thủy chung với quê hương và cách mạng. Sáng lên trong tác phẩm của ông là vẻ đẹp tâm hồn của người nông dân Việt Nam, những người sống cực nhọc, lam lũ, nghèo khổ nhưng vẫn yêu đời, chất phác, lạc quan, hóm hỉnh và tài hoa.</p>
-<p style="text-align: justify;">_<em>Vợ nhặt</em> là một trong những sáng tác xuất sắc của ông. Có nhà nghiên cứu văn học đã xếp <em>Vợ nhặt</em> vào loại gần như “thần bút”.</p>
-<p style="text-align: justify;">_Truyện ngắn được xây dựng trên cái nền hiện thực của nạn đói khủng khiếp năm Ất Dậu (1945) và được in trong tập <em>Con chó xấu xí</em> (1962). Tiền thân của truyện ngắn này là tiểu thuyết <em>Xóm ngụ cư</em> – được viết ngay sau Cách mạng tháng Tám nhưng dang dở và thất lạc bản thảo. Sau khi hòa bình lập lại (1954), ông dựa vào một phần cốt truyện cũ để viết truyện ngắn này.</p>
-<p><strong><strong>•&nbsp;</strong>Cảm nhận vẻ đẹp của nhân vật “thị”</strong></p>
-<p style="text-align: justify;">*&nbsp; Giới thiệu chân dung, lai lịch:</p>
-<p style="text-align: justify;">* Lai lịch: không rõ ràng:</p>
-<p style="text-align: justify;">_ Không tên tuổi.</p>
-<p style="text-align: justify;">_ Không gia đình, quê hương.</p>
-<p style="text-align: justify;">_ Không nghề nghiệp.</p>
-<p style="text-align: justify;">_ Không tài sản</p>
-<p style="text-align: justify;">_ Không quá khứ.</p>
-<p style="text-align: justify;">⟶&nbsp;Trong nạn đói khủng khiếp, thân phận con người trở nên hết sức vô nghĩa.</p>
-<p style="text-align: justify;">* Chân dung:</p>
-<p style="text-align: justify;">_ Ngoại hình:</p>
-<p style="text-align: justify;">+ Áo quần tả tơi như tổ đỉa</p>
-<p style="text-align: justify;">+ Gầy sọp</p>
-<p style="text-align: justify;">+ Mặt lưỡi cày xám xịt</p>
-<p style="text-align: justify;">+ Ngực gầy lép</p>
-<p style="text-align: justify;">+ Hai con mắt trũng hoáy</p>
-<p style="text-align: justify;">*&nbsp; Ngoại hình thảm hại do cái đói tạo ra.</p>
-<p style="text-align: justify;">_ Ngôn ngữ, cử chỉ, hành động:</p>
-<p style="text-align: justify;"><em>+ “Điêu! Người thế mà điêu!”, “Ăn thật nhá”, “Hà, ngon. Về chị ấy thấy hụt tiền thì bỏ bố”⟶</em>&nbsp;đanh đá, chua ngoa, chao chát, chỏng lỏn.</p>
-<p style="text-align: justify;">+ <em>“Ton ton chạy lại”, “liếc mắt cười tít”, “sầm sập chạy đến”, “xưng xỉa nói”, “cong cớn”, “cắm đầu ăn”, “ăn xong lấy đũa quẹt một cái”</em>, bám lấy câu nói đùa của người ta để theo về làm vợ thật ⟶ vô duyên, táo bạo đến mức trơ trẽn.</p>
-<p style="text-align: justify;">*&nbsp; Vẻ đẹp nhân vật:</p>
-<p style="text-align: justify;">* Khát vọng sống mãnh liệt:</p>
-<p style="text-align: justify;">_ Khi nhìn dưới góc độ nhân bản thì tất cả hành động, cử chỉ trơ trẽn, vô duyên của thị lại là biểu hiện của khát vọng sống mãnh liệt&nbsp;⟶ khâm phục thị.</p>
-<p style="text-align: justify;">* Vẻ đẹp nữ tính:</p>
-<p style="text-align: justify;">_ Trên đường về nhà chồng:</p>
-<p style="text-align: justify;">+ Rón rén, e thẹn: <em>“Thị cắp cái thúng con, cái đầu hơi cúi xuống; cái nón rách tả tơi nghiêng nghiêng che khuất đi nửa mặt”</em></p>
-<p style="text-align: justify;">+ Ngượng nghịu: <em>“Chân nọ ríu vào chân kia”.</em></p>
-<p style="text-align: justify;">⟶&nbsp;Bẽn lẽn, thẹn thùng như bất kì cô dâu mới nào.</p>
-<p style="text-align: justify;">_ Khi về đến nhà chồng:</p>
-<p style="text-align: justify;">+ Thấy gia cảnh nhà chồng: <em>“nén tiếng thở dài”</em></p>
-<p style="text-align: justify;">+ <em>“Ngồi mớm ở mép giường”</em></p>
-<p style="text-align: justify;">_ Khi gặp gỡ mẹ chồng:</p>
-<p style="text-align: justify;">+ Đứng dậy nghênh đón, lễ phép chào.</p>
-<p style="text-align: justify;">+ Ngượng nghịu cúi đầu, tay vân vê vạt áo.</p>
-<p style="text-align: justify;">+ Đứng im lắng nghe bà cụ Tứ dặn dò.</p>
-<p style="text-align: justify;">_ Sáng hôm sau:</p>
-<p style="text-align: justify;">+ Dọn dẹp, vun vén nhà cửa.</p>
-<p style="text-align: justify;">+ Bưng bát cháo khoán điềm nhiên và vào miệng.</p>
-<p style="text-align: justify;">⟶&nbsp;Hiền hậu đúng mực</p>
-<p style="text-align: justify;">* Niềm tin vào tương lai:</p>
-<p style="text-align: justify;">_ Đưa đến thông tin mang tính chất như định hướng để mở ra lối thoát.</p>
-<p style="text-align: justify;">*Nghệ thuật xây dựng nhân vật: chú trọng khắc họa cử chỉ, hành động, ngoại hình để người đọc nhận ra vẻ đẹp của thị.</p>
-<p><strong>•&nbsp;</strong>Liên hệ với nhân vật Thị Nở trong tác phẩm <em>Chí Phèo</em> – Nam Cao</p>
-<p style="text-align: justify;">*&nbsp; Giới thiệu tác giả Nam Cao và tác phẩm <em>Chí Phèo</em></p>
-<p style="text-align: justify;">_Nam Cao là cây bút xuất sắc của văn học Việt Nam. Tác phẩm của ông xoay quanh đề tài về người trí thức nghèo và người nông dân.</p>
-<p style="text-align: justify;">_<em>Chí Phèo</em> là một trong số những sáng tác đặc sắc làm nên tên tuổi của ông và đưa ông lên vị trí là một trong những nhà văn hiện thực xuất sắc nhất trước Cách mạng tháng Tám năm 1945.</p>
-<p style="text-align: justify;">*&nbsp; Khái quát nhân vật Thị Nở</p>
-<p style="text-align: justify;">*Chân dung, lai lịch:</p>
-<p style="text-align: justify;">-&nbsp; Chân dung thảm hại: xấu ma chê quỷ hờn.</p>
-<p style="text-align: justify;">-&nbsp; Dở hơi, <em>“ngẩn ngơ như những người đần trong cổ tích”.</em></p>
-<p style="text-align: justify;">-&nbsp; Nghèo.</p>
-<p style="text-align: justify;">-&nbsp; Có dòng giống mả hủi.</p>
-<p style="text-align: justify;">⟶&nbsp;Không có cơ hội tìm kiếm hạnh phúc cho bản thân.</p>
-<p style="text-align: justify;">⟶&nbsp;Bi đát, thảm hại, đáng thương, tội nghiệp.</p>
-<p style="text-align: justify;">*Vẻ đẹp tâm hồn:</p>
-<p style="text-align: justify;">_ Biết yêu thương, quan tâm, chăm sóc.</p>
-<p style="text-align: justify;">+ Trong đêm gặp gỡ ăn nằm với Chí Phèo, Chí Phèo bị cảm lạnh nôn mửa, Thị Nở chăm sóc ân cần cho Chí: dìu vào lều -&gt; đặt nằm lên chõng&nbsp;⟶ nhặt nhạnh những manh chiếu rách đắp cho Chí Phèo cho khỏi lạnh rồi mới ra về.</p>
-<p style="text-align: justify;">+ Khi ra về vẫn nghĩ đến Chí Phèo, không ngủ được, thương&nbsp;⟶ thức dậy ý thức trách nhiệm.</p>
-<p style="text-align: justify;">+ Sáng sớm hôm sau nấu một nồi cháo hành mang cho Chí Phèo&nbsp;⟶ nhìn hắn toe toét cười, giục hắn ăn nóng….</p>
-<p style="text-align: justify;">⟶&nbsp;Ân cần, tình tứ.</p>
-<p style="text-align: justify;">⟶&nbsp;Thức tỉnh Chí Phèo.</p>
-<p style="text-align: justify;">_ Biết khát khao hạnh phúc.</p>
-<p style="text-align: justify;">+ Sau khi ăn nằm với Chí Phèo, Thị Nở về nhà và lăn lộn không ngủ được, nghĩ đến những chuyện đã qua, nghĩ đến hai chữ <em>“vợ chồng”</em> và thức dậy cho mình bản năng, khát vọng hạnh phúc đã ấp ủ từ lâu.</p>
-<p style="text-align: justify;">+ Sẵn sàng vượt qua định kiến, đến ở với Chí Phèo suốt năm ngày.</p>
-<p style="text-align: justify;">+ Về hỏi ý kiến bà cô để hợp thức hóa mối quan hệ với Chí Phèo, để có hạnh phúc bình dị như bao con người bình thường khác.</p>
-<p><strong>•&nbsp;</strong>Nhận xét về quan niệm về vẻ đẹp của con người</p>
-<p style="text-align: justify;">Kim Lân và Nam cao đều nhìn nhận con người trên vẻ đẹp về nhân phẩm, về tâm hồn. Đây cũng là chủ nghĩa nhân đạo trong sáng tác của hai nhà văn.</p>
-<p><strong>•&nbsp;</strong>Tổng kết</p>
-<p style="text-align: justify;"><span style="color: #0000ff;"><strong>Xem thêm: Đề và Lời giải chi tiết Đề thi thử THPT Quốc gia môn Ngữ văn mới nhất tại&nbsp;Tuyensinh247.com</strong></span></p>
-<p style="text-align: right;"><strong>&nbsp;</strong></p>
+<table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
+ <tbody>
+  <tr>
+   <td style="text-align: center;" valign="top" width="106"> <p>Câu</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>1</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>2</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>3</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>4</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>5</strong></p> </td>
+  </tr>
+  <tr>
+   <td style="text-align: center;" valign="top" width="106"> <p>Đáp án</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>A</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>A</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+  </tr>
+  <tr>
+   <td style="text-align: center;" valign="top" width="106"> <p>Câu</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>6</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>7</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>8</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>9</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>10</strong></p> </td>
+  </tr>
+  <tr>
+   <td style="text-align: center;" valign="top" width="106"> <p>Đáp án</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>A</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>A</p> </td>
+  </tr>
+ </tbody>
+</table>
+<p><strong>Câu 1: </strong></p>
+<p>&nbsp;<img src="https://img./picture/2018/1117/2.png" alt="" width="231" height="280"></p>
+<p>Gọi r và R lần lượt là bán kính của đường tròn đáy của hình nón và bán kính của mặt cầu nội tiếp hình nón.</p>
+<p>Áp dụng định lí (P) vào tam giác vuông AIC ta có:</p>
+<p>\(AI = \sqrt {A{C^2} - I{C^2}}&nbsp; = \sqrt {{l^2} - {r^2}} \)\(\, = \sqrt {{{\left( {3r} \right)}^2} - {r^2}}&nbsp; = 2\sqrt 2 r\)</p>
+<p>\(OA = AI - OI = 2\sqrt 2 r - R\)</p>
+<p>\(\Delta OAH\) đồng dạng \(\Delta CAI\) (g.g)</p>
+<p>\(\begin{array}{l} \Rightarrow \dfrac{{CI}}{{OH}} = \dfrac{{AC}}{{AO}} \Rightarrow \dfrac{r}{R} = \dfrac{{3r}}{{2\sqrt 2 r - R}}\\ \Rightarrow 3R = 2\sqrt 2 r - R \Rightarrow 4R = 2\sqrt 2 r\\ \Rightarrow r = \sqrt 2 R\end{array}\)</p>
+<p>Thể tích của mặt cầu nội tiếp hình nón là: \(V = \dfrac{4}{3}\pi {R^3}\)</p>
+<p>Thể tích của hình nón là:</p>
+<p class="MTDisplayEquation">\(V' = \dfrac{1}{3}\pi {r^2}.2\sqrt 2 r = \dfrac{1}{3}\pi .2\sqrt 2 .{\left( {\sqrt 2 R} \right)^3} \)\(\,= \dfrac{8}{3}\pi {R^3} = 2V\)<strong> </strong></p>
+<p><strong>Chọn A</strong></p>
+<p><strong>Câu 2:</strong></p>
+<p>Hình trụ có bán kính đáy \(\dfrac{a}{2}\) , chiều cao h = a</p>
+<p>Suy ra: \({S_1} = 6{a^2};{S_2} = \pi {a^2}\)</p>
+<p>Vậy \(\dfrac{{{S_2}}}{{{S_1}}} = \dfrac{\pi }{6}.\)&nbsp;</p>
+<p><strong>Chọn B</strong></p>
+<p><strong>Câu 3: </strong></p>
+<p>&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1117/3.png" alt="" width="299" height="335"></p>
+<p>Gọi O và O’ lần lượt là tâm mặt cầu ngoại tiếp tam giác ABC và A’B’C’</p>
+<p>Khi đó tâm mặt cầu (S) ngoại tiếp lăng trụ ABCA’B’C’ chính là trung điểm I của OO’</p>
+<p>Mặt cầu này có bán kính là: \(R = IA = \sqrt {A{O^2} + O{I^2}} \)\(\, = \sqrt {{{\left( {\dfrac{{a\sqrt 3 }}{3}} \right)}^2} + {{\left( {\dfrac{a}{2}} \right)}^2}}&nbsp; \)\(\,= \dfrac{{a\sqrt {21} }}{6}\)</p>
+<p>Diện tích mặt cầu là: \(S = 4\pi {R^2} = 4\pi {\left( {\dfrac{{a\sqrt {21} }}{6}} \right)^2} = \dfrac{{7\pi {a^2}}}{3}\)</p>
+<p><strong>Chọn A</strong></p>
+<p><strong>Câu 4:</strong></p>
+<p>&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1117/4.png" alt="" width="195" height="249"></p>
+<p>Thể tích của hình trụ là:</p>
+<p>\(V = h.B = 7.\pi {5^2} = 549,77\,c{m^3}\)</p>
+<p><strong>Chọn B</strong></p>
+<p><strong>Câu 5: Chọn C</strong></p>
+<p><strong>Câu 6:</strong> Gọi R là bán kính 1 quả banh</p>
+<p>\( \Rightarrow \) Tổng diên tích 3 quả banh là: \({S_1} = 3.4\pi {R^2} = 12\pi {R^2}\)</p>
+<p>Chiếc hộp có bán kính đáy cũng bằng R và chiều cao bằng h = 6R</p>
+<p>\( \Rightarrow \) Diện tích xung quanh hình trụ là: \({S_2} = 2\pi Rh = 12\pi {R^2}\)</p>
+<p>\( \Rightarrow \dfrac{{{S_1}}}{{{S_2}}} = 1\)&nbsp;</p>
+<p><strong>Chọn B.</strong></p>
+<p><strong>Câu 7:</strong></p>
+<p>&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1117/5.png" alt="" width="208" height="259"></p>
+<p>Diện tích xung quanh của hình trụ là:</p>
+<p>\({S_{xq}} = 2\pi r.h = 2\pi .5.7 = 219,91\,c{m^2}\)</p>
+<p><strong>Chọn A.</strong></p>
+<p><strong>Câu 8: </strong></p>
+<p>&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1117/6.png" alt="" width="272" height="244"></p>
+<p>Mặt cầu nội tiếp hình lập phương cạnh a có bán kính bằng \(\dfrac{a}{2}\)</p>
+<p>Thể tích mặt cầu nội tiếp hình lập phương là:</p>
+<p>\({V_{(H)}} = \dfrac{4}{3}\pi {\left( {\dfrac{a}{2}} \right)^3} = \dfrac{{\pi {a^3}}}{6}\)</p>
+<p>Tỉ số: \(\dfrac{{{V_{(H)}}}}{{{V_{ABCD.A'B'C'D'}}}} = \dfrac{{\dfrac{{\pi {a^3}}}{6}}}{{{a^3}}} = \dfrac{\pi }{6}\)</p>
+<p><strong>Chọn B</strong></p>
+<p><strong>Câu 9: </strong></p>
+<p>&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1117/7.png" alt="" width="276" height="241"></p>
+<p>Khối nón có đỉnh là tâm hình vuông ABCD và đáy là đường tròn nội tiếp hình vuông A’B’C’D’ có bán kính đáy \(R = \dfrac{a}{2}\) , chiều cao \(h = a\)</p>
+<p>Vậy thể tích khối nón là: \(V = \dfrac{1}{3}\pi {r^2}h = \dfrac{1}{3}\pi {\left( {\dfrac{a}{2}} \right)^2}a = \dfrac{1}{{12}}\pi {a^3}.\)</p>
+<p><strong>Chọn B</strong></p>
+<p><strong>Bài 10:</strong></p>
+<p>&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1117/8.png" alt="" width="256" height="239"></p>
+<p>Tứ diện ABCD có \(\widehat {BAD} = {90^o}\) nên \(\widehat {ABD} = \alpha \) là một góc nhọn. Khi quay các cạnh của tứ diện đó xung quanh cạnh AB thì cạnh BD tạo thành một hình nón tròn xoay đỉnh B có trục là AB, cạnh AD vuông góc với AB tạo thành đáy của hình nón đó.</p>
+<p>Mặt khác theo giả thiết ta có &nbsp;\(BD \bot BC\) nên\(AB \bot BC\) . Ta có &nbsp;\(\widehat {BAC} = \beta \) là một góc nhọn. Do đó khi quay các cạnh của tứ diện xung quanh cạnh AB thì cạnh AC tạo thành một hình nón tròn xoay đỉnh A có trục là AB, còn cạnh BC tạo thành đáy của hình nón.</p>
+<p>Như vậy khi quay tất cả các cạnh của tứ diện xung quanh trục AB thì các cạnh BD và AC tạo thành hai hình nón.</p>
+<p><strong>Chọn A.</strong></p>
+<p style="text-align: right;"><strong></strong></p>
 <div class="clearfix"></div>`
 
 testU2 = `<h2 class="s14 lineheight"></h2>
-<div class="Section1">
- <p class="Bodytext40" style="text-align: justify;"><strong>1. Nêu những nét chính về quan điểm sáng tác văn học, nghệ thuật của Hồ Chí Minh. Quan điếm đó đã giúp anh chị hiểu sâu sắc thêm văn thơ của Người như thế nào?</strong></p>
- <p class="Bodytext40" style="text-align: justify;"><strong>Trả lời:</strong></p>
- <p style="text-align: justify;">a. Quan điểm sáng tác văn học nghệ thuật của Hồ Chí Minh:</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp; Bác coi văn nghệ là vũ khí chiến đấu phục vụ sự nghiệp cách mạng, bởi vậy nhà văn cũng là một chiến sĩ.</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp; Chú trọng tính chân thật và tính dân tộc của văn chương.</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp; Chú ý đến mục đích, đối tượng tiếp nhận để lựa chọn nội dung và hình thức thể hiện phù hợp, tạo ra tính đa dạng, phong phú và hiệu quả cao.&nbsp;<span>Người luôn đặt câu hỏi:&nbsp;</span><em>Viết cho ai?, Viết để làm gì?, Viết cái gì?</em><span>&nbsp;và&nbsp;</span><em>Viết như thế nào?</em></p>
- <p style="text-align: justify;">b. <span>&nbsp;Văn thơ Hồ Chí Minh là một bộ phận gắn bó hữu cơ với sự nghiệp cách mạng vĩ đại của Người.&nbsp;</span>Quan điểm sáng tác của Hồ Chí Minh giúp ta hiểu sâu sắc hơn các tác phẩm văn học của Người: Đó là những sáng tác chủ yếu nhằm mục đích phục vụ sự nghiệp cách mạng.</p>
- <p style="text-align: justify;"><strong>2. Nêu những nét khái quát về sự nghiệp văn học của Bác. (dựa vào SGK, phần Kiến thức cơ bản đã trình bày ở trên và theo những gợi ý dưới đây)</strong></p>
- <p style="text-align: justify;"><strong>Trả lời:</strong></p>
- <p style="text-align: justify;">a. Văn chính luận</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp;&nbsp; Viết bằng tiếng Pháp: Gồm những bài đăng trên các báo: Người cùng khổ, Nhân đạo, Đời sống thợ thuyền... đặc biệt là tác phẩm Bản án chế độ thực dân Pháp (1922).</p>
- <p class="Bodytext50" style="text-align: justify;">-&nbsp;&nbsp; Viết bằng tiếng Việt: Tuyên ngôn độc lập (1945), Lời kêu gọi toàn quốc kháng chiến (1946), Không có gì quý hơn độc lập tự do (1966).</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp;&nbsp; Mục đích văn chính luận của Bác: đấu tranh chính trị, tấn công trực diện kẻ thù được thể hiện những nhiệm vụ của cách mạng qua các thời kì lịch sứ.</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp;&nbsp; Đặc điểm nghệ thuật: đa dạng, linh hoạt, kết hợp lí và tình, lời văn chặt chẽ, luôn đứng trên lập trường chính nghĩa để tuyên truyền hoặc tố cáo...</p>
- <p style="text-align: justify;">b. Truyện và kí</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp;&nbsp; Nội dung: Tố cáo thực dân và phong kiến, đề cao những tấm gương yêu nước...</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp; &nbsp;Nghệ thuật: tình huống truyện độc đáo, hình tượng sinh động, nghệ thuật trần thuật linh hoạt, giọng văn thâm thuý chứng tỏ Bác là một cây văn xuôi đầy tài năng.</p>
- <p class="Bodytext0" style="text-align: justify;"><span>- Tiêu biểu:&nbsp;</span><em>Lời than vãn của bà Trưng Trắc</em><span>&nbsp;(1922);&nbsp;</span><em>Vi hành</em><span>&nbsp;(1923);&nbsp;</span><em>Những trò lố hay là Va-ren và Phan Bội Châu</em><span>&nbsp;(1925);&nbsp;</span><em>Nhật ký chìm tàu</em><span>&nbsp;(1931);&nbsp;</span><em>Vừa đi đường vừa kể chuyện</em><span>&nbsp;(1963)</span></p>
- <p style="text-align: justify;">c. Thơ ca</p>
- <p class="Bodytext50" style="text-align: justify;">-&nbsp; Tập thơ chữ Hán: Ngục trung nhật kí (Nhật kí trong tù)</p>
- <p class="Bodytext0" style="text-align: justify;">+ Nội dung: Tái hiện bộ mặt tàn bạo của nhà tù Quốc dân đảng, một phần hình ảnh xã hội Trung Quốc. Tập thơ thể hiện bức chân dung tự hoạ con người tinh thần Hồ Chí Minh: khao khát tự do, nghị lực phi thường, giàu lòng nhân đạo, yêu thiên nhiên, Tổ quôc, trí tuệ sắc sảo “một tâm hồn vĩ đại của bậc đại trí, đại nhân, đại dũng" (Nhà văn Viên Ưng - Trung Quốc).</p>
- <p class="Bodytext0" style="text-align: justify;">+ Nghệ thuật: Đa dạng về bút pháp, hồn thơ tinh thế, vừa cổ điển vừa hiện đại, hình tượng trong thơ luôn vận động, hướng về sự sống tương lai và ánh sáng.</p>
- <p class="Bodytext50" style="text-align: justify;">-&nbsp; Thơ tuyên truyền, cổ động (Con cáo và tổ ong, Ca du kích...).</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp; Những bài thơ giải trí trong kháng chiến: Đối nguyệt (Với trăng, Nguyên tiêu (Rằm tháng giêng), Thu dạ (Đêm thu), Báo tiệp (Tin thắng trận), Cảnh khuya...</p>
- <p style="text-align: justify;"><strong>3. Nêu những nét chính về phong cách nghệ thuật của Hồ Chí Minh?</strong>&nbsp;</p>
- <p style="text-align: justify;"><strong>Trả lời:</strong></p>
- <p style="text-align: justify;">Phong cách nghệ thuật của Bác độc đáo mà đa dạng:</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp;&nbsp; Văn chính luận:&nbsp;<span>ngắn gọn, súc tích,</span> lí lẽ đanh thép, bằng chứng đầy tính thuyết phục, giàu hình ảnh, giọng văn linh hoạt.</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp;&nbsp;&nbsp; Truyện và kí: <span>có tính chiến đấu mạnh mẽ,&nbsp;</span>nghệ thuật trào phúng sắc bén tuy nhẹ nhàng, hóm hỉnh nhưng rất sâu cay, thâm thuý, mang đậm nét Á Đông.</p>
- <p class="Bodytext0" style="text-align: justify;">-&nbsp;&nbsp; Thơ ca: ở những bài mang mục đích tuyên truyền thì lời lẽ giản dị, dễ hiểu, dễ nhớ; còn những bài viết theo cảm hứng thẩm mĩ thì hàm súc "ý tại ngôn ngoại" kết hợp chất tình và chất thép, giản dị mà sâu xa, hồn của tạo vật và lòng người, thiên nhiên chiếm một “địa vị danh dự" (Đặng Thai Mai). Nét bao trùm là: cổ điển mà vẫn hiện đại.</p>
-</div>
-<p class="Bodytext0" style="text-align: justify;" align="left"><strong>II. Luyện tập</strong></p>
-<p style="text-align: justify;"><strong>1. Phân tích các bài thơ Mộ để làm rõ sự hài hoà giữa bút pháp cổ điển với bút pháp hiện đại trong thơ Hồ Chí Minh</strong>.</p>
-<p style="text-align: justify;">Trả lời:</p>
-<p style="text-align: justify;"><strong>Dàn ý chi tiết</strong></p>
-<p style="text-align: justify;"><strong>Mở bài:&nbsp;</strong></p>
-<p style="text-align: justify;">Khái quát về bài thơ Chiều tối</p>
-<p style="text-align: justify;">– “Chiều tối” (Mộ) là bài thớ thứ 31 của tập “Nhật ký trong tù”. Cảm hứng sáng tác của bài thơ được gợi lên trên đường chuyển lao từ Tĩnh Tây đến Thiên Bảo vào cuối thu 1942.</p>
-<p style="text-align: justify;">– “<em>Chiều tối”</em>&nbsp;là bài thơ mang màu sắc cổ điển – thể hiện ở thể thơ tứ tuyệt, hình ảnh ước lệ, tượng trưng, nghệ thuật điểm xuyết quen thuộc trong thơ ca trung đại và tinh thần hiện đại – lấy sự vận động của con làm hình tượng thơ, lấy con người làm đối tượng trung tâm cho bức tranh thiên nhiên.</p>
-<p style="text-align: justify;"><strong>Thân bài:</strong></p>
-<p style="text-align: justify;"><strong>1. Bức tranh thiên nhiên chiều tà (2 câu đầu)</strong></p>
-<p style="text-align: justify;">“Quyện điểu quy lâm tầm túc thụ</p>
-<p style="text-align: justify;">Cô vân mạn mạn độ thiên không”</p>
-<p style="text-align: justify;">(Chim mỏi về rừng tìm chốn ngủ,</p>
-<p style="text-align: justify;">Chòm mây trôi nhẹ giữa tầng không)</p>
-<p style="text-align: justify;">– Về khung cảnh thiên nhiên: Khung cảnh thiên nhiên lúc chiều tối. Trong bức tranh thiên nhiên ấy có: cánh chim mệt mỏi bay về tổ và chòm mây lơ lững giữa tầng không.</p>
-<p style="text-align: justify;">– Về hình ảnh thơ: Hình ảnh cánh chim và chòm mây là những hình ảnh quen thuộc trong thơ ca xưa – mang nét đẹp cổ điển.</p>
-<p style="text-align: justify;">– Về hình ảnh “cánh chim”: cánh chim mệt mỏi bay về tổ. Hình ảnh cánh chim điểm xuyết lên bức tranh chiều tàn tạo nét chấm phá cho bức tranh. Hình ảnh “cánh chim” gợi tả không gian rộng lớn, thinh vắng trong thời khắc ngày tàn đồng thời cũng là dấu hiệu thời gian. Đồng thời trạng thái “mỏi mệt” của cánh chim gợi điểm tương đồng giữa cánh chim và người tù nhân – chiều đã về, ngày đã tàn nhưng vẫn mệt mõi lê bước trên đường trường =&gt; cảnh và người hòa quyện, đồng điệu, giao cảm.</p>
-<p style="text-align: justify;">– Về hình ảnh&nbsp;<em>“Chòm mây trôi nhẹ giữa tầng không”</em>&nbsp;(“Cô vân mạn mạn độ thiên không”)<em>.</em></p>
-<p style="text-align: justify;">+ “Cô vân”: Bản dịch thơ gợi tả được sự vận động của đám mây “trôi nhẹ”. Cách dịch làm người đọc cảm nhận được sự thư thái, nhẹ nhàng nhưng chưa gợi tả được nổi cô đơn, lẻ loi của áng mây chiều. Cũng vì thế thi pháp chấm phá trong bản dịch chưa thể hiện nổi bật, chưa làm nổi bật được không gian rộng lớn, chưa làm nổi bật được nỗi cô độc nơi đất khác quê người của nhà thơ.</p>
-<p style="text-align: justify;">+ Hình ảnh chòm mây cô độc trôi chầm chậm trong không gian bao la của bầu trời chiều “độ thiên không”. Hình ảnh này gợi nhớ câu thơ “Ngàn năm mây trắng bây giờ còn bay” của nhà thơ Thôi Hiệu. “Chòm mây” cũng từ đó mà có hồn, mang lại nhiều suy tư về cuộc đời cách mạng gian truân của Hồ Chủ tịch – cứ đi mãi mà vẫn chưa thấy tương lai tươi sáng rọi về.</p>
-<p style="text-align: justify;">+ Tâm hồn nhà thơ qua câu thơ: Dẫu bị tù đày, xiềng xích, khổ nhục nhưng tâm hồn lại thư thái cùng thơ ca và thiên nhiên. Đồng thời qua đó ta cảm nhận được nghị lực phi thường – chất thép của một người chí sĩ cách mạng, một con người yêu và khao khát tự do mãnh liệt như áng mây, như cánh chim trời.</p>
-<p style="text-align: justify;">– Đánh giá chung: Thiên nhiên trong thơ Bác mang nét đẹp cổ điển với những hình ảnh thơ gần gũi, bình dị. Đồng thời bức tranh thiên nhiên và con người có sự giao hòa với nhau. Ẩn sau bức tranh thiên nhiên là những nỗi niềm tâm trạng của nhà thơ – tả cảnh ngụ tình.</p>
-<p style="text-align: justify;"><strong>2. Bức tranh đời sống con người</strong></p>
-<p style="text-align: justify;">“Sơn thôn thiếu nữ ma bao túc</p>
-<p style="text-align: justify;">Bao túc ma hoàn, lô dĩ hồng”</p>
-<p style="text-align: justify;">(Cô em xóm núi xay ngô tối</p>
-<p style="text-align: justify;">Xay hết, lò than đã tực hồng)</p>
-<p style="text-align: justify;">– Hình ảnh cô gái xay ngô tối trẻ trung, khỏe khoắn, siêng năng lao động tạo nét chấm phá (điểm xuyết) cho bức tranh, trở thành trung tâm của cảnh vật. Dù là xuất hiện giữa không gian núi rừng trong đêm mênh mông nhưng hình ảnh cô gái sơn cước không hề đơn độc. Hình ảnh thơ gợi sự ấm ám cho người đọc.</p>
-<p style="text-align: justify;">– Qua hình ảnh thơ, ta còn thấy ở Bác là tấm lòng, tình yêu, sự trân trọng dành cho những người lao động – dù nghèo khó, vất vả nhưng vẫn lao động miệt mài trong tự do.</p>
-<p style="text-align: justify;">– So sánh với nguyên tác, trong nguyên tác không đề cập đến từ “tối” nhưng chính sức gợi tả trong thơ Người làm người đọc (kể cả người dịch) cảm nhận được sự trôi chảy của thời gian – từ chiều đến khuya.</p>
-<p style="text-align: justify;">– Từ ngữ đặc sắc: Từ đặc sắc, đắt giá nhất tạo thần thái cho câu thơ là chữ “hồng”. Vì từ “hồng” vừa giúp người đọc hình dung ra được thời gian, vừa làm câu bài thơ “Chiều tối” trở nên sáng rực xua tan đi bao mệt mỏi, nặng nề của bài thơ cũng như trong tâm hồn nhà thơ. Cũng vì thế mà chữ “hồng” trở thành nhãn tự của bài thơ.</p>
-<p style="text-align: justify;"><strong>Kết bài:</strong></p>
-<p style="text-align: justify;">– Về nghệ thuật (Xem phần tác phẩm)</p>
-<p style="text-align: justify;">– Về nội dung: Bài thơ bốn dòng, hai mươi bảy chữ, đã thể hiện tinh thần lạc quan, ung dung, tự tại, kiêng cường vượt qua mọi hoàn cảnh sống và vẻ đẹp tâm hồn, nhân cách của Hồ Chí Minh-người chiến sĩ, nghệ sĩ với tình yêu thiên nhiên, yêu con người, yêu cuộc sống. Qua bài thơ, người ta càng cảm nhận được tấm lòng nhân ái, yêu nước thương nòi và hi sinh đến quên mình của Bác.</p>
-<p style="text-align: justify;"><strong>2. Những bài học thấm thía và sâu sắc khi học và đọc Nhật kí trong tù.</strong></p>
-<p style="text-align: justify;"><strong>Trả lời:</strong></p>
-<p class="Bodytext0" style="text-align: justify;" align="left">-&nbsp;&nbsp; Lòng nhân đạo là đức tính cao đẹp nhất của Bác Hồ. Tình cảm này vừa cụ thể vừa bao la, vừa ở nhận thức vừa ở hành động.</p>
-<p class="Bodytext0" style="text-align: justify;">-&nbsp; Một tâm hồn nhạy cảm và dễ rung động trước tạo vật và lòng người: “Thân thể ở trong lao Tinh thần ở ngoài lao".</p>
-<p class="Bodytext0" style="text-align: justify;">- Tinh thần thép kiên cường đi đôi với tâm hồn nhạy cảm, đậm chất trữ tình.</p>
-<p class="Bodytext0" style="text-align: justify;">-&nbsp; Nhật kí thể hiện nhân cách của một bậc “đại trí, đại nhân, đại dũng".</p>
-<p class="Bodytext0" style="text-align: justify;">-&nbsp; Thơ Bác là sự kết hợp hài hoà giữa hai yếu tố: cổ điển và hiện đại.</p>
-<p class="Bodytext0" style="text-align: right;"><strong></strong></p>
+<p><strong>Bài 1. </strong>Trong các mệnh đề sau, mệnh đều nào đúng?</p>
+<p>A. Mọi hình hộp có mặt cầu ngoại tiếp.</p>
+<p>B. Mọi hình hộp đứng có mặt cầu ngoại tiếp.</p>
+<p>C. Mọi hình hộp có mặt bên vuông góc với đáy đều có mặt cầu ngoại tiếp.</p>
+<p>D. Mọi hình hộp chữ nhật đều có mặt cầu ngoại tiếp.</p>
+<p><strong>Giải</strong></p>
+<p><strong>&nbsp;</strong>Hình bình hành nội tiếp đường trong phải là hình chữ nhật.</p>
+<p>Chọn (D).</p>
+<p><strong>Bài &nbsp;2. </strong>Trong số các hình hộp nội tiếp một mặt cầu bán kính R thì</p>
+<p>(A) Hình hộp có đáy là hình vuông có thể tích lớn nhất.</p>
+<p>(B) Hình lập phương có thể tích lớn nhất.</p>
+<p>(C) Hình hộp có kích thước tạo thành cấp số cộng công sai khác 0 có thể tích lớn nhất.</p>
+<p>(D) Hình hộp có kích thước tạo thành cấp số nhân công bội khác 1 có thể tích lớn nhất.</p>
+<p><strong>Giải</strong></p>
+<p>Hình hộp nội tiếp một mặt cầu là hình hộp chữ nhật có đường chéo \(d = 2R\). Gọi \(x, y, z\) là các kích thước của hình hộp chữ nhật.</p>
+<p>Ta có \({x^2} + {y^2} + {z^2} = {d^2} = 4{R^2}\)</p>
+<p>Áp dụng BĐT Cô – si cho 3 số dương ta có:</p>
+<p>\(4{R^2} = {x^2} + {y^2} + {z^2} \ge 3\root 3 \of {{x^2}{y^2}{z^2}}&nbsp; = 3\root 3 \of {{V^2}}&nbsp; \Rightarrow {V^2} \le {\left( {{{4{R^2}} \over 3}} \right)^3}\)</p>
+<p>\(V\) đạt giá trị lớn nhất khi và chỉ khi \(x = y = z\).</p>
+<p>Chọn (B).</p>
+<p><strong>Bài 3.</strong> Một hình cầu có thể tích \({4 \over 3}\pi \)&nbsp;ngoại tiếp một hình lập phương. Trong các số sau đây, số nào là thể tích khối lập phương?</p>
+<p>(A) \({{8\sqrt 3 } \over 9}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (B) \({8 \over 3}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(C) 1&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(D) \(2\sqrt 3 \)</p>
+<p><strong>Giải</strong></p>
+<p>Giả sử bán kính mặt cầu là \(R\) và cạnh hình lập phương là a thì thể tích khối cầu là \(V = {4 \over 3}\pi {R^3} \Rightarrow R = 1\) và \(4{R^2} = 3{a^2} = 4 \Rightarrow a = {2 \over {\sqrt 3 }}\)</p>
+<p>Thể tích khối lập phương là \(V = {a^3} = {\left( {{2 \over {\sqrt 3 }}} \right)^3} = {8 \over {3\sqrt 3 }} = {{8\sqrt 3 } \over 9}\).</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 4. </strong>Trong các mệnh đề sau, mệnh đề nào đúng?</p>
+<p>(A) Hình chóp có đáy là tứ giác thì có mặt cầu ngoại tiếp.</p>
+<p>(B) Hình chóp có đáy là hình thang vuông thì có mặt cầu ngoại tiếp.</p>
+<p>(C) Hình chóp có đáy là hình bình hành thì có mặt cầu ngoại tiếp.</p>
+<p>(D) Hình chóp có đáy là hình thang cân thì có mặt cầu ngoại tiếp.</p>
+<p><strong>Giải</strong></p>
+<p>Hình chóp có đáy là tứ giác có mặt cầu ngoại tiếp thì đáy phải là tứ giác nội tiếp đường tròn.</p>
+<p>Chọn (D).</p>
+<p><strong>Bài 5. </strong>Cho tứ diện đều \(ABCD\) có cạnh bằng \(a\). Tập hợp các điểm \(M\) sao cho \(M{A^2} + M{B^2} + M{C^2} + M{D^2} = 2{a^2}\)</p>
+<p>(A) Mặt cầu có tâm là trọng tâm của tam giác \(ABC\) và bán kính bằng \({{a\sqrt 2 } \over 2}\).</p>
+<p>(B) Mặt cầu có tâm là trọng tâm của tứ diện và bán kính bằng \({{a\sqrt 2 } \over 4}\).</p>
+<p>(C) Mặt cầu có tâm là trọng tâm của tứ diện và bán kính bằng \({{a\sqrt 2 } \over 2}\).<br>(D) Mặt cầu có tâm là trọng tâm của tam giác \(ABC\) và bán kính bằng \({{a\sqrt 2 } \over 4}\).</p>
+<p><strong>Giải</strong></p>
+<p><strong><img src="https://img./picture/2017/1108/toan-8_4.jpg" alt="" width="217" height="233"></strong></p>
+<p>Gọi \(G\) là trọng tâm tứ diện \(ABCD, AA’\) là đường cao xuất phát từ \(A\) của tứ diện \(ABCD\). Ta có:</p>
+<p>\(\eqalign{<br> &amp; AA' = \sqrt {A{B^2} - BA{'^2}} = \sqrt {{a^2} - {{{a^2}} \over 3}} = {{a\sqrt 6 } \over 3} \cr <br> &amp; \Rightarrow GA = GB = GC = GD = {3 \over 4}AA' = {{a\sqrt 6 } \over 4} \cr} \)</p>
+<p>Ta có:&nbsp; &nbsp;\(M{A^2} + M{B^2} + M{C^2} + M{D^2} = 2{a^2}\)</p>
+<p>\(\eqalign{<br> &amp; \Leftrightarrow {\left( {\overrightarrow {GA} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GB} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GC} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GD} - \overrightarrow {GM} } \right)^2} = 2{a^2} \cr <br> &amp; \Leftrightarrow 4G{A^2} + 4G{M^2} - 2\overrightarrow {GM} \left( {\overrightarrow {GA} + \overrightarrow {GB} + \overrightarrow {GC} + \overrightarrow {GD} } \right) = 2{a^2} \cr <br> &amp; \Leftrightarrow M{G^2} = {{{a^2}} \over 2} - G{A^2} = {{{a^2}} \over 8} \Rightarrow MG = {{a\sqrt 2 } \over 4} \cr} \)</p>
+<p>Tập hợp các điểm \(M\) là mặt cầu tâm \(G\) bán kính \({{a\sqrt 2 } \over 4}\) . Chọn (B).</p>
+<p><strong>Bài 6.</strong> Bán kính mặt cầu tiếp xúc với các cạnh của tứ diện đều \(ABCD\) cạnh bằng \(a\) là:</p>
+<p>(A) \({{a\sqrt 2 } \over 2}\)&nbsp; &nbsp; &nbsp; &nbsp;(B) \({{a\sqrt 2 } \over 4}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(C) \(a\sqrt 2 \)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) \(2a\sqrt 2 \)</p>
+<p><strong>Giải</strong></p>
+<p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_5.jpg" alt="" width="236" height="261"></p>
+<p>Gọi \(M, N\) lần lượt là trung điểm hai cạnh \(AB\) và \(CD\) của tứ diện đều \(ABCD\).</p>
+<p>\(I\) là trung điểm của \(MN\) thì \(I\) cách đều \(6\) cạnh tứ diện nên \(I\) là tâm mặt cầu tiếp xúc với các cạnh của tứ diện đều.</p>
+<p>Bán kính mặt cầu: \(R = {{MN} \over 2}\)</p>
+<p>Ta có: \(M{N^2} = A{N^2} - M{A^2} = A{D^2} - N{D^2} - M{A^2} = {a^2} - {{{a^2}} \over 4} - {{{a^2}} \over 4} = {{{a^2}} \over 2} \Rightarrow MN = {{a\sqrt 2 } \over 2} \Rightarrow R = {{a\sqrt 2 } \over 4}\).</p>
+<p>Chọn (B).</p>
+<p><strong>Bài 7. </strong>Trong số các mệnh đề sau, mệnh đề nào đúng?</p>
+<p>(A) Có duy nhất một măt cầu đi qua hai đường tròn nằm trong hai mặt phẳng cắt nhau.</p>
+<p>(B) Có duy nhất một măt cầu đi qua hai đường tròn nằm trong hai mặt phẳng song song.</p>
+<p>(C) Có duy nhất một măt cầu đi qua hai đường tròn cắt nhau.</p>
+<p>(D) Có duy nhất một măt cầu đi qua hai đường tròn cắt nhau tại hai điểm phân biệt và không cùng nằm trong một mặt phẳng.</p>
+<p><strong>Giải&nbsp;</strong></p>
+<p>Chon D.</p>
+<p><strong>Bài 8. </strong>Cho hai điểm \(A, B\) phân biệt. Tập hợp các điểm \(M\) sao cho diện tích tam giác \(MAB\) không đổi là:</p>
+<p>(A) Hai đường thẳng song song;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) Một mặt cầu;</p>
+<p>(C) Một mặt trụ;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) Một mặt nón.</p>
+<p><strong>Giải</strong></p>
+<p>Tập hợp các điểm \(M\) sao cho khoảng cách từ \(M\) đến \(AB\) không đổi.</p>
+<p>Chọn (C).</p>
+<p><strong>Bài 9. </strong>Cho hai điểm phân biệt \(A, B\) cố định và phân biệt. Một đường thẳng \(l\) thay đổi luôn đi qua \(A\)&nbsp;</p>
+<p>và cách \(B\) một khoảng \({{AB} \over 2}\). Gọi \(H\) là hình chiếu của \(B\) trên \(l\). Tập hợp điểm \(H\) là:</p>
+<p>(A) Một mặt phẳng;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (B) Một mặt trụ;</p>
+<p>(C) Một mặt nón;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) Một đường tròn.</p>
+<p><strong>Giải</strong></p>
+<p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_6.jpg" alt="" width="327" height="207"></p>
+<p>\(\sin \widehat {HAB} = {{BH} \over {AB}} = {1 \over 2} \Rightarrow \widehat {HAB} = {30^0}\)</p>
+<p>Tập hợp \(l\) là mặt nón có trục AB, đường sinh \(l\), góc ở đỉnh là \({60^0}\). Gọi \(I\) là hình chiếu của H lên AB.</p>
+<p>Ta có: \(BI = BH.cos{60^0} = {{AB} \over 4} \Rightarrow I\) cố định.</p>
+<p>\( \Rightarrow H\) thuộc mặt phẳng qua \(I\) vuông góc với \(AB\). Vậy tâp hợp \(H\) là đường tròn.</p>
+<p>Chọn (D).</p>
+<p><strong>Bài 10. </strong>Với điểm \(O\) cố định thuộc mặt phẳng \((P)\) cho trước, xét đường thẳng \(l\)<em>&nbsp;</em>thay đổi đi qua \(O\) và tạo với \((P)\) góc \(30^0\)&nbsp;Tập hợp các đường thẳng \(l\)<em>&nbsp;</em>trong không gian là:</p>
+<p>(A) Một mặt phẳng;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) Hai đường thẳng;</p>
+<p>(C) Một mặt trụ;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(D) Một mặt nón.</p>
+<p><strong>Giải</strong></p>
+<p>Chọn D.</p>
+<p><strong>Bài 11.</strong> Một hình trụ có bán kính đáy bằng \(a\), đường cao \({\rm{OO}}' = a\sqrt 3 \). Một đoạn thẳng \(AB\) thay đổi sao cho góc giữa \(AB\) và trục hình trụ bằng \(30^0\). \(A, B\) thuộc hai đường tròn đáy của hình trụ. Tập hợp các trung điểm \(I\) của \(AB\) là:</p>
+<p>(A) Một mặt trụ;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (B) Một mặt cầu;</p>
+<p>(C) Một đường tròn;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) Một mặt phẳng.</p>
+<p><strong>Giải</strong></p>
+<p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_7.jpg" alt="" width="235" height="275"></strong></p>
+<p>Gọi \(A’\) là hình chiếu của \(A\) xuống mặt phẳng đáy thì \(AA’ = OO’\). Gọi \(I, M, N\) lần lượt là trung điểm của \(OO’, AB\) và \(AA’\).</p>
+<p>Ta có: \(IA = IB\) và \(IM \bot AB\).</p>
+<p>Mp(IMN) qua \(I\) và song song với hai mặt phẳng đáy.</p>
+<p>Ta có: \(MN = AN.\tan {30^0} = {{a\sqrt 3 } \over 2}.{1 \over {\sqrt 3 }} = {a \over 2}\)</p>
+<p>\( \Rightarrow MI = \sqrt {N{I^2} - M{N^2}}&nbsp; = \sqrt {{a^2} - {{{a^2}} \over 4}}&nbsp; = {{a\sqrt 3 } \over 2}\)</p>
+<p>Vậy tập hợp trung điểm \(M\) của \(AB\) là đường tròn tâm \(I\) bán kính \({{a\sqrt 3 } \over 2}\) nằm trong mp\((IMN)\).<br>Chọn (C).</p>
+<p><strong>Bài 12.</strong> Trong mặt phẳng (P) cho góc xOy. Một mặt phẳng (Q) thay đổi và vuông góc với đường phân giác trong của góc xOy, cắt Ox, Oy tại A, B. Trong (Q) lấy điểm M sao cho \(\widehat {AMB} = {90^0}\). Khi ấy, tập hợp điểm M là:</p>
+<p>(A) Một đường tròn;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (B) Một mặt trụ;</p>
+<p>(C) Một mặt nón;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(D) Một mặt cầu.</p>
+<p><strong>Giải</strong></p>
+<p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-81_1.jpg" alt="" width="300" height="317"></strong></p>
+<p>Tập hợp M là một mặt nón đỉnh O.</p>
+<p>Chọn (C).</p>
+<p><strong>Bài 13.</strong> Cho hình lập phương ABCD.A’B’C’D’ có cạnh a. Diện tích xung quanh của hình nón tròn xoay sinh bởi đường gấp khúc AC’A’ khi quay quanh AA’ bằng:</p>
+<p>(A) \(\pi {a^2}\sqrt 6 \)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) \(\pi {a^2}\sqrt 3 \)&nbsp;</p>
+<p>(C) \(\pi {a^2}\sqrt 2 \)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) \(\pi {a^2}\sqrt 5 \)</p>
+<p><strong>Giải</strong></p>
+<p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_8.jpg" alt="" width="245" height="251"></p>
+<p>Hình nón tròn xoay sinh bởi đường gấp khúc AC’A’ khi quay quanh \(AA' \) có bán kính đáy \(A'C'=a\sqrt 2\) và độ dài đường sinh \(AC' = a\sqrt 3 \) nên diện tích xung quanh của hình nón là: \({S_{xq}} = {1 \over 2}2\pi a\sqrt 2 .a\sqrt 3&nbsp; = \pi {a^2}\sqrt 6 \)</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 14.</strong> Cho hình nón có bán kính đáy bằng a. Một dây cung thay đổi của đường tròn đáy có độ dài không đổi bằng a. Tập hợp các trung điểm của đoạn thẳng nối đỉnh hình nón với trung điểm của dây cung đó là:</p>
+<p>(A) Một mặt nón cố đinh;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) Một mặt phẳng cố đinh;</p>
+<p>(C) Một mặt trụ cố định;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) Một đường tròn cố đinh.</p>
+<p>Giải</p>
+<p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_9.jpg" alt="" width="243" height="288"></p>
+<p>Gọi I là trung điểm AB ta có \(OI = \sqrt {O{B^2} - I{B^2}}&nbsp; = \sqrt {{a^2} - {{{a^2}} \over 4}}&nbsp; = {{a\sqrt 3 } \over 2}\)</p>
+<p>Tập hợp I là đường tròn tâm O bán kính \({{a\sqrt 3 } \over 2}\)&nbsp;trong mặt phẳng đáy hình nón. Gọi O’ là trung điểm SO và M là trung điểm của SI thì \(MO' = {1 \over 2}OI = {{a\sqrt 3 } \over 4}\)</p>
+<p>Tập hợp các điểm M là đường tròn tâm O’ bán kính \({{a\sqrt 3 } \over 4}\) nằm trong mặt phẳng qua O’ và song song với mặt phẳng đáy.</p>
+<p>Chọn (D).</p>
+<p><strong>Bài 15.</strong> Cho hình trụ có bán kính đáy bằng R, chiều cao OO’. Cắt hình trụ đó bằng \(mp\left( \alpha&nbsp; \right)\)&nbsp;vuông góc với đáy và cách điểm O một khoảng bằng h cho trước (h&lt;R). Khi ấy, \(mp\left( \alpha&nbsp; \right)\)&nbsp;có tính chất:</p>
+<p>(A) Luôn tiếp xúc với một mặt trụ cố định;</p>
+<p>(B) Luôn cách một mặt phẳng cho trước qua trục hình trụ một khoáng h ;</p>
+<p>(C) Cắt hình trụ theo thiết diện là hình vuông ;</p>
+<p>(D) Cả ba tính chất trên đều sai.</p>
+<p><strong>Giải</strong></p>
+<p>\(mp\left( \alpha&nbsp; \right)\)&nbsp;luôn tiếp xúc với một mặt trụ cố định đường cao OO’ bán kính đáy h.</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 16.</strong> Một khối trụ có bán kính đáy \(a\sqrt 3 \), chiều cao \(2a\sqrt 3 \). Thể tích của khối cầu ngoại tiếp khối trụ là:</p>
+<p>(A) \(8\sqrt 6 \pi {a^3}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) \(6\sqrt 6 \pi {a^3}\)&nbsp;</p>
+<p>(C) \({4 \over 3}\sqrt 6 \pi {a^3}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(D) \(4\sqrt 3 \pi {a^3}\)</p>
+<p><strong>Giải</strong></p>
+<p>Đường kính khối cầu ngoại tiếp khối trụ là \(d = 2R = \sqrt {{{\left( {2a\sqrt 3 } \right)}^2} + {{\left( {2a\sqrt 3 } \right)}^2}}&nbsp; = 2a\sqrt 6&nbsp; \Rightarrow R = a\sqrt 6 \)<br><br>Thể tích khối cầu là \(V = {4 \over 3}\pi {\left( {a\sqrt 6 } \right)^3} = 8\pi {a^3}\sqrt 6 \).</p>
+<p>Chọn (A).<br><strong>Bài 17.</strong>Cho hình nón có đường sinh bằng đường kính đáy và bằng 2. Bán kính mặt cầu ngoại tiếp hình nón đó là</p>
+<p>(A) \(\sqrt 3 \)&nbsp; &nbsp; &nbsp; &nbsp;(B) \(2\sqrt 3 \)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(C) \({{\sqrt 3 } \over 2}\)&nbsp; &nbsp; &nbsp; &nbsp; (D) \({{2\sqrt 3 } \over 3}\)</p>
+<p><strong>Giải</strong></p>
+<p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_10.jpg" alt="" width="237" height="258"></p>
+<p>Gọi AB là đường kính của mặt cầu ngoại tiếp hình nón, I là tâm đường tròn đáy của hình nón \(AI = \sqrt {A{C^2} - C{I^2}}&nbsp; = \sqrt 3 \)</p>
+<p>\(\Delta ABC\) vuông tại C nên \(A{C^2} = AI.AB \Rightarrow AB = {{A{C^2}} \over {AI}} = {4 \over {\sqrt 3 }} = {{4\sqrt 3 } \over 3}\)</p>
+<p>\( \Rightarrow R = {{AB} \over 2} = {{2\sqrt 3 } \over 3}\). Chọn (D).</p>
+<p><strong>Bài 18.</strong> Cho hình nón sinh bởi một tam giác đều cạnh a khi quay quanh một đường cao. Một mặt cầu có diện tích bằng diện tích toàn phần của hình nón thì có bán kính là</p>
+<p>(A) \({{a\sqrt 3 } \over 4}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) \({{a\sqrt 2 } \over 4}\)&nbsp;</p>
+<p>(C) \({{a\sqrt 2 } \over 2}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) \({{a\sqrt 3 } \over 2}\)</p>
+<p><strong>Giải</strong></p>
+<p>Diện tích toàn phần của hình nón là \({S_{tp}} = {S_{xq}} + {S_d} = \pi rl + \pi {r^2} = \pi {{{a^2}} \over 2} + \pi {{{a^2}} \over 4} = \pi {a^2}{3 \over 4}\)</p>
+<p>Diện tích mặt cầu bán kính R là \(4\pi {R^2}\).</p>
+<p>Suy ra \(4\pi {R^2} = \pi {a^2}{3 \over 4} \Rightarrow R = {{a\sqrt 3 } \over 4}\).</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 19.</strong> Cho một hình nón sinh bởi một tam giác đều cạnh a khi quay quanh một đường cao. Một khối cầu có thể tích bằng thể tích của khối nón thì có bán kính bằng</p>
+<p>(A) \({{a\root 3 \of {2\sqrt 3 } } \over 4}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) \({{a\root 3 \of 3 } \over 8}\)&nbsp;</p>
+<p>(C) \({{a\root 3 \of {2\sqrt 3 } } \over 8}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(D) \({{a\root 3 \of {2\sqrt 3 } } \over 2}\)</p>
+<p><strong>Giải</strong></p>
+<p>Chiều cao của khối nón là \({{a\sqrt 3 } \over 2}\)&nbsp;và bán kính đáy bằng \({a \over 2}\) nên</p>
+<p>\({V_n} = {1 \over 3}\pi {r^2}h = {1 \over 3}\pi {{{a^2}} \over 4}.{{a\sqrt 3 } \over 2} = {{\pi {a^3}\sqrt 3 } \over {24}}\)</p>
+<p>Thể tích khối cầu bán kính R là \({V_c} = {4 \over 3}\pi {R^3}\).</p>
+<p>Do đó \({{\pi {a^3}\sqrt 3 } \over {24}} = {4 \over 3}\pi {R^3} \Leftrightarrow {R^3} = {{{a^3}\sqrt 3 } \over {32}} \Rightarrow R = {{a\root 3 \of {\sqrt 3 } } \over {\root 3 \of {32} }} = {{a\root 3 \of {2\sqrt 3 } } \over 4}\)</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 20.</strong> Một hình nón có đường sinh bằng a và góc ở đỉnh bằng \(90^0\). cắt hình nón bằng mặt phẳng (a) đi qua đỉnh sao cho góc giữa (a) và mặt đáy hình nón bằng \(60^0\) . Khi đó diện tích thiết diện là</p>
+<p>(A) \({{\sqrt 2 } \over 3}{a^2}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) \({{\sqrt 3 } \over 2}{a^2}\)&nbsp;</p>
+<p>(C) \({2 \over 3}{a^2}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) \({3 \over 2}{a^2}\)</p>
+<p><strong>Giải</strong></p>
+<p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_11.jpg" alt="" width="279" height="292"></strong></p>
+<p>\(\eqalign{<br>&amp; OS = {1 \over 2}AB = {{a\sqrt 2 } \over 2} \cr&nbsp;<br>&amp; SI = {{SO} \over {\sin {{60}^0}}} = {{a\sqrt 2 } \over {\sqrt 3 }} \cr&nbsp;<br>&amp; OI = SO.\cot {60^0} = {{a\sqrt 2 } \over {2\sqrt 3 }} \cr&nbsp;<br>&amp; \Rightarrow IC = \sqrt {O{C^2} - I{O^2}} = \sqrt {{{{a^2}} \over 2} - {{{a^2}} \over 6}} = {a \over {\sqrt 3 }} \cr&nbsp;<br>&amp; S = {1 \over 2}SI.2IC = {{a\sqrt 2 } \over {\sqrt 3 }}.{a \over {\sqrt 3 }} = {{\sqrt 2 } \over 3}{a^2} \cr} \)</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 21.</strong> Cho hình chóp tứ giác đều có cạnh đáy bằng a, cạnh bên tạo với mặt đáy góc \(60^0\). Diện tích toàn phần của hình nón ngoại tiếp hình chóp là</p>
+<p>(A) \({{3\pi {a^2}} \over 2}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (B) \({{3\pi {a^2}} \over 4}\)&nbsp;</p>
+<p>(C) \({{3\pi {a^2}} \over 6}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(D) \({{3\pi {a^2}} \over 8}\)</p>
+<p><strong>Giải</strong></p>
+<p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_12.jpg" alt="" width="290" height="280"></strong></p>
+<p>Bán kính đường tròn đáy của hình nón ngoại tiếp hình chóp là</p>
+<p>\(\eqalign{<br>&amp; R = {{a\sqrt 2 } \over 2} \cr&nbsp;<br>&amp; \cos {60^0} = {{BO} \over {SB}} \cr&nbsp;<br>&amp; \Rightarrow SB = {{BO} \over {\cos {{60}^0}}} = 2{{a\sqrt 2 } \over 2} = a\sqrt 2 \cr} \)</p>
+<p>Diện tích xung quanh hình nón \({S_{xq}} = {1 \over 2}.2\pi Rl = \pi {{a\sqrt 2 } \over 2}a\sqrt 2&nbsp; = \pi {a^2}\)</p>
+<p>Diện tích hình tròn đáy hình nón là \({S_d} = \pi {R^2} = \pi {{{a^2}} \over 2}\)</p>
+<p>Diện tích toàn phần \({S_{tp}} = {S_{xq}} + {S_d} = \pi {a^2} + {{\pi {a^2}} \over 2} = {{3\pi {a^2}} \over 2}\)</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 22.</strong> Cho mặt cầu bán kính R và một hình trụ có bán kính đáy R và chiều cao 2R. Tỉ số thể tích khối cầu và khối trụ là</p>
+<p>(A) \({2 \over 3}\)&nbsp; &nbsp; &nbsp; &nbsp; (B) \({3 \over 2}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(C) 2&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) \({1 \over 2}\)</p>
+<p><strong>Giải</strong></p>
+<p>Thể tích khối cầu bán kính R là \({V_c} = {4 \over 3}\pi {R^3}\)</p>
+<p>Thể tích khối trụ \({V_t} = \pi {R^2}.2R = 2\pi {R^3} \Rightarrow {{{V_c}} \over {{V_t}}} = {2 \over 3}\).</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 23.</strong> Cho hình trụ có bán kính đáy bằng R, chiều cao cũng bằng R. Một hình vuông ABCD có hai cạnh AB và CD lần lượt là các dây cung của hai đường tròn đáy, mp(ABCD) không vuông góc với mặt phẳng đáy của hình trụ. Diện tích hình vuông đó là</p>
+<p>(A) \({{5{R^2}} \over 2}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) \(5{R^2}\)</p>
+<p>(C) \({{5{R^2}\sqrt 2 } \over 2}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) \(5{R^2}\sqrt 2 \)</p>
+<p><strong>Giải</strong></p>
+<p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_13.jpg" alt="" width="309" height="262"></strong></p>
+<p>Gọi C’ là hình chiếu của C trên đáy hình trụ. Khi đó ta có \(AB \bot BC'\)&nbsp;(vì \(AB \bot BC\)).</p>
+<p>Vậy \(AC’ = 2R\).</p>
+<p>Ta có: \(BC{'^2} = 4{R^2} - A{B^2} = A{B^2} - {R^2} \Rightarrow A{B^2} = {5 \over 2}{R^2}.\)</p>
+<p>Chọn (A).</p>
+<p><strong>Bài 24.</strong>&nbsp;Một khối hộp chữ nhật nội tiếp trong một khối trụ. Ba kích thước của khối hộp chữ nhật là a, b, c.. Thể tích của khối trụ là</p>
+<p>(A) \({1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+<p>(B) \({1 \over 4}\pi \left( {{b^2} + {c^2}} \right)a\)</p>
+<p>(C) \({1 \over 4}\pi \left( {{c^2} + {a^2}} \right)b\)</p>
+<p>(D) \({1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\)&nbsp;hoặc \({1 \over 4}\pi \left( {{b^2} + {c^2}} \right)a\)&nbsp;hoặc \({1 \over 4}\pi \left( {{c^2} + {a^2}} \right)b\)</p>
+<p><strong>Giải</strong></p>
+<p>&nbsp;Nếu khối trụ có bán kính đáy là \(R = {1 \over 2}\sqrt {{a^2} + {b^2}} \) và chiều cao là c thì có thể tích \(V = {1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\). Vai trò của a, b, c như nhau nên chọn (D).</p>
+<p><strong>Bài 25.</strong> Một khối tứ diện đều có cạnh a nội tiếp một khối nón. Thể tích khối nón là</p>
+<p>(A) \({{\sqrt 3 } \over {27}}\pi {a^3}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(B) \({{\sqrt 6 } \over {27}}\pi {a^3}\)&nbsp;</p>
+<p>(C) \({{\sqrt 3 } \over 9}\pi {a^3}\)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) \({{\sqrt 6 } \over 9}\pi {a^3}\)</p>
+<p><strong>Giải</strong></p>
+<p>Khối nón có bán kính đường tròn đáy \(R = {{a\sqrt 3 } \over 3}\)&nbsp;và chiều cao \(h = \sqrt {{a^2} - {{{a^2}} \over 3}}&nbsp; = {a \over 3}\sqrt 6 \)&nbsp;nên có thể tích \(V = {1 \over 3}\pi {{{a^2}} \over 3}.{{a\sqrt 6 } \over 3} = {{\sqrt 6 } \over {27}}\pi {a^3}\).</p>
+<p>Chọn (B).</p>
+<p><strong>Bài 26.</strong> Cho hình nón đỉnh S, đáy là hình tròn tâm O, góc ở đỉnh bằng \(120^0\). Trên đường tròn đáy, lấy một điểm A cố định và điểm M di động. Có bao nhiêu vị trí của M để diện tích tam giác SAM đạt giá trị lớn nhất ?</p>
+<p>(A) Có 1 vị trí ;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (B) Có 2 vị trí ;</p>
+<p>(C) Có 3 vị trí ;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (D) Có vô số vị trí.</p>
+<p><strong>Giải</strong></p>
+<p>Gọi \(l\) là độ dài đường sinh của hình nón ta có \(SA = SM = l\).</p>
+<p>Ta có: \({S_{\Delta SAM}} = {1 \over 2}SA.SM.\sin \widehat {ASM} = {1 \over 2}{l^2}\sin \widehat {ASM}\)</p>
+<p>Để diện tích tam giác SAM lớn nhất thì \(\sin \widehat {ASM} = 1 \Rightarrow \widehat {ASM} = {90^0}\).</p>
+<p>Vì góc ở đỉnh bằng \({120^0}\) nên có 2 vị trí thỏa mãn \(\widehat {ASM} = {90^0}\).</p>
+<p>Chọn (B).</p>
+<p style="text-align: right;"><strong>loigiaihay.com</strong></p>
 <div class="clearfix"></div>`
 
 // let stringInnerHTML = normal;
@@ -1407,14 +1341,197 @@ testU2 = `<h2 class="s14 lineheight"></h2>
 // let stringInnerHTML = noQuestion;
 // let stringInnerHTML = noQuestionMutipleChoise;
 // let stringInnerHTML = normals;
-// let stringInnerHTML = multipleChoises;
+let stringInnerHTML = multipleChoises;
+testU = `<h2 class="s14 lineheight"></h2>
+<p><strong>Câu 24 trang 214 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Hàm số \(f(x) = {e^{{1 \over 3}{x^3} - 2{x^2} + 3x + 1}}\)</p>
+<p>(A) Đồng biến trên mỗi khoảng \((-∞, 1)\) và \((3, + ∞)\)</p>
+<p>(B) Nghịch biến trên mỗi khoảng \((-∞, 1)\) và \((3, + ∞)\)</p>
+<p>(C) Đồng biến trên khoảng \((-∞, 1)\) và nghịch biến trên khoảng \((3, + ∞)\)</p>
+<p>(D) Nghịch biến trên khoảng \((-∞, 1)\)&nbsp; và đồng biến trên khoảng \((3, + ∞)\)</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:</p>
+<p>\(\eqalign{<br> &amp; f'(x) = ({x^2} - 4x + 3){e^{{1 \over 3}{x^3} - 2{x^2} + 3x + 1}} \cr <br> &amp; f'(x) = 0 \Leftrightarrow {x^2} - 4x + 3 = 0 \Leftrightarrow \left[ \matrix{<br> x = 1 \hfill \cr <br> x = 3 \hfill \cr} \right. \cr} \)</p>
+<p>Ta có bảng biến thiên:</p>
+<p><img style="width: 100%; max-width: 507px;" src="https://img./picture/2017/1220/24-1.jpg" alt="">&nbsp;</p>
+<p>Chọn (A)</p>
+<p><strong>Câu 25 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Hàm số f(x) = sin<sup>2</sup>x – 2sinx có giá trị nhỏ nhất là:</p>
+<p>(A) \(&nbsp;- {1 \over 2}\)</p>
+<p>(B) 0</p>
+<p>(C) -1</p>
+<p>(D) \(&nbsp;- {1 \over 3}\)</p>
+<p><strong>Giải</strong></p>
+<p>Đặt&nbsp; t = sin x; t ∈ [-1, 1]</p>
+<p>f(x) = g(t) = t<sup>2</sup> – 2t</p>
+<p>g’ = 2t – 2 = 0 ⇔ t = 1</p>
+<p>g( - 1) = 3</p>
+<p>g(1) = -1</p>
+<p>Vậy \(\mathop {\min }\limits_{x \in R} f(x) = &nbsp;- 1\)</p>
+<p class="MTDisplayEquation">Chọn (C)&nbsp; &nbsp; &nbsp;</p>
+<p><strong>Câu 26 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Gọi (C) là đồ thị của hàm số \(y = \sqrt {{x^2} + x} \)&nbsp;. Khi đó</p>
+<p>(A) Đường thẳng y = x + 1 là tiệm cận xiên của (C) (khi \(x \to &nbsp;+ \infty \)&nbsp;)</p>
+<p>(B) Đường thẳng \(y = x + {1 \over 2}\)&nbsp;là tiệm cận xiên của (C) (khi \(x \to &nbsp;+ \infty \)&nbsp;&nbsp;)</p>
+<p>(C) Đường thẳng y = -x là tiệm cận xiên của (C) (khi \(x \to &nbsp;+ \infty \)&nbsp;&nbsp;)</p>
+<p>(D) Đồ thị (C) không có tiệm cận xiên (khi \(x \to &nbsp;+ \infty \)&nbsp;&nbsp;)</p>
+<p><strong>Giải</strong></p>
+<p>\(\eqalign{<br> &amp; a = \mathop {\lim }\limits_{x \to + \infty } {{f(x)} \over x} = \mathop {\lim }\limits_{x \to + \infty } \sqrt {1 + {1 \over x}} = 1 \cr <br> &amp; b = \mathop {\lim }\limits_{x \to + \infty } {\rm{[f(x)}}\, - {\rm{ax]}} = \mathop {\lim }\limits_{x \to + \infty } (\sqrt {{x^2} + x} - x) \cr <br> &amp; = \mathop {\lim }\limits_{x \to + \infty } {x \over {\sqrt {{x^2} + x} + x}} = \mathop {\lim }\limits_{x \to + \infty } {1 \over {\sqrt {1 + {1 \over x}} + 1}} = {1 \over 2} \cr} \)&nbsp;</p>
+<p class="MTDisplayEquation">Vậy \(y = x + {1 \over 2}\)&nbsp;là tiệm cận xiên của (C) khi \(x\to +∞\)</p>
+<p class="MTDisplayEquation">Chọn B</p>
+<p><strong>Câu 27 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Đồ thị của hàm số y = x<sup>3</sup> – x + 1 tiếp xúc với điểm (1, 1) với</p>
+<p>(A) Parabol y = 2x<sup>2 </sup>-1</p>
+<p>(B) Parabol y = x<sup>2</sup></p>
+<p>(C) Parabol y = -x<sup>2</sup> + 2x</p>
+<p>(D) Đường thẳng y = 2x + 1</p>
+<p><strong>Giải</strong></p>
+<p>Xét f(x) = x<sup>3</sup> – x + 1 ; g(x) = x<sup>2</sup></p>
+<p>Ta có:</p>
+<p>\(\left\{ \matrix{<br> f(1) = g(1) = 1 \hfill \cr <br> f'(1) = g'(1) = 2 \hfill \cr} \right.\)&nbsp;</p>
+<p class="MTDisplayEquation">Nên đồ thị hàm số y = x<sup>3</sup> – x + 1 tiếp xúc với (P)</p>
+<p class="MTDisplayEquation">y = x<sup>2</sup> tại (1, 1)</p>
+<p class="MTDisplayEquation">Chọn (B)</p>
+<p><strong>Câu 28 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Cho hai số dương a và b. Đặt&nbsp;</p>
+<p>\(\left\{ \matrix{<br> X = \ln {{a + b} \over 2} \hfill \cr <br> Y = {{\ln a + \ln b} \over 2} \hfill \cr} \right.\)</p>
+<p>Khi đó:</p>
+<p>(A) X &gt; Y</p>
+<p>(B) X &lt; Y</p>
+<p>(C) X ≥ Y</p>
+<p>(D) X ≤ Y</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:&nbsp;</p>
+<p>\(\eqalign{<br> &amp; {{a + b} \over 2} \ge \sqrt {ab}\cr&amp; \Rightarrow \ln {{a + b} \over 2} \ge \ln \sqrt {ab} = {1 \over 2}(lna\, + \ln b) \cr <br> &amp; \Rightarrow X \ge Y \cr} \)</p>
+<p class="MTDisplayEquation">Chọn (C)</p>
+<p><strong>Câu 29 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Cho hai số không âm a và b.</p>
+<p>Đặt</p>
+<p>\(\left\{ \matrix{<br> X = {e^{{{a + b} \over 2}}} \hfill \cr <br> Y = {{{e^a} + {e^b}} \over 2} \hfill \cr} \right.\)</p>
+<p>Khi đó:</p>
+<p>(A) X &gt; Y</p>
+<p>(B) X &lt; Y</p>
+<p>(C) X ≥ Y</p>
+<p>(D) X ≤ Y</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:</p>
+<p>&nbsp;\(Y = {{{e^a} + {e^b}} \over 2} \ge \sqrt {{e^a}.{e^b}} &nbsp;= {e^{{{a + b} \over 2}}} = X\)</p>
+<p class="MTDisplayEquation">Vậy chọn (D)</p>
+<p><strong>Câu 30 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Cho (C) là đồ thị của hàm số y = log<sub>2</sub>x. Ta có thể suy ra đồ thị của hàm số y = log<sub>2</sub>2(x + 3) bằng cách tịnh tiến (C) theo vectơ:</p>
+<p>\(\eqalign{<br> &amp; (A)\,\overrightarrow v = (3,1) \cr <br> &amp; (B)\,\overrightarrow v = (3, - 1) \cr <br> &amp; (C)\,\overrightarrow v = ( - 3,1) \cr <br> &amp; (D)\,\overrightarrow v = ( - 3, - 1) \cr} \)&nbsp;</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:</p>
+<p>log<sub>2</sub>2(x + 3) = 1 + log<sub>2</sub> (x + 3)</p>
+<p>y = log<sub>2</sub>x&nbsp; \(\to\) Tịnh tiến trái 3 đơn vị</p>
+<p>y = log<sub>2</sub> (x + 3)&nbsp;\(\to\) Tịnh tiến lên trên 1 đơn vị&nbsp;\(\to\) y = 1 + log<sub>2</sub> (x + 3)</p>
+<p>Chọn (C)</p>
+<p><strong>Câu 31 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Cho hàm số f(x) = log<sub>5</sub>(x<sup>2</sup> + 1). Khi đó:</p>
+<p>(A) \(f'(1) = {1 \over {2\ln 5}}\)</p>
+<p>(B) \(f'(1) = {1 \over {\ln 5}}\)</p>
+<p>(C) \(f'(1) = {3 \over {2\ln 5}}\)</p>
+<p>(D) \(f'(1) = {2 \over {\ln 5}}\)</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:</p>
+<p>\(f'(x) = {{2x} \over {{x^2} + 1}}.{1 \over {\ln 5}} \Rightarrow f'(1) = {1 \over {\ln 5}}\)</p>
+<p>Chọn (B)</p>
+<p><strong>Câu 32 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Biết rằng đồ thị của hàm số y = a<sup>x</sup> và đồ thị của hàm số y = log<sub>b</sub>x cắt nhau tại điểm \(\left( {\sqrt {{2^{ - 1}}} ;\sqrt 2 } \right)\). Khi đó&nbsp;</p>
+<p>(A) a &gt; 1 và b &gt; 1</p>
+<p>(B) a &gt; 1 và 0 &lt; b &lt; 1</p>
+<p>(C) 0 &lt; a &lt; 1 và b &gt; 1</p>
+<p>(D) 0 &lt; a &lt; 1 và 0 &lt; b &lt; 1</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:</p>
+<p>\(\left\{ \matrix{<br> {a^{\sqrt {{1 \over 2}} }} = \sqrt 2 \hfill \cr <br> {\log _b}\sqrt {{1 \over 2}} = \sqrt 2 \hfill \cr} \right. \Leftrightarrow \left\{ \matrix{<br> {\log _a}\sqrt 2 = \sqrt {{1 \over 2}} &gt; 0 \hfill \cr <br> {\log _b}\sqrt {{1 \over 2}} = \sqrt 2 &gt; 0 \hfill \cr} \right.\)</p>
+<p>\(\Rightarrow \left\{ \matrix{<br> a &gt; 1 \hfill \cr <br> 0 &lt; b &lt; 1 \hfill \cr} \right.\)&nbsp;</p>
+<p>Chọn (B)</p>
+<p><strong>Câu 33 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Cho hàm số \(f(x) = {{2{x^4} + 3} \over {{x^2}}}\)&nbsp;. Khi đó</p>
+<p>(A) \(\int {f(x)dx = {{2{x^3}} \over 3}} &nbsp;- {3 \over x} + C\)</p>
+<p>(B) \(\int {f(x)dx = {{2{x^3}} \over 3}} &nbsp;+ {3 \over x} + C\)</p>
+<p>(C) \(\int {f(x)dx = 2{x^3}} &nbsp;- {3 \over x} + C\)</p>
+<p>(D)\(\int {f(x)dx = {{2{x^3}} \over 3}} &nbsp;+ {3 \over {2x}} + C\)</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:</p>
+<p>\(\int {f(x)dx = \int {(2{x^2} + {3 \over {{x^2}}})dx = {{2{x^3}} \over 3} - {3 \over x} + C} } \)</p>
+<p>Chọn (A)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+<p><strong>Câu 34 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Đẳng thức \(\int\limits_0^a {\cos (x + {a^2})dx = sina} \)&nbsp;xảy ra nếu:</p>
+<p>\((A) \;a – π\)&nbsp;</p>
+<p>\(\eqalign{<br> &amp; (B)\,\,a = \sqrt \pi \cr <br> &amp; (C)\,\,a = \sqrt {3\pi } \cr <br> &amp; (D)\,a = \sqrt {2\pi } \cr} \)</p>
+<p class="MTDisplayEquation"><strong>Giải</strong></p>
+<p class="MTDisplayEquation">Ta có:</p>
+<p>\(\eqalign{<br> &amp; \int\limits_0^a {\cos (x + {a^2})dx = \sin (x + {a^2})|_0^a} \cr&amp;= \sin (a + {a^2}) - \sin {a^2} = \sin a \cr <br> &amp; \Leftrightarrow \sin (a + {a^2}) = \sin {a^2} + \sin a \cr} \)&nbsp;</p>
+<p class="MTDisplayEquation">Với \(a = \sqrt {2\pi } &nbsp;\Rightarrow \sin (\sqrt {2\pi } &nbsp;+ 2\pi ) = \sin 2\pi &nbsp;+ \sin \sqrt {2\pi } \)</p>
+<p class="MTDisplayEquation">\( \Leftrightarrow \sin \sqrt {2\pi } &nbsp;= \sin \sqrt {2\pi } \)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
+<p>Chọn (D)</p>
+<p><strong>Câu 35 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Gọi S là tập hợp các số nguyên dương k thỏa mãn điều kiện:</p>
+<p>\(\int\limits_1^e {\ln {k \over x}} dx\,\, &lt; e - 2\)&nbsp;</p>
+<p>Khi đó:</p>
+<p>(A) S = {1}</p>
+<p>(B) S = {2}</p>
+<p>(C) S = {1, 2}</p>
+<p>(D) S = Ø</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:</p>
+<p>\(\int\limits_1^e {\ln {k \over x}} dx = \int\limits_1^e {(\ln k - \ln x)dx = (e - 1)\ln k - \int\limits_1^e {\ln xdx} }\)</p>
+<p>Đặt&nbsp;</p>
+<p>\(\left\{ \matrix{<br> u = \ln x \hfill \cr <br> dv = dx \hfill \cr} \right. \Leftrightarrow \left\{ \matrix{<br> du = {1 \over x}dx \hfill \cr <br> v = x \hfill \cr} \right.\)</p>
+<p class="MTDisplayEquation">Do đó:</p>
+<p>\(\int\limits_1^e {\ln xdx = x\ln x|_1^e} &nbsp;- \int\limits_1^e {dx} &nbsp;= e - (e - 1) = 1\)</p>
+<p>Vậy:</p>
+<p>\(\eqalign{<br> &amp; \int\limits_1^e {\ln {k \over x}} dx &lt; e - 2 \Leftrightarrow (e - 1)\ln k - 1 &lt; e - 2 \cr <br>&amp; \Leftrightarrow {\mathop{\rm lnk}\nolimits} &lt; 1 \Leftrightarrow 0 &lt; k &lt; e \Leftrightarrow k \in {\rm{\{ }}1,\,2\} \cr} \)</p>
+<p>Chọn (C)</p>
+<p><strong>Câu 36 trang 217 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Cho số phức z tùy ý. Xét các số phức</p>
+<p>\(\alpha&nbsp; = {z^2} + {\left( {\overline z } \right)^2};\,\beta&nbsp; = z.\overline z&nbsp; + i\left( {z - \overline z } \right).\)</p>
+<p>Khi đó:</p>
+<p>A. α là số thực, β là số thực. &nbsp;&nbsp;&nbsp; B. α là số thực, β là số ảo.</p>
+<p>C. α là số ảo, β là số thực. &nbsp;&nbsp;&nbsp; D. α là số ảo, β là số ảo.</p>
+<p><strong>Giải</strong></p>
+<p>Giả sử z = a+bi, ta có:</p>
+<p>\(\alpha&nbsp; = {\left( {a + bi} \right)^2} + {\left( {a - bi} \right)^2} = 2{a^2}\)&nbsp;vậy α ∈ R</p>
+<p>\(\beta&nbsp; = \left( {a + bi} \right)\left( {a - bi} \right) + i\left( {a + bi - a + bi} \right)\)</p>
+<p>\(= {a^2} + {b^2} - {b^2} = {\rm{ }}{a^2}\in\mathbb R\)</p>
+<p>Vậy chọn A.</p>
+<p><strong>Câu 37 trang 217 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Cho số phức z tùy ý. Xét các số phức&nbsp;</p>
+<p>\(\left\{ \matrix{<br> \alpha = {{{i^{2005}} - i} \over {\overline z - 1}} - {z^2} + {(\overline z )^2} \hfill \cr <br> \beta = {{{z^3} - z} \over {z - 1}} + {(\overline z )^2} + \overline z \hfill \cr} \right.\)</p>
+<p>Khi đó:</p>
+<p>(A) α là số thực, β là số thực</p>
+<p>(B) α là số thực, β là số ảo</p>
+<p>(C) α là số ảo, β là số thực</p>
+<p>(D) α là số ảo, β là số ảo</p>
+<p><strong>Giải</strong></p>
+<p>Ta có:</p>
+<p class="MTDisplayEquation">\({i^{2005}} = i \Rightarrow \alpha &nbsp;= {(\overline z )^2} - {z^2} = (\overline z &nbsp;- z)(\overline z &nbsp;+ z)\)&nbsp;là số thực</p>
+<p class="MTDisplayEquation">\(\beta &nbsp;= {z^2} + z + {\overline z ^2} + \overline z &nbsp;= {(z + \overline z )^2} - 2z.\overline z &nbsp;+ (z + \overline z )\)&nbsp;là số thực</p>
+<p>Chọn (C)</p>
+<p><strong>Câu 38 trang 217 SGK Giải tích 12 Nâng cao</strong></p>
+<p>Nếu môđun của số phức z bằng r (r &gt; 0) thì môdn của số phức (1 – i)<sup>2</sup>z bằng:</p>
+<p>(A) 4r</p>
+<p>(B) 2r</p>
+<p>(C) \(r\sqrt 2 \)</p>
+<p>(D) r</p>
+<p><strong>Giải</strong></p>
+<p>(1 – i)<sup>2</sup> = -2i ⇒ |(1 – i)<sup>2</sup>| = 2 ⇒ |(1 – i)<sup>2</sup>z| = 2r</p>
+<p>Chọn (B)</p>
+<p style="text-align: right;"><strong></strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p class="MTDisplayEquation">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
+<div class="clearfix"></div>`
 // let stringInnerHTML = testU;
-stringInnerHTML = testU2;
+// stringInnerHTML = testU2;
 
 
-let text = "test";
-let book = "văn";
-// let book = "toán";
+let text = "Bài 4 trang 12 SGK Hình học 12"
+text = "test"
+// let book = "văn";
+let book = "toán";
 let detailSection = new DetailSection(document, stringInnerHTML, text, book);
 
 detailSection.buildDetail(false);

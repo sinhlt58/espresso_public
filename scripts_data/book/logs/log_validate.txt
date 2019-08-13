@@ -1,53 +1,80 @@
 Hóa_học lớp 12 Nâng cao_0.html
-Formula /& D.M{g^{2 + }}. \cr}  contains the following errors:
- [ 'TeX parse error: Misplaced &' ]
-Formula CO_3^{2 - } + {H_2}O \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over  {\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} O{H^ - } + HCO_3^ -  contains the following errors:
+Formula \eqalign{  & C{H_2}OH - {\left( {CHOH} \right)_3} - C - C{H_2}OH \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over  {\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} C{H_2}OH - {\left( {CHOH} \right)_4} - CHO \cr   & \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\;\;\;\;\;\;\;\left\| {} \right. \cr   & \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\;\;\;\;\;\;O \cr}  contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\vbox' ]
+Formula \eqalign{  & C{H_2}OH - {(CHOH)_3} - C - C{H_2}OH \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over  {\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} C{H_2}OH - {(CHOH)_4} - CHO\,\,\,\,(1) \cr   & \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\left\| {} \right. \cr   & \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\, \cr   & \,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,O \cr}  contains the following errors:
  [ 'TeX parse error: Undefined control sequence \\vbox' ]
 Formula HCO_3^ - + {H_2}O \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over  {\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} O{H^ - } + {H_2}C{O_3} contains the following errors:
  [ 'TeX parse error: Undefined control sequence \\vbox' ]
+Formula CO_3^{2 - } + {H_2}O \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over  {\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} O{H^ - } + HCO_3^ -  contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\vbox' ]
 
 
 
-Hóa_lớp 12_0.html
-Formula \eqalign{& A.\left( {C{H_3}} \right)NH  \cr&/{C{H_3}} \right)NH  \cr&/( {C{H_3}} \right)NH  \cr& B.{C_2}{H_5}I.  \cr &C.{I_2} \cr &/C{H_3}I. \cr}  contains the following errors:
- [ 'TeX parse error: Missing close brace' ]
+Hóa_học lớp 12 Nâng cao_1.html
+Formula \eqalign{  & {H_2}S + NaC{O_3} \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over  {\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} NaHC{O_3} + NaHS. \cr   & 2NaHS + {O_{2\text{ không khí}}} \to 2NaOH + 2S \downarrow \cr   & F{e_2}{O_3} + 3{H_2}S \to F{e_2}{S_3} + 3{H_2}O. \cr   & 2F{e_2}{S_3} + 3{O_{2}} \to 2F{e_2}{O_3} + 6S. \cr}  contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\vbox' ]
+
 
 
 Hóa_lớp 12_1.html
-Formula \begin{array}{l}A.\,N{O_2},\,C{l_2}.\\/Giấy tẩm dung dịch  contains the following errors:
- [ 'TeX parse error: Missing \\end{array}' ]
+Formula \begin{array}{l}A{l^{3 + }} + {H_2}O\mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} AlO{H^{2 + }} + {H^ + }\\AlO{H^ + } + {H_2}O \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} Al{(OH)_2}^ +  + {H^ + }\\Al{(OH)_2}^ +  + {H_2}O \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} Al{(OH)_3} + {H^ + }\end{array} contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\vbox' ]
 Formula Pb + Pb{O_2} + 2{H_2}S{O_4} \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} 2PbS{O_4} + 2{H_2}O contains the following errors:
  [ 'TeX parse error: Undefined control sequence \\vbox' ]
-Formula \begin{array}{l}A{l^{3 + }} + {H_2}O\mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} AlO{H^{2 + }} + {H^ + }\\AlO{H^ + } + {H_2}O \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} Al{(OH)_2}^ +  + {H^ + }\\Al{(OH)_2}^ +  + {H_2}O \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} Al{(OH)_3} + {H^ + }\end{array} contains the following errors:
- [ 'TeX parse error: Undefined control sequence \\vbox' ]
-Formula  đậm màu khi tiếp xúc với khí A và hóa đen khi tiế xúc với khí B. A, B lần lượt là/\,C{l_2},\,N{O_2}\\/\,N{H_3},\,{H_2}\\/\,{H_2}S,\,N{H_3}\end{array} contains the following errors:
- [ 'TeX parse error: Extra open brace or missing close brace' ]
-Formula {N_2}(k) + 3{H_2}(k) \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} 2N{H_3}(k); contains the following errors:
- [ 'TeX parse error: Undefined control sequence \\vbox' ]
+
+
+Hóa_lớp 12_2.html ==> kha nang cao nhieu anh trong dap an
 Formula {N_{2(k)}} + 3{H_{2(k)}} \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} 2N{H_{3(k)}};\,\Delta H < 0 contains the following errors:
  [ 'TeX parse error: Undefined control sequence \\vbox' ]
+Formula {N_2}(k) + 3{H_2}(k) \mathbin{\lower.3ex\hbox{$\buildrel\textstyle\rightarrow\over{\smash{\leftarrow}\vphantom{_{\vbox to.5ex{\vss}}}}$}} 2N{H_3}(k); contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\vbox' ]
+
+
+Toán_12 Nâng cao_1.html
+Formula {/ (2; 1; 0);/ $${V_{ABCC'}} = {V_{A'BCC'}}\,;$$// $$/$ (B)/ (2; 2; 3) ;/ mp(P) tiếp xúc với mặt cầu (S);// d trùng d’ ;// $${{{V_{S.ABCD}}} \over {{V_{S.A'B'C'D'}}}} = {{SA} \over {SA'}}.{{SB} \over {SB'}}.{{SC} \over {SC'}}.{{SD} \over {SD'}}\,;$$/ $$\overrightarrow b  = \left( { - 2;1;1} \right)\,;$$/ 2 ;/(/ (0; 1; -2);/Chọn (B)./ (-1; -2; 0)./B) $$12\sqrt 2 $$;/ $${V_{A'.BCC'B'}} = 2{V_{AA'BC}}\,;$$/ $$\overrightarrow c  = \left( {0;1; - 1} \right)\,;$$/3 $$;/ 3 ;/Chọn (C)./ $$6\pi {a^3}\sqrt 3 \,;$$//(B) 2 ;/Chọn (C)./(B) 12 ;         (C) $$12\p/ d và d’ chéo nhau ;/ Hình lăng trụ nội tiếp một mặt cầu nếu có mặt bên vuông góc với mặt đáy ;/ 16 ;/ $${{{V_{S.ABCD}}} \over {{V_{S.A'B'C'D'}}}} = {{SA} \over {SA'}}.{{SC} \over {SC'}} + {{SB} \over {SB'}}.{{SD} \over {SD'}}\,;$$/ mp(P) cắt (S) theo một đường tròn;/Chọn (C)./ Hình chóp có đáy là hình thang vuông luôn luôn nội tiếp một mặt cầu ;/Chọn (C)./ (0; -2 ; 1) ;/ $$2x + 4y + z - 17 = 0;$$/\sqrt 3 } \over 6} contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\p' ]
+Formula /\over 3} contains the following errors:
+ [ 'TeX parse error: Extra close brace or missing open brace' ]
+Formula 2\sqr/ 1 ;/Chọn (A)./Chọn (A)./Chọn (A)./ 1 ;/Chọn (A)./Chọn (A)./Chọn (A)./5. Chọn (A)./  contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\sqr' ]
+Formula {{\sq/rt {26} } \over 2} contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\sq' ]
+Formula {/\sqrt 3 } \over 2} contains the following errors:
+ [ 'TeX parse error: Extra close brace or missing open brace' ]
+Formula \l/eft( {{1 \over 2};0;0} \right)\,\,,\,\,\left( {0;{1 \over 3};0} \right)\,\,,\,\,\left( {0;0;1} \right); contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\l' ]
+Formula \left( {{1 \over 2};0;0} \right)\,\,,\,\,\left( {0; - {1 \over 3};0} \right)\,\,,\,\,\left( {0;0;1} \right);/1} \right);/1} \right); contains the following errors:
+ [ 'TeX parse error: Extra close brace or missing open brace' ]
+
+
+Toán_12 Nâng cao_2.html
+Formula {/\sqrt 3 } \over 2} contains the following errors:
+ [ 'TeX parse error: Extra close brace or missing open brace' ]
+Formula {{\sq/rt {26} } \over 2} contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\sq' ]
+Formula {/ (2; 1; 0);/ $${V_{ABCC'}} = {V_{A'BCC'}}\,;$$// $$/$ (B)/ (2; 2; 3) ;/ mp(P) tiếp xúc với mặt cầu (S);// d trùng d’ ;// $${{{V_{S.ABCD}}} \over {{V_{S.A'B'C'D'}}}} = {{SA} \over {SA'}}.{{SB} \over {SB'}}.{{SC} \over {SC'}}.{{SD} \over {SD'}}\,;$$/ $$\overrightarrow b  = \left( { - 2;1;1} \right)\,;$$/ 2 ;/(/ (0; 1; -2);/Chọn (B)./ (-1; -2; 0)./B) $$12\sqrt 2 $$;/ $${V_{A'.BCC'B'}} = 2{V_{AA'BC}}\,;$$/ $$\overrightarrow c  = \left( {0;1; - 1} \right)\,;$$/3 $$;/ 3 ;/Chọn (C)./ $$6\pi {a^3}\sqrt 3 \,;$$//(B) 2 ;/Chọn (C)./(B) 12 ;         (C) $$12\p/ d và d’ chéo nhau ;/ Hình lăng trụ nội tiếp một mặt cầu nếu có mặt bên vuông góc với mặt đáy ;/ 16 ;/ $${{{V_{S.ABCD}}} \over {{V_{S.A'B'C'D'}}}} = {{SA} \over {SA'}}.{{SC} \over {SC'}} + {{SB} \over {SB'}}.{{SD} \over {SD'}}\,;$$/ mp(P) cắt (S) theo một đường tròn;/Chọn (C)./ Hình chóp có đáy là hình thang vuông luôn luôn nội tiếp một mặt cầu ;/Chọn (C)./ (0; -2 ; 1) ;/ $$2x + 4y + z - 17 = 0;$$/\sqrt 3 } \over 6} contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\p' ]
+Formula \left( {{1 \over 2};0;0} \right)\,\,,\,\,\left( {0; - {1 \over 3};0} \right)\,\,,\,\,\left( {0;0;1} \right);/1} \right);/1} \right); contains the following errors:
+ [ 'TeX parse error: Extra close brace or missing open brace' ]
+Formula 2\sqr/ 1 ;/Chọn (A)./Chọn (A)./Chọn (A)./ 1 ;/Chọn (A)./Chọn (A)./Chọn (A)./5. Chọn (A)./  contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\sqr' ]
+Formula \l/eft( {{1 \over 2};0;0} \right)\,\,,\,\,\left( {0;{1 \over 3};0} \right)\,\,,\,\,\left( {0;0;1} \right); contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\l' ]
+
+
+Toán_lớp 12_0.html
+Formula \display/tyle 3 contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\display' ]
+Formula \display/B.  contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\display' ]
+
 
 
 Toán_lớp 12_1.html
-Formula ./{C.C'B'D'}} + {V_{B'BAC}} + {V_{D'.DAC}}} \right) contains the following errors:
- [ 'TeX parse error: Extra close brace or missing open brace' ]
-Formula /$B.\,\dfrac{{/{{a^3}\sqrt 6 }}{9} contains the following errors:
- [ 'TeX parse error: Missing close brace' ]
-Formula /$B.\,\,\dfrac{{/{{a^3}\sqrt 3 }}{{24}} contains the following errors:
- [ 'TeX parse error: Missing close brace' ]
+Formula \left( {3;\dfrac{8}{3};\dfrac{8}{3}} \righ/). contains the following errors:
+ [ 'TeX parse error: Undefined control sequence \\righ' ]
 
 
-Vật_lý lớp 12_0.html
-Formula \begin{array}{l}A.{U_2} = 110V;{I_2} = 4A\\/110V;{I_2} = 4A\/PHẦN TỰ LUẬN (4 điểm)/110V;{I_2} = 4A\\B.{U_2} = 440V;{I_2} = 1A\\/\C.{U_2} = 110V;{I_2} = 1A\\D.{U_2} = 440V;{I_2} = 4A.\end{array} contains the following errors:
- [ 'TeX parse error: Undefined control sequence \\/' ]
-Formula \begin{array}{l}A.x = A\sin (\omega t + \varphi )\\/ega t + \varphi )\/mega t + \varphi )\\B.x = Acos(\omega t + \varphi )\\C.x = {A_1}\/\sin \omega t + {A_2}cos\omega t\\D.x = At\sin (\omega t + \varphi )\end{array} contains the following errors:
- [ 'TeX parse error: Undefined control sequence \\/' ]
-Formula \begin{array}{l}A.F = kA\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,/kA\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\/kA\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,B.F = k(A - \Delta l)\\C.F = 0\,\,\,\,\,\,\,\,\,\,\/\,\,\,\,\,\,\,\,\,\,\,\,D.F = \Delta l\end{array} contains the following errors:
- [ 'TeX parse error: Undefined control sequence \\/' ]
-Formula \begin{array}{l}A.A\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,/y}{l}A.A\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,/ay}{l}A.A\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,B.A\sqrt 2 \\C.2A\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,/,\,\,\,\,\,\,D.2\sqrt A \end{array} contains the following errors:
- [ 'TeX parse error: Extra close brace or missing open brace' ]
-
-
-Vật_lý lớp 12_1.html
-Formula \begin{array}{l}A.{m_X} = Z{m_p} + A.{m_n} - \Delta m\\/n} - \Delta m\/_n} - \Delta m\\B.{m_X} = \Delta m - (Z{m_p} + A.{m_n})\\C.{m_/_X} = \Delta m - (Z{m_p} + (A - Z){m_n})\\D.{m_X} = Z{m_p} + (A - Z){m_n} - \Delta m\end{array} contains the following errors:
- [ 'TeX parse error: Extra close brace or missing open brace' ]
+Toán_lớp 12_2.html
+Formula \ln \left| x \right|/\right| + C. contains the following errors:
+ [ 'TeX parse error: Missing \\left or extra \\right' ]

@@ -50,6 +50,20 @@ rl.question(`Name file in path ${PATT_SOURCE}: `, (file) => {
     rl.close();
 });
 
+
+
+// try {
+//     let source = fs.readFileSync('./test.html');
+//     let dom = new JSDOM(source.toString());
+//     mjpage.mjpage(dom, mjpageConfig, mjnodeConfig, function (output) {
+//         fs.writeFile("word3.html", output.serialize(), err => {
+//             if (err) console.log(err)
+//         });
+//     })
+// } catch (error) {
+//     console.log(error)
+// }
+
 // files.forEach(async file => {
 //     console.log(file)
 //     // const file = 'Toán_lớp 12_3.html'
