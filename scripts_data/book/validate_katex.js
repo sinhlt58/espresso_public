@@ -25,7 +25,6 @@ mjpage.addOutput('png', (wrapper, data) => {
 //     });
 // })
 const PATT_SOURCE = './export/'
-// const files = fs.readdirSync(PATT_SOURCE);
 const PATH_VALIDATED = './validated/'
 
 const readline = require('readline');
@@ -49,53 +48,3 @@ rl.question(`Name file in path ${PATT_SOURCE}: `, (file) => {
     }
     rl.close();
 });
-
-
-
-// try {
-//     let source = fs.readFileSync('./test.html');
-//     let dom = new JSDOM(source.toString());
-//     mjpage.mjpage(dom, mjpageConfig, mjnodeConfig, function (output) {
-//         fs.writeFile("word3.html", output.serialize(), err => {
-//             if (err) console.log(err)
-//         });
-//     })
-// } catch (error) {
-//     console.log(error)
-// }
-
-// files.forEach(async file => {
-//     console.log(file)
-//     // const file = 'Toán_lớp 12_3.html'
-//     let source = fs.readFileSync(PATT_SOURCE + file);
-//     let dom = new JSDOM(source.toString());
-//     try {
-//         let output = await validate(dom);
-//         console.log('!!!!!!!!!Validated: ' + file)
-//         fs.writeFile(PATH_VALIDATED + file, output.serialize(), err => {
-//             if (err) console.log('!!!!!!!!!!ERROR:' + file, err)
-//         });
-//     } catch (error) {
-//         console.log(file, error)
-//     }
-//     // mjpage.mjpage(dom, mjpageConfig, mjnodeConfig, function (output) {
-//         // console.log('!!!!!!!!!Validated: ' + file)
-//         // fs.writeFile(PATH_VALIDATED + file, output.serialize(), err => {
-//         //     if (err) console.log('!!!!!!!!!!ERROR:' + file, err)
-//         // });
-//     // })
-//     sleep(5000)
-// });
-
-// function sleep(delay) {
-//     var start = new Date().getTime();
-//     while (new Date().getTime() < start + delay);
-// }
-
-// function validate(dom) {
-//     return new Promise(resolve => {
-//         mjpage.mjpage(dom, mjpageConfig, mjnodeConfig, function (output) {
-//             resolve(output)
-//         })
-//     })
-// }

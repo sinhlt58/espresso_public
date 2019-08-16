@@ -82,6 +82,13 @@ exports.typeset = function (data, callback) {
 // end conganh cmt
 
 // conganh add
+const { Console } = require('console');
+var logger = null;
+exports.initLogger = function(logger_import) {
+    if(logger_import && logger_import instanceof Console) {
+        logger = logger_import
+    }
+}
 var convert = async function (result, data, callback) {
     var sourceBuffer = new Buffer(result.svg, 'utf-8');
     var scale = data.scale || 1;
@@ -97,12 +104,11 @@ var convert = async function (result, data, callback) {
         encodedBuffer = await sharp(encodedBuffer).flatten({ background: "white" }).toBuffer();
     } catch (err) {
         console.error(err);
+        if(logger && err.message != "Input buffer contains unsupported image format") logger.log(err)
     }
-    // console.log(encodedBuffer)
 
     result.png = await imageToLatex(encodedBuffer.toString('base64'));
     // result.png = 'data:image/png;base64,' + encodedBuffer.toString('base64');
-
     callback(result, data);
 
 
@@ -130,13 +136,11 @@ const imageToLatex = async function (encoded) {
     try {
         let response = await fetch('https://api.mathpix.com/v3/latex', options)
         let json = await response.json();
-        // console.log(json)
         if (!json.error) {
             return "$$" + json.latex + "$$";
         }
         return `<img src="${data.src}">`;
     } catch (error) {
-        console.log(error);
         return `<img src="${data.src}">`;
     }
 

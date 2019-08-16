@@ -16,3 +16,4 @@ bin
 package-lock.json
 
 *.html
+[0-9]*/

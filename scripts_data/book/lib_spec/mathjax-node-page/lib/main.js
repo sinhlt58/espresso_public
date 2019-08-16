@@ -11,6 +11,10 @@ const asciiconfig = JSON.stringify(ascii.config);
 
 let count = 0;  // global count of jobs (for job IDs)
 let mathjax, typeset;  // mathjax-node instance (initialized with exports.init)
+// conganh add
+const { Console } = require('console');
+let logger = null;
+// end conganh
 let _outputJax = ['mml', 'html', 'svg'];  // output options in typesetConfig
 let _outputHandlers = {};  // custom handlers for saving conversion results to DOM
 let _started = false;  // is mathjax-node currently working?
@@ -74,6 +78,9 @@ MjPageJob.prototype.run = function () {
         MathJax: {}, // options MathJax configuration, see https://docs.mathjax.org
         errorHandler: (id, wrapperNode, sourceFormula, sourceFormat, errors) => {
             console.error(`Formula ${sourceFormula} contains the following errors:\n`, errors);
+            // conganh add
+            if (logger) logger.log(`Formula ${sourceFormula} contains the following errors:\n`, errors);
+            // end conganh
         }
     };
     const mjstate = {};
@@ -203,6 +210,7 @@ MjPageJob.prototype.run = function () {
         mathjax.start();
         _started = true;
     }
+
     while (script = scripts[index]) {
         // Deep copy the typeset config to make sure error handler gets the correct source formula and format.
         const conf = Object.assign({}, typesetConfig);
@@ -217,6 +225,10 @@ MjPageJob.prototype.run = function () {
             let wrapper = document.createTextNode('$$' + conf.math + '$$');
             script.parentNode.replaceChild(wrapper, script);
             index++;
+            if (index === scripts.length && this._outstandingHandlers === 0) {
+                index = 0;
+                break;
+            }
             continue;
         }
         // end conganh
@@ -297,6 +309,7 @@ MjPageJob.prototype.run = function () {
         const conf = typesetConfig;
         conf.format = 'TeX';
         if (!conf.math) conf.math = '';
+
         typeset(conf, (result) => {
             // NOTE cf https://github.com/mathjax/MathJax-node/issues/283
             if (index > 0) {
@@ -325,7 +338,7 @@ MjPageJob.prototype.run = function () {
                             white-space: nowrap;
                             float: none;
                             direction: ltr;
-                            max-width: none;
+                            max-width: none;callback
                             max-height: none;
                             min-width: 0;
                             min-height: 0;
@@ -452,12 +465,13 @@ exports.addOutput = function (output, handler) {
     return this;
 };
 
+// conganh add
 /**
  * Initialize mathjax-node-page instance with appropriate mathjax-node.
  * Call when no active tasks are running on mathjax-node.
  * @param [MjNode] {object} - pass custom mathjax-node instance; leave empty for default mathjax-node
  */
-exports.init = function (MjNode) {
+exports.init = function (MjNode, logger_import) {
     if (_started) {
         console.error(`mjpage was already initialized and is currently running.`);
         return;
@@ -465,7 +479,27 @@ exports.init = function (MjNode) {
 
     mathjax = MjNode || require('mathjax-node');
     typeset = mathjax.typeset;
+    if (logger_import && logger_import instanceof Console) {
+        logger = logger_import;
+    }
+
 };
+// end conganh
+
+// /**
+//  * Initialize mathjax-node-page instance with appropriate mathjax-node.
+//  * Call when no active tasks are running on mathjax-node.
+//  * @param [MjNode] {object} - pass custom mathjax-node instance; leave empty for default mathjax-node
+//  */
+// exports.init = function (MjNode) {
+//     if (_started) {
+//         console.error(`mjpage was already initialized and is currently running.`);
+//         return;
+//     }
+
+//     mathjax = MjNode || require('mathjax-node');
+//     typeset = mathjax.typeset;
+// };
 
 /**
  * Runs mathjax-node-page conversion.

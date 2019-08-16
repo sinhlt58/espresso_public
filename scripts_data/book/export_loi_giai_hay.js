@@ -5,33 +5,75 @@ const reqES = require('./queryElasticsearch');
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const DetailSection = require('./detailSection');
-// const validate = require('./validate_katex')
+const { Console } = require('console');
 
-// const book = "Toán lớp 12";
-let books = ["Ngữ văn 12"]
 const maxDepth = 3;
 const excepts = ["văn", "toán", "lý", "lí", "hóa", "sinh", "đọc hiểu", "sử", "địa", "gdcd", "công nghệ", "tin"];
-const grade = '12'
-const PATH = './export/'
 
-reqES.searchBookByKey(grade).then(data => {
+let tmpGrade = '12'
+const myArgs = process.argv.slice(2);
+if (myArgs.length > 0) {
+    tmpGrade = myArgs[0]
+}
+const grade = tmpGrade;
+
+const FOLDER = './' + grade + '/'
+const PATH = FOLDER + 'export/'
+const LOGS = FOLDER + "logs/"
+if (!fs.existsSync(FOLDER)) {
+    fs.mkdirSync(FOLDER);
+}
+if (!fs.existsSync(PATH)) {
+    fs.mkdirSync(PATH);
+}
+if (!fs.existsSync(LOGS)) {
+    fs.mkdirSync(LOGS);
+}
+const output = fs.createWriteStream(LOGS + 'stdout.txt');
+const errorOutput = fs.createWriteStream(LOGS + 'stderr.txt');
+const validateOutput = fs.createWriteStream(LOGS + 'validate.txt');
+// Custom simple logger
+const logger = new Console(output, errorOutput);
+const loggerValidate = new Console(validateOutput);
+// use it like console
+
+const mjpage = require('mathjax-node-page');
+const mjnode = require('mathjax-node-svg2png');
+mjnode.initLogger(loggerValidate)
+const mjpageConfig = { format: ["TeX"] }
+const mjnodeConfig = { png: true }
+mjpage.init(mjnode, loggerValidate);
+mjpage.addOutput('png', (wrapper, data) => {
+    wrapper.innerHTML = data;
+});
+async function validate(dom) {
+    return new Promise(resolve => {
+        mjpage.mjpage(dom, mjpageConfig, mjnodeConfig, function (output) {
+            resolve(output)
+        })
+    });
+}
+
+reqES.searchBookByKey(grade).then(async data => {
     let hits = data.hits.hits;
     if (hits.length == 0) return;
 
-    hits.forEach(async hit => {
+    for (let j = 0; j < hits.length; j++) {
+        const hit = hits[j];
 
         let source = hit._source;
 
         let bookName = source.ten_sach.toLowerCase();
+
         let check = false;
-        // if(bookName == "Toán lớp 12") check = true
+
         for (let index = 0; index < excepts.length; index++) {
-            if(bookName.indexOf(excepts[index]) > -1) {
+            if (bookName.indexOf(excepts[index]) > -1) {
                 check = true;
                 break;
             }
         }
-        if(!check) return;
+        if (!check) continue;
 
         let dom = new JSDOM('<!doctype html><html><body></body></html>');
         let document = dom.window.document;
@@ -51,8 +93,6 @@ reqES.searchBookByKey(grade).then(data => {
 
         document.body.appendChild(detailElement);
 
-        // console.log(dom.serialize())
-
         const div_body = document.body.children[0];
 
         let count = 0;
@@ -62,7 +102,7 @@ reqES.searchBookByKey(grade).then(data => {
         for (let index = 0; index < div_body.children.length; index++) {
             const div_child = div_body.children[index];
             count += div_child.textContent.length;
-            if (count > 200000 || (index == div_body.children.length-1 && lastIndex<index)) {
+            if (count > 200000 || (index == div_body.children.length - 1 && lastIndex < index)) {
                 let subDom = new JSDOM('<!doctype html><html><body></body></html>');
                 let subDocument = subDom.window.document;
                 subDocument.head.appendChild(style.cloneNode(true))
@@ -72,11 +112,16 @@ reqES.searchBookByKey(grade).then(data => {
                     subDocument.body.appendChild(child.cloneNode(true));
                 }
                 subDocument.body.appendChild(endElement.cloneNode(true));
-                const bookName = source.ten_sach.trim().replace(' ', '_') + '_' + number + '.html'
+                const bookName = source.ten_sach.trim().replace(' ', '_') + '_' + number + '.html';
+
+                loggerValidate.log("!!!Validating: " + bookName)
+                subDom = await validate(subDom);
+                loggerValidate.log("!!!Done: " + bookName + "\n")
+
                 fs.writeFile(PATH + bookName, subDom.serialize(), err => {
-                    if (err) console.log(err, "!!!!!Book: " + source.ten_sach + ", number: " + number);
+                    if (err) logger.error(err, "!!!!!Book: " + source.ten_sach + ", number: " + number);
                 });
-                console.log('!!!!!!Done export: ' + source.ten_sach + ", number: " + number + '\n===========\n');
+                logger.log('!!!!!!Done export: ' + source.ten_sach + ", number: " + number + '\n===========\n');
                 // validate(subDom, bookName);
                 count = 0;
                 number++;
@@ -89,13 +134,20 @@ reqES.searchBookByKey(grade).then(data => {
             document.body.appendChild(startElement.cloneNode(true));
             document.body.children[0].before(endElement.cloneNode(true));
             const bookName = source.ten_sach.trim().replace(' ', '_') + '.html';
+
+            loggerValidate.log("!!!Validating: " + bookName)
+            dom = await validate(dom);
+            loggerValidate.log("!!!Done: " + bookName + "\n")
+
             fs.writeFile(PATH + bookName, dom.serialize(), err => {
-                if (err) console.log(err)
+                if (err) logger.error(err)
             });
-            console.log('!!!!!!Done export: ' + source.ten_sach + '\n===========\n');
+            logger.log('!!!!!!Done export: ' + source.ten_sach + '\n===========\n');
             // validate(dom, bookName);
         }
-    });
+
+    }
+
 })
 
 async function renderDetailBook(list, document, size, book) {
@@ -110,7 +162,7 @@ async function renderDetailBook(list, document, size, book) {
         let text = document.createTextNode(list[i].name);
         let aNode = document.createElement("a");
         aNode.appendChild(text);
-        aNode.className='titleBlue';
+        aNode.className = 'titleBlue';
         heading.appendChild(aNode);
         liNode.appendChild(heading);
 
@@ -188,7 +240,7 @@ async function getDetailUnit(isTheory, document, book, unit, size) {
         header.className = 'titleBlue'
 
         let stringInnerHTML = source.ly_thuyet_or_bai_tap;
-        let detailSection = new DetailSection(document, stringInnerHTML, text, book);
+        let detailSection = new DetailSection(document, stringInnerHTML, text, book, logger);
         detailSection.buildDetail(isTheory, false);
 
         section.appendChild(header);

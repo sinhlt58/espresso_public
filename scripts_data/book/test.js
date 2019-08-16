@@ -1341,194 +1341,123 @@ testU2 = `<h2 class="s14 lineheight"></h2>
 // let stringInnerHTML = noQuestion;
 // let stringInnerHTML = noQuestionMutipleChoise;
 // let stringInnerHTML = normals;
-let stringInnerHTML = multipleChoises;
+// let stringInnerHTML = multipleChoises;
 testU = `<h2 class="s14 lineheight"></h2>
-<p><strong>Câu 24 trang 214 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Hàm số \(f(x) = {e^{{1 \over 3}{x^3} - 2{x^2} + 3x + 1}}\)</p>
-<p>(A) Đồng biến trên mỗi khoảng \((-∞, 1)\) và \((3, + ∞)\)</p>
-<p>(B) Nghịch biến trên mỗi khoảng \((-∞, 1)\) và \((3, + ∞)\)</p>
-<p>(C) Đồng biến trên khoảng \((-∞, 1)\) và nghịch biến trên khoảng \((3, + ∞)\)</p>
-<p>(D) Nghịch biến trên khoảng \((-∞, 1)\)&nbsp; và đồng biến trên khoảng \((3, + ∞)\)</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:</p>
-<p>\(\eqalign{<br> &amp; f'(x) = ({x^2} - 4x + 3){e^{{1 \over 3}{x^3} - 2{x^2} + 3x + 1}} \cr <br> &amp; f'(x) = 0 \Leftrightarrow {x^2} - 4x + 3 = 0 \Leftrightarrow \left[ \matrix{<br> x = 1 \hfill \cr <br> x = 3 \hfill \cr} \right. \cr} \)</p>
-<p>Ta có bảng biến thiên:</p>
-<p><img style="width: 100%; max-width: 507px;" src="https://img./picture/2017/1220/24-1.jpg" alt="">&nbsp;</p>
-<p>Chọn (A)</p>
-<p><strong>Câu 25 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Hàm số f(x) = sin<sup>2</sup>x – 2sinx có giá trị nhỏ nhất là:</p>
-<p>(A) \(&nbsp;- {1 \over 2}\)</p>
-<p>(B) 0</p>
-<p>(C) -1</p>
-<p>(D) \(&nbsp;- {1 \over 3}\)</p>
-<p><strong>Giải</strong></p>
-<p>Đặt&nbsp; t = sin x; t ∈ [-1, 1]</p>
-<p>f(x) = g(t) = t<sup>2</sup> – 2t</p>
-<p>g’ = 2t – 2 = 0 ⇔ t = 1</p>
-<p>g( - 1) = 3</p>
-<p>g(1) = -1</p>
-<p>Vậy \(\mathop {\min }\limits_{x \in R} f(x) = &nbsp;- 1\)</p>
-<p class="MTDisplayEquation">Chọn (C)&nbsp; &nbsp; &nbsp;</p>
-<p><strong>Câu 26 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Gọi (C) là đồ thị của hàm số \(y = \sqrt {{x^2} + x} \)&nbsp;. Khi đó</p>
-<p>(A) Đường thẳng y = x + 1 là tiệm cận xiên của (C) (khi \(x \to &nbsp;+ \infty \)&nbsp;)</p>
-<p>(B) Đường thẳng \(y = x + {1 \over 2}\)&nbsp;là tiệm cận xiên của (C) (khi \(x \to &nbsp;+ \infty \)&nbsp;&nbsp;)</p>
-<p>(C) Đường thẳng y = -x là tiệm cận xiên của (C) (khi \(x \to &nbsp;+ \infty \)&nbsp;&nbsp;)</p>
-<p>(D) Đồ thị (C) không có tiệm cận xiên (khi \(x \to &nbsp;+ \infty \)&nbsp;&nbsp;)</p>
-<p><strong>Giải</strong></p>
-<p>\(\eqalign{<br> &amp; a = \mathop {\lim }\limits_{x \to + \infty } {{f(x)} \over x} = \mathop {\lim }\limits_{x \to + \infty } \sqrt {1 + {1 \over x}} = 1 \cr <br> &amp; b = \mathop {\lim }\limits_{x \to + \infty } {\rm{[f(x)}}\, - {\rm{ax]}} = \mathop {\lim }\limits_{x \to + \infty } (\sqrt {{x^2} + x} - x) \cr <br> &amp; = \mathop {\lim }\limits_{x \to + \infty } {x \over {\sqrt {{x^2} + x} + x}} = \mathop {\lim }\limits_{x \to + \infty } {1 \over {\sqrt {1 + {1 \over x}} + 1}} = {1 \over 2} \cr} \)&nbsp;</p>
-<p class="MTDisplayEquation">Vậy \(y = x + {1 \over 2}\)&nbsp;là tiệm cận xiên của (C) khi \(x\to +∞\)</p>
-<p class="MTDisplayEquation">Chọn B</p>
-<p><strong>Câu 27 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Đồ thị của hàm số y = x<sup>3</sup> – x + 1 tiếp xúc với điểm (1, 1) với</p>
-<p>(A) Parabol y = 2x<sup>2 </sup>-1</p>
-<p>(B) Parabol y = x<sup>2</sup></p>
-<p>(C) Parabol y = -x<sup>2</sup> + 2x</p>
-<p>(D) Đường thẳng y = 2x + 1</p>
-<p><strong>Giải</strong></p>
-<p>Xét f(x) = x<sup>3</sup> – x + 1 ; g(x) = x<sup>2</sup></p>
-<p>Ta có:</p>
-<p>\(\left\{ \matrix{<br> f(1) = g(1) = 1 \hfill \cr <br> f'(1) = g'(1) = 2 \hfill \cr} \right.\)&nbsp;</p>
-<p class="MTDisplayEquation">Nên đồ thị hàm số y = x<sup>3</sup> – x + 1 tiếp xúc với (P)</p>
-<p class="MTDisplayEquation">y = x<sup>2</sup> tại (1, 1)</p>
-<p class="MTDisplayEquation">Chọn (B)</p>
-<p><strong>Câu 28 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Cho hai số dương a và b. Đặt&nbsp;</p>
-<p>\(\left\{ \matrix{<br> X = \ln {{a + b} \over 2} \hfill \cr <br> Y = {{\ln a + \ln b} \over 2} \hfill \cr} \right.\)</p>
-<p>Khi đó:</p>
-<p>(A) X &gt; Y</p>
-<p>(B) X &lt; Y</p>
-<p>(C) X ≥ Y</p>
-<p>(D) X ≤ Y</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:&nbsp;</p>
-<p>\(\eqalign{<br> &amp; {{a + b} \over 2} \ge \sqrt {ab}\cr&amp; \Rightarrow \ln {{a + b} \over 2} \ge \ln \sqrt {ab} = {1 \over 2}(lna\, + \ln b) \cr <br> &amp; \Rightarrow X \ge Y \cr} \)</p>
-<p class="MTDisplayEquation">Chọn (C)</p>
-<p><strong>Câu 29 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Cho hai số không âm a và b.</p>
-<p>Đặt</p>
-<p>\(\left\{ \matrix{<br> X = {e^{{{a + b} \over 2}}} \hfill \cr <br> Y = {{{e^a} + {e^b}} \over 2} \hfill \cr} \right.\)</p>
-<p>Khi đó:</p>
-<p>(A) X &gt; Y</p>
-<p>(B) X &lt; Y</p>
-<p>(C) X ≥ Y</p>
-<p>(D) X ≤ Y</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:</p>
-<p>&nbsp;\(Y = {{{e^a} + {e^b}} \over 2} \ge \sqrt {{e^a}.{e^b}} &nbsp;= {e^{{{a + b} \over 2}}} = X\)</p>
-<p class="MTDisplayEquation">Vậy chọn (D)</p>
-<p><strong>Câu 30 trang 215 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Cho (C) là đồ thị của hàm số y = log<sub>2</sub>x. Ta có thể suy ra đồ thị của hàm số y = log<sub>2</sub>2(x + 3) bằng cách tịnh tiến (C) theo vectơ:</p>
-<p>\(\eqalign{<br> &amp; (A)\,\overrightarrow v = (3,1) \cr <br> &amp; (B)\,\overrightarrow v = (3, - 1) \cr <br> &amp; (C)\,\overrightarrow v = ( - 3,1) \cr <br> &amp; (D)\,\overrightarrow v = ( - 3, - 1) \cr} \)&nbsp;</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:</p>
-<p>log<sub>2</sub>2(x + 3) = 1 + log<sub>2</sub> (x + 3)</p>
-<p>y = log<sub>2</sub>x&nbsp; \(\to\) Tịnh tiến trái 3 đơn vị</p>
-<p>y = log<sub>2</sub> (x + 3)&nbsp;\(\to\) Tịnh tiến lên trên 1 đơn vị&nbsp;\(\to\) y = 1 + log<sub>2</sub> (x + 3)</p>
-<p>Chọn (C)</p>
-<p><strong>Câu 31 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Cho hàm số f(x) = log<sub>5</sub>(x<sup>2</sup> + 1). Khi đó:</p>
-<p>(A) \(f'(1) = {1 \over {2\ln 5}}\)</p>
-<p>(B) \(f'(1) = {1 \over {\ln 5}}\)</p>
-<p>(C) \(f'(1) = {3 \over {2\ln 5}}\)</p>
-<p>(D) \(f'(1) = {2 \over {\ln 5}}\)</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:</p>
-<p>\(f'(x) = {{2x} \over {{x^2} + 1}}.{1 \over {\ln 5}} \Rightarrow f'(1) = {1 \over {\ln 5}}\)</p>
-<p>Chọn (B)</p>
-<p><strong>Câu 32 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Biết rằng đồ thị của hàm số y = a<sup>x</sup> và đồ thị của hàm số y = log<sub>b</sub>x cắt nhau tại điểm \(\left( {\sqrt {{2^{ - 1}}} ;\sqrt 2 } \right)\). Khi đó&nbsp;</p>
-<p>(A) a &gt; 1 và b &gt; 1</p>
-<p>(B) a &gt; 1 và 0 &lt; b &lt; 1</p>
-<p>(C) 0 &lt; a &lt; 1 và b &gt; 1</p>
-<p>(D) 0 &lt; a &lt; 1 và 0 &lt; b &lt; 1</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:</p>
-<p>\(\left\{ \matrix{<br> {a^{\sqrt {{1 \over 2}} }} = \sqrt 2 \hfill \cr <br> {\log _b}\sqrt {{1 \over 2}} = \sqrt 2 \hfill \cr} \right. \Leftrightarrow \left\{ \matrix{<br> {\log _a}\sqrt 2 = \sqrt {{1 \over 2}} &gt; 0 \hfill \cr <br> {\log _b}\sqrt {{1 \over 2}} = \sqrt 2 &gt; 0 \hfill \cr} \right.\)</p>
-<p>\(\Rightarrow \left\{ \matrix{<br> a &gt; 1 \hfill \cr <br> 0 &lt; b &lt; 1 \hfill \cr} \right.\)&nbsp;</p>
-<p>Chọn (B)</p>
-<p><strong>Câu 33 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Cho hàm số \(f(x) = {{2{x^4} + 3} \over {{x^2}}}\)&nbsp;. Khi đó</p>
-<p>(A) \(\int {f(x)dx = {{2{x^3}} \over 3}} &nbsp;- {3 \over x} + C\)</p>
-<p>(B) \(\int {f(x)dx = {{2{x^3}} \over 3}} &nbsp;+ {3 \over x} + C\)</p>
-<p>(C) \(\int {f(x)dx = 2{x^3}} &nbsp;- {3 \over x} + C\)</p>
-<p>(D)\(\int {f(x)dx = {{2{x^3}} \over 3}} &nbsp;+ {3 \over {2x}} + C\)</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:</p>
-<p>\(\int {f(x)dx = \int {(2{x^2} + {3 \over {{x^2}}})dx = {{2{x^3}} \over 3} - {3 \over x} + C} } \)</p>
-<p>Chọn (A)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
-<p><strong>Câu 34 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Đẳng thức \(\int\limits_0^a {\cos (x + {a^2})dx = sina} \)&nbsp;xảy ra nếu:</p>
-<p>\((A) \;a – π\)&nbsp;</p>
-<p>\(\eqalign{<br> &amp; (B)\,\,a = \sqrt \pi \cr <br> &amp; (C)\,\,a = \sqrt {3\pi } \cr <br> &amp; (D)\,a = \sqrt {2\pi } \cr} \)</p>
-<p class="MTDisplayEquation"><strong>Giải</strong></p>
-<p class="MTDisplayEquation">Ta có:</p>
-<p>\(\eqalign{<br> &amp; \int\limits_0^a {\cos (x + {a^2})dx = \sin (x + {a^2})|_0^a} \cr&amp;= \sin (a + {a^2}) - \sin {a^2} = \sin a \cr <br> &amp; \Leftrightarrow \sin (a + {a^2}) = \sin {a^2} + \sin a \cr} \)&nbsp;</p>
-<p class="MTDisplayEquation">Với \(a = \sqrt {2\pi } &nbsp;\Rightarrow \sin (\sqrt {2\pi } &nbsp;+ 2\pi ) = \sin 2\pi &nbsp;+ \sin \sqrt {2\pi } \)</p>
-<p class="MTDisplayEquation">\( \Leftrightarrow \sin \sqrt {2\pi } &nbsp;= \sin \sqrt {2\pi } \)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</p>
-<p>Chọn (D)</p>
-<p><strong>Câu 35 trang 216 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Gọi S là tập hợp các số nguyên dương k thỏa mãn điều kiện:</p>
-<p>\(\int\limits_1^e {\ln {k \over x}} dx\,\, &lt; e - 2\)&nbsp;</p>
-<p>Khi đó:</p>
-<p>(A) S = {1}</p>
-<p>(B) S = {2}</p>
-<p>(C) S = {1, 2}</p>
-<p>(D) S = Ø</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:</p>
-<p>\(\int\limits_1^e {\ln {k \over x}} dx = \int\limits_1^e {(\ln k - \ln x)dx = (e - 1)\ln k - \int\limits_1^e {\ln xdx} }\)</p>
-<p>Đặt&nbsp;</p>
-<p>\(\left\{ \matrix{<br> u = \ln x \hfill \cr <br> dv = dx \hfill \cr} \right. \Leftrightarrow \left\{ \matrix{<br> du = {1 \over x}dx \hfill \cr <br> v = x \hfill \cr} \right.\)</p>
-<p class="MTDisplayEquation">Do đó:</p>
-<p>\(\int\limits_1^e {\ln xdx = x\ln x|_1^e} &nbsp;- \int\limits_1^e {dx} &nbsp;= e - (e - 1) = 1\)</p>
-<p>Vậy:</p>
-<p>\(\eqalign{<br> &amp; \int\limits_1^e {\ln {k \over x}} dx &lt; e - 2 \Leftrightarrow (e - 1)\ln k - 1 &lt; e - 2 \cr <br>&amp; \Leftrightarrow {\mathop{\rm lnk}\nolimits} &lt; 1 \Leftrightarrow 0 &lt; k &lt; e \Leftrightarrow k \in {\rm{\{ }}1,\,2\} \cr} \)</p>
-<p>Chọn (C)</p>
-<p><strong>Câu 36 trang 217 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Cho số phức z tùy ý. Xét các số phức</p>
-<p>\(\alpha&nbsp; = {z^2} + {\left( {\overline z } \right)^2};\,\beta&nbsp; = z.\overline z&nbsp; + i\left( {z - \overline z } \right).\)</p>
-<p>Khi đó:</p>
-<p>A. α là số thực, β là số thực. &nbsp;&nbsp;&nbsp; B. α là số thực, β là số ảo.</p>
-<p>C. α là số ảo, β là số thực. &nbsp;&nbsp;&nbsp; D. α là số ảo, β là số ảo.</p>
-<p><strong>Giải</strong></p>
-<p>Giả sử z = a+bi, ta có:</p>
-<p>\(\alpha&nbsp; = {\left( {a + bi} \right)^2} + {\left( {a - bi} \right)^2} = 2{a^2}\)&nbsp;vậy α ∈ R</p>
-<p>\(\beta&nbsp; = \left( {a + bi} \right)\left( {a - bi} \right) + i\left( {a + bi - a + bi} \right)\)</p>
-<p>\(= {a^2} + {b^2} - {b^2} = {\rm{ }}{a^2}\in\mathbb R\)</p>
-<p>Vậy chọn A.</p>
-<p><strong>Câu 37 trang 217 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Cho số phức z tùy ý. Xét các số phức&nbsp;</p>
-<p>\(\left\{ \matrix{<br> \alpha = {{{i^{2005}} - i} \over {\overline z - 1}} - {z^2} + {(\overline z )^2} \hfill \cr <br> \beta = {{{z^3} - z} \over {z - 1}} + {(\overline z )^2} + \overline z \hfill \cr} \right.\)</p>
-<p>Khi đó:</p>
-<p>(A) α là số thực, β là số thực</p>
-<p>(B) α là số thực, β là số ảo</p>
-<p>(C) α là số ảo, β là số thực</p>
-<p>(D) α là số ảo, β là số ảo</p>
-<p><strong>Giải</strong></p>
-<p>Ta có:</p>
-<p class="MTDisplayEquation">\({i^{2005}} = i \Rightarrow \alpha &nbsp;= {(\overline z )^2} - {z^2} = (\overline z &nbsp;- z)(\overline z &nbsp;+ z)\)&nbsp;là số thực</p>
-<p class="MTDisplayEquation">\(\beta &nbsp;= {z^2} + z + {\overline z ^2} + \overline z &nbsp;= {(z + \overline z )^2} - 2z.\overline z &nbsp;+ (z + \overline z )\)&nbsp;là số thực</p>
-<p>Chọn (C)</p>
-<p><strong>Câu 38 trang 217 SGK Giải tích 12 Nâng cao</strong></p>
-<p>Nếu môđun của số phức z bằng r (r &gt; 0) thì môdn của số phức (1 – i)<sup>2</sup>z bằng:</p>
-<p>(A) 4r</p>
-<p>(B) 2r</p>
-<p>(C) \(r\sqrt 2 \)</p>
-<p>(D) r</p>
-<p><strong>Giải</strong></p>
-<p>(1 – i)<sup>2</sup> = -2i ⇒ |(1 – i)<sup>2</sup>| = 2 ⇒ |(1 – i)<sup>2</sup>z| = 2r</p>
-<p>Chọn (B)</p>
+<p><strong class="content_question">Đề bài</strong></p>
+<p style="text-align: justify;"><strong>Câu 1.</strong> Cho tứ diện EFKI. G là trọng tâm của tam giác KIE. Mệnh đề nào sau đây là mệnh đề đúng ?</p>
+<p style="text-align: justify;">A. \(3\overrightarrow {FG}&nbsp; = \overrightarrow {FE}&nbsp; + \overrightarrow {FK}&nbsp; + \overrightarrow {FI} \).</p>
+<p style="text-align: justify;">B. \(3\overrightarrow {EG}&nbsp; = \overrightarrow {EF}&nbsp; + \overrightarrow {EK}&nbsp; + \overrightarrow {EI} \).</p>
+<p style="text-align: justify;">C. \(\overrightarrow {FG}&nbsp; = \overrightarrow {FE}&nbsp; + \overrightarrow {FK}&nbsp; + \overrightarrow {FI} \).&nbsp;&nbsp;</p>
+<p style="text-align: justify;">D. \(\overrightarrow {EG}&nbsp; = \overrightarrow {EF}&nbsp; + \overrightarrow {EK}&nbsp; + \overrightarrow {EI} \).</p>
+<p style="text-align: justify;"><strong>Câu 2</strong>. Trong không gian cho hai đường thẳng a và b vuông góc với nhau. Tìm mệnh đề đúng.</p>
+<p style="text-align: justify;">A. a và b chéo nhau.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">B. a và b cắt nhau.</p>
+<p style="text-align: justify;">C. a và b cùng thuộc một mặt phẳng.&nbsp;&nbsp;</p>
+<p style="text-align: justify;">D. Góc giữa a và b bằng 90<sup>0</sup>.</p>
+<p style="text-align: justify;"><strong>Câu 3.</strong> Tìm mệnh đề đúng.</p>
+<p style="text-align: justify;">A. Nếu một đường thẳng vuông góc với một đường thẳng thuộc một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
+<p style="text-align: justify;">B. Nếu một đường thẳng vuông góc với hai đường thẳng cùng thuộc một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
+<p style="text-align: justify;">C. Nếu một đường thẳng vuông góc với hai đường thẳng cắt nhau cùng thuộc một mặt phẳng thì nó vuông với mặt phẳng ấy.</p>
+<p style="text-align: justify;">D. Nếu một đường thẳng vuông góc với hai đường thẳng cắt nhau cùng song song một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
+<p style="text-align: justify;"><strong>Câu 4.</strong> Cho hình chóp S. ABC có đáy ABC là tam giác cân tại A, cạnh bên SA vuông góc với đáy, M là trung điểm BC, J là trung điểm BM. Khẳng định nào sau đây đúng ?</p>
+<p style="text-align: justify;">A. \(BC \bot \left( {SAB} \right)\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">B. \(BC \bot \left( {SAM} \right)\).</p>
+<p style="text-align: justify;">C. \(BC \bot \left( {SAC} \right)\).&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">D. \(BC \bot \left( {SAJ} \right)\).</p>
+<p><strong>Câu 5.</strong> Cho tứ diện ABCD. Gọi M, N, P, Q lần lượt là trung điểm của AB, BD, BC, CD. Bộ ba vec tơ không đồng phẳng là:</p>
+<p>A. \(\overrightarrow {AB} \,,\,\overrightarrow {PN} \,,\,\overrightarrow {CD} \).</p>
+<p>B. \(\overrightarrow {MP} \,,\overrightarrow {AC} \,,\,\overrightarrow {AD} \).</p>
+<p>C. \(\overrightarrow {AB} \,,\,\overrightarrow {AC} \,,\,\overrightarrow {AD} \)&nbsp; &nbsp;</p>
+<p>D. \(\overrightarrow {BD} \,,\,\overrightarrow {PQ} \,,\,\overrightarrow {AC} \).</p>
+<p style="text-align: justify;"><strong>Câu 6.</strong> Cho tứ diện ABCD có AB, BC, CD đôi một vuông góc . Đường vuông góc chung của AB và CD là:</p>
+<p style="text-align: justify;">A. AC.</p>
+<p style="text-align: justify;">B. BC.</p>
+<p style="text-align: justify;">C. AD.&nbsp;</p>
+<p style="text-align: justify;">D. BD.</p>
+<p style="text-align: justify;"><strong>Câu 7.</strong> Cho hình chóp S. ABCD có BACD là hình vuông và \(SA \bot (ABCD)\). Gọi O là giao điểm của AC và BD. Tam giác SOD là:</p>
+<p style="text-align: justify;">A. Tam giác thường.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">B. Tam giác đều.</p>
+<p style="text-align: justify;">C. Tam giác cân&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">D. Tam giác vuông.</p>
+<p style="text-align: justify;"><strong>Câu 8.</strong> Cho hình hộp ABCD.A’B’C’D’ có tất cả các cạnh bằng nhau và \(\widehat {ABC} = \widehat {B'BA} = \widehat {B'BC} = {60^0}\). Diện tích tứ giác A’B’C’D’ là:</p>
+<p style="text-align: justify;">A. \(\dfrac{2}{3}{a^2}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B. \(\dfrac{1}{3}{a^2}\).</p>
+<p style="text-align: justify;">C. \(\dfrac{4}{3}{a^2}\).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D. \(\dfrac{{{a^2}\sqrt 3 }}{2}\).</p>
+<p style="text-align: justify;"><strong>Câu 9.</strong> Cho hình chóp tứ giác đều S.ABCD có cạnh bằng a và góc giữa cạnh bên với mặt phẳng đáy bằng \(\alpha \). Tan của góc giữa&nbsp; mặt bên và mặt đay bằng:</p>
+<p style="text-align: justify;">A. \(\tan \alpha \).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B. \(\cot \alpha \).</p>
+<p style="text-align: justify;">C. \(\sqrt 2 \tan \alpha \).&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D. \(\dfrac{{\sqrt 2 }}{{2\tan \alpha }}\).</p>
+<p style="text-align: justify;"><strong>Câu 10.</strong> Cho hình tứ diện ABCD có AB, BC, CD đôi một vuông góc . Mặt phẳng (ABD) vuông góc với mặt phẳng nào cua tứ diện ?</p>
+<p style="text-align: justify;">A. (ACD).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">B.(ABC).</p>
+<p style="text-align: justify;">C. (BCD).&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+<p style="text-align: justify;">D. Không có mặt phẳng nào .</p>
+<p><strong class="content_detail">Lời giải chi tiết</strong></p>
+<table border="1" cellspacing="0" cellpadding="0">
+ <tbody>
+  <tr>
+   <td style="text-align: center;" valign="top" width="106"> <p>Câu</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>1</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>2</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>3</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>4</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>5</strong></p> </td>
+  </tr>
+  <tr>
+   <td style="text-align: center;" valign="top" width="106"> <p>Đáp án</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>A</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+  </tr>
+  <tr>
+   <td style="text-align: center;" valign="top" width="106"> <p>Câu</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>6</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>7</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>8</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>9</strong></p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p><strong>10</strong></p> </td>
+  </tr>
+  <tr>
+   <td style="text-align: center;" valign="top" width="106"> <p>Đáp án</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+   <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+  </tr>
+ </tbody>
+</table>
+<p style="text-align: left;"><strong>Lời giải chi tiết</strong></p>
+<p><strong>Câu 1.</strong> Do G là trọng tâm tam giác KIE nên ta có \(3\overrightarrow {FG}&nbsp; = \overrightarrow {FE}&nbsp; + \overrightarrow {FK}&nbsp; + \overrightarrow {FI} \) . Chọn đáp án A.</p>
+<p><strong>Câu 4.</strong></p>
+<p>&nbsp;<img src="https://img./picture/2018/1221/2018-12-21-113442.jpg" alt="" width="246" height="285"></p>
+<p>&nbsp;Do \(\Delta ABC\)&nbsp; là tam giác cân tại A , M là trung điểm BC nên \(AM \bot BC\) . Lại có \(SA \bot BC\). Do đó, \(BC \bot \left( {SAM} \right)\) . Chọn đáp án B.</p>
+<p><strong>Câu 6.</strong> Do tứ diện ABCD có AB, BC, CD đôi một vuông góc nên ta có \(AB \bot BC,\,CD \bot BC\). Từ đó, ta có BC là đường vuông góc chung của AB và CD. Chọn đáp án B.</p>
+<p><strong>Câu 7.</strong></p>
+<p><img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113614.jpg" alt="" width="269" height="330"></p>
+<p>Xét hai tam giác \(\Delta SAD,\,\Delta SAB\,\) có SA chung, AD = AB và \(\widehat {SAD} = \widehat {SAB} = {90^0}\,\,(SA \bot (ABCD))\)nên \(\Delta SAD = \Delta SAB\,\,\, \Rightarrow SD = SB\). Do đó, \(\Delta SBD\)&nbsp; cân tại S.</p>
+<p>Lại có O là giao điểm của hai đường chéo trong hình vuông ABCD nên&nbsp; O là trung điểm của DB.</p>
+<p>Suy ra tam giác SBD có \(SO \bot BD\,\,\, \Rightarrow \,\,\Delta SOD\)&nbsp; vuông tại O.</p>
+<p>Chọn đáp án D.</p>
+<p><strong>Câu 8.</strong></p>
+<p><img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113701.jpg" alt="" width="287" height="308">&nbsp;</p>
+<p>Do ABCD.A’B’C”D’ là hình hộp nên ta có diện tích tứ diện A’B’C’D’ bằng diện tích ABCD. Ta tính diện tích của ABCD có \(\widehat {ABC} = {60^0},\,BA = BC = a\) suy ra tam giác ABC đều. Từ đó, \({S_{ABCD}} = \dfrac{{a\sqrt 3 }}{2}.a = \dfrac{{{a^2}\sqrt 3 }}{2}\). Chọn đáp án D.</p>
+<p><strong>Câu 9.</strong></p>
+<p>&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113744.jpg" alt="" width="272" height="362"></p>
+<p>Lấy M là trung điểm BC. Do ABCD là hình vuông nên các cạnhvà đường chéo bằng nhau ,\(AC \bot BD\). Ta có \(OD = OM\sqrt 2 \). \(SO \bot \left( {ABCD} \right)\)nên tam giác SOD và tam giác SOM vuông tại O.</p>
+<p>\(\begin{array}{l}\left( {(SBC),(ABCD)} \right) = \left( {SM,MO} \right) = \widehat {SMO} = \beta ,\\ \tan\alpha&nbsp; = \dfrac{{SO}}{{OD}},\,\tan \beta&nbsp; = \dfrac{{SO}}{{OM}}\\OD = \sqrt 2 OM \Rightarrow \tan \alpha&nbsp; = \dfrac{{SO}}{{\sqrt 2 OM}} = \dfrac{{\tan \beta }}{{\sqrt 2 }}\\ \Rightarrow \tan \beta&nbsp; = \sqrt 2 \tan \alpha \end{array}\)</p>
+<p>Chọn đáp án C</p>
+<p><strong>Câu 10.</strong></p>
+<p>&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113832.jpg" alt="" width="234" height="356"></p>
+<p>Ta có</p>
+<p>\(\begin{array}{l}\left\{ \begin{array}{l}AB \bot BC\\AB \bot CD\end{array} \right.\,\, \Rightarrow \,\,AB \bot \left( {BCD} \right)\\AB \subset (ABD)\\ \Rightarrow \left( {ABD} \right) \bot \left( {BCD} \right)\end{array}\)</p>
 <p style="text-align: right;"><strong></strong></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p class="MTDisplayEquation">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</p>
 <div class="clearfix"></div>`
-// let stringInnerHTML = testU;
+let stringInnerHTML = testU;
 // stringInnerHTML = testU2;
 
 
-let text = "Bài 4 trang 12 SGK Hình học 12"
+// let text = "Bài 4 trang 12 SGK Hình học 12"
 text = "test"
 // let book = "văn";
 let book = "toán";
