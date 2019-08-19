@@ -161,8 +161,9 @@ public class DomainsParseFilter extends ParseFilter {
                     }
                 }
                 String innerHtml = e.html();
-                if (innerHtml != null && innerHtml.trim().length() > 0)
+                if (innerHtml != null && innerHtml.trim().length() > 0){
                     res.add(innerHtml);
+                }
             }
             return res;
         }
