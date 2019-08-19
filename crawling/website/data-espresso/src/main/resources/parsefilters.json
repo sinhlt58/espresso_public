@@ -7,34 +7,30 @@
         "book": {
           "rules": {
             "ten_sach": {
-              "loigiaihay.com": "div#container h1 > a > span"
-            },
-            "bai": {
-              "loigiaihay.com": "div#container ul.list-posts a"
-            },
-            "lv2": {
-              "loigiaihay.com": "div#container .cat_event_lv2"
-            },
-            "lv1": {
-              "loigiaihay.com": "div#container .cat_event_lv1"
-            },
-            "muc_luc_sach": {
-              "loigiaihay.com": "rule_inner_html div#container div.box.clearfix %remove% div.content_box %remove% img %remove% div.Tabs.clearfix"
+              "loigiaihay.com": "div#container h1 > a > span",
+              "sachbaitap.com": "div#container h2 > a > span"
             },
             "muc_luc_sach_json": {
-              "loigiaihay.com": "rule_nested_ul div#container div.subject"
+              "loigiaihay.com": "rule_nested_ul div#container div.subject",
+              "sachbaitap.com": "rule_nested_ul div#container div.subject"
+            },
+            "danh_sach_bai": {
+              "sachbaitap.com": "div#container li > h3 > a > strong"
             },
             "sach": {
               "loigiaihay.com": "div#container div.n-top-title > a > span"
             },
             "tieu_de": {
-              "loigiaihay.com": "div#container div.n-top-title strong, div#container div.content_box h1 > a > strong"
+              "loigiaihay.com": "div#container div.n-top-title strong, div#container div.content_box h1 > a > strong",
+              "sachbaitap.com": "div#container div.Tabs.clearfix > div > a > span"
             },
             "tieu_de_con": {
-              "loigiaihay.com": "div#container div.detail_new > h2 > strong"
+              "loigiaihay.com": "div#container div.detail_new > h2 > strong",
+              "sachbaitap.com": "div#container h1 > a > strong"
             },
             "ly_thuyet_or_bai_tap": {
-              "loigiaihay.com": "rule_inner_html div#container div.detail_new %remove% h2 > strong %remove% div.box_gray %remove% div.center %remove% div.choose-fast %remove% div[style^='text-align: center;margin-top: 10px;margin-bottom: 10px'] %remove% div[id='fb_like_fb_new'] %remove% script"
+              "loigiaihay.com": "rule_inner_html div#container div.detail_new %remove% h2 > strong %remove% h2.s14.lineheight %remove% div.box_gray %remove% div.center %remove% div.choose-fast %remove% div[style^='text-align: center;margin-top: 10px;margin-bottom: 10px'] %remove% div[id='fb_like_fb_new'] %remove% script",
+              "sachbaitap.com": "rule_inner_html div#container div.detail_new %remove% h2.s14.lineheight %remove% div.center %remove% div.block_gopy %remove% div[id='fb_like_fb_new'] %remove% clearfix %remove% p[style^='text-align: center;background: #df7100;padding: 6px;padding-left: 10px;border-radius: 4px'] %remove% p[style^='text-align: center;background: #419d17;padding: 6px;padding-left: 10px] %remove% div.box_gray %remove% script"
             }
           },
           "schedules": {}

@@ -19,7 +19,7 @@ config:
   # sinh.luutruong
   # conganh add
   # es.indexer.fieldsMustHaveName: ""
-  es.indexer.fieldsNeedOneName: "muc_luc_sach,ly_thuyet_or_bai_tap"
+  es.indexer.fieldsNeedOneName: "muc_luc_sach_json,danh_sach_bai,ly_thuyet_or_bai_tap"
   es.indexer.minSizeRecordName: 2
   # end conganh
 
