@@ -9,12 +9,15 @@ const index_type = '_doc';
 
 module.exports = {
     searchBookByKey: searchBookByKey,
+    searchBookByKeyWithDomain: searchBookByKeyWithDomain,
     searchBookByName: searchBookByName,
     searchUnitByBookAndName: searchUnitByBookAndName,
     getAllBook: getAllBook,
     update: update,
     getUnits: getUnits,
-    sleep: sleep
+    sleep: sleep,
+    searchUnitInBookWithDomain: searchUnitInBookWithDomain,
+    searchListExerciseInUnit: searchListExerciseInUnit
 }
 
 function searchBookByKey(key) {
@@ -25,6 +28,39 @@ function searchBookByKey(key) {
             "query": {
                 "bool": {
                     "must": [
+                        {
+                            "match": {
+                                "ten_sach": {
+                                    "query": key
+                                }
+                            }
+                        }
+                    ]
+                }
+            },
+            "from": 0, "size": 1000
+        }
+    })
+}
+
+function searchBookByKeyWithDomain(key, domain) {
+    return client.search({
+        index: index_name,
+        type: index_type,
+        body: {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "domain.keyword": domain
+                            }
+                        },
+                        {
+                            "exists": {
+                                "field": "muc_luc_sach_json"
+                            }
+                        },
                         {
                             "match": {
                                 "ten_sach": {
@@ -100,6 +136,84 @@ function searchUnitByBookAndName(book, unit, isTheory) {
                 //     }
                 // }
                 // ,
+                {
+                    "created_time": {
+                        "order": "asc"
+                    }
+                }
+            ],
+            "from": 0, "size": 1000
+        }
+    })
+}
+
+
+function searchListExerciseInUnit(exercise, book, domain) {
+
+    return client.search({
+        index: index_name,
+        type: index_type,
+        body: {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "domain.keyword": domain
+                            }
+                        },
+                        {
+                            "term": {
+                                "tieu_de.keyword": book
+                            }
+                        },
+                        {
+                            "match_phrase_prefix": {
+                                "tieu_de_con": exercise
+                            }
+                        }
+                    ]
+                }
+            },
+            "sort": [
+                {
+                    "created_time": {
+                        "order": "asc"
+                    }
+                }
+            ],
+            "from": 0, "size": 1000
+        }
+    })
+}
+
+function searchUnitInBookWithDomain(unit, book, domain) {
+    return client.search({
+        index: index_name,
+        type: index_type,
+        body: {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "term": {
+                                "domain.keyword": domain
+                            }
+                        },
+                        {
+                            "term": {
+                                "ten_sach.keyword": book
+                            }
+                        },
+                        {
+                            "match_phrase_prefix": {
+                                "tieu_de": unit
+                            }
+                        }
+                    ]
+                }
+            },
+            "sort": [
                 {
                     "created_time": {
                         "order": "asc"

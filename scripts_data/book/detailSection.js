@@ -27,10 +27,6 @@ const REPLACEAS = [
         to: ''
     },
     {
-        from: /Loigiaihay.com/g,
-        to: ''
-    },
-    {
         from: /<h1/g,
         to: '<p'
     },
