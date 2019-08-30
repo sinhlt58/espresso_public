@@ -29,7 +29,7 @@ const REPLACES = [{
         from: /- Xem chi tiết/g,
         to: ''
     }],
-    QUESTION_LABELS = [],
+    QUESTION_LABELS = ["Câu", "Bài", "Ý"],
     REGEX_NUMBER = /\\d+/g,
     SLAVE_ANSWER_LABELS = [
         "lời giải chi tiết.{0,1}$","lời giải.{0,1}$", "giải.{0,1}$", "giải.{0,1}$", "hướng dẫn làm bài.{0,1}$",
@@ -53,8 +53,8 @@ class BuildSBT extends BuildRecord {
             "111": "_buildNoQuestionMultipleChoises"
         })
         this.setReplaces(REPLACES, true)
-        this.setQuestionLabels(QUESTION_LABELS)
-        this.setRegexNumber(REGEX_NUMBER)
+        // this.setQuestionLabels(QUESTION_LABELS)
+        // this.setRegexNumber(REGEX_NUMBER)
         this.setSlaveAnswerLabels(SLAVE_ANSWER_LABELS)
         // this.setStartAnswerSelector(null, true)
         // this.setStartQuestionSelector(null, true)

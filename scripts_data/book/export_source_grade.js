@@ -6,7 +6,8 @@ const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 
 const maxDepth = 3;
-const excepts = ["văn", "toán", "lý", "lí", "hóa", "sinh", "đọc hiểu", "sử", "địa", "gdcd", "công nghệ", "tin"];
+const excepts = ["văn", "toán", "lý", "lí", "hóa", "sinh", "đọc hiểu", "sử", "địa", "gdcd", "công nghệ", "tin", "tiếng việt"];
+const denies = ["cùng em học tiếng việt 2", "cùng em học toán 2"]
 
 let tmpGrade = '12'
 const myArgs = process.argv.slice(2);
@@ -24,7 +25,9 @@ if (!fs.existsSync(PATH)) {
     fs.mkdirSync(PATH);
 }
 
-reqES.searchBookByKey(grade).then(async data => {
+const domain = "loigiaihay.com"
+
+reqES.searchBookByKeyWithDomain(grade, domain).then(async data => {
     let hits = data.hits.hits;
     if (hits.length == 0) return;
 
@@ -36,10 +39,15 @@ reqES.searchBookByKey(grade).then(async data => {
 
         let bookName = source.ten_sach.toLowerCase();
         let check = false;
-
         for (let index = 0; index < excepts.length; index++) {
             if (bookName.indexOf(excepts[index]) > -1) {
                 check = true;
+                break;
+            }
+        }
+        for (let index = 0; index < denies.length; index++) {
+            if (bookName.indexOf(denies[index]) > -1) {
+                check = false;
                 break;
             }
         }
@@ -141,6 +149,7 @@ async function renderDetailBook(list, document, size, book) {
             if (exercise) detailUnit.appendChild(exercise);
 
             if (theory || exercise) liNode.appendChild(detailUnit);
+            else console.log("Book: '" + book + "' with unit: '" + list[i].name + "' not found")
 
         }
 
@@ -177,7 +186,7 @@ async function getDetailUnit(isTheory, document, book, unit, size) {
         unit = unit.substring(0, indexLastSpace);
     }
 
-    let detailData = await reqES.searchUnitByBookAndName(book, unit, isTheory);
+    let detailData = await reqES.searchUnitByBookAndName(book, unit, isTheory, domain);
     let detailHits = detailData.hits.hits;
 
     for (let index = 0; index < detailHits.length; index++) {

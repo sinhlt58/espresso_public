@@ -89,7 +89,7 @@ function searchBookByName(key) {
     })
 }
 
-function searchUnitByBookAndName(book, unit, isTheory) {
+function searchUnitByBookAndName(book, unit, isTheory, domain) {
 
     let queryString;
     if (isTheory) {
@@ -105,6 +105,11 @@ function searchUnitByBookAndName(book, unit, isTheory) {
             "query": {
                 "bool": {
                     "must": [
+                        {
+                            "term": {
+                                "domain.keyword": domain
+                            }
+                        },
                         {
                             "term": {
                                 "sach.keyword": book
