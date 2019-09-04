@@ -54,7 +54,7 @@ const DEFAULT_PRIORITY = [
         type: 'solution_detail',
         is_one_line: false,
         is_lower_case: true,
-        regex: /^(\s{0,}(trả lời))/g,
+        regex: /^(\s{0,}(trả lời|lời giải|gợi ý))/g,
     }
 ]
 
@@ -137,6 +137,9 @@ class Build {
         // console.log(this._root)
         this._root.walk(node => {
             console.log("!!!", node.model.text, node.model.indexs)
+            // if() {
+                console.log(node.getPath())
+            // }
         })
     }
 
@@ -150,30 +153,40 @@ class Build {
 
         for (let index = /*0*/ this._abstract_problem_index + 1; index < this._abstract_solution_index; index++) {
 
-            const child_element = this._element.children[index];
-            if(child_element.nodeName.search(this._nodes_ignore_check_text_regex) > -1) continue;
-            let child_element_text = child_element.textContent;
-            if(child_element_text == null || child_element_text == undefined) continue;
-            child_element_text = child_element_text.trim();
-
+            let is_continue = false;
             let tree_node = null;
-            for (let i = 0; i < this._priority.length; i++) {
-                const child_priority = this._priority[i];
-                let tmp_child_element_text = child_element_text;
-                if(child_priority.is_lower_case) tmp_child_element_text = child_element_text.toLowerCase();
-                let check = tmp_child_element_text.search(child_priority.regex);
-                if(check === -1) continue;
-                // console.log("@@ " + index ,child_element_text)
-                tree_node = this._tree.parse({
-                    numerical_order: child_priority.numerical_order,
-                    index: index,
-                    text: child_element_text,
-                    type: child_priority.type,
-                    indexs: [index],
-                    next_index: index+1,
-                    is_one_line: child_priority.is_one_line
-                });
-                break;
+            let child_element_text = null;
+            const child_element = this._element.children[index];
+
+            if(child_element.nodeName.search(this._nodes_ignore_check_text_regex) > -1) {
+                is_continue = true;
+            } else {
+                child_element_text = child_element.textContent;
+            }
+
+            if(child_element_text !== null && child_element_text !== undefined) {
+                child_element_text = child_element_text.trim();
+            }
+
+            if(!is_continue) {
+                for (let i = 0; i < this._priority.length; i++) {
+                    const child_priority = this._priority[i];
+                    let tmp_child_element_text = child_element_text;
+                    if(child_priority.is_lower_case) tmp_child_element_text = child_element_text.toLowerCase();
+                    let check = tmp_child_element_text.search(child_priority.regex);
+                    if(check === -1) continue;
+                    // console.log("@@ " + index ,child_element_text)
+                    tree_node = this._tree.parse({
+                        numerical_order: child_priority.numerical_order,
+                        index: index,
+                        text: child_element_text,
+                        type: child_priority.type,
+                        indexs: [index],
+                        next_index: index+1,
+                        is_one_line: child_priority.is_one_line
+                    });
+                    break;
+                }
             }
 
             if(tree_node) {
@@ -275,6 +288,8 @@ var string_inner_html = `<h2 class="s14 lineheight"></h2>
 <p style="text-align: justify;">b.&nbsp; Rễ chùm, gân hình cung hoặc song song</p>
 <p style="text-align: justify;">c.&nbsp; Rễ cọc, gân hình cung hoặc song song</p>
 <p style="text-align: justify;">d. Rễ chùm, gân hình mạng</p>
+<p>Phương pháp giải: asdsadsa</p>
+<p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
 <p>Trả lời: Chọn a</p>
 <p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
 <p class="Bodytext70" style="text-align: justify;"><strong>2. Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí ?</strong></p>
@@ -327,6 +342,36 @@ var string_inner_html = `<h2 class="s14 lineheight"></h2>
   </tr>
  </tbody>
 </table>
+<p>a) Tinh sadsad?</p>
+<p>b) Hãy sadsad?</p>
+<p>Phương pháp giải: asdsadsa</p>
+<p>a) asdgwe </p>
+<p>asdgwe </p>
+<p>b) asdgwe </p>
+<p>asdgwe </p>
+<p>Gợi ý:</p>
+<p>a) ádsadsadsadsadsa</p>
+<p>ádsadsadsadsadsa</p>
+<p>ádsadsadsadsadsa</p>
+<p>b) ádsadsadsadsadsa</p>
+<p>ádsadsadsadsadsa</p>
+<p>ádsadsadsadsadsa</p>
+<p>Câu 3: Hãy asdsadsadcx ?</p>
+<p>a) Hãy asdsadsadcx ?</p>
+<p>Phương pháp giải: asdsadsa</p>
+<p>Gợi ý: adsad</p>
+<p>b) Hãy asdsadsadcx ?</p>
+<p>Phương pháp giải:</p>
+<p>asdsadsadcx ?</p>
+<p>Gợi ý:</p>
+<p>qưeasdsadsadcx</p>
+<p>qq asdsadsadcx</p>
+<p>Câu 4: Hãy asdsadsửewadcx? a) Hãy asdsadsadcx?</p>
+<p> b) Hãy asdsadsadcx ?</p>
+<p>Phương pháp giải: asdsadsa</p>
+<p>Gợi ý: adsad</p>
+<p>a) qưeasdsadsadcx</p>
+<p>b) qq asdsadsadcx</p>
 <p style="text-align: justify;"><strong>II. T</strong><strong>Ự</strong><strong> LUẬN</strong> (5 điểm)</p>
 <p style="text-align: justify;"><strong>1. Thế nào là Phân loại thực vật ? Người ta phân chia thực vật thành các bậc phân loại từ cao đến thấp theo trật tự như thế nào ?</strong></p>
 <p style="text-align: justify;"><strong>2. Thế nào là thực vật quý hiếm ? Cần phải làm gì để bảo vệ đa dạng thực vật ở Việt Nam ?</strong><strong></strong></p>
@@ -380,6 +425,85 @@ var string_inner_html = `<h2 class="s14 lineheight"></h2>
 <p style="text-align: justify;">Tuyên truyền, giáo dục rộng rãi trong nhân dân để cùng tham gia bảo vệ rừng.</p>
 <p style="text-align: right;"><strong>&nbsp;</strong></p>
 <div class="clearfix"></div>`
+
+
+// string_inner_html = `<h2 class="s14 lineheight"></h2>
+// <p><strong class="content_question">Đề bài</strong></p>
+// <p style="text-align: justify;"><strong>Cảm nhận vẻ đẹp của hai đoạn thơ sau</strong></p>
+// <p style="text-align: justify;"><em>Rải rác biên cương mồ viễn xứ</em></p>
+// <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
+// <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
+// <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em></p>
+// <p style="text-align: right;">(<strong>Tây Tiến -</strong>&nbsp;Quang Dũng - Ngữ văn 12, tr89)</p>
+// <p style="text-align: justify;"><em>Em ơi em</em></p>
+// <p style="text-align: justify;"><em>Đất Nước là máu xương của mình</em></p>
+// <p style="text-align: justify;"><em>Phải biết gắn bó và san sẻ</em></p>
+// <p style="text-align: justify;"><em>Phải biết hóa thân cho dáng hình xứ sở</em></p>
+// <p style="text-align: justify;"><em>Làm nên Đất Nước muôn đời</em></p>
+// <p style="text-align: right;">(<strong>Đất Nước</strong>&nbsp;<strong>-&nbsp;</strong>Nguyễn Khoa Điềm&nbsp;<strong>- </strong>Ngữ văn, tr120)</p>
+// <p><strong class="content_detail">Lời giải chi tiết</strong></p>
+// <p style="text-align: justify;"><strong>1. Giới thiệu chung</strong></p>
+// <p style="text-align: justify;"><strong>- Tây Tiến</strong>&nbsp;của Quang Dũng và&nbsp;<strong>Đất Nước</strong>&nbsp;của Nguyễn Khoa Điềm là những bài thơ đặc sắc trong nền thơ cách mạng Việt Nam. Hai tác phẩm này đã nói về những con người vô danh lặng thầm chiến đấu bảo vệ quê hương. Mỗi bài thơ đều để lại những cảm xúc, suy tư sâu lắng trong lòng người đọc. Trong đó có những câu thơ rất đặc sắc:</p>
+// <p style="text-align: justify;">“<em>Rải rác biên cương mồ viễn xứ</em></p>
+// <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
+// <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
+// <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em>”</p>
+// <p style="text-align: justify;">Và:</p>
+// <p style="text-align: justify;"><em>“Em ơi em Đất Nước là máu xương của mình</em></p>
+// <p style="text-align: justify;"><em> Phải biết gắn bó và san sẻ</em></p>
+// <p style="text-align: justify;"><em> Phải biết hóa thân cho dáng hình xứ sở</em></p>
+// <p style="text-align: justify;"><em> Làm nên Đất Nước muôn đời”</em></p>
+// <p style="text-align: justify;"><strong>2. Phân tích</strong></p>
+// <p style="text-align: justify;"><strong>a. Đoạn thơ trong bài Tây Tiến</strong></p>
+// <p style="text-align: justify;"><strong>*Giới thiệu khái quát về tác giả, tác phẩm, vị trí đoạn thơ</strong></p>
+// <p style="text-align: justify;">+ Quang Dũng là nghệ sĩ đa tài (thơ, văn, nhạc, hoạ), cũng là một người lính, sống một đời lính oanh liệt, hào hùng. Quãng đời ấy đã trở thành cảm hứng đặc sắc trong thơ ông. Bài thơ Tây Tiến viết về người lính, về những chàng trai“chiến trường đi chẳng tiếc đời xanh”&nbsp;– người lính Tây Tiến.</p>
+// <p style="text-align: justify;">+ Tây Tiến là một đơn vị bộ đội thành lập đầu năm 1947. Thành phần chủ yếu là thanh niên trí thức Hà Nội. Nhiệm vụ của họ là phối hợp với bộ đội Lào, đánh tiêu hao lực lượng địch ở Thượng Lào, bảo vệ biên giới Việt Lào. Sau một thời gian hoạt động ở Lào, đoàn quân Tây Tiến trở về Hoà Bình thành lập trung đoàn 52. Năm 1948, nhà thơ Quang Dũng chuyển sang đơn vị khác, không bao lâu, ông nhớ đơn vị cũ sáng tác bài thơ này.</p>
+// <p style="text-align: justify;">+ Bài thơ có 4 khổ, đây là khổ thứ 3, nội dung khắc hoạ hình tượng người lính Tây Tiến</p>
+// <p style="text-align: justify;"><strong>*Phân tích cụ thể</strong>:</p>
+// <p style="text-align: justify;">- Cảm hứng chủ đạo của bài thơ là nỗi nhớ, nhớ về đồng đội và địa bàn hoạt động của đoàn quân, nhớ về vùng đất mà bước chân hào hùng mà đoàn binh Tây Tiến đã đi qua – Tây Bắc. Vùng đất đó với thiên nhiên hoang sơ, hùng vĩ và thơ mộng, trữ tình, vùng đất ấy với những con người tài hoa, duyên dáng và nghĩa tình. Trên nền cảnh ấy là hình ảnh người lính Tây Tiến. Họ hiện lên thật ấn tượng với phẩm chất hào hùng đáng kính, họ đã hi sinh dọc đường hành quân, hi sinh dọc miền biên giới – họ đã hi sinh vì lí tưởng sống cao đẹp:</p>
+// <p style="text-align: justify;"><em>Rải rác biên cương mồ viễn xứ</em></p>
+// <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
+// <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
+// <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em></p>
+// <p style="text-align: justify;">- Đoạn thơ sử dụng rất nhiều từ Hán Việt mang sắc thái trân trọng, thể hiện không khí trang nghiêm, lòng thành kính thiêng liêng của nhà thơ trước sự hi sinh của đồng đội. Những từ ngữ ấy như những nén tâm nhang thắp lên đưa tiễn những người đã ngã xuống. Chính hệ thống từ ngữ ấy kết hợp với những hình ảnh giàu sức gợi (biên cương, chiến trường, áo bào, khúc độc hành) cũng tạo sắc thái cổ kính, gợi liên tưởng đến sự hi sinh oanh liệt của những anh hùng, dũng tướng sẵn sàng chấp nhận cảnh “da ngựa bọc thây” đầy bi tráng trong văn học trung đại.</p>
+// <p style="text-align: justify;">- Câu thơ đầu đoạn thơ sử dụng nhiều từ Hán Việt (biên cương, viễn xứ) nhưng sức nặng của cả câu lại dồn vào một từ thuần Việt:&nbsp;“mồ”.&nbsp;Mồ cũng là mộ nhưng không phải mộ theo đúng nghĩa. Đó chỉ là những nấm đất được đào vội, chôn mau ngay trên con đường hành quân vội vã để đoàn quân lại tiếp tục lên đường. Đặt trong không gian bao la, mênh mông hoang sơ của miền biên giới Việt – Lào, những nấm mồ ấy gợi lên bao nỗi xót xa.</p>
+// <p style="text-align: justify;">- Trong câu thơ thứ hai, tác giả sử dụng nghệ thuật đảo ngữ (chiến trường đi) để nhấn mạnh đích đến của người lính, người chiến sĩ. Trong hoàn cảnh đất nước có chiến tranh, sứ mệnh đất nước rất mỏng manh, chiến trường là đích đến duy nhất, là sự lựa chọn đầy trách nhiệm của cả một thế hệ. Với họ, “đường ra trận mùa này đẹp lắm” và “cuộc đời đẹp nhất trên trận chiến chống quân thù”. Cách nói&nbsp;“chẳng tiếc đời xanh”&nbsp;cho thấy sự dứt khoát, lòng quyết tâm, coi thường gian nguy, coi thường cái chết. Họ sẵn sàng hiến dâng cả đời xanh, tuổi trẻ, quãng đời đẹp nhất cho tổ quốc, hơn thế nữa, tính mạng của họ cũng sẵn sàng hi sinh để làm nên dáng hình đất nước. Họ ra đi với tinh thần của cả thời đại“Người ra đi đầu không ngoảnh lại”. Đó là lí tưởng sống cao đẹp, hào hùng.</p>
+// <p style="text-align: justify;">- Viết về người lính và cuộc kháng chiến vĩ đại của dân tộc ta, nhà thơ Quang Dũng rất chân thực, ông không hề né tránh hiện thực:</p>
+// <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
+// <p style="text-align: justify;">“Áo bào thay chiếu”&nbsp;– một hình ảnh thực đến xót xa của chiến tranh. Nhưng cái thiếu thốn về vật chất lại được khoả lấp bằng sự hiên ngang, can trường của người lính. Từ Hán Việt và cách nói&nbsp;“Áo bào thay chiếu anh về đất”làm cho cái chết của người lính Tây Tiến trở nên trang trọng hơn rất nhiều, thiêng liêng hơn nhiều. Nhà thơ vẫn gợi lên sự thật chung của cả thời chống Pháp là sự thiếu thốn về vật chất, ở vùng biên giới xa xôi thì sự thiếu thốn ấy còn nhân lên gấp bội. Với thái độ trân trọng đồng đội, nhà thơ Quang Dũng đã thấy họ như đang mặc tấm áo bào của chiến tướng mà&nbsp;đi vào cõi vĩnh hằng, bất tử cùng sông núi. Cách nói&nbsp;“về đất”&nbsp;không chỉ&nbsp; là cách nói giảm, nói tránh mà mang ý nghĩa biểu tượng thiêng liêng. Cái chết không phải là ra đi vào cõi hư vô bất định mà là trở về, trở về với đất Mẹ yêu thương. Đất Mẹ cũng đã mở lòng đón những đứa con đầy trách nhiệm của mình trở về.&nbsp; Họ đã ra đi như thế đấy. Họ đã nằm lại nơi chân đèo, dốc núi nào đó trên con đường hành quân đầy gian khổ, nhọc nhằn, họ đã để lại mình nơi biên cương lạnh lẽo, hoang vắng. Nhưng họ đã ra đi vì lí tưởng, cái chết của họ &nbsp;dù để lại nhiều xót xa trong lòng người đọc nhưng họ ra đi một cách rất thanh thản. Họ chỉ là “không bước nữa”, là “bỏ quên đời”, là “về đất”&nbsp;thôi chứ không phải là chết. các anh đã ngã xuống, đã “hoá thân cho dáng hình xứ sở” để rồi mỗi thế núi hình sông, mỗi tên đất tên làng đều có bóng hình các anh. Các anh hi sinh, trở về trong lòng Đất Mẹ để&nbsp;“cho cây đời mãi mãi xanh tươi”, để đem lại cho đất đai, cho quê hương đất nước sự sống bất tận.</p>
+// <p style="text-align: justify;">- Đoạn thơ kết thúc bằng một âm hưởng hào hùng. Dường như linh hồn người tử sĩ đã hòa cùng sông núi, con sông Mã đã tấu lên khúc nhạc đau thương, hùng tráng để tiễn đưa người lính vào cõi bất tử. Hình tượng “sông Mã” ở cuối bài thơ được phóng đại và nhân hóa, tô đậm cái chết bi hùng của người lính_ sự hi sinh làm lay động đất trời, khiến dòng sông gầm lên đớn đau, thương tiếc.</p>
+// <p style="text-align: justify;">* Nghệ thuật</p>
+// <p style="text-align: justify;"><strong> </strong>- Bằng bút pháp lãng mạn và âm hưởng bi tráng, đoạn thơ ngợi ca những phẩm chất tốt đẹp của người lính Tây Tiến trong cuộc kháng chiến chống Pháp.</p>
+// <p style="text-align: justify;"><strong>b. Đoạn thơ trong bài “Đất Nước” của Nguyễn Khoa Điềm là lời nhắn nhủ của nhà thơ về trách nhiệm của thế hệ trẻ đối với non sông đất nước:</strong></p>
+// <p style="text-align: justify;"><strong>*Giới thiệu khái quát về tác giả, tác phẩm:</strong></p>
+// <p style="text-align: justify;">+ Nguyễn Khoa Điềm là một trong những nhà thơ tiêu biểu của thế hệ các nhà thơ trẻ thời chống Mỹ .&nbsp;Ông&nbsp;xuất thân từ một gia đình trí thức cách mạng ở Huế, bản thân ông tham gia trực tiếp vào phong trào đấu tranh sinh viên nên thơ Nguyễn Khoa Điềm rất giàu chất suy tư, cảm xúc dồn nén mang tâm tư của người trí thức….</p>
+// <p style="text-align: justify;">+ Đất Nứơc là phần đầu chương V của trường ca Mặt đường khát vọng, viết năm 1971 tại chiến khu Trị Thiên giữa lúc cuộc kháng chiến chống Mĩ đang hết sức khốc liệt .</p>
+// <p style="text-align: justify;"><strong>*Phân tích cụ thể</strong><strong>:</strong></p>
+// <p style="text-align: justify;"><em> “Em ơi em Đất Nước là máu xương của mình</em></p>
+// <p style="text-align: justify;"><em> Phải biết gắn bó và san sẻ</em></p>
+// <p style="text-align: justify;"><em> Phải biết hóa thân cho dáng hình xứ sở</em></p>
+// <p style="text-align: justify;"><em> Làm nên Đất Nước muôn đời”</em></p>
+// <p style="text-align: justify;">– Đoạn thơ có giọng điệu tâm tình sâu lắng, thiết tha. Tác giả tạo ra cuộc trò chuyện thân mật giữa nhân vật trữ tình “anh” với “em”. Giọng điệu ấy đã làm mềm hóa nặng nề, khô khan của chất chính luận.</p>
+// <p style="text-align: justify;">– Nguyễn Khoa Điềm đã khám phá một định luật rất mới “Đất Nước là máu xương của mình”. Hình ảnh so sánh độc đáo ấy có hàm ý khẳng định: Đất nước là sự sống thiêng liêng đối với mỗi con người.</p>
+// <p style="text-align: justify;">Nguyễn Khoa Điềm nhắc nhở mỗi người chúng ta phải biết trân trọng đất nước hôm nay.</p>
+// <p style="text-align: justify;">– Từ việc xác định vai trò quan trọng của đất nước đối với mỗi con người, nhà thơ khơi gợi ý thức trách nhiệm của mỗi công dân, nhất là thế hệ trẻ. Phép điệp ngữ “phải biết” vừa có ý nghĩa cầu khiến vừa là lời thiết tha, mong chờ như mệnh lệnh từ trái tim. Ba cụm động từ cụ thể hóa trách nhiệm của mỗi con người: “Gắn bó” là lời kêu gọi đoàn kết, hữu ái giai cấp. Vì có đoàn kết là có sức mạnh. “San sẻ” là mong muốn mỗi người có ý thức gánh vác trách nhiệm với quê hương. Còn “hóa thân” là biểu hiện tinh thần sẵn sàng hi sinh cho đất nước, là sự dâng hiến thiêng liêng, đẹp đẽ.</p>
+// <p style="text-align: justify;">* Nghệ thuật:</p>
+// <p style="text-align: justify;"><strong> </strong>– Đoạn thơ mang tính chính luận nhưng được diễn đạt bằng hình thức đối thoại, giọng điệu trữ tình kết hợp với biện pháp tu từ điệp ngữ. Từ “Đất Nước” dược lặp lại hai lần kết hợp cách viết hoa đã tăng thêm sự tôn kính thiêng liêng, thể hiện quan niệm lớn: “Đất Nước của nhân dân”.</p>
+// <p style="text-align: justify;"><strong>c. So sánh:</strong></p>
+// <p style="text-align: justify;"><strong>* Giống nhau:</strong></p>
+// <p style="text-align: justify;">Tư tưởng của cả hai đoạn thơ đều là tư tưởng cao đẹp: cống hiến, dâng hiến tuổi trẻ mình cho đất nước non sông.</p>
+// <p style="text-align: justify;"><strong>* Khác nhau:</strong></p>
+// <p style="text-align: justify;">– “Tây Tiến” với cảm hứng đất nước được gợi lên từ nỗi nhớ cũa người lính vùng cao về những năm tháng đầu của cuộc kháng chiến chống thực dân Pháp. “Đất Nước” hoàn thành trong cuộc kháng chiến chống đế quốc Mĩ tại mặt trận Trị Thiên bộc lộ cảm hứng đất nước qua cái nhìn tổng quát đưa đến những chiêm nghiệm mới mẻ, sâu sắc về đất nước: Đất nước là tất cả những gì gắn bó máu thịt với mỗi con người.</p>
+// <p style="text-align: justify;">-Đoạn thơ trong bài&nbsp;Tây Tiến&nbsp;được viết bằng thể thơ thất ngôn, có sử dụng nhiều từ Hán Việt trang trọng với giọng điệu thơ dứt khoát, mạnh mẽ, âm hưởng hào hùng&nbsp; để tô đậm hiện thực khốc liệt của chiến tranh và khẳng định sự bất tử của người chiến sĩ vô danh.</p>
+// <p style="text-align: justify;">- Đoạn thơ trong&nbsp;Đất Nước&nbsp;được viết bằng thể thơ tự do, giọng điệu tâm tình trò chuyện, từ ngữ giản dị, gần gũi nhằm khẳng định vai trò to lớn của nhân dân vô danh.</p>
+// <p style="text-align: justify;"><strong>Lí giải :</strong></p>
+// <p style="text-align: justify;">Sự khác biệt như trên &nbsp;:</p>
+// <p style="text-align: justify;">Do hoàn cảnh sáng tác</p>
+// <p style="text-align: justify;">Do phong cách, cá tính sáng tạo của mỗi nhà thơ</p>
+// <p style="text-align: justify;"><strong>3. Tổng kết</strong></p>
+// <p style="text-align: justify;">Đánh giá chung về giá trị hai đoạn thơ và tài năng nghệ thuật của hai tác giả</p>
+// <p style="text-align: right;"><strong></strong></p>
+// <div class="clearfix"></div>`;
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 let dom = new JSDOM('<!doctype html><html><body></body></html>');
