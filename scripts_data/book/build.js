@@ -79,8 +79,11 @@ const DEFAULT_ABSTRACT_PROBLEM_SELECTOR = "p .content_question";
 const DEFAULT_NODES_IGNORE_CHECK_TEXT_REGEX = /(IMG|TABLE)/g
 const DEFAULT_SOLUTION_LABELS = ["lời giải", "cách giải", "giải", "giải", "gợi ý", "làm bài", "trả lời", "trả lời", "đáp án", "bài làm", "gợi ý làm bài", "gợi ý trả lời", "hướng dẫn trả lời"];
 const DEFAULT_SOLOTION_REGEX = /^(\s{0,}(trả lời))/g
-const DEFAULT_QUESTION_REGEX = /\?|Hãy/gi
-
+const DEFAULT_QUESTION_WORD_LIST = ["tại sao", "thế nào", "định nghĩa", "ra sao", "có cách nào", "cái gì", "vì sao", "bằng cách nào", "là gì",
+    "làm sao", "chỗ nào", "gì", "nghĩ sao", "nơi nào", "ở đâu", "thì sao", "lúc nào", "đi đâu", "thấy sao", "lý do nào", "nơi đâu", "sao",
+    "nguyên nhân nào", "từ đâu", "bao nhiêu", "khi nào", "đâu", "bao giờ", "thời gian nào", "có phải", "bao", "người nào", "là ai", "có mấy",
+    "nào", "ai", "mấy", "nguyên nhân", "thật không", "như thế nào", "lý do", "phải không"]
+const DEFAULT_QUESTION_REGEX = /\?|hãy|tại sao|thế nào|định nghĩa|ra sao|có cách nào|cái gì|vì sao|bằng cách nào|là gì|làm sao|chỗ nào|gì|nghĩ sao|nơi nào|ở đâu|thì sao|lúc nào|đi đâu|thấy sao|lý do nào|nơi đâu|sao|nguyên nhân nào|từ đâu|bao nhiêu|khi nào|đâu|bao giờ|thời gian nào|có phải|bao|người nào|là ai|có mấy|nào|ai|mấy|nguyên nhân|thật không|như thế nào|lý do|phải không/gi
 
 class Build {
     constructor(document, logger) {
@@ -135,16 +138,21 @@ class Build {
         this._buildTree();
 
         // console.log(this._root)
-        this._root.walk(node => {
-            console.log("!!!", node.model.text, node.model.indexs)
-            // if() {
-                console.log(node.getPath())
-            // }
-        })
+        // this._root.all(node => {
+        //     console.log("!!!", node.model.text, node.model.indexs)
+        //     // if() {
+        //         // console.log(node.getPath())
+        //     // }
+        // })
+    }
+
+    _isLeaf(node) {
+        return node.children.length === 0;
     }
 
     _buildTree() {
         this._initTree();
+        this._smoothTree();
     }
 
     _initTree(){
@@ -225,8 +233,19 @@ class Build {
 
     }
 
-    _validTree() {
+    _smoothTree() {
         // trong truong hop thieu phan I ma co phan II thi se dung de check
+
+        this._root.all(node => {
+            console.log("!!!", node.model.text, node.model.indexs)
+            if(_isSolution(node)) {
+                console.log(node.getPath())
+            }
+        })
+    }
+
+    _validTree() {
+
     }
 
 
