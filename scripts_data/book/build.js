@@ -649,13 +649,40 @@ class Build {
         }
     }
 
+    _convertSpecCharacter(text) {
+        let tmp_text = text.substring(0, text.length);
+        let array_math_2 = tmp_text.match(/(\$\$)([^\$]*?)\1/g)
+        if (array_math_2 != null) {
+            for (let j = 0; j < array_math_2.length; j++) {
+                const math = array_math_2[j];
+                tmp_text = tmp_text.replace(math, "_".repeat(math.length))
+            }
+        }
+        let array_math_3 = tmp_text.match(/(\$\$\$)([^\$]*?)\1/g)
+        if (array_math_3 != null) {
+            for (let j = 0; j < array_math_3.length; j++) {
+                const math = array_math_3[j];
+                tmp_text = tmp_text.replace(math, "_".repeat(math.length))
+            }
+        }
+        // can convert cac truong hop dac biet ve form cua hoclieu
+        for (let i = tmp_text.length - 1; i >= 0; i--) {
+            let charecter = tmp_text[i];
+            if (charecter == "{" || charecter == "}" || (charecter == "\/" && i > 0 && tmp_text[i - 1] != "\\") || (charecter == "/" && i == 0)) {
+                text = text.substring(0, i) + "\\" + text.substring(i);
+            }
+        }
+
+        return text;
+    }
+
     _buildResult() {
         this._result = this._document.createElement('div');
         this._root_problem.walk(node => {
 
             let model = node.model;
             // them indexs (de va param)
-            if(node.isRoot() && !node.hasChildren() && model.indexs.length > 10) {
+            if (node.isRoot() && !node.hasChildren() && model.indexs.length > 10) {
                 let title_element = this._document.createElement('h5')
                 title_element.appendChild(this._document.createTextNode(this._title))
                 this._result.appendChild(title_element)
@@ -689,52 +716,25 @@ class Build {
                         while (math = this._multiple_choise_regex.exec(text)) {
                             text = text.substring(0, math.index) + text.substring(this._multiple_choise_regex.lastIndex + 1, text.length)
                         }
-                        sub_plant_element.innerHTML += text
-                        // sub_plant_element.appendChild(this._document.createTextNode(text))
+                        sub_plant_element.appendChild(this._document.createTextNode(text))
                     } else {
                         sub_plant_element.appendChild(sub_element.cloneNode(true))
                     }
                 }
-                let inner_html = sub_plant_element.innerHTML;
-                console.log(inner_html)
-
-                // loai bo math
-                let tmp_text = inner_html.substring(0, inner_html.length);
-                let array_math_2 = tmp_text.match(/(\$\$)([^\$]*?)\1/g)
-                if (array_math_2 != null) {
-                    for (let j = 0; j < array_math_2.length; j++) {
-                        const math = array_math_2[j];
-                        tmp_text = tmp_text.replace(math, "_".repeat(math.length))
-                    }
-                }
-                let array_math_3 = tmp_text.match(/(\$\$\$)([^\$]*?)\1/g)
-                if (array_math_3 != null) {
-                    for (let j = 0; j < array_math_3.length; j++) {
-                        const math = array_math_3[j];
-                        tmp_text = tmp_text.replace(math, "_".repeat(math.length))
-                    }
-                }
-                // can convert cac truong hop dac biet ve form cua hoclieu
-                for (let i = tmp_text.length - 1; i >= 0; i--) {
-                    let charecter = tmp_text[i];
-                    if (charecter == "{" || charecter == "}" || (charecter == "\/" && i > 0 && tmp_text[i - 1] != "\\") || (charecter == "/" && i == 0)) {
-                        inner_html = inner_html.substring(0, i) + "\\" + inner_html.substring(i);
-                    }
-                }
-                ///123213 check lai phan inner html do </sub> -> <//sub>
-                list_sub_plan.push(inner_html.replace(/&nbsp;/g, ''))
+                let inner_html = this._convertSpecCharacter(sub_plant_element.innerHTML);
+                
+                list_sub_plan.push(this._document.createTextNode(inner_html.replace(/&nbsp;/g, '')))
             }
-            console.log(list_sub_plan)
             if (list_sub_plan.length > 0) {
                 // them trac nghiem
                 let plan_element = this._document.createElement('p');
                 for (let index = 0; index < list_sub_plan.length; index++) {
                     if (index == 0) {
                         plan_element.appendChild(this._document.createTextNode('{{'));
-                        plan_element.innerHTML += list_sub_plan[index]
+                        plan_element.appendChild(list_sub_plan[index].cloneNode(true));
                     } else {
                         plan_element.appendChild(this._document.createTextNode('/'));
-                        plan_element.innerHTML += list_sub_plan[index]
+                        plan_element.appendChild(list_sub_plan[index].cloneNode(true));
                     }
                     if (index === list_sub_plan.length - 1) {
                         plan_element.appendChild(this._document.createTextNode('}}'));
@@ -763,7 +763,7 @@ class Build {
                             sub_element = this._document.createElement('p');
                             let text = this._getInnerTextWithInlineTag(this._element.children[model.answer.index], true);
                             sub_element.appendChild(this._document.createTextNode(text.substring(0, model.answer.position)))
-                            sub_element.innerHTML += list_sub_plan[model.answer.answer]
+                            sub_element.appendChild(list_sub_plan[model.answer.answer].cloneNode(true))
                             if (model.answer.key_root.length > text.length - model.answer.position) {
                                 sub_element.appendChild(this._document.createTextNode(text.substring(model.answer.position + model.answer.key_root.length)));
                             }
@@ -1169,6 +1169,9 @@ class Build {
 
             this._getAnswerMultipleChoises(node_parent);
 
+            // can chinh phan ghep dan an
+            // check neu 1 nua dap an khong co (tach number) thi ghep dung so
+            // neu khong thi dung thu tu
             let current_index = 0;
             for (let index = 0; index < node_parent.model.answer_multiple_choises.length; index++) {
                 const answer = node_parent.model.answer_multiple_choises[index];
@@ -1179,8 +1182,7 @@ class Build {
                         node_child.model.is_merge_wrong = false;
                         current_index = i + 1;
                         break;
-                    }
-                    else if (!node_child.model.is_merge_wrong && node_child.model.group === 'question_multiple_choise') {
+                    } else if (!node_child.model.is_merge_wrong && node_child.model.group === 'question_multiple_choise') {
                         if (node_child.model.answer.answer === '' || node_child.model.answer.answer == undefined) {
                             node_child.model.answer = answer;
                             current_index = i + 1;
