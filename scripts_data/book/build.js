@@ -570,6 +570,9 @@ class Build {
                 this._buildResult();
             } catch (error) {
                 console.log(error)
+                if(this._logger) {
+                    this._logger.error('Có lỗi trong quá trình phân tích dữ liệu của bài: "' + this._title + '", trong sách: "' + this._book + '"')
+                }
             }
 
             this._root_problem.all(node => {
@@ -578,17 +581,17 @@ class Build {
                     node.model.solution_indexs, node.model.solution_detail_indexs,
                     node.model.group, node.model.label, node.model.type, node.model.is_merge_wrong, node.model.answer, node.model.tag)
             })
-            // if (this._root_solution) {
-            //     console.log('\n')
-            //     this._root_solution.all(node => {
-            //         console.log(" ".repeat(node.getPath().length * 2) + node.model.text,
-            //             node.model.indexs, node.model.sub_indexs, node.model.plan_indexs,
-            //             node.model.solution_indexs, node.model.solution_detail_indexs,
-            //             node.model.group, node.model.label, node.model.type)
-            //     })
-            // }
-            // console.log(this._index_unexported, this._is_siblings_same_type, this._is_all_have_solution)
-            console.log(this._result.innerHTML)
+            // // if (this._root_solution) {
+            // //     console.log('\n')
+            // //     this._root_solution.all(node => {
+            // //         console.log(" ".repeat(node.getPath().length * 2) + node.model.text,
+            // //             node.model.indexs, node.model.sub_indexs, node.model.plan_indexs,
+            // //             node.model.solution_indexs, node.model.solution_detail_indexs,
+            // //             node.model.group, node.model.label, node.model.type)
+            // //     })
+            // // }
+            // // console.log(this._index_unexported, this._is_siblings_same_type, this._is_all_have_solution)
+            // console.log(this._result.innerHTML)
         }
     }
 
@@ -612,7 +615,7 @@ class Build {
 
         // them cac indexs sau
         if (model.tag_param) {
-            this._insertHeading6(mode, firts_index);
+            this._insertHeading6(model, firts_index);
         } else {
             this._insertNormal(model.indexs, firts_index);
         }
@@ -765,7 +768,7 @@ class Build {
                     for (let i = 0; i < model.solution_detail_indexs.length; i++) {
                         const index = model.solution_detail_indexs[i];
                         let sub_element;
-                        if (index === model.answer.index) {
+                        if (index === model.answer.index && model.answer.answer < list_sub_plan.length) {
                             sub_element = this._document.createElement('p');
                             let text = this._getInnerTextWithInlineTag(this._element.children[model.answer.index], true);
                             sub_element.appendChild(this._document.createTextNode(text.substring(0, model.answer.position)))
@@ -773,7 +776,6 @@ class Build {
                             if (model.answer.key_root.length > text.length - model.answer.position) {
                                 sub_element.appendChild(this._document.createTextNode(text.substring(model.answer.position + model.answer.key_root.length)));
                             }
-                            console.log(sub_element.innerHTML)
                         } else {
                             sub_element = this._element.children[index];
                         }
@@ -1590,770 +1592,1109 @@ class Build {
 }
 
 module.exports = Build;
-{/* <p style="text-align: justify;"><strong>I. TRẮC NGHIỆM (5 điểm)</strong></p> */ }
-{/* <p>a) cau 4a Hãy asdsadsadcx?</p>
-<p>b) cau 4b Hãy asdsadsadcx ?</p>
-<p>Phương pháp giải: pp4 asdsadsa</p>
-<p>Gợi ý: gy4 adsad</p>
-<p>a) gy4a qưeasdsadsadcx</p>
-<p>b) gy4b qq asdsadsadcx</p> */}
-var string_inner_html = `<h2 class="s14 lineheight"></h2>
-<p><strong class="content_question">Đề bài</strong></p>
-
-<p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
-<p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
-<p style="text-align: justify;"><strong>Câu 1:</strong> <strong>Trong cac cau sau</strong><strong></strong></p>
-<p>Hãy chọn phương án trả lời đúng nhất:</p>
-<p class="Bodytext70" style="text-align: justify;"><strong>1. Lớp Hai lá mầm có kiểu rễ và gân lá là:</strong></p>
-<p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
-<p style="text-align: justify;">a. Rễ\&nbsp; cọc, gân hình mạng km/h {} <sup>2</sup> </p>
-<p style="text-align: justify;">b.\&nbsp; Rễ chùm, gân hình cung hoặc song song</p>
-<p style="text-align: justify;">c.\&nbsp; Rễ cọc, gân hình cung hoặc song song</p>
-<p style="text-align: justify;">d. Rễ chùm, gân hình mạng</p>
-<p>Phương pháp giải: 1</p>
-<p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
-<p>Trả lời: 1 asda</p>
-<p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
-<p class="Bodytext70" style="text-align: justify;"><strong>2. Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí ?</strong></p>
-<p style="text-align: justify;">a. \&nbsp;\&nbsp;\&nbsp;Sự hô hấp của con người, động thực vật, hoạt động của nhà máy, sự đốt cháy… đều tiêu tốn O<sub>2</sub> và thải ra các khí cacbônic</p>
-<p style="text-align: justify;">\&nbsp;b. Thực vật quang hợp tiêu thụ khí cacbônic và thải khí O<sub>2</sub>, góp phần (chủ yếu) làm cân bằng các khí này trong không khí</p>
-<p style="text-align: justify;">c. Ở thực vật, lượng khí CO<sub>2</sub> thải ra trong hô hấp được sử dụng ngay vào quá trình quang hợp nên vẫn giữ được môi trường trong sạch</p>
-<p style="text-align: justify;">\&nbsp;d. Câu a và b đều đúng.</p>
-<p>Trả lời: 2 Chọn b</p>
-<p class="Bodytext70" style="text-align: justify;"><strong>3. Lớp Một lá mầm có số cánh hoa là bao nhiêu trong các trường hợp sau?</strong></p>
-<p class="Bodytext70" style="text-align: justify;">\&nbsp;a. \&nbsp;\&nbsp;4 cánh\&nbsp;\&nbsp;\&nbsp;\&nbsp; b. 5 cánh\&nbsp;\&nbsp;\&nbsp;\&nbsp; c. 3 – 6 cánh\&nbsp;\&nbsp;\&nbsp;\&nbsp; d. 4 – 5 cánh</p>
-<p class="Bodytext70" style="text-align: justify;"><strong>4. Tại sao nói vi khuẩn là sinh vật dị dưỡng ?</strong></p>
-<p style="text-align: justify;">a. \&nbsp;\&nbsp;\&nbsp;Hầu hết vi khuẩn không có chất diệp lục, nên không tạo được chất hữu cơ nuôi cơ thể</p>
-<p style="text-align: justify;">Có loại vi khuẩn sống bằng các chất hữu cơ có sẵn trong xác các động thực vật gọi là hoại sinh</p>
-<p style="text-align: justify;">\&nbsp;Có loại vi khuẩn sống nhờ trên cơ thể sống khác gọi là kí sinh</p>
-<p style="text-align: justify;">Cả a, b và c</p>
-<p class="Bodytext70" style="text-align: justify;"><strong>5. Nhóm cây nào sau đây toàn là cây lương thực ?</strong></p>
-<p style="text-align: justify;">a.Rau cải, cà chua, su hào, cải bắp</p>
-<p style="text-align: justify;">b. Cây lúa, khoai tây, ngô, kê</p>
-<p style="text-align: justify;">c. Cây mít, cây vải, cây nhãn, cây ổi</p>
-<p style="text-align: justify;">d. Cây sen, cây sâm, cây hoa cúc, cà phê</p>
-<p class="Bodytext70" style="text-align: justify;"><strong>6. Thực vật ở nước (tảo) xuất hiện trong điều kiện nào ?</strong></p>
-<p style="text-align: justify;">a. Các đại dương chiếm phần lớn diện tích Trái Đất</p>
-<p style="text-align: justify;">b. Những sinh vật đầu tiên có cấu tạo rất đơn giản</p>
-<p style="text-align: justify;">c. Khí hậu nóng và rất ẩm</p>
-<p style="text-align: justify;">d. Cả a và b</p>
-<p style="text-align: justify;"><strong>Câu 2. Hãy sấp xếp các đặc điểm cấu tạo của cây Hạt trần và cây Hạt kín </strong>ở<em> </em><strong>cột B tương ứng với từng loại cây (hạt trần hoặc hạt kín) ở cột A rồi ghi vào cột kết quả.</strong><strong></strong></p>
-<table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
- <tbody>
-  <tr>
-   <td valign="top" width="95"> <p align="center"><strong>Các loại cây (A)</strong><strong></strong></p> </td>
-   <td valign="top" width="313"> <p align="center"><strong>Các đặc điểm c</strong><strong>ấ</strong><strong>u tạo</strong></p> <p align="center"><strong>(B)</strong><strong></strong></p> </td>
-   <td valign="top" width="79"> <p align="center"><strong>Kết qu</strong><strong>ả</strong><strong></strong></p> </td>
-  </tr>
-  <tr>
-   <td valign="top" width="95">
-    <ol>
-     <li>Hạt trần</li>
-     <li>Hạt kín</li>
-     <li>Rễ, thân, lá thật</li>
-     <li>Có mạch dan</li>
-    </ol></td>
-   <td valign="top" width="313"> <p>c.\&nbsp;\&nbsp; Hạt nằm trong quả</p>
-    <ol>
-     <li>Có hoa (cơ quan sinh sản là hoa, quả)</li>
-     <li>Hạt nằm trên lá noãn hở</li>
-     <li>Chưa có hoa, quả (cơ quan sinh sản là nón)</li>
-     <li>Có mạch dẫn hoàn thiện</li>
-    </ol> <p>h.\&nbsp;\&nbsp; Rễ, thân, lá thật (rất đa dạng)</p> </td>
-   <td valign="top" width="79"> <p>1...............</p> <p>2…………</p> </td>
-  </tr>
- </tbody>
-</table>
-<p>a) Tinh sadsad?</p>
-<p>cau 2a</p>
-<p>b) Hãy sadsad?</p>
-<p>cau 2b</p>
-<p>Phương pháp giải: cau 2 asdsadsa</p>
-<p>a) pp 2a asdgwe </p>
-<p>asdgwe </p>
-<p>b) pp2b asdgwe </p>
-<p>asdgwe </p>
-<p>Gợi ý: cau 2</p>
-<p>a) gya ádsadsadsadsadsa</p>
-<p>ádsadsadsadsadsa</p>
-<p>ádsadsadsadsadsa</p>
-<p>b) gyb ádsadsadsadsadsa</p>
-<p>ádsadsadsadsadsa</p>
-<p>ádsadsadsadsadsa</p>
-<p>Câu 3: Hãy asdsadsadcx ?</p>
-<p>a) cau 3a Hãy asdsadsadcx ?</p>
-<p>Phương pháp giải: pp3a asdsadsa</p>
-<p>Gợi ý: gy3a adsad</p>
-<p>b) cau3 b Hãy asdsadsadcx ?</p>
-<p>Phương pháp giải: pp3b</p>
-<p>asdsadsadcx ?</p>
-<p>Gợi ý: gy3b</p>
-<p>qưeasdsadsadcx</p>
-<p>qq asdsadsadcx</p>
-<p>Câu 4: Hãy asdsadsửewadcx?</p>
-
-<p style="text-align: justify;"><strong>II. T</strong><strong>Ự</strong><strong> LUẬN</strong> (5 điểm)</p>
-<p style="text-align: justify;"><strong>1. Thế nào là Phân loại thực vật ? Người ta phân chia thực vật thành các bậc phân loại từ cao đến thấp theo trật tự như thế nào ?</strong></p>
-<p style="text-align: justify;"><strong>2. Thế nào là thực vật quý hiếm ? Cần phải làm gì để bảo vệ đa dạng thực vật ở Việt Nam ?</strong><strong></strong></p>
-<p><strong class="content_detail">Lời giải chi tiết</strong></p>
-<p style="text-align: justify;"><strong>I.\&nbsp;\&nbsp;\&nbsp; </strong><strong>TR</strong><strong>Ắ</strong><strong>C NGHIỆM </strong>(5 điểm)<strong></strong></p>
-<p style="text-align: justify;"><strong>Câu 1. </strong><strong></strong></p>
-<table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
- <tbody>
-  <tr>
-
-   <td valign="top" width="106"> <p align="center"><strong>2</strong></p> </td>
-   <td valign="top" width="106"> <p align="center"><strong>3</strong></p> </td>
-   <td valign="top" width="106"> <p align="center"><strong>4</strong></p> </td>
-   <td valign="top" width="106"> <p align="center"><strong>5</strong></p> </td>
-   <td valign="top" width="106"> <p align="center"><strong>6</strong></p> </td>
-  </tr>
-  <tr>
-
-   <td valign="top" width="106"> <p align="center">d</p> </td>
-   <td valign="top" width="106"> <p align="center">c</p> </td>
-   <td valign="top" width="106"> <p align="center">d</p> </td>
-   <td valign="top" width="106"> <p align="center">b</p> </td>
-   <td valign="top" width="106"> <p align="center">a</p> </td>
-  </tr>
- </tbody>
-</table>
-<p>1. Chọn a.</p>
-<p style="text-align: justify;">\&nbsp;<strong>Câu 2.</strong></p>
-<table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
- <tbody>
-  <tr>
-   <td valign="top" width="319"> <p align="center"><strong>1</strong></p> </td>
-   <td valign="top" width="319"> <p align="center"><strong>2</strong></p> </td>
-  </tr>
-  <tr>
-   <td valign="top" width="319"> <p style="text-align: center;" align="center">a, b, e, g</p> </td>
-   <td valign="top" width="319"> <p style="text-align: center;">\&nbsp; c, d. h, i</p> </td>
-  </tr>
- </tbody>
-</table>
-<p style="text-align: justify;"><strong>Câu 4. </strong><strong></strong></p>
-<p> answer 4 </p>
-<p style="text-align: justify;"><strong>\&nbsp;</strong><strong>II.\&nbsp;\&nbsp;\&nbsp; </strong><strong>TỰ LUẬN </strong>(5 điểm)</p>
-<p style="text-align: justify;"><strong>Câu 1</strong>. * Phân loại thực vật là tìm hiểu sự giống nhau và khác nhau của thực vật rồi xếp chúng thành các bậc phân loại theo thứ tự nhất định.</p>
-<p style="text-align: justify;">* Người ta phân chia thực vật thành các bậc phân loại từ cao đến thấp theo trật tự sau:</p>
-<p style="text-align: justify;" align="center">Ngành – Lớp - Bộ - Họ - Chi – Loài</p>
-<p style="text-align: justify;">\&nbsp;Loài là bậc phân loại cơ sở. Bậc càng thấp thì sự khác nhau giữa các thực vật cùng bậc càng ít. Như vậy, loài là tập hợp của những cá thể có nhiều đặc điểm giống nhau về hình dạng, cấu tạo...</p>
-<p style="text-align: justify;"><strong>Câu 2</strong>. \&nbsp;\&nbsp;* Thực vật quý hiếm là thực vật có giá trị kinh tế (lấy gỗ, làm thuốc, cây công nghiệp...) nhưng đang bị khai thác quá mức và ngày càng hiếm đi.</p>
-<p style="text-align: justify;">\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp; * Để bảo vệ sự đa dạng thực vật ở Việt Nam cần phải:</p>
-<p style="text-align: justify;">- Ngăn chặn việc phá rừng để bảo vệ môi trường sống của thực vật</p>
-<p style="text-align: justify;">-\&nbsp; Hạn chế khai thác bừa bãi các loài thực vật quý hiếm, để bảo vệ số lượng cá thể loài</p>
-<p style="text-align: justify;">-\&nbsp; Xây dựng các vườn thực vật, vườn quốc gia, khu bảo tồn… để bảo tồn các loài thực vật, trong đó có thực vật quý hiếm</p>
-<p style="text-align: justify;">- Cấm buôn bán và xuất khẩu các loài thực vật quý hiếm</p>
-<p style="text-align: justify;">Tuyên truyền, giáo dục rộng rãi trong nhân dân để cùng tham gia bảo vệ rừng.</p>
-<p style="text-align: right;"><strong>\&nbsp;</strong></p>
-<div class="clearfix"></div>`
-
-
-// string_inner_html = `<h2 class="s14 lineheight"></h2>
+// {/* <p style="text-align: justify;"><strong>I. TRẮC NGHIỆM (5 điểm)</strong></p> */ }
+// {/* <p>a) cau 4a Hãy asdsadsadcx?</p>
+// <p>b) cau 4b Hãy asdsadsadcx ?</p>
+// <p>Phương pháp giải: pp4 asdsadsa</p>
+// <p>Gợi ý: gy4 adsad</p>
+// <p>a) gy4a qưeasdsadsadcx</p>
+// <p>b) gy4b qq asdsadsadcx</p> */}
+// var string_inner_html = `<h2 class="s14 lineheight"></h2>
 // <p><strong class="content_question">Đề bài</strong></p>
-// <p style="text-align: justify;"><strong>Cảm nhận vẻ đẹp của hai đoạn thơ sau</strong></p>
-// <p style="text-align: justify;"><em>Rải rác biên cương mồ viễn xứ</em></p>
-// <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
-// <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
-// <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em></p>
-// <p style="text-align: right;">(<strong>Tây Tiến -</strong>\&nbsp;Quang Dũng - Ngữ văn 12, tr89)</p>
-// <p style="text-align: justify;"><em>Em ơi em</em></p>
-// <p style="text-align: justify;"><em>Đất Nước là máu xương của mình</em></p>
-// <p style="text-align: justify;"><em>Phải biết gắn bó và san sẻ</em></p>
-// <p style="text-align: justify;"><em>Phải biết hóa thân cho dáng hình xứ sở</em></p>
-// <p style="text-align: justify;"><em>Làm nên Đất Nước muôn đời</em></p>
-// <p style="text-align: right;">(<strong>Đất Nước</strong>\&nbsp;<strong>-\&nbsp;</strong>Nguyễn Khoa Điềm\&nbsp;<strong>- </strong>Ngữ văn, tr120)</p>
-// <p><strong class="content_detail">Lời giải chi tiết</strong></p>
-// <p style="text-align: justify;"><strong>1. Giới thiệu chung</strong></p>
-// <p style="text-align: justify;"><strong>- Tây Tiến</strong>\&nbsp;của Quang Dũng và\&nbsp;<strong>Đất Nước</strong>\&nbsp;của Nguyễn Khoa Điềm là những bài thơ đặc sắc trong nền thơ cách mạng Việt Nam. Hai tác phẩm này đã nói về những con người vô danh lặng thầm chiến đấu bảo vệ quê hương. Mỗi bài thơ đều để lại những cảm xúc, suy tư sâu lắng trong lòng người đọc. Trong đó có những câu thơ rất đặc sắc:</p>
-// <p style="text-align: justify;">“<em>Rải rác biên cương mồ viễn xứ</em></p>
-// <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
-// <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
-// <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em>”</p>
-// <p style="text-align: justify;">Và:</p>
-// <p style="text-align: justify;"><em>“Em ơi em Đất Nước là máu xương của mình</em></p>
-// <p style="text-align: justify;"><em> Phải biết gắn bó và san sẻ</em></p>
-// <p style="text-align: justify;"><em> Phải biết hóa thân cho dáng hình xứ sở</em></p>
-// <p style="text-align: justify;"><em> Làm nên Đất Nước muôn đời”</em></p>
-// <p style="text-align: justify;"><strong>2. Phân tích</strong></p>
-// <p style="text-align: justify;"><strong>a. Đoạn thơ trong bài Tây Tiến</strong></p>
-// <p style="text-align: justify;"><strong>*Giới thiệu khái quát về tác giả, tác phẩm, vị trí đoạn thơ</strong></p>
-// <p style="text-align: justify;">+ Quang Dũng là nghệ sĩ đa tài (thơ, văn, nhạc, hoạ), cũng là một người lính, sống một đời lính oanh liệt, hào hùng. Quãng đời ấy đã trở thành cảm hứng đặc sắc trong thơ ông. Bài thơ Tây Tiến viết về người lính, về những chàng trai“chiến trường đi chẳng tiếc đời xanh”\&nbsp;– người lính Tây Tiến.</p>
-// <p style="text-align: justify;">+ Tây Tiến là một đơn vị bộ đội thành lập đầu năm 1947. Thành phần chủ yếu là thanh niên trí thức Hà Nội. Nhiệm vụ của họ là phối hợp với bộ đội Lào, đánh tiêu hao lực lượng địch ở Thượng Lào, bảo vệ biên giới Việt Lào. Sau một thời gian hoạt động ở Lào, đoàn quân Tây Tiến trở về Hoà Bình thành lập trung đoàn 52. Năm 1948, nhà thơ Quang Dũng chuyển sang đơn vị khác, không bao lâu, ông nhớ đơn vị cũ sáng tác bài thơ này.</p>
-// <p style="text-align: justify;">+ Bài thơ có 4 khổ, đây là khổ thứ 3, nội dung khắc hoạ hình tượng người lính Tây Tiến</p>
-// <p style="text-align: justify;"><strong>*Phân tích cụ thể</strong>:</p>
-// <p style="text-align: justify;">- Cảm hứng chủ đạo của bài thơ là nỗi nhớ, nhớ về đồng đội và địa bàn hoạt động của đoàn quân, nhớ về vùng đất mà bước chân hào hùng mà đoàn binh Tây Tiến đã đi qua – Tây Bắc. Vùng đất đó với thiên nhiên hoang sơ, hùng vĩ và thơ mộng, trữ tình, vùng đất ấy với những con người tài hoa, duyên dáng và nghĩa tình. Trên nền cảnh ấy là hình ảnh người lính Tây Tiến. Họ hiện lên thật ấn tượng với phẩm chất hào hùng đáng kính, họ đã hi sinh dọc đường hành quân, hi sinh dọc miền biên giới – họ đã hi sinh vì lí tưởng sống cao đẹp:</p>
-// <p style="text-align: justify;"><em>Rải rác biên cương mồ viễn xứ</em></p>
-// <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
-// <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
-// <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em></p>
-// <p style="text-align: justify;">- Đoạn thơ sử dụng rất nhiều từ Hán Việt mang sắc thái trân trọng, thể hiện không khí trang nghiêm, lòng thành kính thiêng liêng của nhà thơ trước sự hi sinh của đồng đội. Những từ ngữ ấy như những nén tâm nhang thắp lên đưa tiễn những người đã ngã xuống. Chính hệ thống từ ngữ ấy kết hợp với những hình ảnh giàu sức gợi (biên cương, chiến trường, áo bào, khúc độc hành) cũng tạo sắc thái cổ kính, gợi liên tưởng đến sự hi sinh oanh liệt của những anh hùng, dũng tướng sẵn sàng chấp nhận cảnh “da ngựa bọc thây” đầy bi tráng trong văn học trung đại.</p>
-// <p style="text-align: justify;">- Câu thơ đầu đoạn thơ sử dụng nhiều từ Hán Việt (biên cương, viễn xứ) nhưng sức nặng của cả câu lại dồn vào một từ thuần Việt:\&nbsp;“mồ”.\&nbsp;Mồ cũng là mộ nhưng không phải mộ theo đúng nghĩa. Đó chỉ là những nấm đất được đào vội, chôn mau ngay trên con đường hành quân vội vã để đoàn quân lại tiếp tục lên đường. Đặt trong không gian bao la, mênh mông hoang sơ của miền biên giới Việt – Lào, những nấm mồ ấy gợi lên bao nỗi xót xa.</p>
-// <p style="text-align: justify;">- Trong câu thơ thứ hai, tác giả sử dụng nghệ thuật đảo ngữ (chiến trường đi) để nhấn mạnh đích đến của người lính, người chiến sĩ. Trong hoàn cảnh đất nước có chiến tranh, sứ mệnh đất nước rất mỏng manh, chiến trường là đích đến duy nhất, là sự lựa chọn đầy trách nhiệm của cả một thế hệ. Với họ, “đường ra trận mùa này đẹp lắm” và “cuộc đời đẹp nhất trên trận chiến chống quân thù”. Cách nói\&nbsp;“chẳng tiếc đời xanh”\&nbsp;cho thấy sự dứt khoát, lòng quyết tâm, coi thường gian nguy, coi thường cái chết. Họ sẵn sàng hiến dâng cả đời xanh, tuổi trẻ, quãng đời đẹp nhất cho tổ quốc, hơn thế nữa, tính mạng của họ cũng sẵn sàng hi sinh để làm nên dáng hình đất nước. Họ ra đi với tinh thần của cả thời đại“Người ra đi đầu không ngoảnh lại”. Đó là lí tưởng sống cao đẹp, hào hùng.</p>
-// <p style="text-align: justify;">- Viết về người lính và cuộc kháng chiến vĩ đại của dân tộc ta, nhà thơ Quang Dũng rất chân thực, ông không hề né tránh hiện thực:</p>
-// <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
-// <p style="text-align: justify;">“Áo bào thay chiếu”\&nbsp;– một hình ảnh thực đến xót xa của chiến tranh. Nhưng cái thiếu thốn về vật chất lại được khoả lấp bằng sự hiên ngang, can trường của người lính. Từ Hán Việt và cách nói\&nbsp;“Áo bào thay chiếu anh về đất”làm cho cái chết của người lính Tây Tiến trở nên trang trọng hơn rất nhiều, thiêng liêng hơn nhiều. Nhà thơ vẫn gợi lên sự thật chung của cả thời chống Pháp là sự thiếu thốn về vật chất, ở vùng biên giới xa xôi thì sự thiếu thốn ấy còn nhân lên gấp bội. Với thái độ trân trọng đồng đội, nhà thơ Quang Dũng đã thấy họ như đang mặc tấm áo bào của chiến tướng mà\&nbsp;đi vào cõi vĩnh hằng, bất tử cùng sông núi. Cách nói\&nbsp;“về đất”\&nbsp;không chỉ\&nbsp; là cách nói giảm, nói tránh mà mang ý nghĩa biểu tượng thiêng liêng. Cái chết không phải là ra đi vào cõi hư vô bất định mà là trở về, trở về với đất Mẹ yêu thương. Đất Mẹ cũng đã mở lòng đón những đứa con đầy trách nhiệm của mình trở về.\&nbsp; Họ đã ra đi như thế đấy. Họ đã nằm lại nơi chân đèo, dốc núi nào đó trên con đường hành quân đầy gian khổ, nhọc nhằn, họ đã để lại mình nơi biên cương lạnh lẽo, hoang vắng. Nhưng họ đã ra đi vì lí tưởng, cái chết của họ \&nbsp;dù để lại nhiều xót xa trong lòng người đọc nhưng họ ra đi một cách rất thanh thản. Họ chỉ là “không bước nữa”, là “bỏ quên đời”, là “về đất”\&nbsp;thôi chứ không phải là chết. các anh đã ngã xuống, đã “hoá thân cho dáng hình xứ sở” để rồi mỗi thế núi hình sông, mỗi tên đất tên làng đều có bóng hình các anh. Các anh hi sinh, trở về trong lòng Đất Mẹ để\&nbsp;“cho cây đời mãi mãi xanh tươi”, để đem lại cho đất đai, cho quê hương đất nước sự sống bất tận.</p>
-// <p style="text-align: justify;">- Đoạn thơ kết thúc bằng một âm hưởng hào hùng. Dường như linh hồn người tử sĩ đã hòa cùng sông núi, con sông Mã đã tấu lên khúc nhạc đau thương, hùng tráng để tiễn đưa người lính vào cõi bất tử. Hình tượng “sông Mã” ở cuối bài thơ được phóng đại và nhân hóa, tô đậm cái chết bi hùng của người lính_ sự hi sinh làm lay động đất trời, khiến dòng sông gầm lên đớn đau, thương tiếc.</p>
-// <p style="text-align: justify;">* Nghệ thuật</p>
-// <p style="text-align: justify;"><strong> </strong>- Bằng bút pháp lãng mạn và âm hưởng bi tráng, đoạn thơ ngợi ca những phẩm chất tốt đẹp của người lính Tây Tiến trong cuộc kháng chiến chống Pháp.</p>
-// <p style="text-align: justify;"><strong>b. Đoạn thơ trong bài “Đất Nước” của Nguyễn Khoa Điềm là lời nhắn nhủ của nhà thơ về trách nhiệm của thế hệ trẻ đối với non sông đất nước:</strong></p>
-// <p style="text-align: justify;"><strong>*Giới thiệu khái quát về tác giả, tác phẩm:</strong></p>
-// <p style="text-align: justify;">+ Nguyễn Khoa Điềm là một trong những nhà thơ tiêu biểu của thế hệ các nhà thơ trẻ thời chống Mỹ .\&nbsp;Ông\&nbsp;xuất thân từ một gia đình trí thức cách mạng ở Huế, bản thân ông tham gia trực tiếp vào phong trào đấu tranh sinh viên nên thơ Nguyễn Khoa Điềm rất giàu chất suy tư, cảm xúc dồn nén mang tâm tư của người trí thức….</p>
-// <p style="text-align: justify;">+ Đất Nứơc là phần đầu chương V của trường ca Mặt đường khát vọng, viết năm 1971 tại chiến khu Trị Thiên giữa lúc cuộc kháng chiến chống Mĩ đang hết sức khốc liệt .</p>
-// <p style="text-align: justify;"><strong>*Phân tích cụ thể</strong><strong>:</strong></p>
-// <p style="text-align: justify;"><em> “Em ơi em Đất Nước là máu xương của mình</em></p>
-// <p style="text-align: justify;"><em> Phải biết gắn bó và san sẻ</em></p>
-// <p style="text-align: justify;"><em> Phải biết hóa thân cho dáng hình xứ sở</em></p>
-// <p style="text-align: justify;"><em> Làm nên Đất Nước muôn đời”</em></p>
-// <p style="text-align: justify;">– Đoạn thơ có giọng điệu tâm tình sâu lắng, thiết tha. Tác giả tạo ra cuộc trò chuyện thân mật giữa nhân vật trữ tình “anh” với “em”. Giọng điệu ấy đã làm mềm hóa nặng nề, khô khan của chất chính luận.</p>
-// <p style="text-align: justify;">– Nguyễn Khoa Điềm đã khám phá một định luật rất mới “Đất Nước là máu xương của mình”. Hình ảnh so sánh độc đáo ấy có hàm ý khẳng định: Đất nước là sự sống thiêng liêng đối với mỗi con người.</p>
-// <p style="text-align: justify;">Nguyễn Khoa Điềm nhắc nhở mỗi người chúng ta phải biết trân trọng đất nước hôm nay.</p>
-// <p style="text-align: justify;">– Từ việc xác định vai trò quan trọng của đất nước đối với mỗi con người, nhà thơ khơi gợi ý thức trách nhiệm của mỗi công dân, nhất là thế hệ trẻ. Phép điệp ngữ “phải biết” vừa có ý nghĩa cầu khiến vừa là lời thiết tha, mong chờ như mệnh lệnh từ trái tim. Ba cụm động từ cụ thể hóa trách nhiệm của mỗi con người: “Gắn bó” là lời kêu gọi đoàn kết, hữu ái giai cấp. Vì có đoàn kết là có sức mạnh. “San sẻ” là mong muốn mỗi người có ý thức gánh vác trách nhiệm với quê hương. Còn “hóa thân” là biểu hiện tinh thần sẵn sàng hi sinh cho đất nước, là sự dâng hiến thiêng liêng, đẹp đẽ.</p>
-// <p style="text-align: justify;">* Nghệ thuật:</p>
-// <p style="text-align: justify;"><strong> </strong>– Đoạn thơ mang tính chính luận nhưng được diễn đạt bằng hình thức đối thoại, giọng điệu trữ tình kết hợp với biện pháp tu từ điệp ngữ. Từ “Đất Nước” dược lặp lại hai lần kết hợp cách viết hoa đã tăng thêm sự tôn kính thiêng liêng, thể hiện quan niệm lớn: “Đất Nước của nhân dân”.</p>
-// <p style="text-align: justify;"><strong>c. So sánh:</strong></p>
-// <p style="text-align: justify;"><strong>* Giống nhau:</strong></p>
-// <p style="text-align: justify;">Tư tưởng của cả hai đoạn thơ đều là tư tưởng cao đẹp: cống hiến, dâng hiến tuổi trẻ mình cho đất nước non sông.</p>
-// <p style="text-align: justify;"><strong>* Khác nhau:</strong></p>
-// <p style="text-align: justify;">– “Tây Tiến” với cảm hứng đất nước được gợi lên từ nỗi nhớ cũa người lính vùng cao về những năm tháng đầu của cuộc kháng chiến chống thực dân Pháp. “Đất Nước” hoàn thành trong cuộc kháng chiến chống đế quốc Mĩ tại mặt trận Trị Thiên bộc lộ cảm hứng đất nước qua cái nhìn tổng quát đưa đến những chiêm nghiệm mới mẻ, sâu sắc về đất nước: Đất nước là tất cả những gì gắn bó máu thịt với mỗi con người.</p>
-// <p style="text-align: justify;">-Đoạn thơ trong bài\&nbsp;Tây Tiến\&nbsp;được viết bằng thể thơ thất ngôn, có sử dụng nhiều từ Hán Việt trang trọng với giọng điệu thơ dứt khoát, mạnh mẽ, âm hưởng hào hùng\&nbsp; để tô đậm hiện thực khốc liệt của chiến tranh và khẳng định sự bất tử của người chiến sĩ vô danh.</p>
-// <p style="text-align: justify;">- Đoạn thơ trong\&nbsp;Đất Nước\&nbsp;được viết bằng thể thơ tự do, giọng điệu tâm tình trò chuyện, từ ngữ giản dị, gần gũi nhằm khẳng định vai trò to lớn của nhân dân vô danh.</p>
-// <p style="text-align: justify;"><strong>Lí giải :</strong></p>
-// <p style="text-align: justify;">Sự khác biệt như trên \&nbsp;:</p>
-// <p style="text-align: justify;">Do hoàn cảnh sáng tác</p>
-// <p style="text-align: justify;">Do phong cách, cá tính sáng tạo của mỗi nhà thơ</p>
-// <p style="text-align: justify;"><strong>3. Tổng kết</strong></p>
-// <p style="text-align: justify;">Đánh giá chung về giá trị hai đoạn thơ và tài năng nghệ thuật của hai tác giả</p>
-// <p style="text-align: right;"><strong></strong></p>
-// <div class="clearfix"></div>`;
 
-// string_inner_html = `<h2 class="s14 lineheight"></h2>
-// <p><strong class="content_question">Đề bài</strong></p>
-// <p style="text-align: justify;"><strong>I. Phần trắc nghiệm</strong>\&nbsp;<em>(4 điểm)</em></p>
-// <p style="text-align: justify;"><strong>Câu 1:</strong>\&nbsp;Tại sao đột biến gen thường có hại cho cơ thể sinh vật nhưng vẫn có vai trò quan trọng trong quá trình tiến hóa?</p>
-// <p style="text-align: justify;">(1): tần số đột biến gen trong tự nhiên là không đáng kể nên tần số alen đột biến có hại là rất thấp.</p>
-// <p style="text-align: justify;">(2): khi môi trường thay đổi, thể đột biến có thể thay đổi giá trị thích nghi.</p>
-// <p style="text-align: justify;">(3): giá trị thích nghi của đột biến tùy thuộc vào tổ hợp gen.</p>
-// <p style="text-align: justify;">(4): đột biến gen thường có hại nhưng nó tồn tại ở dạng dị hợp nên không gây hại.</p>
-// <p style="text-align: justify;">Câu trả lời đúng nhất là</p>
-// <p style="text-align: justify;">A. (3) và (4).</p>
-// <p style="text-align: justify;">B. (2) và (4).</p>
-// <p style="text-align: justify;">C. (1) và (3).</p>
-// <p style="text-align: justify;">D. (2) và (3).</p>
-// <p style="text-align: justify;"><strong>Câu 2:</strong>\&nbsp;Các nhân tố tiến hóa nào vừa làm thay đổi tần số tương đối các alen của gen vừa làm thay đổi thành phần kiểu gen của quần thể? (1): chọn lọc tự nhiên; (2): giao phối không ngẫu nhiên; (3): di - nhập gen; (4): đột biến; (5): các yêu tố ngẫu nhiên. Trả lời đúng là</p>
-// <p style="text-align: justify;">A. (1), (2), (4), (5).</p>
-// <p style="text-align: justify;">B. (1), (2), (3), (4).</p>
-// <p style="text-align: justify;">C. (1), (3), (4), (5).</p>
-// <p style="text-align: justify;">D. Tất cả các nhân tố trên.</p>
-// <p style="text-align: justify;"><strong>Câu 3:</strong>\&nbsp;Trong rừng mưa nhiệt đới, những cây thân gỗ có chiều cao vượt lên tầng trên của tán rừng thuộc nhóm thực vật</p>
-// <p style="text-align: justify;">A. ưa sáng.</p>
-// <p style="text-align: justify;">B. chịu bóng.</p>
-// <p style="text-align: justify;">C. ưa bóng.</p>
-// <p style="text-align: justify;">D. ưa bóng và ưa ẩm.</p>
-// <p style="text-align: justify;"><strong>Câu 4:</strong>\&nbsp;Thành phần hữu sinh của một hệ sinh thái bao gồm:</p>
-// <p style="text-align: justify;">A. sinh vật sản xuất, sinh vật tiêu thụ, sinh vật phân giải</p>
-// <p style="text-align: justify;">B. sinh vật sản xuất, sinh vật ăn thực vật, sinh vật phân giải</p>
-// <p style="text-align: justify;">C. sinh vật ăn thực vật, sinh vật ăn động vật, sinh vật phân giải</p>
-// <p style="text-align: justify;">D. sinh vật sản xuất, sinh vật ăn động vật, sinh vật phân giải</p>
-// <p style="text-align: justify;"><strong>Câu 5:</strong>\&nbsp;Tác động của vi khuẩn nitrát hóa là:</p>
-// <p style="text-align: justify;">A. cố định nitơ trong đất thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
-// <p style="text-align: justify;">B. cố định nitơ trong nước thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
-// <p style="text-align: justify;">C. biến đổi nitrit (NO<sub>2</sub><sup>-</sup>) thành nitrát (NO<sub>3</sub><sup>-</sup>)</p>
-// <p style="text-align: justify;">D. biến đổi nitơ trong khí quyển thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
-// <p style="text-align: justify;"><strong>Câu 6:</strong>\&nbsp;Trong chu trình cacbon, điều nào dưới đây là không đúng:</p>
-// <p style="text-align: justify;">A. cacbon đi vào chu trình dưới dạng cacbonđiôxit</p>
-// <p style="text-align: justify;">B. thông qua quang hợp, thực vật lấy CO<sub>2</sub>\&nbsp;để tạo ra chất hữu cơ</p>
-// <p style="text-align: justify;">C. động vật ăn cỏ sử dụng thực vật làm thức ăn chuyển các hợp chất chứa cacbon cho động vật ăn thịt</p>
-// <p style="text-align: justify;">D. phần lớn CO<sup>2</sup>\&nbsp;được lắng đọng, không hoàn trả vào chu trình</p>
-// <p style="text-align: justify;"><strong>Câu 7:</strong>\&nbsp;Sinh vật sản xuất là những sinh vật:</p>
-// <p style="text-align: justify;">A. phân giải vật chất (xác chết, chất thải) thành những chất vô cơ trả lại cho môi trường</p>
-// <p style="text-align: justify;">B. động vật ăn thực vật và động vật ăn động vật</p>
-// <p style="text-align: justify;">C. có khả năng tự tổng hợp nên các chất hữu cơ để tự nuôi sống bản thân</p>
-// <p style="text-align: justify;">D. chỉ gồm các sinh vật có khả năng hóa tổng hợp</p>
-// <p style="text-align: justify;"><strong>Câu 8:</strong>\&nbsp;Để cải tạo đất nghèo đạm, nâng cao năng suất cây trồng người ta sử dụng biện pháp sinh học nào?</p>
-// <p style="text-align: justify;">A. trồng các cây họ Đậu</p>
-// <p style="text-align: justify;">B. trồng các cây lâu năm</p>
-// <p style="text-align: justify;">C. trồng các cây một năm</p>
-// <p style="text-align: justify;">D. bổ sung phân đạm hóa học.</p>
-// <p style="text-align: justify;"><strong>II. Phần tự luận</strong>\&nbsp;<em>(6 điểm)</em></p>
-// <p style="text-align: justify;"><strong>Câu 1</strong>\&nbsp;(3 điểm): So sánh hệ sinh thái tự nhiên và hệ sinh thái nhân tạo.</p>
-// <p style="text-align: justify;"><strong>Câu 2</strong>\&nbsp;(3 điểm): Mô tả đặc điểm và ý nghĩa cuả các kiểu phân bố cơ bản trong quần thể.</p>
+// <p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
+// <p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
+// <p style="text-align: justify;"><strong>Câu 1:</strong> <strong>Trong cac cau sau</strong><strong></strong></p>
+// <p>Hãy chọn phương án trả lời đúng nhất:</p>
+// <p class="Bodytext70" style="text-align: justify;"><strong>1. Lớp Hai lá mầm có kiểu rễ và gân lá là:</strong></p>
+// <p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
+// <p style="text-align: justify;">a. Rễ\&nbsp; cọc, gân hình mạng km/h {} <sup>2</sup> </p>
+// <p style="text-align: justify;">b.\&nbsp; Rễ chùm, gân hình cung hoặc song song</p>
+// <p style="text-align: justify;">c.\&nbsp; Rễ cọc, gân hình cung hoặc song song</p>
+// <p style="text-align: justify;">d. Rễ chùm, gân hình mạng</p>
+// <p>Phương pháp giải: 1</p>
+// <p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
+// <p>Trả lời: 1 asda</p>
+// <p>Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí</p>
+// <p class="Bodytext70" style="text-align: justify;"><strong>2. Dựa vào đâu người ta nói thực vật có khả năng diều hòa không khí ?</strong></p>
+// <p style="text-align: justify;">a. \&nbsp;\&nbsp;\&nbsp;Sự hô hấp của con người, động thực vật, hoạt động của nhà máy, sự đốt cháy… đều tiêu tốn O<sub>2</sub> và thải ra các khí cacbônic</p>
+// <p style="text-align: justify;">\&nbsp;b. Thực vật quang hợp tiêu thụ khí cacbônic và thải khí O<sub>2</sub>, góp phần (chủ yếu) làm cân bằng các khí này trong không khí</p>
+// <p style="text-align: justify;">c. Ở thực vật, lượng khí CO<sub>2</sub> thải ra trong hô hấp được sử dụng ngay vào quá trình quang hợp nên vẫn giữ được môi trường trong sạch</p>
+// <p style="text-align: justify;">\&nbsp;d. Câu a và b đều đúng.</p>
+// <p>Trả lời: 2 Chọn b</p>
+// <p class="Bodytext70" style="text-align: justify;"><strong>3. Lớp Một lá mầm có số cánh hoa là bao nhiêu trong các trường hợp sau?</strong></p>
+// <p class="Bodytext70" style="text-align: justify;">\&nbsp;a. \&nbsp;\&nbsp;4 cánh\&nbsp;\&nbsp;\&nbsp;\&nbsp; b. 5 cánh\&nbsp;\&nbsp;\&nbsp;\&nbsp; c. 3 – 6 cánh\&nbsp;\&nbsp;\&nbsp;\&nbsp; d. 4 – 5 cánh</p>
+// <p class="Bodytext70" style="text-align: justify;"><strong>4. Tại sao nói vi khuẩn là sinh vật dị dưỡng ?</strong></p>
+// <p style="text-align: justify;">a. \&nbsp;\&nbsp;\&nbsp;Hầu hết vi khuẩn không có chất diệp lục, nên không tạo được chất hữu cơ nuôi cơ thể</p>
+// <p style="text-align: justify;">Có loại vi khuẩn sống bằng các chất hữu cơ có sẵn trong xác các động thực vật gọi là hoại sinh</p>
+// <p style="text-align: justify;">\&nbsp;Có loại vi khuẩn sống nhờ trên cơ thể sống khác gọi là kí sinh</p>
+// <p style="text-align: justify;">Cả a, b và c</p>
+// <p class="Bodytext70" style="text-align: justify;"><strong>5. Nhóm cây nào sau đây toàn là cây lương thực ?</strong></p>
+// <p style="text-align: justify;">a.Rau cải, cà chua, su hào, cải bắp</p>
+// <p style="text-align: justify;">b. Cây lúa, khoai tây, ngô, kê</p>
+// <p style="text-align: justify;">c. Cây mít, cây vải, cây nhãn, cây ổi</p>
+// <p style="text-align: justify;">d. Cây sen, cây sâm, cây hoa cúc, cà phê</p>
+// <p class="Bodytext70" style="text-align: justify;"><strong>6. Thực vật ở nước (tảo) xuất hiện trong điều kiện nào ?</strong></p>
+// <p style="text-align: justify;">a. Các đại dương chiếm phần lớn diện tích Trái Đất</p>
+// <p style="text-align: justify;">b. Những sinh vật đầu tiên có cấu tạo rất đơn giản</p>
+// <p style="text-align: justify;">c. Khí hậu nóng và rất ẩm</p>
+// <p style="text-align: justify;">d. Cả a và b</p>
+// <p style="text-align: justify;"><strong>Câu 2. Hãy sấp xếp các đặc điểm cấu tạo của cây Hạt trần và cây Hạt kín </strong>ở<em> </em><strong>cột B tương ứng với từng loại cây (hạt trần hoặc hạt kín) ở cột A rồi ghi vào cột kết quả.</strong><strong></strong></p>
+// <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
+//  <tbody>
+//   <tr>
+//    <td valign="top" width="95"> <p align="center"><strong>Các loại cây (A)</strong><strong></strong></p> </td>
+//    <td valign="top" width="313"> <p align="center"><strong>Các đặc điểm c</strong><strong>ấ</strong><strong>u tạo</strong></p> <p align="center"><strong>(B)</strong><strong></strong></p> </td>
+//    <td valign="top" width="79"> <p align="center"><strong>Kết qu</strong><strong>ả</strong><strong></strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td valign="top" width="95">
+//     <ol>
+//      <li>Hạt trần</li>
+//      <li>Hạt kín</li>
+//      <li>Rễ, thân, lá thật</li>
+//      <li>Có mạch dan</li>
+//     </ol></td>
+//    <td valign="top" width="313"> <p>c.\&nbsp;\&nbsp; Hạt nằm trong quả</p>
+//     <ol>
+//      <li>Có hoa (cơ quan sinh sản là hoa, quả)</li>
+//      <li>Hạt nằm trên lá noãn hở</li>
+//      <li>Chưa có hoa, quả (cơ quan sinh sản là nón)</li>
+//      <li>Có mạch dẫn hoàn thiện</li>
+//     </ol> <p>h.\&nbsp;\&nbsp; Rễ, thân, lá thật (rất đa dạng)</p> </td>
+//    <td valign="top" width="79"> <p>1...............</p> <p>2…………</p> </td>
+//   </tr>
+//  </tbody>
+// </table>
+// <p>a) Tinh sadsad?</p>
+// <p>cau 2a</p>
+// <p>b) Hãy sadsad?</p>
+// <p>cau 2b</p>
+// <p>Phương pháp giải: cau 2 asdsadsa</p>
+// <p>a) pp 2a asdgwe </p>
+// <p>asdgwe </p>
+// <p>b) pp2b asdgwe </p>
+// <p>asdgwe </p>
+// <p>Gợi ý: cau 2</p>
+// <p>a) gya ádsadsadsadsadsa</p>
+// <p>ádsadsadsadsadsa</p>
+// <p>ádsadsadsadsadsa</p>
+// <p>b) gyb ádsadsadsadsadsa</p>
+// <p>ádsadsadsadsadsa</p>
+// <p>ádsadsadsadsadsa</p>
+// <p>Câu 3: Hãy asdsadsadcx ?</p>
+// <p>a) cau 3a Hãy asdsadsadcx ?</p>
+// <p>Phương pháp giải: pp3a asdsadsa</p>
+// <p>Gợi ý: gy3a adsad</p>
+// <p>b) cau3 b Hãy asdsadsadcx ?</p>
+// <p>Phương pháp giải: pp3b</p>
+// <p>asdsadsadcx ?</p>
+// <p>Gợi ý: gy3b</p>
+// <p>qưeasdsadsadcx</p>
+// <p>qq asdsadsadcx</p>
+// <p>Câu 4: Hãy asdsadsửewadcx?</p>
+
+// <p style="text-align: justify;"><strong>II. T</strong><strong>Ự</strong><strong> LUẬN</strong> (5 điểm)</p>
+// <p style="text-align: justify;"><strong>1. Thế nào là Phân loại thực vật ? Người ta phân chia thực vật thành các bậc phân loại từ cao đến thấp theo trật tự như thế nào ?</strong></p>
+// <p style="text-align: justify;"><strong>2. Thế nào là thực vật quý hiếm ? Cần phải làm gì để bảo vệ đa dạng thực vật ở Việt Nam ?</strong><strong></strong></p>
 // <p><strong class="content_detail">Lời giải chi tiết</strong></p>
-// <p style="text-align: justify;"><strong>I. Phần trắc nghiệm</strong>\&nbsp;<em>(4 điểm)</em></p>
-// <p style="text-align: justify;"><em>Mỗi câu trả lời đúng 0.5 điểm</em></p>
+// <p style="text-align: justify;"><strong>I.\&nbsp;\&nbsp;\&nbsp; </strong><strong>TR</strong><strong>Ắ</strong><strong>C NGHIỆM </strong>(5 điểm)<strong></strong></p>
+// <p style="text-align: justify;"><strong>Câu 1. </strong><strong></strong></p>
 // <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
 //  <tbody>
 //   <tr>
-//    <td valign="top" width="128"> <p align="center"><strong>1.D</strong></p> </td>
-//    <td valign="top" width="128"> <p align="center"><strong>2.C</strong></p> </td>
-//    <td valign="top" width="128"> <p align="center"><strong>3.A</strong></p> </td>
-//    <td valign="top" width="128"> <p align="center"><strong>4.A</strong></p> </td>
-//    <td valign="top" width="128"> <p align="center"><strong>5.C</strong></p> </td>
+
+//    <td valign="top" width="106"> <p align="center"><strong>2</strong></p> </td>
+//    <td valign="top" width="106"> <p align="center"><strong>3</strong></p> </td>
+//    <td valign="top" width="106"> <p align="center"><strong>4</strong></p> </td>
+//    <td valign="top" width="106"> <p align="center"><strong>5</strong></p> </td>
+//    <td valign="top" width="106"> <p align="center"><strong>6</strong></p> </td>
 //   </tr>
 //   <tr>
-//    <td valign="top" width="128"> <p align="center"><strong>6.D</strong></p> </td>
-//    <td valign="top" width="128"> <p align="center"><strong>7.C</strong></p> </td>
-//    <td valign="top" width="128"> <p align="center"><strong>8.A</strong></p> </td>
-//    <td valign="top" width="128"> <p align="center"><strong>\&nbsp;</strong></p> </td>
-//    <td valign="top" width="128"> <p align="center"><strong>\&nbsp;</strong></p> </td>
+
+//    <td valign="top" width="106"> <p align="center">d</p> </td>
+//    <td valign="top" width="106"> <p align="center">c</p> </td>
+//    <td valign="top" width="106"> <p align="center">d</p> </td>
+//    <td valign="top" width="106"> <p align="center">b</p> </td>
+//    <td valign="top" width="106"> <p align="center">a</p> </td>
 //   </tr>
 //  </tbody>
 // </table>
-// <p style="text-align: justify;">\&nbsp;<strong>II. Phần tự luận</strong>\&nbsp;<em>(6 điểm)</em></p>
-// <p style="text-align: justify;"><strong>Câu 1</strong></p>
-// <p style="text-align: justify;"><strong>* Giống nhau: (1 điểm)</strong></p>
-// <p style="text-align: justify;">- Hệ sinh thái tự nhiên và nhân tạo đều có những đặc điếm chung về thành phần cấu trúc, bao gồm thành phần vật chất vô sinh và thành phần hữu sinh.</p>
-// <p style="text-align: justify;">- Thành phần vật chất vô sinh là môi trường vật lí (sinh cảnh) và thành phần hữu sinh là quần xã sinh vật.</p>
-// <p style="text-align: justify;">- Các sinh vật trong quần xã luôn tác động lẫn nhau và đồng thời tác động với các thành phần vô sinh của sinh cảnh.</p>
-// <p style="text-align: justify;"><strong>* Khác nhau:</strong></p>
+// <p>1. Chọn a.</p>
+// <p style="text-align: justify;">\&nbsp;<strong>Câu 2.</strong></p>
 // <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
 //  <tbody>
 //   <tr>
-//    <td valign="top"> <p>Hệ sinh thái tự nhiên</p> </td>
-//    <td valign="top"> <p>Hệ sinh thái nhân tạo</p> </td>
-//    <td valign="top"> <p>Điểm</p> </td>
+//    <td valign="top" width="319"> <p align="center"><strong>1</strong></p> </td>
+//    <td valign="top" width="319"> <p align="center"><strong>2</strong></p> </td>
 //   </tr>
 //   <tr>
-//    <td valign="top"> <p>Thành phần loài đa dạng</p> </td>
-//    <td valign="top"> <p>Thành phần loài ít, ít đa dạng</p> </td>
-//    <td valign="top"> <p>0,5</p> </td>
-//   </tr>
-//   <tr>
-//    <td valign="top"> <p>Ít chịu sự chi phối của con người</p> </td>
-//    <td valign="top"> <p>Chịu sự chi phối, điều khiển của con người</p> </td>
-//    <td valign="top"> <p>0,5</p> </td>
-//   </tr>
-//   <tr>
-//    <td valign="top"> <p>Sự tăng trưởng của các cá thể chậm, phụ thuộc vào điều kiện môi trường</p> </td>
-//    <td valign="top"> <p>Được áp dụng các biện pháp canh tác và kĩ thuật hiện đại nên sinh trưởng của các cá thể nhanh, năng suất sinh học cao</p> </td>
-//    <td valign="top"> <p>0,5</p> </td>
-//   </tr>
-//   <tr>
-//    <td valign="top"> <p>Tính ổn định cao, tự điều chỉnh, mắc bệnh ít chuyển thành dịch</p> </td>
-//    <td valign="top"> <p>Tính ổn định thấp, dễ bị biến đổi, dễ mắc dịch bệnh</p> </td>
-//    <td valign="top"> <p>0,5</p> </td>
+//    <td valign="top" width="319"> <p style="text-align: center;" align="center">a, b, e, g</p> </td>
+//    <td valign="top" width="319"> <p style="text-align: center;">\&nbsp; c, d. h, i</p> </td>
 //   </tr>
 //  </tbody>
 // </table>
-// <p style="text-align: justify;"><strong>Câu 2</strong></p>
-// <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
-//  <tbody>
-//   <tr>
-//    <td valign="top"> <p>Kiểu phân bố</p> </td>
-//    <td valign="top"> <p>Đặc điểm</p> </td>
-//    <td valign="top"> <p>Ý nghĩa sinh thái</p> </td>
-//    <td valign="top"> <p>Điểm</p> </td>
-//   </tr>
-//   <tr>
-//    <td valign="top"> <p>Phân bố theo nhóm</p> </td>
-//    <td valign="top"> <p>Là kiểu phân bố phổ biến nhất, các cá thể của quần thể tập trung theo từng nhóm ở những nơi có điều kiện sống tốt nhất. Phân bố theo nhóm xuất hiện nhiều ở sinh vật sống thành bầy đàn, khi chúng trú đông, ngủ đông, di cư...</p> </td>
-//    <td valign="top"> <p>Các cá thể hỗ trợ lẫn nhau chống lại điều kiện bất lợi của môi trường.</p> </td>
-//    <td valign="top"> <p>1</p> </td>
-//   </tr>
-//   <tr>
-//    <td valign="top"> <p>Phân bố đồng đều</p> </td>
-//    <td valign="top"> <p>Thường gặp khi điều kiện sống phân bố một cách đồng đều trong môi trường và khi có sự cạnh tranh gay gắt giữa các cá thể của quần thể.</p> </td>
-//    <td valign="top"> <p>Làm giảm mức độ cạnh tranh giữa các cá thể trong quần thể.</p> </td>
-//    <td valign="top"> <p>1</p> </td>undefined
-//   </tr>
-//   <tr>
-//    <td valign="top"> <p>Phân bố ngẫu nhiên</p> </td>
-//    <td valign="top"> <p>Là dạng trung gian của hai dạng trên.</p> </td>
-//    <td valign="top"> <p>Sinh vật tận dụng được nguồn sống tiềm tàng trong môi trường.</p> </td>
-//    <td valign="top"> <p>1</p> </td>
-//   </tr>
-//  </tbody>
-// </table>
+// <p style="text-align: justify;"><strong>Câu 4. </strong><strong></strong></p>
+// <p> answer 4 </p>
+// <p style="text-align: justify;"><strong>\&nbsp;</strong><strong>II.\&nbsp;\&nbsp;\&nbsp; </strong><strong>TỰ LUẬN </strong>(5 điểm)</p>
+// <p style="text-align: justify;"><strong>Câu 1</strong>. * Phân loại thực vật là tìm hiểu sự giống nhau và khác nhau của thực vật rồi xếp chúng thành các bậc phân loại theo thứ tự nhất định.</p>
+// <p style="text-align: justify;">* Người ta phân chia thực vật thành các bậc phân loại từ cao đến thấp theo trật tự sau:</p>
+// <p style="text-align: justify;" align="center">Ngành – Lớp - Bộ - Họ - Chi – Loài</p>
+// <p style="text-align: justify;">\&nbsp;Loài là bậc phân loại cơ sở. Bậc càng thấp thì sự khác nhau giữa các thực vật cùng bậc càng ít. Như vậy, loài là tập hợp của những cá thể có nhiều đặc điểm giống nhau về hình dạng, cấu tạo...</p>
+// <p style="text-align: justify;"><strong>Câu 2</strong>. \&nbsp;\&nbsp;* Thực vật quý hiếm là thực vật có giá trị kinh tế (lấy gỗ, làm thuốc, cây công nghiệp...) nhưng đang bị khai thác quá mức và ngày càng hiếm đi.</p>
+// <p style="text-align: justify;">\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp; * Để bảo vệ sự đa dạng thực vật ở Việt Nam cần phải:</p>
+// <p style="text-align: justify;">- Ngăn chặn việc phá rừng để bảo vệ môi trường sống của thực vật</p>
+// <p style="text-align: justify;">-\&nbsp; Hạn chế khai thác bừa bãi các loài thực vật quý hiếm, để bảo vệ số lượng cá thể loài</p>
+// <p style="text-align: justify;">-\&nbsp; Xây dựng các vườn thực vật, vườn quốc gia, khu bảo tồn… để bảo tồn các loài thực vật, trong đó có thực vật quý hiếm</p>
+// <p style="text-align: justify;">- Cấm buôn bán và xuất khẩu các loài thực vật quý hiếm</p>
+// <p style="text-align: justify;">Tuyên truyền, giáo dục rộng rãi trong nhân dân để cùng tham gia bảo vệ rừng.</p>
 // <p style="text-align: right;"><strong>\&nbsp;</strong></p>
-// <div class="clearfix"></div>`;
-
-// string_inner_html = `
-// <h2 class="s14 lineheight"></h2>
-// <p><strong class="content_question">Đề bài</strong></p>
-// <p style="text-align: justify;">Tại sao đột biến gen mặc dù thường có hại cho cơ thể sinh vật nhưng vẫn có vai trò quan trọng trong quá trình tiến hoá?</p>
-// <p style="text-align: justify;">I. Tần số đột biến gen trong tự nhiên là không đáng kể nên tần số alen đột biến có hại là rất thấp.</p>
-// <p style="text-align: justify;">II. Gen đột biến có thể có hại trong môi trường này nhưng lại có thể có hại hoặc có lợi trong môi trường khác.</p>
-// <p style="text-align: justify;">III. Gen đột biến có thể có hại trong tổ hợp gen này nhưng lại có thể trở nên có hại hoặc có lợi trong tổ hợp gen khác.</p>
-// <p style="text-align: justify;">IV. Đột biến gen thường có hại nhưng nó thường tổn tại ở trạng thái dị hợp tử nên không gây hại.</p>
-// <p class="Bodytext1" style="text-align: justify;">Câu trả lời đúng nhất là:</p>
-// <p class="Bodytext250" style="text-align: justify;" align="left">A. I và II\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;B. I và III</p>
-// <p class="Bodytext250" style="text-align: justify;" align="left">C. IV và III \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;D. II và III</p>
-// <p><strong class="content_detail">Lời giải chi tiết</strong></p>
-// <p>Xét các phát biểu:</p>
-// <p>I sai, tần số đột biến gen thấp nhưng không phải gen đột biến nào cũng gây hại</p>
-// <p>II đúng,</p>
-// <p>III đúng</p>
-// <p>IV Sai, có nhiều đột biến tạo ra gen trội gây hại ở ngay trạng thái dị hợp tử</p>
-// <p><strong>Trả lời Chọn D</strong></p>
 // <div class="clearfix"></div>`
 
+
+// // string_inner_html = `<h2 class="s14 lineheight"></h2>
+// // <p><strong class="content_question">Đề bài</strong></p>
+// // <p style="text-align: justify;"><strong>Cảm nhận vẻ đẹp của hai đoạn thơ sau</strong></p>
+// // <p style="text-align: justify;"><em>Rải rác biên cương mồ viễn xứ</em></p>
+// // <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
+// // <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
+// // <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em></p>
+// // <p style="text-align: right;">(<strong>Tây Tiến -</strong>\&nbsp;Quang Dũng - Ngữ văn 12, tr89)</p>
+// // <p style="text-align: justify;"><em>Em ơi em</em></p>
+// // <p style="text-align: justify;"><em>Đất Nước là máu xương của mình</em></p>
+// // <p style="text-align: justify;"><em>Phải biết gắn bó và san sẻ</em></p>
+// // <p style="text-align: justify;"><em>Phải biết hóa thân cho dáng hình xứ sở</em></p>
+// // <p style="text-align: justify;"><em>Làm nên Đất Nước muôn đời</em></p>
+// // <p style="text-align: right;">(<strong>Đất Nước</strong>\&nbsp;<strong>-\&nbsp;</strong>Nguyễn Khoa Điềm\&nbsp;<strong>- </strong>Ngữ văn, tr120)</p>
+// // <p><strong class="content_detail">Lời giải chi tiết</strong></p>
+// // <p style="text-align: justify;"><strong>1. Giới thiệu chung</strong></p>
+// // <p style="text-align: justify;"><strong>- Tây Tiến</strong>\&nbsp;của Quang Dũng và\&nbsp;<strong>Đất Nước</strong>\&nbsp;của Nguyễn Khoa Điềm là những bài thơ đặc sắc trong nền thơ cách mạng Việt Nam. Hai tác phẩm này đã nói về những con người vô danh lặng thầm chiến đấu bảo vệ quê hương. Mỗi bài thơ đều để lại những cảm xúc, suy tư sâu lắng trong lòng người đọc. Trong đó có những câu thơ rất đặc sắc:</p>
+// // <p style="text-align: justify;">“<em>Rải rác biên cương mồ viễn xứ</em></p>
+// // <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
+// // <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
+// // <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em>”</p>
+// // <p style="text-align: justify;">Và:</p>
+// // <p style="text-align: justify;"><em>“Em ơi em Đất Nước là máu xương của mình</em></p>
+// // <p style="text-align: justify;"><em> Phải biết gắn bó và san sẻ</em></p>
+// // <p style="text-align: justify;"><em> Phải biết hóa thân cho dáng hình xứ sở</em></p>
+// // <p style="text-align: justify;"><em> Làm nên Đất Nước muôn đời”</em></p>
+// // <p style="text-align: justify;"><strong>2. Phân tích</strong></p>
+// // <p style="text-align: justify;"><strong>a. Đoạn thơ trong bài Tây Tiến</strong></p>
+// // <p style="text-align: justify;"><strong>*Giới thiệu khái quát về tác giả, tác phẩm, vị trí đoạn thơ</strong></p>
+// // <p style="text-align: justify;">+ Quang Dũng là nghệ sĩ đa tài (thơ, văn, nhạc, hoạ), cũng là một người lính, sống một đời lính oanh liệt, hào hùng. Quãng đời ấy đã trở thành cảm hứng đặc sắc trong thơ ông. Bài thơ Tây Tiến viết về người lính, về những chàng trai“chiến trường đi chẳng tiếc đời xanh”\&nbsp;– người lính Tây Tiến.</p>
+// // <p style="text-align: justify;">+ Tây Tiến là một đơn vị bộ đội thành lập đầu năm 1947. Thành phần chủ yếu là thanh niên trí thức Hà Nội. Nhiệm vụ của họ là phối hợp với bộ đội Lào, đánh tiêu hao lực lượng địch ở Thượng Lào, bảo vệ biên giới Việt Lào. Sau một thời gian hoạt động ở Lào, đoàn quân Tây Tiến trở về Hoà Bình thành lập trung đoàn 52. Năm 1948, nhà thơ Quang Dũng chuyển sang đơn vị khác, không bao lâu, ông nhớ đơn vị cũ sáng tác bài thơ này.</p>
+// // <p style="text-align: justify;">+ Bài thơ có 4 khổ, đây là khổ thứ 3, nội dung khắc hoạ hình tượng người lính Tây Tiến</p>
+// // <p style="text-align: justify;"><strong>*Phân tích cụ thể</strong>:</p>
+// // <p style="text-align: justify;">- Cảm hứng chủ đạo của bài thơ là nỗi nhớ, nhớ về đồng đội và địa bàn hoạt động của đoàn quân, nhớ về vùng đất mà bước chân hào hùng mà đoàn binh Tây Tiến đã đi qua – Tây Bắc. Vùng đất đó với thiên nhiên hoang sơ, hùng vĩ và thơ mộng, trữ tình, vùng đất ấy với những con người tài hoa, duyên dáng và nghĩa tình. Trên nền cảnh ấy là hình ảnh người lính Tây Tiến. Họ hiện lên thật ấn tượng với phẩm chất hào hùng đáng kính, họ đã hi sinh dọc đường hành quân, hi sinh dọc miền biên giới – họ đã hi sinh vì lí tưởng sống cao đẹp:</p>
+// // <p style="text-align: justify;"><em>Rải rác biên cương mồ viễn xứ</em></p>
+// // <p style="text-align: justify;"><em>Chiến trường đi chẳng tiếc đời xanh</em></p>
+// // <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
+// // <p style="text-align: justify;"><em>Sông Mã gầm lên khúc độc hành</em></p>
+// // <p style="text-align: justify;">- Đoạn thơ sử dụng rất nhiều từ Hán Việt mang sắc thái trân trọng, thể hiện không khí trang nghiêm, lòng thành kính thiêng liêng của nhà thơ trước sự hi sinh của đồng đội. Những từ ngữ ấy như những nén tâm nhang thắp lên đưa tiễn những người đã ngã xuống. Chính hệ thống từ ngữ ấy kết hợp với những hình ảnh giàu sức gợi (biên cương, chiến trường, áo bào, khúc độc hành) cũng tạo sắc thái cổ kính, gợi liên tưởng đến sự hi sinh oanh liệt của những anh hùng, dũng tướng sẵn sàng chấp nhận cảnh “da ngựa bọc thây” đầy bi tráng trong văn học trung đại.</p>
+// // <p style="text-align: justify;">- Câu thơ đầu đoạn thơ sử dụng nhiều từ Hán Việt (biên cương, viễn xứ) nhưng sức nặng của cả câu lại dồn vào một từ thuần Việt:\&nbsp;“mồ”.\&nbsp;Mồ cũng là mộ nhưng không phải mộ theo đúng nghĩa. Đó chỉ là những nấm đất được đào vội, chôn mau ngay trên con đường hành quân vội vã để đoàn quân lại tiếp tục lên đường. Đặt trong không gian bao la, mênh mông hoang sơ của miền biên giới Việt – Lào, những nấm mồ ấy gợi lên bao nỗi xót xa.</p>
+// // <p style="text-align: justify;">- Trong câu thơ thứ hai, tác giả sử dụng nghệ thuật đảo ngữ (chiến trường đi) để nhấn mạnh đích đến của người lính, người chiến sĩ. Trong hoàn cảnh đất nước có chiến tranh, sứ mệnh đất nước rất mỏng manh, chiến trường là đích đến duy nhất, là sự lựa chọn đầy trách nhiệm của cả một thế hệ. Với họ, “đường ra trận mùa này đẹp lắm” và “cuộc đời đẹp nhất trên trận chiến chống quân thù”. Cách nói\&nbsp;“chẳng tiếc đời xanh”\&nbsp;cho thấy sự dứt khoát, lòng quyết tâm, coi thường gian nguy, coi thường cái chết. Họ sẵn sàng hiến dâng cả đời xanh, tuổi trẻ, quãng đời đẹp nhất cho tổ quốc, hơn thế nữa, tính mạng của họ cũng sẵn sàng hi sinh để làm nên dáng hình đất nước. Họ ra đi với tinh thần của cả thời đại“Người ra đi đầu không ngoảnh lại”. Đó là lí tưởng sống cao đẹp, hào hùng.</p>
+// // <p style="text-align: justify;">- Viết về người lính và cuộc kháng chiến vĩ đại của dân tộc ta, nhà thơ Quang Dũng rất chân thực, ông không hề né tránh hiện thực:</p>
+// // <p style="text-align: justify;"><em>Áo bào thay chiếu anh về đất</em></p>
+// // <p style="text-align: justify;">“Áo bào thay chiếu”\&nbsp;– một hình ảnh thực đến xót xa của chiến tranh. Nhưng cái thiếu thốn về vật chất lại được khoả lấp bằng sự hiên ngang, can trường của người lính. Từ Hán Việt và cách nói\&nbsp;“Áo bào thay chiếu anh về đất”làm cho cái chết của người lính Tây Tiến trở nên trang trọng hơn rất nhiều, thiêng liêng hơn nhiều. Nhà thơ vẫn gợi lên sự thật chung của cả thời chống Pháp là sự thiếu thốn về vật chất, ở vùng biên giới xa xôi thì sự thiếu thốn ấy còn nhân lên gấp bội. Với thái độ trân trọng đồng đội, nhà thơ Quang Dũng đã thấy họ như đang mặc tấm áo bào của chiến tướng mà\&nbsp;đi vào cõi vĩnh hằng, bất tử cùng sông núi. Cách nói\&nbsp;“về đất”\&nbsp;không chỉ\&nbsp; là cách nói giảm, nói tránh mà mang ý nghĩa biểu tượng thiêng liêng. Cái chết không phải là ra đi vào cõi hư vô bất định mà là trở về, trở về với đất Mẹ yêu thương. Đất Mẹ cũng đã mở lòng đón những đứa con đầy trách nhiệm của mình trở về.\&nbsp; Họ đã ra đi như thế đấy. Họ đã nằm lại nơi chân đèo, dốc núi nào đó trên con đường hành quân đầy gian khổ, nhọc nhằn, họ đã để lại mình nơi biên cương lạnh lẽo, hoang vắng. Nhưng họ đã ra đi vì lí tưởng, cái chết của họ \&nbsp;dù để lại nhiều xót xa trong lòng người đọc nhưng họ ra đi một cách rất thanh thản. Họ chỉ là “không bước nữa”, là “bỏ quên đời”, là “về đất”\&nbsp;thôi chứ không phải là chết. các anh đã ngã xuống, đã “hoá thân cho dáng hình xứ sở” để rồi mỗi thế núi hình sông, mỗi tên đất tên làng đều có bóng hình các anh. Các anh hi sinh, trở về trong lòng Đất Mẹ để\&nbsp;“cho cây đời mãi mãi xanh tươi”, để đem lại cho đất đai, cho quê hương đất nước sự sống bất tận.</p>
+// // <p style="text-align: justify;">- Đoạn thơ kết thúc bằng một âm hưởng hào hùng. Dường như linh hồn người tử sĩ đã hòa cùng sông núi, con sông Mã đã tấu lên khúc nhạc đau thương, hùng tráng để tiễn đưa người lính vào cõi bất tử. Hình tượng “sông Mã” ở cuối bài thơ được phóng đại và nhân hóa, tô đậm cái chết bi hùng của người lính_ sự hi sinh làm lay động đất trời, khiến dòng sông gầm lên đớn đau, thương tiếc.</p>
+// // <p style="text-align: justify;">* Nghệ thuật</p>
+// // <p style="text-align: justify;"><strong> </strong>- Bằng bút pháp lãng mạn và âm hưởng bi tráng, đoạn thơ ngợi ca những phẩm chất tốt đẹp của người lính Tây Tiến trong cuộc kháng chiến chống Pháp.</p>
+// // <p style="text-align: justify;"><strong>b. Đoạn thơ trong bài “Đất Nước” của Nguyễn Khoa Điềm là lời nhắn nhủ của nhà thơ về trách nhiệm của thế hệ trẻ đối với non sông đất nước:</strong></p>
+// // <p style="text-align: justify;"><strong>*Giới thiệu khái quát về tác giả, tác phẩm:</strong></p>
+// // <p style="text-align: justify;">+ Nguyễn Khoa Điềm là một trong những nhà thơ tiêu biểu của thế hệ các nhà thơ trẻ thời chống Mỹ .\&nbsp;Ông\&nbsp;xuất thân từ một gia đình trí thức cách mạng ở Huế, bản thân ông tham gia trực tiếp vào phong trào đấu tranh sinh viên nên thơ Nguyễn Khoa Điềm rất giàu chất suy tư, cảm xúc dồn nén mang tâm tư của người trí thức….</p>
+// // <p style="text-align: justify;">+ Đất Nứơc là phần đầu chương V của trường ca Mặt đường khát vọng, viết năm 1971 tại chiến khu Trị Thiên giữa lúc cuộc kháng chiến chống Mĩ đang hết sức khốc liệt .</p>
+// // <p style="text-align: justify;"><strong>*Phân tích cụ thể</strong><strong>:</strong></p>
+// // <p style="text-align: justify;"><em> “Em ơi em Đất Nước là máu xương của mình</em></p>
+// // <p style="text-align: justify;"><em> Phải biết gắn bó và san sẻ</em></p>
+// // <p style="text-align: justify;"><em> Phải biết hóa thân cho dáng hình xứ sở</em></p>
+// // <p style="text-align: justify;"><em> Làm nên Đất Nước muôn đời”</em></p>
+// // <p style="text-align: justify;">– Đoạn thơ có giọng điệu tâm tình sâu lắng, thiết tha. Tác giả tạo ra cuộc trò chuyện thân mật giữa nhân vật trữ tình “anh” với “em”. Giọng điệu ấy đã làm mềm hóa nặng nề, khô khan của chất chính luận.</p>
+// // <p style="text-align: justify;">– Nguyễn Khoa Điềm đã khám phá một định luật rất mới “Đất Nước là máu xương của mình”. Hình ảnh so sánh độc đáo ấy có hàm ý khẳng định: Đất nước là sự sống thiêng liêng đối với mỗi con người.</p>
+// // <p style="text-align: justify;">Nguyễn Khoa Điềm nhắc nhở mỗi người chúng ta phải biết trân trọng đất nước hôm nay.</p>
+// // <p style="text-align: justify;">– Từ việc xác định vai trò quan trọng của đất nước đối với mỗi con người, nhà thơ khơi gợi ý thức trách nhiệm của mỗi công dân, nhất là thế hệ trẻ. Phép điệp ngữ “phải biết” vừa có ý nghĩa cầu khiến vừa là lời thiết tha, mong chờ như mệnh lệnh từ trái tim. Ba cụm động từ cụ thể hóa trách nhiệm của mỗi con người: “Gắn bó” là lời kêu gọi đoàn kết, hữu ái giai cấp. Vì có đoàn kết là có sức mạnh. “San sẻ” là mong muốn mỗi người có ý thức gánh vác trách nhiệm với quê hương. Còn “hóa thân” là biểu hiện tinh thần sẵn sàng hi sinh cho đất nước, là sự dâng hiến thiêng liêng, đẹp đẽ.</p>
+// // <p style="text-align: justify;">* Nghệ thuật:</p>
+// // <p style="text-align: justify;"><strong> </strong>– Đoạn thơ mang tính chính luận nhưng được diễn đạt bằng hình thức đối thoại, giọng điệu trữ tình kết hợp với biện pháp tu từ điệp ngữ. Từ “Đất Nước” dược lặp lại hai lần kết hợp cách viết hoa đã tăng thêm sự tôn kính thiêng liêng, thể hiện quan niệm lớn: “Đất Nước của nhân dân”.</p>
+// // <p style="text-align: justify;"><strong>c. So sánh:</strong></p>
+// // <p style="text-align: justify;"><strong>* Giống nhau:</strong></p>
+// // <p style="text-align: justify;">Tư tưởng của cả hai đoạn thơ đều là tư tưởng cao đẹp: cống hiến, dâng hiến tuổi trẻ mình cho đất nước non sông.</p>
+// // <p style="text-align: justify;"><strong>* Khác nhau:</strong></p>
+// // <p style="text-align: justify;">– “Tây Tiến” với cảm hứng đất nước được gợi lên từ nỗi nhớ cũa người lính vùng cao về những năm tháng đầu của cuộc kháng chiến chống thực dân Pháp. “Đất Nước” hoàn thành trong cuộc kháng chiến chống đế quốc Mĩ tại mặt trận Trị Thiên bộc lộ cảm hứng đất nước qua cái nhìn tổng quát đưa đến những chiêm nghiệm mới mẻ, sâu sắc về đất nước: Đất nước là tất cả những gì gắn bó máu thịt với mỗi con người.</p>
+// // <p style="text-align: justify;">-Đoạn thơ trong bài\&nbsp;Tây Tiến\&nbsp;được viết bằng thể thơ thất ngôn, có sử dụng nhiều từ Hán Việt trang trọng với giọng điệu thơ dứt khoát, mạnh mẽ, âm hưởng hào hùng\&nbsp; để tô đậm hiện thực khốc liệt của chiến tranh và khẳng định sự bất tử của người chiến sĩ vô danh.</p>
+// // <p style="text-align: justify;">- Đoạn thơ trong\&nbsp;Đất Nước\&nbsp;được viết bằng thể thơ tự do, giọng điệu tâm tình trò chuyện, từ ngữ giản dị, gần gũi nhằm khẳng định vai trò to lớn của nhân dân vô danh.</p>
+// // <p style="text-align: justify;"><strong>Lí giải :</strong></p>
+// // <p style="text-align: justify;">Sự khác biệt như trên \&nbsp;:</p>
+// // <p style="text-align: justify;">Do hoàn cảnh sáng tác</p>
+// // <p style="text-align: justify;">Do phong cách, cá tính sáng tạo của mỗi nhà thơ</p>
+// // <p style="text-align: justify;"><strong>3. Tổng kết</strong></p>
+// // <p style="text-align: justify;">Đánh giá chung về giá trị hai đoạn thơ và tài năng nghệ thuật của hai tác giả</p>
+// // <p style="text-align: right;"><strong></strong></p>
+// // <div class="clearfix"></div>`;
+
+// // string_inner_html = `<h2 class="s14 lineheight"></h2>
+// // <p><strong class="content_question">Đề bài</strong></p>
+// // <p style="text-align: justify;"><strong>I. Phần trắc nghiệm</strong>\&nbsp;<em>(4 điểm)</em></p>
+// // <p style="text-align: justify;"><strong>Câu 1:</strong>\&nbsp;Tại sao đột biến gen thường có hại cho cơ thể sinh vật nhưng vẫn có vai trò quan trọng trong quá trình tiến hóa?</p>
+// // <p style="text-align: justify;">(1): tần số đột biến gen trong tự nhiên là không đáng kể nên tần số alen đột biến có hại là rất thấp.</p>
+// // <p style="text-align: justify;">(2): khi môi trường thay đổi, thể đột biến có thể thay đổi giá trị thích nghi.</p>
+// // <p style="text-align: justify;">(3): giá trị thích nghi của đột biến tùy thuộc vào tổ hợp gen.</p>
+// // <p style="text-align: justify;">(4): đột biến gen thường có hại nhưng nó tồn tại ở dạng dị hợp nên không gây hại.</p>
+// // <p style="text-align: justify;">Câu trả lời đúng nhất là</p>
+// // <p style="text-align: justify;">A. (3) và (4).</p>
+// // <p style="text-align: justify;">B. (2) và (4).</p>
+// // <p style="text-align: justify;">C. (1) và (3).</p>
+// // <p style="text-align: justify;">D. (2) và (3).</p>
+// // <p style="text-align: justify;"><strong>Câu 2:</strong>\&nbsp;Các nhân tố tiến hóa nào vừa làm thay đổi tần số tương đối các alen của gen vừa làm thay đổi thành phần kiểu gen của quần thể? (1): chọn lọc tự nhiên; (2): giao phối không ngẫu nhiên; (3): di - nhập gen; (4): đột biến; (5): các yêu tố ngẫu nhiên. Trả lời đúng là</p>
+// // <p style="text-align: justify;">A. (1), (2), (4), (5).</p>
+// // <p style="text-align: justify;">B. (1), (2), (3), (4).</p>
+// // <p style="text-align: justify;">C. (1), (3), (4), (5).</p>
+// // <p style="text-align: justify;">D. Tất cả các nhân tố trên.</p>
+// // <p style="text-align: justify;"><strong>Câu 3:</strong>\&nbsp;Trong rừng mưa nhiệt đới, những cây thân gỗ có chiều cao vượt lên tầng trên của tán rừng thuộc nhóm thực vật</p>
+// // <p style="text-align: justify;">A. ưa sáng.</p>
+// // <p style="text-align: justify;">B. chịu bóng.</p>
+// // <p style="text-align: justify;">C. ưa bóng.</p>
+// // <p style="text-align: justify;">D. ưa bóng và ưa ẩm.</p>
+// // <p style="text-align: justify;"><strong>Câu 4:</strong>\&nbsp;Thành phần hữu sinh của một hệ sinh thái bao gồm:</p>
+// // <p style="text-align: justify;">A. sinh vật sản xuất, sinh vật tiêu thụ, sinh vật phân giải</p>
+// // <p style="text-align: justify;">B. sinh vật sản xuất, sinh vật ăn thực vật, sinh vật phân giải</p>
+// // <p style="text-align: justify;">C. sinh vật ăn thực vật, sinh vật ăn động vật, sinh vật phân giải</p>
+// // <p style="text-align: justify;">D. sinh vật sản xuất, sinh vật ăn động vật, sinh vật phân giải</p>
+// // <p style="text-align: justify;"><strong>Câu 5:</strong>\&nbsp;Tác động của vi khuẩn nitrát hóa là:</p>
+// // <p style="text-align: justify;">A. cố định nitơ trong đất thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
+// // <p style="text-align: justify;">B. cố định nitơ trong nước thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
+// // <p style="text-align: justify;">C. biến đổi nitrit (NO<sub>2</sub><sup>-</sup>) thành nitrát (NO<sub>3</sub><sup>-</sup>)</p>
+// // <p style="text-align: justify;">D. biến đổi nitơ trong khí quyển thành dạng đạm nitrát (NO<sub>3</sub><sup>-</sup>)</p>
+// // <p style="text-align: justify;"><strong>Câu 6:</strong>\&nbsp;Trong chu trình cacbon, điều nào dưới đây là không đúng:</p>
+// // <p style="text-align: justify;">A. cacbon đi vào chu trình dưới dạng cacbonđiôxit</p>
+// // <p style="text-align: justify;">B. thông qua quang hợp, thực vật lấy CO<sub>2</sub>\&nbsp;để tạo ra chất hữu cơ</p>
+// // <p style="text-align: justify;">C. động vật ăn cỏ sử dụng thực vật làm thức ăn chuyển các hợp chất chứa cacbon cho động vật ăn thịt</p>
+// // <p style="text-align: justify;">D. phần lớn CO<sup>2</sup>\&nbsp;được lắng đọng, không hoàn trả vào chu trình</p>
+// // <p style="text-align: justify;"><strong>Câu 7:</strong>\&nbsp;Sinh vật sản xuất là những sinh vật:</p>
+// // <p style="text-align: justify;">A. phân giải vật chất (xác chết, chất thải) thành những chất vô cơ trả lại cho môi trường</p>
+// // <p style="text-align: justify;">B. động vật ăn thực vật và động vật ăn động vật</p>
+// // <p style="text-align: justify;">C. có khả năng tự tổng hợp nên các chất hữu cơ để tự nuôi sống bản thân</p>
+// // <p style="text-align: justify;">D. chỉ gồm các sinh vật có khả năng hóa tổng hợp</p>
+// // <p style="text-align: justify;"><strong>Câu 8:</strong>\&nbsp;Để cải tạo đất nghèo đạm, nâng cao năng suất cây trồng người ta sử dụng biện pháp sinh học nào?</p>
+// // <p style="text-align: justify;">A. trồng các cây họ Đậu</p>
+// // <p style="text-align: justify;">B. trồng các cây lâu năm</p>
+// // <p style="text-align: justify;">C. trồng các cây một năm</p>
+// // <p style="text-align: justify;">D. bổ sung phân đạm hóa học.</p>
+// // <p style="text-align: justify;"><strong>II. Phần tự luận</strong>\&nbsp;<em>(6 điểm)</em></p>
+// // <p style="text-align: justify;"><strong>Câu 1</strong>\&nbsp;(3 điểm): So sánh hệ sinh thái tự nhiên và hệ sinh thái nhân tạo.</p>
+// // <p style="text-align: justify;"><strong>Câu 2</strong>\&nbsp;(3 điểm): Mô tả đặc điểm và ý nghĩa cuả các kiểu phân bố cơ bản trong quần thể.</p>
+// // <p><strong class="content_detail">Lời giải chi tiết</strong></p>
+// // <p style="text-align: justify;"><strong>I. Phần trắc nghiệm</strong>\&nbsp;<em>(4 điểm)</em></p>
+// // <p style="text-align: justify;"><em>Mỗi câu trả lời đúng 0.5 điểm</em></p>
+// // <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
+// //  <tbody>
+// //   <tr>
+// //    <td valign="top" width="128"> <p align="center"><strong>1.D</strong></p> </td>
+// //    <td valign="top" width="128"> <p align="center"><strong>2.C</strong></p> </td>
+// //    <td valign="top" width="128"> <p align="center"><strong>3.A</strong></p> </td>
+// //    <td valign="top" width="128"> <p align="center"><strong>4.A</strong></p> </td>
+// //    <td valign="top" width="128"> <p align="center"><strong>5.C</strong></p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td valign="top" width="128"> <p align="center"><strong>6.D</strong></p> </td>
+// //    <td valign="top" width="128"> <p align="center"><strong>7.C</strong></p> </td>
+// //    <td valign="top" width="128"> <p align="center"><strong>8.A</strong></p> </td>
+// //    <td valign="top" width="128"> <p align="center"><strong>\&nbsp;</strong></p> </td>
+// //    <td valign="top" width="128"> <p align="center"><strong>\&nbsp;</strong></p> </td>
+// //   </tr>
+// //  </tbody>
+// // </table>
+// // <p style="text-align: justify;">\&nbsp;<strong>II. Phần tự luận</strong>\&nbsp;<em>(6 điểm)</em></p>
+// // <p style="text-align: justify;"><strong>Câu 1</strong></p>
+// // <p style="text-align: justify;"><strong>* Giống nhau: (1 điểm)</strong></p>
+// // <p style="text-align: justify;">- Hệ sinh thái tự nhiên và nhân tạo đều có những đặc điếm chung về thành phần cấu trúc, bao gồm thành phần vật chất vô sinh và thành phần hữu sinh.</p>
+// // <p style="text-align: justify;">- Thành phần vật chất vô sinh là môi trường vật lí (sinh cảnh) và thành phần hữu sinh là quần xã sinh vật.</p>
+// // <p style="text-align: justify;">- Các sinh vật trong quần xã luôn tác động lẫn nhau và đồng thời tác động với các thành phần vô sinh của sinh cảnh.</p>
+// // <p style="text-align: justify;"><strong>* Khác nhau:</strong></p>
+// // <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
+// //  <tbody>
+// //   <tr>
+// //    <td valign="top"> <p>Hệ sinh thái tự nhiên</p> </td>
+// //    <td valign="top"> <p>Hệ sinh thái nhân tạo</p> </td>
+// //    <td valign="top"> <p>Điểm</p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td valign="top"> <p>Thành phần loài đa dạng</p> </td>
+// //    <td valign="top"> <p>Thành phần loài ít, ít đa dạng</p> </td>
+// //    <td valign="top"> <p>0,5</p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td valign="top"> <p>Ít chịu sự chi phối của con người</p> </td>
+// //    <td valign="top"> <p>Chịu sự chi phối, điều khiển của con người</p> </td>
+// //    <td valign="top"> <p>0,5</p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td valign="top"> <p>Sự tăng trưởng của các cá thể chậm, phụ thuộc vào điều kiện môi trường</p> </td>
+// //    <td valign="top"> <p>Được áp dụng các biện pháp canh tác và kĩ thuật hiện đại nên sinh trưởng của các cá thể nhanh, năng suất sinh học cao</p> </td>
+// //    <td valign="top"> <p>0,5</p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td valign="top"> <p>Tính ổn định cao, tự điều chỉnh, mắc bệnh ít chuyển thành dịch</p> </td>
+// //    <td valign="top"> <p>Tính ổn định thấp, dễ bị biến đổi, dễ mắc dịch bệnh</p> </td>
+// //    <td valign="top"> <p>0,5</p> </td>
+// //   </tr>
+// //  </tbody>
+// // </table>
+// // <p style="text-align: justify;"><strong>Câu 2</strong></p>
+// // <table style="width: 100%;" border="1" cellspacing="0" cellpadding="0">
+// //  <tbody>
+// //   <tr>
+// //    <td valign="top"> <p>Kiểu phân bố</p> </td>
+// //    <td valign="top"> <p>Đặc điểm</p> </td>
+// //    <td valign="top"> <p>Ý nghĩa sinh thái</p> </td>
+// //    <td valign="top"> <p>Điểm</p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td valign="top"> <p>Phân bố theo nhóm</p> </td>
+// //    <td valign="top"> <p>Là kiểu phân bố phổ biến nhất, các cá thể của quần thể tập trung theo từng nhóm ở những nơi có điều kiện sống tốt nhất. Phân bố theo nhóm xuất hiện nhiều ở sinh vật sống thành bầy đàn, khi chúng trú đông, ngủ đông, di cư...</p> </td>
+// //    <td valign="top"> <p>Các cá thể hỗ trợ lẫn nhau chống lại điều kiện bất lợi của môi trường.</p> </td>
+// //    <td valign="top"> <p>1</p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td valign="top"> <p>Phân bố đồng đều</p> </td>
+// //    <td valign="top"> <p>Thường gặp khi điều kiện sống phân bố một cách đồng đều trong môi trường và khi có sự cạnh tranh gay gắt giữa các cá thể của quần thể.</p> </td>
+// //    <td valign="top"> <p>Làm giảm mức độ cạnh tranh giữa các cá thể trong quần thể.</p> </td>
+// //    <td valign="top"> <p>1</p> </td>undefined
+// //   </tr>
+// //   <tr>
+// //    <td valign="top"> <p>Phân bố ngẫu nhiên</p> </td>
+// //    <td valign="top"> <p>Là dạng trung gian của hai dạng trên.</p> </td>
+// //    <td valign="top"> <p>Sinh vật tận dụng được nguồn sống tiềm tàng trong môi trường.</p> </td>
+// //    <td valign="top"> <p>1</p> </td>
+// //   </tr>
+// //  </tbody>
+// // </table>
+// // <p style="text-align: right;"><strong>\&nbsp;</strong></p>
+// // <div class="clearfix"></div>`;
+
+// // string_inner_html = `
+// // <h2 class="s14 lineheight"></h2>
+// // <p><strong class="content_question">Đề bài</strong></p>
+// // <p style="text-align: justify;">Tại sao đột biến gen mặc dù thường có hại cho cơ thể sinh vật nhưng vẫn có vai trò quan trọng trong quá trình tiến hoá?</p>
+// // <p style="text-align: justify;">I. Tần số đột biến gen trong tự nhiên là không đáng kể nên tần số alen đột biến có hại là rất thấp.</p>
+// // <p style="text-align: justify;">II. Gen đột biến có thể có hại trong môi trường này nhưng lại có thể có hại hoặc có lợi trong môi trường khác.</p>
+// // <p style="text-align: justify;">III. Gen đột biến có thể có hại trong tổ hợp gen này nhưng lại có thể trở nên có hại hoặc có lợi trong tổ hợp gen khác.</p>
+// // <p style="text-align: justify;">IV. Đột biến gen thường có hại nhưng nó thường tổn tại ở trạng thái dị hợp tử nên không gây hại.</p>
+// // <p class="Bodytext1" style="text-align: justify;">Câu trả lời đúng nhất là:</p>
+// // <p class="Bodytext250" style="text-align: justify;" align="left">A. I và II\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;B. I và III</p>
+// // <p class="Bodytext250" style="text-align: justify;" align="left">C. IV và III \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;D. II và III</p>
+// // <p><strong class="content_detail">Lời giải chi tiết</strong></p>
+// // <p>Xét các phát biểu:</p>
+// // <p>I sai, tần số đột biến gen thấp nhưng không phải gen đột biến nào cũng gây hại</p>
+// // <p>II đúng,</p>
+// // <p>III đúng</p>
+// // <p>IV Sai, có nhiều đột biến tạo ra gen trội gây hại ở ngay trạng thái dị hợp tử</p>
+// // <p><strong>Trả lời Chọn D</strong></p>
+// // <div class="clearfix"></div>`
+
+// // string_inner_html = `<h2 class="s14 lineheight"></h2>
+// // <p><strong class="content_question">Đề bài</strong></p>
+// // <p style="text-align: justify;"><strong>Câu 1.</strong> Cho tứ diện EFKI. G là trọng tâm của tam giác KIE. Mệnh đề nào sau đây là mệnh đề đúng ?</p>
+// // <p style="text-align: justify;">A. \(3\overrightarrow {FG}\&nbsp; = \overrightarrow {FE}\&nbsp; + \overrightarrow {FK}\&nbsp; + \overrightarrow {FI} \).</p>
+// // <p style="text-align: justify;">B. \(3\overrightarrow {EG}\&nbsp; = \overrightarrow {EF}\&nbsp; + \overrightarrow {EK}\&nbsp; + \overrightarrow {EI} \).</p>
+// // <p style="text-align: justify;">C. \(\overrightarrow {FG}\&nbsp; = \overrightarrow {FE}\&nbsp; + \overrightarrow {FK}\&nbsp; + \overrightarrow {FI} \).\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">D. \(\overrightarrow {EG}\&nbsp; = \overrightarrow {EF}\&nbsp; + \overrightarrow {EK}\&nbsp; + \overrightarrow {EI} \).</p>
+// // <p style="text-align: justify;"><strong>Câu 2</strong>. Trong không gian cho hai đường thẳng a và b vuông góc với nhau. Tìm mệnh đề đúng.</p>
+// // <p style="text-align: justify;">A. a và b chéo nhau.\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">B. a và b cắt nhau.</p>
+// // <p style="text-align: justify;">C. a và b cùng thuộc một mặt phẳng.\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">D. Góc giữa a và b bằng 90<sup>0</sup>.</p>
+// // <p style="text-align: justify;"><strong>Câu 3.</strong> Tìm mệnh đề đúng.</p>
+// // <p style="text-align: justify;">A. Nếu một đường thẳng vuông góc với một đường thẳng thuộc một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
+// // <p style="text-align: justify;">B. Nếu một đường thẳng vuông góc với hai đường thẳng cùng thuộc một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
+// // <p style="text-align: justify;">C. Nếu một đường thẳng vuông góc với hai đường thẳng cắt nhau cùng thuộc một mặt phẳng thì nó vuông với mặt phẳng ấy.</p>
+// // <p style="text-align: justify;">D. Nếu một đường thẳng vuông góc với hai đường thẳng cắt nhau cùng song song một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
+// // <p style="text-align: justify;"><strong>Câu 4.</strong> Cho hình chóp S. ABC có đáy ABC là tam giác cân tại A, cạnh bên SA vuông góc với đáy, M là trung điểm BC, J là trung điểm BM. Khẳng định nào sau đây đúng ?</p>
+// // <p style="text-align: justify;">A. \(BC \bot \left( {SAB} \right)\).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">B. \(BC \bot \left( {SAM} \right)\).</p>
+// // <p style="text-align: justify;">C. \(BC \bot \left( {SAC} \right)\).\&nbsp;\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">D. \(BC \bot \left( {SAJ} \right)\).</p>
+// // <p><strong>Câu 5.</strong> Cho tứ diện ABCD. Gọi M, N, P, Q lần lượt là trung điểm của AB, BD, BC, CD. Bộ ba vec tơ không đồng phẳng là:</p>
+// // <p>A. \(\overrightarrow {AB} \,,\,\overrightarrow {PN} \,,\,\overrightarrow {CD} \).</p>
+// // <p>B. \(\overrightarrow {MP} \,,\overrightarrow {AC} \,,\,\overrightarrow {AD} \).</p>
+// // <p>C. \(\overrightarrow {AB} \,,\,\overrightarrow {AC} \,,\,\overrightarrow {AD} \)\&nbsp; \&nbsp;</p>
+// // <p>D. \(\overrightarrow {BD} \,,\,\overrightarrow {PQ} \,,\,\overrightarrow {AC} \).</p>
+// // <p style="text-align: justify;"><strong>Câu 6.</strong> Cho tứ diện ABCD có AB, BC, CD đôi một vuông góc . Đường vuông góc chung của AB và CD là:</p>
+// // <p style="text-align: justify;">A. AC.</p>
+// // <p style="text-align: justify;">B. BC.</p>
+// // <p style="text-align: justify;">C. AD.\&nbsp;</p>
+// // <p style="text-align: justify;">D. BD.</p>
+// // <p style="text-align: justify;"><strong>Câu 7.</strong> Cho hình chóp S. ABCD có BACD là hình vuông và \(SA \bot (ABCD)\). Gọi O là giao điểm của AC và BD. Tam giác SOD là:</p>
+// // <p style="text-align: justify;">A. Tam giác thường.\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">B. Tam giác đều.</p>
+// // <p style="text-align: justify;">C. Tam giác cân\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">D. Tam giác vuông.</p>
+// // <p style="text-align: justify;"><strong>Câu 8.</strong> Cho hình hộp ABCD.A’B’C’D’ có tất cả các cạnh bằng nhau và \(\widehat {ABC} = \widehat {B'BA} = \widehat {B'BC} = {60^0}\). Diện tích tứ giác A’B’C’D’ là:</p>
+// // <p style="text-align: justify;">A. \(\dfrac{2}{3}{a^2}\).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp; B. \(\dfrac{1}{3}{a^2}\).</p>
+// // <p style="text-align: justify;">C. \(\dfrac{4}{3}{a^2}\).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp; \&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;D. \(\dfrac{{{a^2}\sqrt 3 }}{2}\).</p>
+// // <p style="text-align: justify;"><strong>Câu 9.</strong> Cho hình chóp tứ giác đều S.ABCD có cạnh bằng a và góc giữa cạnh bên với mặt phẳng đáy bằng \(\alpha \). Tan của góc giữa\&nbsp; mặt bên và mặt đay bằng:</p>
+// // <p style="text-align: justify;">A. \(\tan \alpha \).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp; B. \(\cot \alpha \).</p>
+// // <p style="text-align: justify;">C. \(\sqrt 2 \tan \alpha \).\&nbsp; \&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;D. \(\dfrac{{\sqrt 2 }}{{2\tan \alpha }}\).</p>
+// // <p style="text-align: justify;"><strong>Câu 10.</strong> Cho hình tứ diện ABCD có AB, BC, CD đôi một vuông góc . Mặt phẳng (ABD) vuông góc với mặt phẳng nào cua tứ diện ?</p>
+// // <p style="text-align: justify;">A. (ACD).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">B.(ABC).</p>
+// // <p style="text-align: justify;">C. (BCD).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
+// // <p style="text-align: justify;">D. Không có mặt phẳng nào .</p>
+// // <p><strong class="content_detail">Lời giải chi tiết</strong></p>
+// // <table border="1" cellspacing="0" cellpadding="0">
+// //  <tbody>
+// //   <tr>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>Câu</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>1</strong></p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>2</strong></p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>3</strong></p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>4</strong></p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>5</strong></p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>Đáp án</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>A</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>Câu</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>6</strong></p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>7</strong></p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>8</strong></p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>9</strong></p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p><strong>10</strong></p> </td>
+// //   </tr>
+// //   <tr>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>Đáp án</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+// //    <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+// //   </tr>
+// //  </tbody>
+// // </table>
+// // <p style="text-align: left;"><strong>Lời giải chi tiết</strong></p>
+// // <p><strong>Câu 1.</strong> Do G là trọng tâm tam giác KIE nên ta có \(3\overrightarrow {FG}\&nbsp; = \overrightarrow {FE}\&nbsp; + \overrightarrow {FK}\&nbsp; + \overrightarrow {FI} \) . Chọn đáp án A.</p>
+// // <p><strong>Câu 4.</strong></p>
+// // <p>\&nbsp;<img src="https://img./picture/2018/1221/2018-12-21-113442.jpg" alt="" width="246" height="285"></p>
+// // <p>\&nbsp;Do \(\Delta ABC\)\&nbsp; là tam giác cân tại A , M là trung điểm BC nên \(AM \bot BC\) . Lại có \(SA \bot BC\). Do đó, \(BC \bot \left( {SAM} \right)\) . Chọn đáp án B.</p>
+// // <p><strong>Câu 6.</strong> Do tứ diện ABCD có AB, BC, CD đôi một vuông góc nên ta có \(AB \bot BC,\,CD \bot BC\). Từ đó, ta có BC là đường vuông góc chung của AB và CD. Chọn đáp án B.</p>
+// // <p><strong>Câu 7.</strong></p>
+// // <p><img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113614.jpg" alt="" width="269" height="330"></p>
+// // <p>Xét hai tam giác \(\Delta SAD,\,\Delta SAB\,\) có SA chung, AD = AB và \(\widehat {SAD} = \widehat {SAB} = {90^0}\,\,(SA \bot (ABCD))\)nên \(\Delta SAD = \Delta SAB\,\,\, \Rightarrow SD = SB\). Do đó, \(\Delta SBD\)\&nbsp; cân tại S.</p>
+// // <p>Lại có O là giao điểm của hai đường chéo trong hình vuông ABCD nên\&nbsp; O là trung điểm của DB.</p>
+// // <p>Suy ra tam giác SBD có \(SO \bot BD\,\,\, \Rightarrow \,\,\Delta SOD\)\&nbsp; vuông tại O.</p>
+// // <p>Chọn đáp án D.</p>
+// // <p><strong>Câu 8.</strong></p>
+// // <p><img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113701.jpg" alt="" width="287" height="308">\&nbsp;</p>
+// // <p>Do ABCD.A’B’C”D’ là hình hộp nên ta có diện tích tứ diện A’B’C’D’ bằng diện tích ABCD. Ta tính diện tích của ABCD có \(\widehat {ABC} = {60^0},\,BA = BC = a\) suy ra tam giác ABC đều. Từ đó, \({S_{ABCD}} = \dfrac{{a\sqrt 3 }}{2}.a = \dfrac{{{a^2}\sqrt 3 }}{2}\). Chọn đáp án D.</p>
+// // <p><strong>Câu 9.</strong></p>
+// // <p>\&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113744.jpg" alt="" width="272" height="362"></p>
+// // <p>Lấy M là trung điểm BC. Do ABCD là hình vuông nên các cạnhvà đường chéo bằng nhau ,\(AC \bot BD\). Ta có \(OD = OM\sqrt 2 \). \(SO \bot \left( {ABCD} \right)\)nên tam giác SOD và tam giác SOM vuông tại O.</p>
+// // <p>\(\begin{array}{l}\left( {(SBC),(ABCD)} \right) = \left( {SM,MO} \right) = \widehat {SMO} = \beta ,\\ \tan\alpha\&nbsp; = \dfrac{{SO}}{{OD}},\,\tan \beta\&nbsp; = \dfrac{{SO}}{{OM}}\\OD = \sqrt 2 OM \Rightarrow \tan \alpha\&nbsp; = \dfrac{{SO}}{{\sqrt 2 OM}} = \dfrac{{\tan \beta }}{{\sqrt 2 }}\\ \Rightarrow \tan \beta\&nbsp; = \sqrt 2 \tan \alpha \end{array}\)</p>
+// // <p>Chọn đáp án C</p>
+// // <p><strong>Câu 10.</strong></p>
+// // <p>\&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113832.jpg" alt="" width="234" height="356"></p>
+// // <p>Ta có</p>
+// // <p>\(\begin{array}{l}\left\{ \begin{array}{l}AB \bot BC\\AB \bot CD\end{array} \right.\,\, \Rightarrow \,\,AB \bot \left( {BCD} \right)\\AB \subset (ABD)\\ \Rightarrow \left( {ABD} \right) \bot \left( {BCD} \right)\end{array}\)</p>
+// // <p style="text-align: right;"><strong></strong></p>
+// // <div class="clearfix"></div>`
+
+// // string_inner_html = `<h2 class="s14 lineheight"></h2>
+// // <p><strong>Bài 1. </strong>Trong các mệnh đề sau, mệnh đều nào đúng?</p>
+// // <p>A. Mọi hình hộp có mặt cầu ngoại tiếp.</p>
+// // <p>B. Mọi hình hộp đứng có mặt cầu ngoại tiếp.</p>
+// // <p>C. Mọi hình hộp có mặt bên vuông góc với đáy đều có mặt cầu ngoại tiếp.</p>
+// // <p>D. Mọi hình hộp chữ nhật đều có mặt cầu ngoại tiếp.</p>
+// // <p><strong>Giải</strong></p>
+// // <p><strong>\&nbsp;</strong>Hình bình hành nội tiếp đường trong phải là hình chữ nhật.</p>
+// // <p>Chọn (D).</p>
+// // <p><strong>Bài \&nbsp;2. </strong>Trong số các hình hộp nội tiếp một mặt cầu bán kính R thì</p>
+// // <p>(A) Hình hộp có đáy là hình vuông có thể tích lớn nhất.</p>
+// // <p>(B) Hình lập phương có thể tích lớn nhất.</p>
+// // <p>(C) Hình hộp có kích thước tạo thành cấp số cộng công sai khác 0 có thể tích lớn nhất.</p>
+// // <p>(D) Hình hộp có kích thước tạo thành cấp số nhân công bội khác 1 có thể tích lớn nhất.</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Hình hộp nội tiếp một mặt cầu là hình hộp chữ nhật có đường chéo \(d = 2R\). Gọi \(x, y, z\) là các kích thước của hình hộp chữ nhật.</p>
+// // <p>Ta có \({x^2} + {y^2} + {z^2} = {d^2} = 4{R^2}\)</p>
+// // <p>Áp dụng BĐT Cô – si cho 3 số dương ta có:</p>
+// // <p>\(4{R^2} = {x^2} + {y^2} + {z^2} \ge 3\root 3 \of {{x^2}{y^2}{z^2}}\&nbsp; = 3\root 3 \of {{V^2}}\&nbsp; \Rightarrow {V^2} \le {\left( {{{4{R^2}} \over 3}} \right)^3}\)</p>
+// // <p>\(V\) đạt giá trị lớn nhất khi và chỉ khi \(x = y = z\).</p>
+// // <p>Chọn (B).</p>
+// // <p><strong>Bài 3.</strong> Một hình cầu có thể tích \({4 \over 3}\pi \)\&nbsp;ngoại tiếp một hình lập phương. Trong các số sau đây, số nào là thể tích khối lập phương?</p>
+// // <p>(A) \({{8\sqrt 3 } \over 9}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) \({8 \over 3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(C) 1\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) \(2\sqrt 3 \)</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Giả sử bán kính mặt cầu là \(R\) và cạnh hình lập phương là a thì thể tích khối cầu là \(V = {4 \over 3}\pi {R^3} \Rightarrow R = 1\) và \(4{R^2} = 3{a^2} = 4 \Rightarrow a = {2 \over {\sqrt 3 }}\)</p>
+// // <p>Thể tích khối lập phương là \(V = {a^3} = {\left( {{2 \over {\sqrt 3 }}} \right)^3} = {8 \over {3\sqrt 3 }} = {{8\sqrt 3 } \over 9}\).</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 4. </strong>Trong các mệnh đề sau, mệnh đề nào đúng?</p>
+// // <p>(A) Hình chóp có đáy là tứ giác thì có mặt cầu ngoại tiếp.</p>
+// // <p>(B) Hình chóp có đáy là hình thang vuông thì có mặt cầu ngoại tiếp.</p>
+// // <p>(C) Hình chóp có đáy là hình bình hành thì có mặt cầu ngoại tiếp.</p>
+// // <p>(D) Hình chóp có đáy là hình thang cân thì có mặt cầu ngoại tiếp.</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Hình chóp có đáy là tứ giác có mặt cầu ngoại tiếp thì đáy phải là tứ giác nội tiếp đường tròn.</p>
+// // <p>Chọn (D).</p>
+// // <p><strong>Bài 5. </strong>Cho tứ diện đều \(ABCD\) có cạnh bằng \(a\). Tập hợp các điểm \(M\) sao cho \(M{A^2} + M{B^2} + M{C^2} + M{D^2} = 2{a^2}\)</p>
+// // <p>(A) Mặt cầu có tâm là trọng tâm của tam giác \(ABC\) và bán kính bằng \({{a\sqrt 2 } \over 2}\).</p>
+// // <p>(B) Mặt cầu có tâm là trọng tâm của tứ diện và bán kính bằng \({{a\sqrt 2 } \over 4}\).</p>
+// // <p>(C) Mặt cầu có tâm là trọng tâm của tứ diện và bán kính bằng \({{a\sqrt 2 } \over 2}\).<br>(D) Mặt cầu có tâm là trọng tâm của tam giác \(ABC\) và bán kính bằng \({{a\sqrt 2 } \over 4}\).</p>
+// // <p><strong>Giải</strong></p>
+// // <p><strong><img src="https://img./picture/2017/1108/toan-8_4.jpg" alt="" width="217" height="233"></strong></p>
+// // <p>Gọi \(G\) là trọng tâm tứ diện \(ABCD, AA’\) là đường cao xuất phát từ \(A\) của tứ diện \(ABCD\). Ta có:</p>
+// // <p>\(\eqalign{<br> &amp; AA' = \sqrt {A{B^2} - BA{'^2}} = \sqrt {{a^2} - {{{a^2}} \over 3}} = {{a\sqrt 6 } \over 3} \cr <br> &amp; \Rightarrow GA = GB = GC = GD = {3 \over 4}AA' = {{a\sqrt 6 } \over 4} \cr} \)</p>
+// // <p>Ta có:\&nbsp; \&nbsp;\(M{A^2} + M{B^2} + M{C^2} + M{D^2} = 2{a^2}\)</p>
+// // <p>\(\eqalign{<br> &amp; \Leftrightarrow {\left( {\overrightarrow {GA} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GB} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GC} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GD} - \overrightarrow {GM} } \right)^2} = 2{a^2} \cr <br> &amp; \Leftrightarrow 4G{A^2} + 4G{M^2} - 2\overrightarrow {GM} \left( {\overrightarrow {GA} + \overrightarrow {GB} + \overrightarrow {GC} + \overrightarrow {GD} } \right) = 2{a^2} \cr <br> &amp; \Leftrightarrow M{G^2} = {{{a^2}} \over 2} - G{A^2} = {{{a^2}} \over 8} \Rightarrow MG = {{a\sqrt 2 } \over 4} \cr} \)</p>
+// // <p>Tập hợp các điểm \(M\) là mặt cầu tâm \(G\) bán kính \({{a\sqrt 2 } \over 4}\) . Chọn (B).</p>
+// // <p><strong>Bài 6.</strong> Bán kính mặt cầu tiếp xúc với các cạnh của tứ diện đều \(ABCD\) cạnh bằng \(a\) là:</p>
+// // <p>(A) \({{a\sqrt 2 } \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{a\sqrt 2 } \over 4}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(C) \(a\sqrt 2 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \(2a\sqrt 2 \)</p>
+// // <p><strong>Giải</strong></p>
+// // <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_5.jpg" alt="" width="236" height="261"></p>
+// // <p>Gọi \(M, N\) lần lượt là trung điểm hai cạnh \(AB\) và \(CD\) của tứ diện đều \(ABCD\).</p>
+// // <p>\(I\) là trung điểm của \(MN\) thì \(I\) cách đều \(6\) cạnh tứ diện nên \(I\) là tâm mặt cầu tiếp xúc với các cạnh của tứ diện đều.</p>
+// // <p>Bán kính mặt cầu: \(R = {{MN} \over 2}\)</p>
+// // <p>Ta có: \(M{N^2} = A{N^2} - M{A^2} = A{D^2} - N{D^2} - M{A^2} = {a^2} - {{{a^2}} \over 4} - {{{a^2}} \over 4} = {{{a^2}} \over 2} \Rightarrow MN = {{a\sqrt 2 } \over 2} \Rightarrow R = {{a\sqrt 2 } \over 4}\).</p>
+// // <p>Chọn (B).</p>
+// // <p><strong>Bài 7. </strong>Trong số các mệnh đề sau, mệnh đề nào đúng?</p>
+// // <p>(A) Có duy nhất một măt cầu đi qua hai đường tròn nằm trong hai mặt phẳng cắt nhau.</p>
+// // <p>(B) Có duy nhất một măt cầu đi qua hai đường tròn nằm trong hai mặt phẳng song song.</p>
+// // <p>(C) Có duy nhất một măt cầu đi qua hai đường tròn cắt nhau.</p>
+// // <p>(D) Có duy nhất một măt cầu đi qua hai đường tròn cắt nhau tại hai điểm phân biệt và không cùng nằm trong một mặt phẳng.</p>
+// // <p><strong>Giải\&nbsp;</strong></p>
+// // <p>Chon D.</p>
+// // <p><strong>Bài 8. </strong>Cho hai điểm \(A, B\) phân biệt. Tập hợp các điểm \(M\) sao cho diện tích tam giác \(MAB\) không đổi là:</p>
+// // <p>(A) Hai đường thẳng song song;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) Một mặt cầu;</p>
+// // <p>(C) Một mặt trụ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Một mặt nón.</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Tập hợp các điểm \(M\) sao cho khoảng cách từ \(M\) đến \(AB\) không đổi.</p>
+// // <p>Chọn (C).</p>
+// // <p><strong>Bài 9. </strong>Cho hai điểm phân biệt \(A, B\) cố định và phân biệt. Một đường thẳng \(l\) thay đổi luôn đi qua \(A\)\&nbsp;</p>
+// // <p>và cách \(B\) một khoảng \({{AB} \over 2}\). Gọi \(H\) là hình chiếu của \(B\) trên \(l\). Tập hợp điểm \(H\) là:</p>
+// // <p>(A) Một mặt phẳng;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) Một mặt trụ;</p>
+// // <p>(C) Một mặt nón;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Một đường tròn.</p>
+// // <p><strong>Giải</strong></p>
+// // <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_6.jpg" alt="" width="327" height="207"></p>
+// // <p>\(\sin \widehat {HAB} = {{BH} \over {AB}} = {1 \over 2} \Rightarrow \widehat {HAB} = {30^0}\)</p>
+// // <p>Tập hợp \(l\) là mặt nón có trục AB, đường sinh \(l\), góc ở đỉnh là \({60^0}\). Gọi \(I\) là hình chiếu của H lên AB.</p>
+// // <p>Ta có: \(BI = BH.cos{60^0} = {{AB} \over 4} \Rightarrow I\) cố định.</p>
+// // <p>\( \Rightarrow H\) thuộc mặt phẳng qua \(I\) vuông góc với \(AB\). Vậy tâp hợp \(H\) là đường tròn.</p>
+// // <p>Chọn (D).</p>
+// // <p><strong>Bài 10. </strong>Với điểm \(O\) cố định thuộc mặt phẳng \((P)\) cho trước, xét đường thẳng \(l\)<em>\&nbsp;</em>thay đổi đi qua \(O\) và tạo với \((P)\) góc \(30^0\)\&nbsp;Tập hợp các đường thẳng \(l\)<em>\&nbsp;</em>trong không gian là:</p>
+// // <p>(A) Một mặt phẳng;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) Hai đường thẳng;</p>
+// // <p>(C) Một mặt trụ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) Một mặt nón.</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Chọn D.</p>
+// // <p><strong>Bài 11.</strong> Một hình trụ có bán kính đáy bằng \(a\), đường cao \({\rm{OO}}' = a\sqrt 3 \). Một đoạn thẳng \(AB\) thay đổi sao cho góc giữa \(AB\) và trục hình trụ bằng \(30^0\). \(A, B\) thuộc hai đường tròn đáy của hình trụ. Tập hợp các trung điểm \(I\) của \(AB\) là:</p>
+// // <p>(A) Một mặt trụ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) Một mặt cầu;</p>
+// // <p>(C) Một đường tròn;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Một mặt phẳng.</p>
+// // <p><strong>Giải</strong></p>
+// // <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_7.jpg" alt="" width="235" height="275"></strong></p>
+// // <p>Gọi \(A’\) là hình chiếu của \(A\) xuống mặt phẳng đáy thì \(AA’ = OO’\). Gọi \(I, M, N\) lần lượt là trung điểm của \(OO’, AB\) và \(AA’\).</p>
+// // <p>Ta có: \(IA = IB\) và \(IM \bot AB\).</p>
+// // <p>Mp(IMN) qua \(I\) và song song với hai mặt phẳng đáy.</p>
+// // <p>Ta có: \(MN = AN.\tan {30^0} = {{a\sqrt 3 } \over 2}.{1 \over {\sqrt 3 }} = {a \over 2}\)</p>
+// // <p>\( \Rightarrow MI = \sqrt {N{I^2} - M{N^2}}\&nbsp; = \sqrt {{a^2} - {{{a^2}} \over 4}}\&nbsp; = {{a\sqrt 3 } \over 2}\)</p>
+// // <p>Vậy tập hợp trung điểm \(M\) của \(AB\) là đường tròn tâm \(I\) bán kính \({{a\sqrt 3 } \over 2}\) nằm trong mp\((IMN)\).<br>Chọn (C).</p>
+// // <p><strong>Bài 12.</strong> Trong mặt phẳng (P) cho góc xOy. Một mặt phẳng (Q) thay đổi và vuông góc với đường phân giác trong của góc xOy, cắt Ox, Oy tại A, B. Trong (Q) lấy điểm M sao cho \(\widehat {AMB} = {90^0}\). Khi ấy, tập hợp điểm M là:</p>
+// // <p>(A) Một đường tròn;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) Một mặt trụ;</p>
+// // <p>(C) Một mặt nón;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) Một mặt cầu.</p>
+// // <p><strong>Giải</strong></p>
+// // <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-81_1.jpg" alt="" width="300" height="317"></strong></p>
+// // <p>Tập hợp M là một mặt nón đỉnh O.</p>
+// // <p>Chọn (C).</p>
+// // <p><strong>Bài 13.</strong> Cho hình lập phương ABCD.A’B’C’D’ có cạnh a. Diện tích xung quanh của hình nón tròn xoay sinh bởi đường gấp khúc AC’A’ khi quay quanh AA’ bằng:</p>
+// // <p>(A) \(\pi {a^2}\sqrt 6 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \(\pi {a^2}\sqrt 3 \)\&nbsp;</p>
+// // <p>(C) \(\pi {a^2}\sqrt 2 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \(\pi {a^2}\sqrt 5 \)</p>
+// // <p><strong>Giải</strong></p>
+// // <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_8.jpg" alt="" width="245" height="251"></p>
+// // <p>Hình nón tròn xoay sinh bởi đường gấp khúc AC’A’ khi quay quanh \(AA' \) có bán kính đáy \(A'C'=a\sqrt 2\) và độ dài đường sinh \(AC' = a\sqrt 3 \) nên diện tích xung quanh của hình nón là: \({S_{xq}} = {1 \over 2}2\pi a\sqrt 2 .a\sqrt 3\&nbsp; = \pi {a^2}\sqrt 6 \)</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 14.</strong> Cho hình nón có bán kính đáy bằng a. Một dây cung thay đổi của đường tròn đáy có độ dài không đổi bằng a. Tập hợp các trung điểm của đoạn thẳng nối đỉnh hình nón với trung điểm của dây cung đó là:</p>
+// // <p>(A) Một mặt nón cố đinh;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) Một mặt phẳng cố đinh;</p>
+// // <p>(C) Một mặt trụ cố định;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Một đường tròn cố đinh.</p>
+// // <p>Giải</p>
+// // <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_9.jpg" alt="" width="243" height="288"></p>
+// // <p>Gọi I là trung điểm AB ta có \(OI = \sqrt {O{B^2} - I{B^2}}\&nbsp; = \sqrt {{a^2} - {{{a^2}} \over 4}}\&nbsp; = {{a\sqrt 3 } \over 2}\)</p>
+// // <p>Tập hợp I là đường tròn tâm O bán kính \({{a\sqrt 3 } \over 2}\)\&nbsp;trong mặt phẳng đáy hình nón. Gọi O’ là trung điểm SO và M là trung điểm của SI thì \(MO' = {1 \over 2}OI = {{a\sqrt 3 } \over 4}\)</p>
+// // <p>Tập hợp các điểm M là đường tròn tâm O’ bán kính \({{a\sqrt 3 } \over 4}\) nằm trong mặt phẳng qua O’ và song song với mặt phẳng đáy.</p>
+// // <p>Chọn (D).</p>
+// // <p><strong>Bài 15.</strong> Cho hình trụ có bán kính đáy bằng R, chiều cao OO’. Cắt hình trụ đó bằng \(mp\left( \alpha\&nbsp; \right)\)\&nbsp;vuông góc với đáy và cách điểm O một khoảng bằng h cho trước (h&lt;R). Khi ấy, \(mp\left( \alpha\&nbsp; \right)\)\&nbsp;có tính chất:</p>
+// // <p>(A) Luôn tiếp xúc với một mặt trụ cố định;</p>
+// // <p>(B) Luôn cách một mặt phẳng cho trước qua trục hình trụ một khoáng h ;</p>
+// // <p>(C) Cắt hình trụ theo thiết diện là hình vuông ;</p>
+// // <p>(D) Cả ba tính chất trên đều sai.</p>
+// // <p><strong>Giải</strong></p>
+// // <p>\(mp\left( \alpha\&nbsp; \right)\)\&nbsp;luôn tiếp xúc với một mặt trụ cố định đường cao OO’ bán kính đáy h.</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 16.</strong> Một khối trụ có bán kính đáy \(a\sqrt 3 \), chiều cao \(2a\sqrt 3 \). Thể tích của khối cầu ngoại tiếp khối trụ là:</p>
+// // <p>(A) \(8\sqrt 6 \pi {a^3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \(6\sqrt 6 \pi {a^3}\)\&nbsp;</p>
+// // <p>(C) \({4 \over 3}\sqrt 6 \pi {a^3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) \(4\sqrt 3 \pi {a^3}\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Đường kính khối cầu ngoại tiếp khối trụ là \(d = 2R = \sqrt {{{\left( {2a\sqrt 3 } \right)}^2} + {{\left( {2a\sqrt 3 } \right)}^2}}\&nbsp; = 2a\sqrt 6\&nbsp; \Rightarrow R = a\sqrt 6 \)<br><br>Thể tích khối cầu là \(V = {4 \over 3}\pi {\left( {a\sqrt 6 } \right)^3} = 8\pi {a^3}\sqrt 6 \).</p>
+// // <p>Chọn (A).<br><strong>Bài 17.</strong>Cho hình nón có đường sinh bằng đường kính đáy và bằng 2. Bán kính mặt cầu ngoại tiếp hình nón đó là</p>
+// // <p>(A) \(\sqrt 3 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \(2\sqrt 3 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(C) \({{\sqrt 3 } \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({{2\sqrt 3 } \over 3}\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_10.jpg" alt="" width="237" height="258"></p>
+// // <p>Gọi AB là đường kính của mặt cầu ngoại tiếp hình nón, I là tâm đường tròn đáy của hình nón \(AI = \sqrt {A{C^2} - C{I^2}}\&nbsp; = \sqrt 3 \)</p>
+// // <p>\(\Delta ABC\) vuông tại C nên \(A{C^2} = AI.AB \Rightarrow AB = {{A{C^2}} \over {AI}} = {4 \over {\sqrt 3 }} = {{4\sqrt 3 } \over 3}\)</p>
+// // <p>\( \Rightarrow R = {{AB} \over 2} = {{2\sqrt 3 } \over 3}\). Chọn (D).</p>
+// // <p><strong>Bài 18.</strong> Cho hình nón sinh bởi một tam giác đều cạnh a khi quay quanh một đường cao. Một mặt cầu có diện tích bằng diện tích toàn phần của hình nón thì có bán kính là</p>
+// // <p>(A) \({{a\sqrt 3 } \over 4}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{a\sqrt 2 } \over 4}\)\&nbsp;</p>
+// // <p>(C) \({{a\sqrt 2 } \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({{a\sqrt 3 } \over 2}\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Diện tích toàn phần của hình nón là \({S_{tp}} = {S_{xq}} + {S_d} = \pi rl + \pi {r^2} = \pi {{{a^2}} \over 2} + \pi {{{a^2}} \over 4} = \pi {a^2}{3 \over 4}\)</p>
+// // <p>Diện tích mặt cầu bán kính R là \(4\pi {R^2}\).</p>
+// // <p>Suy ra \(4\pi {R^2} = \pi {a^2}{3 \over 4} \Rightarrow R = {{a\sqrt 3 } \over 4}\).</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 19.</strong> Cho một hình nón sinh bởi một tam giác đều cạnh a khi quay quanh một đường cao. Một khối cầu có thể tích bằng thể tích của khối nón thì có bán kính bằng</p>
+// // <p>(A) \({{a\root 3 \of {2\sqrt 3 } } \over 4}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{a\root 3 \of 3 } \over 8}\)\&nbsp;</p>
+// // <p>(C) \({{a\root 3 \of {2\sqrt 3 } } \over 8}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) \({{a\root 3 \of {2\sqrt 3 } } \over 2}\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Chiều cao của khối nón là \({{a\sqrt 3 } \over 2}\)\&nbsp;và bán kính đáy bằng \({a \over 2}\) nên</p>
+// // <p>\({V_n} = {1 \over 3}\pi {r^2}h = {1 \over 3}\pi {{{a^2}} \over 4}.{{a\sqrt 3 } \over 2} = {{\pi {a^3}\sqrt 3 } \over {24}}\)</p>
+// // <p>Thể tích khối cầu bán kính R là \({V_c} = {4 \over 3}\pi {R^3}\).</p>
+// // <p>Do đó \({{\pi {a^3}\sqrt 3 } \over {24}} = {4 \over 3}\pi {R^3} \Leftrightarrow {R^3} = {{{a^3}\sqrt 3 } \over {32}} \Rightarrow R = {{a\root 3 \of {\sqrt 3 } } \over {\root 3 \of {32} }} = {{a\root 3 \of {2\sqrt 3 } } \over 4}\)</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 20.</strong> Một hình nón có đường sinh bằng a và góc ở đỉnh bằng \(90^0\). cắt hình nón bằng mặt phẳng (a) đi qua đỉnh sao cho góc giữa (a) và mặt đáy hình nón bằng \(60^0\) . Khi đó diện tích thiết diện là</p>
+// // <p>(A) \({{\sqrt 2 } \over 3}{a^2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{\sqrt 3 } \over 2}{a^2}\)\&nbsp;</p>
+// // <p>(C) \({2 \over 3}{a^2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({3 \over 2}{a^2}\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_11.jpg" alt="" width="279" height="292"></strong></p>
+// // <p>\(\eqalign{<br>&amp; OS = {1 \over 2}AB = {{a\sqrt 2 } \over 2} \cr\&nbsp;<br>&amp; SI = {{SO} \over {\sin {{60}^0}}} = {{a\sqrt 2 } \over {\sqrt 3 }} \cr\&nbsp;<br>&amp; OI = SO.\cot {60^0} = {{a\sqrt 2 } \over {2\sqrt 3 }} \cr\&nbsp;<br>&amp; \Rightarrow IC = \sqrt {O{C^2} - I{O^2}} = \sqrt {{{{a^2}} \over 2} - {{{a^2}} \over 6}} = {a \over {\sqrt 3 }} \cr\&nbsp;<br>&amp; S = {1 \over 2}SI.2IC = {{a\sqrt 2 } \over {\sqrt 3 }}.{a \over {\sqrt 3 }} = {{\sqrt 2 } \over 3}{a^2} \cr} \)</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 21.</strong> Cho hình chóp tứ giác đều có cạnh đáy bằng a, cạnh bên tạo với mặt đáy góc \(60^0\). Diện tích toàn phần của hình nón ngoại tiếp hình chóp là</p>
+// // <p>(A) \({{3\pi {a^2}} \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) \({{3\pi {a^2}} \over 4}\)\&nbsp;</p>
+// // <p>(C) \({{3\pi {a^2}} \over 6}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) \({{3\pi {a^2}} \over 8}\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_12.jpg" alt="" width="290" height="280"></strong></p>
+// // <p>Bán kính đường tròn đáy của hình nón ngoại tiếp hình chóp là</p>
+// // <p>\(\eqalign{<br>&amp; R = {{a\sqrt 2 } \over 2} \cr\&nbsp;<br>&amp; \cos {60^0} = {{BO} \over {SB}} \cr\&nbsp;<br>&amp; \Rightarrow SB = {{BO} \over {\cos {{60}^0}}} = 2{{a\sqrt 2 } \over 2} = a\sqrt 2 \cr} \)</p>
+// // <p>Diện tích xung quanh hình nón \({S_{xq}} = {1 \over 2}.2\pi Rl = \pi {{a\sqrt 2 } \over 2}a\sqrt 2\&nbsp; = \pi {a^2}\)</p>
+// // <p>Diện tích hình tròn đáy hình nón là \({S_d} = \pi {R^2} = \pi {{{a^2}} \over 2}\)</p>
+// // <p>Diện tích toàn phần \({S_{tp}} = {S_{xq}} + {S_d} = \pi {a^2} + {{\pi {a^2}} \over 2} = {{3\pi {a^2}} \over 2}\)</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 22.</strong> Cho mặt cầu bán kính R và một hình trụ có bán kính đáy R và chiều cao 2R. Tỉ số thể tích khối cầu và khối trụ là</p>
+// // <p>(A) \({2 \over 3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) \({3 \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(C) 2\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({1 \over 2}\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Thể tích khối cầu bán kính R là \({V_c} = {4 \over 3}\pi {R^3}\)</p>
+// // <p>Thể tích khối trụ \({V_t} = \pi {R^2}.2R = 2\pi {R^3} \Rightarrow {{{V_c}} \over {{V_t}}} = {2 \over 3}\).</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 23.</strong> Cho hình trụ có bán kính đáy bằng R, chiều cao cũng bằng R. Một hình vuông ABCD có hai cạnh AB và CD lần lượt là các dây cung của hai đường tròn đáy, mp(ABCD) không vuông góc với mặt phẳng đáy của hình trụ. Diện tích hình vuông đó là</p>
+// // <p>(A) \({{5{R^2}} \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \(5{R^2}\)</p>
+// // <p>(C) \({{5{R^2}\sqrt 2 } \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \(5{R^2}\sqrt 2 \)</p>
+// // <p><strong>Giải</strong></p>
+// // <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_13.jpg" alt="" width="309" height="262"></strong></p>
+// // <p>Gọi C’ là hình chiếu của C trên đáy hình trụ. Khi đó ta có \(AB \bot BC'\)\&nbsp;(vì \(AB \bot BC\)).</p>
+// // <p>Vậy \(AC’ = 2R\).</p>
+// // <p>Ta có: \(BC{'^2} = 4{R^2} - A{B^2} = A{B^2} - {R^2} \Rightarrow A{B^2} = {5 \over 2}{R^2}.\)</p>
+// // <p>Chọn (A).</p>
+// // <p><strong>Bài 24.</strong>\&nbsp;Một khối hộp chữ nhật nội tiếp trong một khối trụ. Ba kích thước của khối hộp chữ nhật là a, b, c.. Thể tích của khối trụ là</p>
+// // <p>(A) \({1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;</p>
+// // <p>(B) \({1 \over 4}\pi \left( {{b^2} + {c^2}} \right)a\)</p>
+// // <p>(C) \({1 \over 4}\pi \left( {{c^2} + {a^2}} \right)b\)</p>
+// // <p>(D) \({1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\)\&nbsp;hoặc \({1 \over 4}\pi \left( {{b^2} + {c^2}} \right)a\)\&nbsp;hoặc \({1 \over 4}\pi \left( {{c^2} + {a^2}} \right)b\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p>\&nbsp;Nếu khối trụ có bán kính đáy là \(R = {1 \over 2}\sqrt {{a^2} + {b^2}} \) và chiều cao là c thì có thể tích \(V = {1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\). Vai trò của a, b, c như nhau nên chọn (D).</p>
+// // <p><strong>Bài 25.</strong> Một khối tứ diện đều có cạnh a nội tiếp một khối nón. Thể tích khối nón là</p>
+// // <p>(A) \({{\sqrt 3 } \over {27}}\pi {a^3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{\sqrt 6 } \over {27}}\pi {a^3}\)\&nbsp;</p>
+// // <p>(C) \({{\sqrt 3 } \over 9}\pi {a^3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({{\sqrt 6 } \over 9}\pi {a^3}\)</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Khối nón có bán kính đường tròn đáy \(R = {{a\sqrt 3 } \over 3}\)\&nbsp;và chiều cao \(h = \sqrt {{a^2} - {{{a^2}} \over 3}}\&nbsp; = {a \over 3}\sqrt 6 \)\&nbsp;nên có thể tích \(V = {1 \over 3}\pi {{{a^2}} \over 3}.{{a\sqrt 6 } \over 3} = {{\sqrt 6 } \over {27}}\pi {a^3}\).</p>
+// // <p>Chọn (B).</p>
+// // <p><strong>Bài 26.</strong> Cho hình nón đỉnh S, đáy là hình tròn tâm O, góc ở đỉnh bằng \(120^0\). Trên đường tròn đáy, lấy một điểm A cố định và điểm M di động. Có bao nhiêu vị trí của M để diện tích tam giác SAM đạt giá trị lớn nhất ?</p>
+// // <p>(A) Có 1 vị trí ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) Có 2 vị trí ;</p>
+// // <p>(C) Có 3 vị trí ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Có vô số vị trí.</p>
+// // <p><strong>Giải</strong></p>
+// // <p>Gọi \(l\) là độ dài đường sinh của hình nón ta có \(SA = SM = l\).</p>
+// // <p>Ta có: \({S_{\Delta SAM}} = {1 \over 2}SA.SM.\sin \widehat {ASM} = {1 \over 2}{l^2}\sin \widehat {ASM}\)</p>
+// // <p>Để diện tích tam giác SAM lớn nhất thì \(\sin \widehat {ASM} = 1 \Rightarrow \widehat {ASM} = {90^0}\).</p>
+// // <p>Vì góc ở đỉnh bằng \({120^0}\) nên có 2 vị trí thỏa mãn \(\widehat {ASM} = {90^0}\).</p>
+// // <p>Chọn (B).</p>
+// // <p style="text-align: right;"><strong>loigiaihay.com</strong></p>
+// // <div class="clearfix"></div>`
+
+// // string_inner_html = `<h2 class="s14 lineheight"></h2>
+// // <p style="text-align: justify;">Tố Hữu có cả một dòng thơ viết về người mẹ. Trong tập thơ “Từ ấy” có bài ” Bà má Hậu Giang”; trong tập thơ “Việt Bắc” có “Bầm ơi!” “Bà Bủ”, “Bà mẹ Việt Bắc”, trong tập thơ “Gió lộng” có “Quê mẹ”, “Mẹ Tơm”; trong tập thơ”Ra trận” có “Mẹ Suốt”… Ông viết về người mẹ với tấm lòng thương yêu, kính trọng, ngợi ca.</p>
+// // <p style="text-align: justify;">Bài thơ “Mẹ Tơm” cũng được tác giả viết với dòng cảm xúc cao quý ấy và gửi gắm lòng biết ơn người mẹ đã nuôi dưỡng nhà thơ trong những ngày vượt ngục. Từ xúc cảm cụ thể, bài thơ vươn lên triết lí, để cao dạo lí ân nghĩa của dân tộc.Tác giả đã chọn thể loại thơ trữ tình kết hợp với tự sự thích hợp với giọng điệu tâm tình. Kết cấu<br>\&nbsp;của bài thơ theo diễn biến của cuộc hành trình và theo sự vận động nội tâm của tác giả.</p>
+// // <p style="text-align: justify;">Cái tôi trữ tình hiện diện ngay ở đầu bài thơ với cảm xúc dào dạt khi nhà thơ trở về miền biển Hậu Lộc, quê hương của mẹ Tơm, sau mười chún năm xa cách:</p>
+// // <p style="text-align: center;">“Tôi lại về quê mẹ nuôi xưa<br>Một buổi trưa, nắg dài bãi cát<br>Gió lộng xôn xao, sóng biển đu đưa<br>Mát rượi lòng ta ngân nga tiếng hát…”</p>
+// // <p style="text-align: justify;">Nhà thơ đi trong không gian thoáng đãng, dưới trưa nắng sáng, trong âm vang của sóng biển (hay sóng lòng?). Những từ láy phụ âm đầu như “xôn xao”. “đu đưa”. “ngân nga” đã cộng hưởng thành một hòa âm xao động mà êm ái du dương.</p>
+// // <p style="text-align: justify;">Nhà thơ trửo nên hồn nhiên, trò chuyện với những cái không thể trò chuyện được, chào hỏi những vật vô tri như chào hỏi cố nhân:</p>
+// // <p style="text-align: center;">“Hòn Nẹ ta ơi! Mảng về chưa đó<br>Có nhiều không con nục, con thu?<br>Cho những buồm nâu thuyền câu Diêm Phố!<br>Nhớ nhau chăng, hỡi Hanh Cát, Hanh Cù?”</p>
+// // <p style="text-align: justify;">Màu sắc cũng được gợi lên thật đẹp. Màu xanh của “dừa xanh” đầy sức sống, nổi bật trên màu trắng của “cát trắng” tinh anh và điểm xuyết nét dỏ của “dưa đỏ ngọt lành”. Nhưng hay nhất của khúc tâm tình này là âm nhạc. Những từ láy và những vần lưng cộng hưởng thành những hòa âm phong phú”</p>
+// // <p style="text-align: center;">“Mát rượi lòng ta ngân nga tiếng hát”<br>“Chào những buồm nâu thuyền câu Diêm Phố”<br>“Hỡi đồi cát trắng rung rinh nắng”</p>
+// // <p style="text-align: justify;">Trong điệu nhạc ân tình, nhà thơ tưởng nhớ đến người mẹ nuôi xưa.</p>
+// // <p style="text-align: center;">“Con đã về đây, ơi mẹ Tơm<br>Hỡi người mẹ khổ đã dành cơm<br>Cho con, cho Đảng ngày xưa ấy<br>Không sợ tù gông, chấp súng gươm”</p>
+// // <p style="text-align: justify;">Tố Hữu nhớ đến mẹ Tơm là nhớ đến một người mẹ giàu lòng thương yêu, có lí tưởng cao quý. Chính mẹ Tơm mười chín năm về trước đã nuôi dưỡng, che chở, bảo vệ cho Tố Hữu trong những ngày vượt ngục đầy gian nan, bất chấp bạo lực của kẻ thù. Mẹ Tơm tình nghĩa mà anh hùng!<br>Nhà thơ ngạc nhiên, vui mừng trước sự đổi thay của quê hương Hậu Lộc :</p>
+// // <p style="text-align: center;">“Nhà ai mới nhỉ, tường vôi trắng<br>Thơm phức mùi tôm nặng mấy nong<br>Ngồn ngộn sân phơi khoai dát nắng<br>Giếng vườn ai vậy , nước khơi trong ? “</p>
+// // <p style="text-align: justify;">Màu sắc mới mẻ ( tường vôi trắng ) , hương vị miện biển ( thơm phức mùi tôm ) , hình ảnh “ ngồn ngộn sân phơi khoai dát nắng “ đã nói lên sự thay da đổi thịt của miền quê Hậu Lộc – một miền quê biển thanh bình , sung túc.</p>
+// // <p style="text-align: justify;">Nhà thơ ngơ ngác trước cuộc sống lạ lùng hôm nay. “Cô gái má bồ quân “ , “ Mái đầu tóc xoã xanh bên giếng “ , mười chín năm trước đã quen thân , vậy mà giờ đây cả hai đều bỡ ngỡ . Lời thoại giữa cô gái và nhà thơ tạo ra không khí sôi nổi , trẻ trung cho thơ :</p>
+// // <p style="text-align: center;">“Nhiều đấy ư em , mấy tuổi rồi ?<br>- Hai mươi.<br>- Ờ nhỉ , tháng năm trôi<br>Sóng bồi thêm bãi , thiền thêm bến<br>Gió lộng đường khơi , rộng đất trời ! “</p>
+// // <p style="text-align: justify;">Rồi giọng thơ lại bùi ngùi trước hai tin buồn :</p>
+// // <p style="text-align: center;">Ông mất năm nao ngày độc lập<br>“Bà về năm đói , làng treo lưới<br>Biển động : Hòn Mê , giặc bắn vào … “</p>
+// // <p style="text-align: justify;">Nhà thơ lại “ bâng khuâng” nhớ lại chuyện cũ. Mười chín năm trước , Tố Hữu và một số bạn tù đã vượt ngục\&nbsp; Đắc Lay về Thanh Hoá và “ Duyên may dây nối , đất Hanh Cù”. Nhà thơ và các bạn tù đã tìm đến bà mẹ nghèo ở đất Hanh Cù :</p>
+// // <p style="text-align: center;">“Đầu thôn , cồn vắng , túp lếu rơm :<br>Tổ ấm chim về . Có mẹ Tơm<br>Hai đứa trai ngày đi cúp dạo<br>Nồi khoai sớm tôi lót thay cơm”</p>
+// // <p style="text-align: justify;">Mẹ Tơm nghèo nhưng tình nghĩa “thương người cộng sản, căm Tây , Nhật “ , trung thành , thuỷ chung với cách mạng :</p>
+// // <p style="text-align: center;">“Buồng Mẹ – buồng tim – giấu chúng con”</p>
+// // <p style="text-align: justify;">Thật không còn hình ảnh nào xác thực hơn để ngợi ca lòng trung thành của mẹ Tơm đối với Đảng , với cách mạng ! Hình tượng người Mẹ cứ lớn dần lên hoà lẫn với non nước thật là cao đẹp.</p>
+// // <p style="text-align: center;">…”Bóng Mẹ ngồi canh lẩn bóng cồn “</p>
+// // <p style="text-align: center;">…”Bóng Mẹ ngồi trông , vọng nước non !”</p>
+// // <p style="text-align: justify;">Mẹ Tơm từ người mẹ nuôi dưỡng , đã trở thành người mẹ tranh đấu. Từ những việc làm âm thầm như nuôi giấu cán bộ , ngồi canh cho những hoạt động của chiến sĩ cách mạng , dần dần Mẹ đã tham gia trực tiếp vào cuộc chiến tranh :</p>
+// // <p style="text-align: center;">“Chợ xa , Mẹ gánh mớ rau xanh<br>Thêm bó truyền đơn gọi đấu tranh<br>Bãi cát vàng thau in bóng mẹ<br>Chiều về…Hòn Nẹ…biển reo quanh! “</p>
+// // <p style="text-align: justify;">Mẹ Tơm gợi nhớ đến nhân vật Nilôpna trong tiểu thuyết “ Người mẹ “ của Macxim Go-rơ-ki. Hai người Mẹ đều bắt đầu từ tự phát đến tự giác đấu tranh .Và đều có những hành động anh hùng , bất khuất.</p>
+// // <p style="text-align: justify;">Nhà thơ tưởng niệm mẹ Tơm bằng một “ nén hương thơm “ và triết lí sâu sắc ngợi ca người Mẹ tình nghĩa mà anh hùng :</p>
+// // <p style="text-align: center;">“Ôi bóng người xưa , đã khuất rồi<br>Tròn đôi nấm đất trắng chân đồi<br>Sống trong cát , chết vùi trong cát<br>Những trái tim như ngọc sáng ngời !<br>Đốt nén hương thơm , mát dạ Người<br>Hãy về vui chút , mẹ Tơm ơi!<br>Nắng tươi xóm ngói , tường vôi mới<br>Phấp phới buồm giong , nắng biển khơi “</p>
+// // <p style="text-align: justify;">Thành công lớn nhất của bài thơ là đã tái hiện được hình ảnh mẹ Tơm . Người mẹ nghèo khổ sống lặng lẽ âm thầm nhưng giàu lòng thương yêu và son sắt thuỷ chung với cách mạng . Từ người mẹ thật ngoài đời đã bước vào trong thơ thành nhân vật lí tưởng của thi nhân . Tượng đài người mẹ anh hùng mà tình nghĩa dược hiện lên trong âm nhạc hoài niệm và ngợi ca nên có sức ngân vang mãi trong lòng người đọc.</p>
+// // <p style="text-align: right;"><strong></strong></p>
+// // <p style="text-align: justify;">C. Biểu cảm\&nbsp;D. Thuyết minh.</p>
+// // <div class="clearfix"></div>`;
+
+
+// let question_default = ''//'I. ĐỀ BÀI THAM KHẢO, Đề 1: Trong vai Lạc Long Quân, kể lại câu chuyện truyền thuyết Con Rồng cháu Tiên. Đề 2: Kể lại một câu chuyện cổ tích bằng lời văn của em (Sọ Dừa). A. asdsadsa    B.asdsadasd';
+// const jsdom = require("jsdom");
+// const { JSDOM } = jsdom;
+// let dom = new JSDOM('<!doctype html><html><body></body></html>');
+// let document = dom.window.document;
+// var build = new Build(document, null);
+// build.init(string_inner_html, question_default, 'wqeqwe')
+
 // string_inner_html = `<h2 class="s14 lineheight"></h2>
 // <p><strong class="content_question">Đề bài</strong></p>
-// <p style="text-align: justify;"><strong>Câu 1.</strong> Cho tứ diện EFKI. G là trọng tâm của tam giác KIE. Mệnh đề nào sau đây là mệnh đề đúng ?</p>
-// <p style="text-align: justify;">A. \(3\overrightarrow {FG}\&nbsp; = \overrightarrow {FE}\&nbsp; + \overrightarrow {FK}\&nbsp; + \overrightarrow {FI} \).</p>
-// <p style="text-align: justify;">B. \(3\overrightarrow {EG}\&nbsp; = \overrightarrow {EF}\&nbsp; + \overrightarrow {EK}\&nbsp; + \overrightarrow {EI} \).</p>
-// <p style="text-align: justify;">C. \(\overrightarrow {FG}\&nbsp; = \overrightarrow {FE}\&nbsp; + \overrightarrow {FK}\&nbsp; + \overrightarrow {FI} \).\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">D. \(\overrightarrow {EG}\&nbsp; = \overrightarrow {EF}\&nbsp; + \overrightarrow {EK}\&nbsp; + \overrightarrow {EI} \).</p>
-// <p style="text-align: justify;"><strong>Câu 2</strong>. Trong không gian cho hai đường thẳng a và b vuông góc với nhau. Tìm mệnh đề đúng.</p>
-// <p style="text-align: justify;">A. a và b chéo nhau.\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">B. a và b cắt nhau.</p>
-// <p style="text-align: justify;">C. a và b cùng thuộc một mặt phẳng.\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">D. Góc giữa a và b bằng 90<sup>0</sup>.</p>
-// <p style="text-align: justify;"><strong>Câu 3.</strong> Tìm mệnh đề đúng.</p>
-// <p style="text-align: justify;">A. Nếu một đường thẳng vuông góc với một đường thẳng thuộc một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
-// <p style="text-align: justify;">B. Nếu một đường thẳng vuông góc với hai đường thẳng cùng thuộc một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
-// <p style="text-align: justify;">C. Nếu một đường thẳng vuông góc với hai đường thẳng cắt nhau cùng thuộc một mặt phẳng thì nó vuông với mặt phẳng ấy.</p>
-// <p style="text-align: justify;">D. Nếu một đường thẳng vuông góc với hai đường thẳng cắt nhau cùng song song một mặt phẳng thì nó vuông góc với mặt phẳng ấy.</p>
-// <p style="text-align: justify;"><strong>Câu 4.</strong> Cho hình chóp S. ABC có đáy ABC là tam giác cân tại A, cạnh bên SA vuông góc với đáy, M là trung điểm BC, J là trung điểm BM. Khẳng định nào sau đây đúng ?</p>
-// <p style="text-align: justify;">A. \(BC \bot \left( {SAB} \right)\).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">B. \(BC \bot \left( {SAM} \right)\).</p>
-// <p style="text-align: justify;">C. \(BC \bot \left( {SAC} \right)\).\&nbsp;\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">D. \(BC \bot \left( {SAJ} \right)\).</p>
-// <p><strong>Câu 5.</strong> Cho tứ diện ABCD. Gọi M, N, P, Q lần lượt là trung điểm của AB, BD, BC, CD. Bộ ba vec tơ không đồng phẳng là:</p>
-// <p>A. \(\overrightarrow {AB} \,,\,\overrightarrow {PN} \,,\,\overrightarrow {CD} \).</p>
-// <p>B. \(\overrightarrow {MP} \,,\overrightarrow {AC} \,,\,\overrightarrow {AD} \).</p>
-// <p>C. \(\overrightarrow {AB} \,,\,\overrightarrow {AC} \,,\,\overrightarrow {AD} \)\&nbsp; \&nbsp;</p>
-// <p>D. \(\overrightarrow {BD} \,,\,\overrightarrow {PQ} \,,\,\overrightarrow {AC} \).</p>
-// <p style="text-align: justify;"><strong>Câu 6.</strong> Cho tứ diện ABCD có AB, BC, CD đôi một vuông góc . Đường vuông góc chung của AB và CD là:</p>
-// <p style="text-align: justify;">A. AC.</p>
-// <p style="text-align: justify;">B. BC.</p>
-// <p style="text-align: justify;">C. AD.\&nbsp;</p>
-// <p style="text-align: justify;">D. BD.</p>
-// <p style="text-align: justify;"><strong>Câu 7.</strong> Cho hình chóp S. ABCD có BACD là hình vuông và \(SA \bot (ABCD)\). Gọi O là giao điểm của AC và BD. Tam giác SOD là:</p>
-// <p style="text-align: justify;">A. Tam giác thường.\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">B. Tam giác đều.</p>
-// <p style="text-align: justify;">C. Tam giác cân\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">D. Tam giác vuông.</p>
-// <p style="text-align: justify;"><strong>Câu 8.</strong> Cho hình hộp ABCD.A’B’C’D’ có tất cả các cạnh bằng nhau và \(\widehat {ABC} = \widehat {B'BA} = \widehat {B'BC} = {60^0}\). Diện tích tứ giác A’B’C’D’ là:</p>
-// <p style="text-align: justify;">A. \(\dfrac{2}{3}{a^2}\).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp; B. \(\dfrac{1}{3}{a^2}\).</p>
-// <p style="text-align: justify;">C. \(\dfrac{4}{3}{a^2}\).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp; \&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;D. \(\dfrac{{{a^2}\sqrt 3 }}{2}\).</p>
-// <p style="text-align: justify;"><strong>Câu 9.</strong> Cho hình chóp tứ giác đều S.ABCD có cạnh bằng a và góc giữa cạnh bên với mặt phẳng đáy bằng \(\alpha \). Tan của góc giữa\&nbsp; mặt bên và mặt đay bằng:</p>
-// <p style="text-align: justify;">A. \(\tan \alpha \).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp; B. \(\cot \alpha \).</p>
-// <p style="text-align: justify;">C. \(\sqrt 2 \tan \alpha \).\&nbsp; \&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;D. \(\dfrac{{\sqrt 2 }}{{2\tan \alpha }}\).</p>
-// <p style="text-align: justify;"><strong>Câu 10.</strong> Cho hình tứ diện ABCD có AB, BC, CD đôi một vuông góc . Mặt phẳng (ABD) vuông góc với mặt phẳng nào cua tứ diện ?</p>
-// <p style="text-align: justify;">A. (ACD).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">B.(ABC).</p>
-// <p style="text-align: justify;">C. (BCD).\&nbsp;\&nbsp;\&nbsp;\&nbsp;\&nbsp;</p>
-// <p style="text-align: justify;">D. Không có mặt phẳng nào .</p>
+// <p><strong>Câu 1.</strong> Dạ dày ngăn nào của động vật nhai lại có chức năng hấp thụ bớt nước sau khi thức ăn được đưa lên khoang miệng nhai lại</p>
+// <p><strong>A. </strong>Dạ tổ ong<strong></strong></p>
+// <p><strong>B. </strong>Dạ lá sách.<strong></strong></p>
+// <p><strong>C. </strong>múi khế<strong></strong></p>
+// <p><strong>D. </strong>Dạ cỏ</p>
+// <p><strong>Câu 2</strong>: Một loài thực vật có 8 nhóm gen liên kết theo lý thuyết số nhiễm sắc thể có trong thể một nhiễm là</p>
+// <p><strong>A. </strong>7 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>9</p>
+// <p><strong>C. </strong>15 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>17</p>
+// <p><strong>Câu 3</strong>: Phần nào của hệ mạch dưới đây sẽ có huyết áp lớn nhất?</p>
+// <p><strong>A. </strong>Tiểu tĩnh mạch.<strong></strong></p>
+// <p><strong>B. </strong>Tĩnh mạch chủ.</p>
+// <p><strong>C.</strong>Tiểu động mach.</p>
+// <p><strong>D. </strong>mao mạch</p>
+// <p><strong>Câu 4</strong>: Khi nói về di truyền cấp độ phân tử, phát biểu nào sau đây đúng?</p>
+// <p><strong>A. </strong>ADN làm khuôn để tổng hợp ADN và ARN.</p>
+// <p><strong>B. </strong>Trong tái bản ADNenzim ADN pôlimeraza tổng hợp và kéo dài mạch mới theo chiều 3’ – 5’</p>
+// <p><strong>C. </strong>&nbsp;ARN là vật chất di truyền chủ yếu của sinh vật nhân sơ.</p>
+// <p><strong>D. </strong>Chỉ ADN mới có cấu tạo theo nguyên tắc đa phân còn ARN thì không</p>
+// <p><strong>Câu 5:</strong> Khu sinh học (biôm) nào sau đây phán bố ỏ vùng ôn đới?</p>
+// <p><strong>A. </strong>Savan.<strong></strong></p>
+// <p><strong>B. </strong>Hoang mạc và sa mạ<strong>c</strong><strong>. </strong><strong></strong></p>
+// <p><strong>C. </strong>Rừng Taig<strong>a</strong><strong>.</strong><strong></strong></p>
+// <p><strong>D. </strong>Rừng địa Trung Hải</p>
+// <p><strong>Câu 6:</strong> Nguyên tố khoáng nào sau đây đóng vai trò trong việc giúp cân bằng ion, quang phân ly nước ở cơ thể thực vật?</p>
+// <p><strong>A. </strong>Kali</p>
+// <p><strong>B. </strong>Clo</p>
+// <p><strong>C. </strong>Sắt</p>
+// <p><strong>D. </strong>Molipden</p>
+// <p><strong>Câu 7.</strong>Phương pháp dùng để xác định vị trí của gen trong tế bào là</p>
+// <p><strong>A. </strong>sử dụng phương pháp lai thuận nghịch.<strong></strong></p>
+// <p><strong>B. </strong>sử dụng phương pháp gây đột biến</p>
+// <p><strong>C. </strong>sử dụng phép lai phân tích.<strong>&nbsp;&nbsp;&nbsp;&nbsp; </strong><strong></strong></p>
+// <p><strong>D. </strong>phân tích cơ thể con lai</p>
+// <p><strong>Câu 8</strong>: Nhân tố tiến hoá nào sau đây có khả năng làm tăng đa dạng di truyền của quần thể?</p>
+// <p><strong>A. </strong>Giao phối ngẫu nhiên.<strong></strong></p>
+// <p><strong>B. </strong>Yếu tố ngẫu nhiên.<strong></strong></p>
+// <p><strong>C. </strong>Chọn lọc lự nhiên<strong></strong></p>
+// <p><strong>D. </strong>Đột biến</p>
+// <p><strong>Câu 9:</strong> Ở vườn quốc gia Cát Bà. trung bình có khoảng 15 cá thể chim chào mào/ ha đất rừng. Đây là vi dụ minh hoạ cho đậc trưng nào của quần thể?</p>
+// <p><strong>A. </strong>Nhóm tuổi</p>
+// <p><strong>B. </strong>Mật độ cá thể.</p>
+// <p><strong>C. </strong>Ti lệ giới tính.</p>
+// <p><strong>D. </strong>Sự phân bố cá thể</p>
+// <p><strong>Câu 10.</strong>loại axit nucleic nào sau đây, trong cấu trúc phân tử được đặc trưng bởi nucleotit loại timin</p>
+// <p><strong>A. </strong>rARN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>tARN</p>
+// <p><strong>C. </strong>ADN &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>mARN</p>
+// <p><strong>Câu </strong>11. Một cơ thể thực vật bị đột biến thể một (2n -1) ở NST số 2. Biết rằng cơ thể này vẫn có khả năng giảm phân bình thường, các giao tử tạo ra đều có sức sống và khả năng thụ tinh như nhau, các hợp tử bị đột biến thể một (2n -1) vẫn phát triển bình thường, các giao tử tạo ra đều có sức sống và khả năng thụ tinh như nhau, các hợp tử bị đột biến thể một (2n -1) vẫn phát triển bình thường nhưng các đột biến thể không (2n -2) bị chết ngay sau khi thụ tinh. Tính tỷ lệ theo lý thuyết nếu cơ thể này tự thụ phấn thì trong các cá thể con ở F<sub>1</sub> các cá thể bình thường chiếm tỷ lệ</p>
+// <p><strong>A.</strong> 3/4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B.</strong> 1/4</p>
+// <p><strong>C.</strong> 1/2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>1/3</p>
+// <p><strong>Câu 12</strong>. Giống lúa X khi trồng ở đồng bằng Bắc bộ cho năng suất 8 tấn/ha, ở vùng Trung bộ cho năng suất 6 tấn/ha, ở đồng bằng sông Cửu Long cho năng suất 10 tấn/ha<strong>. </strong>Nhận xét nào sau đây là đúng ?</p>
+// <p><strong>A. </strong>Năng suất thu được ở giống lúa X hoàn toàn do môi trường sống quy định,</p>
+// <p><strong>B. </strong>Tập hợp tất cả các kiểu hình thu được về năng suất (6 tấn/ha, 8 tấn/ha, 10 tấn/ha...) được gọi lá mức phản ứngcủa kiểu gen quy định tính trạng năng suất của giống lúa X.</p>
+// <p><strong>C. </strong>Điều kiện khí hậu, thổ nhưỡng,... thay đổi đã làm cho kiểu gen của giống lúa X bị thay đổi</p>
+// <p><strong>D. </strong>giống lúa Xcó nhiều mức phản ứng khác nhau về tính trang năng suất.</p>
+// <p><strong>Câu 13.</strong>Hình vẽ dưới đây mô tả 3 vị trí do thế nước trong 1 cây thực vật trong điều kiện bình thường, trong đó P là lá cây, Q là rễ cây, R là đất. giả sử với 4 thông số giá trị&nbsp; áp suất sau đây:</p>
+// <table border="1" cellspacing="0" cellpadding="0">
+//  <tbody>
+//   <tr>
+//    <td valign="top" width="154"> <p>0,6 atm</p> </td>
+//    <td valign="top" width="154"> <p>-2 atm</p> </td>
+//    <td valign="top" width="154"> <p>1 atm</p> </td>
+//    <td valign="top" width="154"> <p>-0,9 atm</p> </td>
+//   </tr>
+//  </tbody>
+// </table>
+// <p>Nếu Q có thế nước là 0,6 atm. Theo lý thuyết với 4 trị số như trên bảng thì có bao nhiêu trường hợp có thể điền giá trị thế nước vào vị trí P và R trong điều kiện tự nhiên bình thường ?</p>
+// <p align="center"><img style="width: 100%; max-width: 400px;" src="https://img./picture/2018/1223/de-601.jpg" alt="">&nbsp;</p>
+// <p><strong>A. </strong>2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B.</strong>4<strong></strong></p>
+// <p><strong>C. </strong>3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>6</p>
+// <p><strong>Câu 14</strong>: Một tế bào sinh hạt phấn có kiêu gen AaBbDd tiến hành giảm phân bình thường. Theo lý thuyết số loại giao tử tối đa thu được là:</p>
+// <p><strong>A. </strong>8 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>4</p>
+// <p><strong>C. </strong>2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>1</p>
+// <p><strong>Câu 15:</strong>Ở một vùng biển, năng lượng bức xạ chiếu xuồng mặt nước đạt 3.10<sup>6</sup> Kcal/m<sup>2</sup>/ ngày. Tảo X chỉ đồnghóađược 3% tổng năng lượng đó. Giáp xác trong hồ khai thác dược 40% năng lượng tích lũy trong tảo X còn cá ăn giáp xác khai thác được 0.15% năng lựợng của giáp xác<strong>. </strong>Hiệu suất sử dụng năng lượng của bậc dinh dưỡng cuối cùng so với tổng năng lượng ban đầu là:</p>
+// <p><strong>A.</strong>0.0018%. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>B. </strong>0,008%.</p>
+// <p><strong>C. </strong>0,08%. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>D. </strong>0.00018%.</p>
+// <p><strong>Câu 16.</strong> Ở ngô người ta xác định được gen quy định hình dạng hạt và gen quy định màu sắc hạt cùng nằm trên một nhiễm sắc thề tại các vị trí tương ứng trên nhiễm sắc thể là 19 cM và 59 cM. Cho biết các gen đều có quan hệ trội lặn hoàn toàn. Khi tiến hành tự thụ phấn bắt buộc cơ thể dị hợp tử về cả hai cặp gen nói trên thì tỉ lệ phân li kiểu hình theo lý thuyết phù hợp nhất ở đời sau sẽ là:</p>
+// <p><strong>A. </strong>50%; 23%; 23%; 4%.</p>
+// <p><strong>B. </strong>52%; 22%; 72%; 4%.</p>
+// <p><strong>C. </strong>51 %: 24%; 24%, 1 %.<strong></strong></p>
+// <p><strong>D. </strong>54%; 21 %; 21 %; 4%.</p>
+// <p><strong>Câu 17:</strong>Ở một loài thực vật, tính trạng chiều cao do 2 cặp gen Ạa, Bb nằm trên 2 cặp NST khác nhau quy định theo kiểu tương tác cộng gộp, trong đó cứ có 1 alen trội thì chiều cao cùa cây tăng lên 10cm. Tính trạng màu hoa do một cặp gen Dd quy định, trong đó alen D quy dịnh hoa đỏ trội hoàn toàn so với alen d quy định hoa trắng. Phép lai giữa hai cây tứ bội có kiểu gen AAaaBbbbDDDd × AAaaBbbbDddd thu được đời F<sub>1</sub> cơ thể tứ bội giảm phân chỉ sinh ra giao tử lưỡng bội và các loại giao tử lưỡng bội có khả năng thụ bình thường. Theo lí thuyết, đời F<sub>1</sub> có tối đa số loại kiểu gen vá số loại kiểu hình lần lượt là:</p>
+// <p><strong>A. </strong>&nbsp;45:15.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>32; 8.<strong></strong></p>
+// <p><strong>C. </strong>15; 4.<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D.</strong>45: 7.</p>
+// <p><strong>Câu 18:</strong> Có bao nhiêu phát biểu sau đây đúng, khi nói về quá trình quang hợp ở thực vật?:</p>
+// <p>I.Ở thực vật C­<sub>3</sub> sản phẩm đầu tiên của giai đoạn cố định CO<sub>2</sub> là hợp chất AlPG.</p>
+// <p>II.Thực vật C<sub>4</sub> và thực vật CAM có 2 loại lục lạp ở tế bào mô giậu và tế bào bao bó mạch</p>
+// <p>III.Sản phẩm đầu tiên trong giai đoạn cố định CO<sub>2</sub> ở thực vật CAM là một hợp chất 4C.</p>
+// <p>IV.Sản phẩm trong pha sáng của quá trình quang hợp gồm có ATP, NADPH, O<sub>2</sub></p>
+// <p><strong>A. </strong>2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>3</p>
+// <p><strong>C. </strong>1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>4</p>
+// <p><strong>Câu 19.</strong> Một cặp vợ chồng bình thường sinh một con trai mắc cả hội chứng Đao và Claifento (XXY). Kết luận nào sau đây <strong>không đúng</strong> ?</p>
+// <p><strong>A. </strong>Trong giảm phân của người mẹ cặp NST số 21 và cặp NST giới tính không phân li ở giảm phân 2. bố giảm phân bình thường</p>
+// <p><strong>B. </strong>Trong giảm phân của người mẹ cặp NST số 21 và cặp NST giới tính không phân li ở giảm phân 1. bố giảm phân bình thường</p>
+// <p><strong>C. </strong>Trong giảm phân của người bố cặp NST số 21 và cặp NST giới tính không phân li ở giảm phân 2,mẹ giảm phân bình thường</p>
+// <p><strong>D. </strong>Trong giảm phân của người bố cặp NST số 21 và cặp NST giới tính không phân li ở giảm phân 2 mẹ giảm phân bình thường</p>
+// <p><strong>Câu 20.</strong>Đồ thị biểu diễn sự sinh trưởng của quần thể sinh vật trong tự nhiên thường có dạng hình chữ S, giải thích nào sau đây là đúng</p>
+// <p><strong>A. </strong>Tốc độ sinh trưởng tối đa của quần thể đạt được khi số lượng cá thể của quần thể còn lại tương đối ít</p>
+// <p><strong>B. </strong>Tốc độ sinh trưởng tối đa của quần thể đạt được khi quần thể vừa bước vào điểm uốn trên đồ thi sinh trưởng của quần thể</p>
+// <p><strong>C. </strong>Tốc độ sinh trưởng tối đa của quần thể đạt được khi số lượng cá thể của quần thể gần đạt kích thước tối đa</p>
+// <p><strong>D. </strong>Tốc độ sinh trưởng tối đa của quần thể đạt được khi quần thể vượt qua điểm uốn trên đồ thi sinh trưởng của quần thể</p>
+// <p><strong>Câu 21. </strong>Câu nào sau đây giải thích về ưu thế lai là đúng ?</p>
+// <p><strong>A</strong>. Lai hai dòng thuần chủng với nhau sẽ luôn cho ra ưu thế lai cao nhất</p>
+// <p><strong>B</strong>. Người ta không sử dụng con lai có ưu thế lai có làm giống vì con lai có ưu thế lại cao nhưng không đồng nhất về kiểu hình</p>
+// <p><strong>C</strong>. Lai hai dòng thuần chủng khác nhau về khu vực địa lý sẽ luôn cho ra ưu thế lai cao nhất</p>
+// <p><strong>D</strong>. chỉ có một số tổ hợp lai giữa các cặp bố mẹ nhất định mới có ưu thế lai cao nhất</p>
+// <p><strong>Câu 22.</strong> Một nhân 10 tiến hóa X tác động vào quần thể theo thời gian được mô tả qua hình vẽ dưới dây</p>
+// <p>&nbsp;<img style="width: 100%; max-width: 500px;" src="https://img.loigiaihay.com/picture/2018/1223/de-602.jpg" alt=""></p>
+// <p>Có bao nhiêu phát biểu sau đây đúng khi nói về nhân tố tiên hóa X này?</p>
+// <p>I. Nhân tổ X là nhân tố có hướng.</p>
+// <p>II. Nhân tố X làm thay đổi cả tần số alen và thành phần kiểu gen của quần thể.</p>
+// <p>III. Nhân tố X làm tăng đa dạng di truyền của quần thể</p>
+// <p>IV. Nhân tố X có xu hướng giảm dần kiểu gen dị hợp tử và duy trì các kiểu gen đồng hợp&nbsp; trong quần thể.</p>
+// <p><strong>A.</strong> 2<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B. </strong>1.<strong></strong></p>
+// <p><strong>C</strong>.3.<strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D.</strong>4.</p>
+// <p><strong>Câu 23:</strong> Nguyên nhân chủ yếu dẫn đến sự phân hoá ổ sinh thái giữa các loài là:</p>
+// <p><strong>A.</strong>cạnh tranh sinh học giữa các loài.<strong></strong></p>
+// <p><strong>B. </strong>Nhu cầu ánh sáng khác nhau của các loai,<strong></strong></p>
+// <p><strong>C.</strong>việc sử dụng nguồn thức ăn trong quần xã của các loài</p>
+// <p><strong>D.</strong>Sự phân tầng theo chiều thẳng đứng hay chiều ngang.</p>
+// <p><strong>Câu 24:</strong> Ở vi khuẩn E.coli khi-nói về hoạt động của các gen cấu trúc trong Operon Lac, kết luận nào sau đây là đúng ?</p>
+// <p><strong>A. </strong>Các gen này có số lần nhân đôi khác nhau và số lân phiên mã khác nhau.</p>
+// <p><strong>B.</strong>Các gen nay có số lần nhân đôi bằng nhau nhưng số lần phiên mã khác nhau</p>
+// <p><strong>C. </strong>Cac gen này có số lần nhân đôi khác nhau nhưng số lần phiên mã bằng nhau.</p>
+// <p><strong>D. </strong>Các gen này có số lần nhân đôi bằng nhau và số lần phiên mã bằng nhau.</p>
+// <p><strong>Câu 25:</strong> Hình vẽ nào dưới đây mô tả đúng cơ chế tái bản ADN ở sinh vật nhân thực.</p>
+// <p>&nbsp;<img style="width: 100%; max-width: 500px;" src="https://img.loigiaihay.com/picture/2018/1223/de-603.jpg" alt=""></p>
+// <p><strong>Câu </strong>26: Điểm nào sau dây là đặc điểm chung giữa tường tác gen không alen 2 cặp gen tỉ lệ 9: 7 và tỉ lệ 13:3</p>
+// <p><strong>A. </strong>Tỷ lệ phân ly kiểu hình trong phép lai phân tích</p>
+// <p><strong>B. </strong>vai trò của 2 gen trội là như nhau</p>
+// <p><strong>C. </strong>gen lặn có vai trò ức chế biểu hiện của gen trội không cùng locus</p>
+// <p><strong>D. </strong>số loại kiểu gen trong mỗi loại kiểu hình bằng nhau</p>
+// <p><strong>Câu 27</strong>. Hình vẽ dưới đây minh họa cặp NST số 3 và ADN ti thể từ tế bào da của 2 cá thể đực và cái của một loài sinh sản hữu tính</p>
+// <p>&nbsp;<img style="width: 100%; max-width: 350px;" src="https://img.loigiaihay.com/picture/2018/1223/de-604.jpg" alt=""></p>
+// <p>Liên quan đến cặp NST được hiển thị và DNA ti thể nói trên, tính chất di truyền của con nhận được từ cặp NST của bố mẹ là</p>
+// <p>&nbsp;<img style="width: 100%; max-width: 500px;" src="https://img.loigiaihay.com/picture/2018/1223/de-605.jpg" alt=""></p>
+// <p><strong>Câu 28.</strong>Xét các mối quan hệ sau</p>
+// <p>I. Cá ép sống bám trên cá lớn</p>
+// <p>II. Nấm, vi khuẩn và tảo đơn bào hình thành địa y</p>
+// <p>III. Chim sáo và trâu rừng</p>
+// <p>IV. vi khuẩn lam trong nốt sần cây họ đậu</p>
+// <p>Phát biểu nào dưới đây đúng về các mối quan hệ sinh thái nói trên&nbsp;?</p>
+// <p><strong>A. </strong>Quan hệ hội sinh&nbsp;: I và IV</p>
+// <p><strong>B. </strong>quan hệ hợp tác: I và III</p>
+// <p><strong>C. </strong>quan hệ hỗ trợ: I,II,III và IV</p>
+// <p><strong>D. </strong>Quan hệ cộng sinh: II và III</p>
+// <p><strong>Câu 29.</strong> Khi nói về cơ chế dịch mã ở sinh vật nhân thực, có bao nhiêu phát biểu nào sau đây là đúng ?</p>
+// <p>I. Axit amin mở đầu trong quá trình dịch mã là methionin</p>
+// <p>II. Mỗi phân tử mARN có thể tổng hợp được từ 1 đến nhiều chuỗi polipeptitcùng loại</p>
+// <p>III. Khi riboxom tiếp xúc với mã UGA thì quá trình dịch mã dừng lại</p>
+// <p>IV. khi dịch mã, riboxom dịch chuyển trên phân tử mARN theo chiều 3’ → 5’</p>
+// <p><strong>A. </strong>2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>1</p>
+// <p><strong>C. </strong>4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D</strong>.3</p>
+// <p><strong>Câu 30</strong>. Đặc điểm nổi bật của kỉ Silua là ?</p>
+// <p><strong>A. </strong>xuất hiện thực vật có hoa, phân hóa tảo</p>
+// <p><strong>B. </strong>phân hóa cá xương, phát sinh lưỡng cư, côn trùng</p>
+// <p><strong>C. </strong>Phát sinh cây có mạch và động vật di chuyển lên cạn</p>
+// <p><strong>D. </strong>Dương xỉ phát triển mạnh thực vật có hạt xuất hiện</p>
+// <p><strong>Câu 31</strong>. Trong chu trình nito vi khuẩn nitrat hóa có vai trò</p>
+// <p><strong>A. </strong>Chuyển hóa NO<sub>2</sub><sup>-</sup> thành NO<sub>3</sub><sup>-</sup></p>
+// <p><strong>B. </strong>chuyển hóa N<sub>2</sub> thành NH<sub>4</sub><sup>+</sup></p>
+// <p><strong>C. </strong>Chuyển hóa NO<sub>3</sub><sup>-</sup> thành NH<sub>4</sub><sup>+</sup></p>
+// <p><strong>D. </strong>Chuyển hóa NH<sub>4</sub><sup>+</sup> thành NO<sub>3</sub><sup>-</sup></p>
+// <p><strong>Câu 32</strong>.Cho sơ đồ phả hệ</p>
+// <p>&nbsp;<img style="width: 100%; max-width: 500px;" src="https://img.loigiaihay.com/picture/2018/1223/de-606.jpg" alt=""></p>
+// <p>Cá thể số (4),(5) bị bệnh bạch tạng, cá thể số (14) mắc cả bệnh bạch tạng và mù màu đỏ xanh lục<strong>. </strong>biết rằng bệnh bạch tạng do gen lặn a nằm trên NST thường quy định, bệnh mù màu đỏ - xanh lục do gen b nằm trên vùng không tương đồng của NST X quy định. Xác suất cá thể&nbsp; số (15) không mang alen bệnh là bao nhiêu ?</p>
+// <p><strong>A. </strong>35% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>1,25%</p>
+// <p><strong>C. </strong>50% &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>78,75%</p>
+// <p><strong>Câu 33</strong>.Ở một loài thực vật alen A quy định hạt tròn trội hoàn toàn so với alen a quy định hạt dài; alen B quy định hạt chín sớm trội hoàn toàn so với alen b quy định hạt chín muôn. Hai gen này thuộc cùng một nhóm gen liên kết. Cho các cây hạt tròn, chín sớm tự thụ phấn thu được 1000 cây đời con với 4 kiểu hình khác nhau trong đó có 240 cây hạt tròn chín muộn. Biết rằng mọi diễn biến trong quá trình sinh hạt phấn và sinh noãn là như nhau. Kiểu gen và tần số hoán vị gen (f) ở cây đem lai là ?</p>
+// <p><strong>A. \(\dfrac{{AB}}{{ab}};f = 40\% \)</strong></p>
+// <p><strong>B. \(\dfrac{{Ab}}{{aB}};f = 40\% \)</strong></p>
+// <p><strong>C. \(\dfrac{{Ab}}{{aB}};f = 20\% \)</strong></p>
+// <p><strong>D. \(\dfrac{{AB}}{{ab}};f = 20\% \)</strong></p>
+// <p><strong>Câu 34.</strong> Ở một loài động vật có vú, cho lai giữa một cá thể đực mắt đỏ, đuôi dài với một cá thể cái mắt đỏ đuôi dài, F<sub>1</sub> thu được tỷ lệ như sau</p>
+// <p>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ở giới cái: 75% mắt đỏ , đuôi dài ; 25% mắt trắng đuôi dài</p>
+// <p>-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ở giới đực: 30% mắt đỏ đuôi dài: 42,5% mắt trắng đuôi ngắn: 20% mắt trắng đuôi dài: 7,5% mắt đỏ đuôi ngắn</p>
+// <p>Theo lý thuyết, khi nói về phép lai trên có bào nhiêu phát biểu sau đây đúng</p>
+// <p>I. tính trạng màu mắt di truyền theo quy luật tương tác bổ sung</p>
+// <p>II. Tính trạng đuôi ngắn là trội hoàn toàn so với đuôi dài</p>
+// <p>III. Cả hai loại tính trạng đều liên kết với giới tính</p>
+// <p>IV. hoán vị gen đã xảy ra với tần số 20%</p>
+// <p><strong>A. </strong>1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>4</p>
+// <p><strong>C. </strong>3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>2</p>
+// <p><strong>Câu 35</strong>.Ở ruồi giấm lai giữa con cánh dài mắt đỏ với con đực cánh dài mắt đỏ thu được F<sub>1</sub> tỉ lệ kiểu hình là 0,04 đực mắt trắng cánh dài; 0,0225 đực mắt trắng cánh cụt; 0,295 cái mắt đỏ cánh dài; 0,088 cái mắt đỏ cánh cụt; 0,088 cái mắt phớt hồng cánh dài: 0,045 cái mắt phớt hồng cánh cụt; 0,1475 con đực mắt đỏ cánh dài; 0,1875 đực mắt phớt hồng, cánh dài: 0,0625 đực mắt phớt hồng cánh cụt; 0,04 đực mắt đỏ, cánh cụt. Biết rằng kích thước cánh do 1 gen có 2 alen quy định (D,d). Kiểu gen của P là</p>
+// <p><strong>A. </strong>\(Aa\dfrac{{BD}}{{bd}} \times Aa\dfrac{{BD}}{{bd}}\)</p>
+// <p><strong>B. </strong>\(\dfrac{{Ad}}{{aD}}{X^B}{X^b} \times \dfrac{{Ad}}{{aD}}{X^B}Y\)</p>
+// <p><strong>C. </strong>\(\dfrac{{AD}}{{ad}}{X^B}{X^b} \times \dfrac{{Ad}}{{aD}}{X^B}Y\)</p>
+// <p><strong>D. </strong>\(\dfrac{{AB}}{{ab}}{X^D}{X^d} \times \dfrac{{AB}}{{ab}}{X^D}Y\)</p>
+// <p><strong>Câu 36.</strong> Một gen ở sinh vật nhân sơ có tổng số 3200 nucleotit trong đó số nucleotit loại A của gen chiếm 24%. Trên mạch đơn thứ nhất của gen có A<sub>1</sub>= 15% và G<sub>1</sub> = 26%. Theo lý thuyết có bao nhiêu phát biểu sau đây là đúng khi nói về gen trên ?</p>
+// <p>I. gen có tỷ lệ A/G = 12/13</p>
+// <p>II. trên mạch thứ nhất của gen có T/G = 33/26</p>
+// <p>III. trên mạch thứ 2 của gen có G/A = 15/26</p>
+// <p>IV. khi gen tự nhân đôi 2 lần, môi trường đã cung cấp 2304 nucleotit loại adenin.</p>
+// <p><strong>A. </strong>2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>4</p>
+// <p><strong>C. </strong>1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>3</p>
+// <p><strong>Câu 37.</strong> Ở một loài thực vật, alen A quy định thân cao trội hoàn toàn so với alen a quy định thân thấp , alen B quy định hoa tím trội hoàn toàn so với alen b quy định hoa trắng, alen D quy định quả đỏ trội hoàn toàn so với alen d quy định&nbsp; quả vàng , alen E quy định&nbsp; quả tròn trội hoàn toàn so với alen e quy định quả dài. Biết các quá trình giảm phân diễn ra bình thường, quá trình phát sinh giao tử đưc và cái đều xảy ra hoán vị gen giữa alen B và b với tần số 20%, giữa alen E và e với tần số 40%. Thực hiện phép lai: \(\dfrac{{Ab}}{{aB}}\dfrac{{DE}}{{de}} \times \dfrac{{Ab}}{{aB}}\dfrac{{DE}}{{de}}\) . theo lý thuyết có bao nhiêu phát biểu sau đây là đúng khi nói về F<sub>1</sub></p>
+// <p>I. Kiểu hình thân cao, hoa tím quả vàng tròn chiếm tỷ lệ 8,16%</p>
+// <p>II. Tỷ lệ thân cao hoa trắng quả đỏ dài bằng tỷ lệ thân thấp hoa tím vàng, tròn</p>
+// <p>III. tỷ lệ kiểu hình mang bốn tính trạng trội lớn hơn 30%</p>
+// <p>IV. kiểu hình lặn cả bốn tính trạng là 0,09%</p>
+// <p><strong>A. </strong>1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>3</p>
+// <p><strong>C. </strong>4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>2</p>
+// <p><strong>Câu 38</strong>. Ở một quần thể sau khi trải qua 3 thế hệ tự thụ phấn, tỷ lệ dị hợp trong quần thể bằng 8%. Biết rằng ở thế hệ xuất phát, quần thể có 30% số cá thể đồng hợp trội và cánh dài là trội hoàn toàn so với cánh ngắn. hãy cho biết trước khi xảy ra quá trình tự phối, tỷ lệ kiểu hình nào sau dây là của quần thể nói trên ?</p>
+// <p><strong>A. </strong>0,36 Cánh dài: 0,64 cánh ngắn</p>
+// <p><strong>B. </strong>0,94 cánh ngắn: 0,06 cánh dài</p>
+// <p><strong>C. </strong>0,6 cánh dài: 0,4 cánh ngắn</p>
+// <p><strong>D. </strong>0,06 cánh ngắn: 0,94 cánh dài</p>
+// <p><strong>Câu 39.</strong>Một loài thực vật,xét 3 cặp gen quy định 3 tính trạng, mỗi cặp gen nằm trên một cặp NST khác nhau. Trong đó alen A cho vị ngọt; a cho vị chua; alen B: chín sớm, b: chín muộn , alen D : có tua cuốn; d: không có tua cuốn. Cho hai cây giao phấn với nhau F<sub>1</sub> thu được 8 loại kiểu hình, theo lý thuyết kiểu gen của 2 cây P là 1 trong bao nhiêu trường hợp&nbsp; ?</p>
+// <p><strong>A. </strong>14 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>10</p>
+// <p><strong>C. </strong>18 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>4</p>
+// <p><strong>Câu 40.</strong> Ở cà chua, alen A quy định thân cao trội hoàn toàn so với alen a quy định thân thấp, alen B quy định quả đỏ trội hoàn toàn so với alen b quy định quả vàng. Hai cặp gen này phân ly độc lập . biết rằng không xảy ra đột biến. Theo lý thuyết, có bao nhiêu phát biểu sau đây là đúng ?</p>
+// <p>I. Ở loài này có tối đa 4 kiểu gen quy định kiểu hình thân cao, hoa đỏ</p>
+// <p>II. Cho một cây thân cao, quả đỏ tự thụ phấn đời con luôn thu được nhiều hơn 1 loại kiểu hình</p>
+// <p>III. Cho một cây thân cao, quả đỏ tự thụ phấn nếu thu được 4 loại kiểu hình thì số cây thân thấp quả vàng chiếm tỷ lệ 18,75%</p>
+// <p>IV. Cho một cây thân thấp quả đỏ tự thụ phấn có thể thu được 2 loại kiểu hình ở đời con.</p>
+// <p><strong>A. </strong>1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>B. </strong>3</p>
+// <p><strong>C. </strong>4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>D. </strong>2</p>
 // <p><strong class="content_detail">Lời giải chi tiết</strong></p>
 // <table border="1" cellspacing="0" cellpadding="0">
 //  <tbody>
 //   <tr>
-//    <td style="text-align: center;" valign="top" width="106"> <p>Câu</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>1</strong></p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>2</strong></p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>3</strong></p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>4</strong></p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>5</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>1</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>2</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>3</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>4</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>5</strong></p> </td>
 //   </tr>
 //   <tr>
-//    <td style="text-align: center;" valign="top" width="106"> <p>Đáp án</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>A</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>B</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
 //   </tr>
 //   <tr>
-//    <td style="text-align: center;" valign="top" width="106"> <p>Câu</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>6</strong></p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>7</strong></p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>8</strong></p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>9</strong></p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p><strong>10</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>6</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>7</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>8</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>9</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>10</strong></p> </td>
 //   </tr>
 //   <tr>
-//    <td style="text-align: center;" valign="top" width="106"> <p>Đáp án</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>B</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>D</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
-//    <td style="text-align: center;" valign="top" width="106"> <p>C</p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>B</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>B</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>11</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>12</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>13</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>14</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>15</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>B</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>16</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>17</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>18</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>19</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>20</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>B</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>21</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>22</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>23</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>24</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>25</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>26</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>27</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>28</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>29</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>30</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>31</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>32</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>33</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>34</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>35</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>A</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>&nbsp;</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>36</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>37</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>38</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>39</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>40</strong></p> </td>
+//   </tr>
+//   <tr>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>C</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>B</strong></p> </td>
+//    <td style="text-align: center;" valign="top" width="154"> <p><strong>D</strong></p> </td>
 //   </tr>
 //  </tbody>
 // </table>
-// <p style="text-align: left;"><strong>Lời giải chi tiết</strong></p>
-// <p><strong>Câu 1.</strong> Do G là trọng tâm tam giác KIE nên ta có \(3\overrightarrow {FG}\&nbsp; = \overrightarrow {FE}\&nbsp; + \overrightarrow {FK}\&nbsp; + \overrightarrow {FI} \) . Chọn đáp án A.</p>
-// <p><strong>Câu 4.</strong></p>
-// <p>\&nbsp;<img src="https://img./picture/2018/1221/2018-12-21-113442.jpg" alt="" width="246" height="285"></p>
-// <p>\&nbsp;Do \(\Delta ABC\)\&nbsp; là tam giác cân tại A , M là trung điểm BC nên \(AM \bot BC\) . Lại có \(SA \bot BC\). Do đó, \(BC \bot \left( {SAM} \right)\) . Chọn đáp án B.</p>
-// <p><strong>Câu 6.</strong> Do tứ diện ABCD có AB, BC, CD đôi một vuông góc nên ta có \(AB \bot BC,\,CD \bot BC\). Từ đó, ta có BC là đường vuông góc chung của AB và CD. Chọn đáp án B.</p>
-// <p><strong>Câu 7.</strong></p>
-// <p><img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113614.jpg" alt="" width="269" height="330"></p>
-// <p>Xét hai tam giác \(\Delta SAD,\,\Delta SAB\,\) có SA chung, AD = AB và \(\widehat {SAD} = \widehat {SAB} = {90^0}\,\,(SA \bot (ABCD))\)nên \(\Delta SAD = \Delta SAB\,\,\, \Rightarrow SD = SB\). Do đó, \(\Delta SBD\)\&nbsp; cân tại S.</p>
-// <p>Lại có O là giao điểm của hai đường chéo trong hình vuông ABCD nên\&nbsp; O là trung điểm của DB.</p>
-// <p>Suy ra tam giác SBD có \(SO \bot BD\,\,\, \Rightarrow \,\,\Delta SOD\)\&nbsp; vuông tại O.</p>
-// <p>Chọn đáp án D.</p>
-// <p><strong>Câu 8.</strong></p>
-// <p><img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113701.jpg" alt="" width="287" height="308">\&nbsp;</p>
-// <p>Do ABCD.A’B’C”D’ là hình hộp nên ta có diện tích tứ diện A’B’C’D’ bằng diện tích ABCD. Ta tính diện tích của ABCD có \(\widehat {ABC} = {60^0},\,BA = BC = a\) suy ra tam giác ABC đều. Từ đó, \({S_{ABCD}} = \dfrac{{a\sqrt 3 }}{2}.a = \dfrac{{{a^2}\sqrt 3 }}{2}\). Chọn đáp án D.</p>
-// <p><strong>Câu 9.</strong></p>
-// <p>\&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113744.jpg" alt="" width="272" height="362"></p>
-// <p>Lấy M là trung điểm BC. Do ABCD là hình vuông nên các cạnhvà đường chéo bằng nhau ,\(AC \bot BD\). Ta có \(OD = OM\sqrt 2 \). \(SO \bot \left( {ABCD} \right)\)nên tam giác SOD và tam giác SOM vuông tại O.</p>
-// <p>\(\begin{array}{l}\left( {(SBC),(ABCD)} \right) = \left( {SM,MO} \right) = \widehat {SMO} = \beta ,\\ \tan\alpha\&nbsp; = \dfrac{{SO}}{{OD}},\,\tan \beta\&nbsp; = \dfrac{{SO}}{{OM}}\\OD = \sqrt 2 OM \Rightarrow \tan \alpha\&nbsp; = \dfrac{{SO}}{{\sqrt 2 OM}} = \dfrac{{\tan \beta }}{{\sqrt 2 }}\\ \Rightarrow \tan \beta\&nbsp; = \sqrt 2 \tan \alpha \end{array}\)</p>
-// <p>Chọn đáp án C</p>
-// <p><strong>Câu 10.</strong></p>
-// <p>\&nbsp;<img src="https://img.loigiaihay.com/picture/2018/1221/2018-12-21-113832.jpg" alt="" width="234" height="356"></p>
-// <p>Ta có</p>
-// <p>\(\begin{array}{l}\left\{ \begin{array}{l}AB \bot BC\\AB \bot CD\end{array} \right.\,\, \Rightarrow \,\,AB \bot \left( {BCD} \right)\\AB \subset (ABD)\\ \Rightarrow \left( {ABD} \right) \bot \left( {BCD} \right)\end{array}\)</p>
+// <p><strong>Xem thêm: Lời giải chi tiết Đề thi thử THPT Quốc gia môn Sinh học tại Tuyensinh247.com</strong></p>
 // <p style="text-align: right;"><strong></strong></p>
 // <div class="clearfix"></div>`
-
-// string_inner_html = `<h2 class="s14 lineheight"></h2>
-// <p><strong>Bài 1. </strong>Trong các mệnh đề sau, mệnh đều nào đúng?</p>
-// <p>A. Mọi hình hộp có mặt cầu ngoại tiếp.</p>
-// <p>B. Mọi hình hộp đứng có mặt cầu ngoại tiếp.</p>
-// <p>C. Mọi hình hộp có mặt bên vuông góc với đáy đều có mặt cầu ngoại tiếp.</p>
-// <p>D. Mọi hình hộp chữ nhật đều có mặt cầu ngoại tiếp.</p>
-// <p><strong>Giải</strong></p>
-// <p><strong>\&nbsp;</strong>Hình bình hành nội tiếp đường trong phải là hình chữ nhật.</p>
-// <p>Chọn (D).</p>
-// <p><strong>Bài \&nbsp;2. </strong>Trong số các hình hộp nội tiếp một mặt cầu bán kính R thì</p>
-// <p>(A) Hình hộp có đáy là hình vuông có thể tích lớn nhất.</p>
-// <p>(B) Hình lập phương có thể tích lớn nhất.</p>
-// <p>(C) Hình hộp có kích thước tạo thành cấp số cộng công sai khác 0 có thể tích lớn nhất.</p>
-// <p>(D) Hình hộp có kích thước tạo thành cấp số nhân công bội khác 1 có thể tích lớn nhất.</p>
-// <p><strong>Giải</strong></p>
-// <p>Hình hộp nội tiếp một mặt cầu là hình hộp chữ nhật có đường chéo \(d = 2R\). Gọi \(x, y, z\) là các kích thước của hình hộp chữ nhật.</p>
-// <p>Ta có \({x^2} + {y^2} + {z^2} = {d^2} = 4{R^2}\)</p>
-// <p>Áp dụng BĐT Cô – si cho 3 số dương ta có:</p>
-// <p>\(4{R^2} = {x^2} + {y^2} + {z^2} \ge 3\root 3 \of {{x^2}{y^2}{z^2}}\&nbsp; = 3\root 3 \of {{V^2}}\&nbsp; \Rightarrow {V^2} \le {\left( {{{4{R^2}} \over 3}} \right)^3}\)</p>
-// <p>\(V\) đạt giá trị lớn nhất khi và chỉ khi \(x = y = z\).</p>
-// <p>Chọn (B).</p>
-// <p><strong>Bài 3.</strong> Một hình cầu có thể tích \({4 \over 3}\pi \)\&nbsp;ngoại tiếp một hình lập phương. Trong các số sau đây, số nào là thể tích khối lập phương?</p>
-// <p>(A) \({{8\sqrt 3 } \over 9}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) \({8 \over 3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(C) 1\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) \(2\sqrt 3 \)</p>
-// <p><strong>Giải</strong></p>
-// <p>Giả sử bán kính mặt cầu là \(R\) và cạnh hình lập phương là a thì thể tích khối cầu là \(V = {4 \over 3}\pi {R^3} \Rightarrow R = 1\) và \(4{R^2} = 3{a^2} = 4 \Rightarrow a = {2 \over {\sqrt 3 }}\)</p>
-// <p>Thể tích khối lập phương là \(V = {a^3} = {\left( {{2 \over {\sqrt 3 }}} \right)^3} = {8 \over {3\sqrt 3 }} = {{8\sqrt 3 } \over 9}\).</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 4. </strong>Trong các mệnh đề sau, mệnh đề nào đúng?</p>
-// <p>(A) Hình chóp có đáy là tứ giác thì có mặt cầu ngoại tiếp.</p>
-// <p>(B) Hình chóp có đáy là hình thang vuông thì có mặt cầu ngoại tiếp.</p>
-// <p>(C) Hình chóp có đáy là hình bình hành thì có mặt cầu ngoại tiếp.</p>
-// <p>(D) Hình chóp có đáy là hình thang cân thì có mặt cầu ngoại tiếp.</p>
-// <p><strong>Giải</strong></p>
-// <p>Hình chóp có đáy là tứ giác có mặt cầu ngoại tiếp thì đáy phải là tứ giác nội tiếp đường tròn.</p>
-// <p>Chọn (D).</p>
-// <p><strong>Bài 5. </strong>Cho tứ diện đều \(ABCD\) có cạnh bằng \(a\). Tập hợp các điểm \(M\) sao cho \(M{A^2} + M{B^2} + M{C^2} + M{D^2} = 2{a^2}\)</p>
-// <p>(A) Mặt cầu có tâm là trọng tâm của tam giác \(ABC\) và bán kính bằng \({{a\sqrt 2 } \over 2}\).</p>
-// <p>(B) Mặt cầu có tâm là trọng tâm của tứ diện và bán kính bằng \({{a\sqrt 2 } \over 4}\).</p>
-// <p>(C) Mặt cầu có tâm là trọng tâm của tứ diện và bán kính bằng \({{a\sqrt 2 } \over 2}\).<br>(D) Mặt cầu có tâm là trọng tâm của tam giác \(ABC\) và bán kính bằng \({{a\sqrt 2 } \over 4}\).</p>
-// <p><strong>Giải</strong></p>
-// <p><strong><img src="https://img./picture/2017/1108/toan-8_4.jpg" alt="" width="217" height="233"></strong></p>
-// <p>Gọi \(G\) là trọng tâm tứ diện \(ABCD, AA’\) là đường cao xuất phát từ \(A\) của tứ diện \(ABCD\). Ta có:</p>
-// <p>\(\eqalign{<br> &amp; AA' = \sqrt {A{B^2} - BA{'^2}} = \sqrt {{a^2} - {{{a^2}} \over 3}} = {{a\sqrt 6 } \over 3} \cr <br> &amp; \Rightarrow GA = GB = GC = GD = {3 \over 4}AA' = {{a\sqrt 6 } \over 4} \cr} \)</p>
-// <p>Ta có:\&nbsp; \&nbsp;\(M{A^2} + M{B^2} + M{C^2} + M{D^2} = 2{a^2}\)</p>
-// <p>\(\eqalign{<br> &amp; \Leftrightarrow {\left( {\overrightarrow {GA} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GB} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GC} - \overrightarrow {GM} } \right)^2} + {\left( {\overrightarrow {GD} - \overrightarrow {GM} } \right)^2} = 2{a^2} \cr <br> &amp; \Leftrightarrow 4G{A^2} + 4G{M^2} - 2\overrightarrow {GM} \left( {\overrightarrow {GA} + \overrightarrow {GB} + \overrightarrow {GC} + \overrightarrow {GD} } \right) = 2{a^2} \cr <br> &amp; \Leftrightarrow M{G^2} = {{{a^2}} \over 2} - G{A^2} = {{{a^2}} \over 8} \Rightarrow MG = {{a\sqrt 2 } \over 4} \cr} \)</p>
-// <p>Tập hợp các điểm \(M\) là mặt cầu tâm \(G\) bán kính \({{a\sqrt 2 } \over 4}\) . Chọn (B).</p>
-// <p><strong>Bài 6.</strong> Bán kính mặt cầu tiếp xúc với các cạnh của tứ diện đều \(ABCD\) cạnh bằng \(a\) là:</p>
-// <p>(A) \({{a\sqrt 2 } \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{a\sqrt 2 } \over 4}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(C) \(a\sqrt 2 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \(2a\sqrt 2 \)</p>
-// <p><strong>Giải</strong></p>
-// <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_5.jpg" alt="" width="236" height="261"></p>
-// <p>Gọi \(M, N\) lần lượt là trung điểm hai cạnh \(AB\) và \(CD\) của tứ diện đều \(ABCD\).</p>
-// <p>\(I\) là trung điểm của \(MN\) thì \(I\) cách đều \(6\) cạnh tứ diện nên \(I\) là tâm mặt cầu tiếp xúc với các cạnh của tứ diện đều.</p>
-// <p>Bán kính mặt cầu: \(R = {{MN} \over 2}\)</p>
-// <p>Ta có: \(M{N^2} = A{N^2} - M{A^2} = A{D^2} - N{D^2} - M{A^2} = {a^2} - {{{a^2}} \over 4} - {{{a^2}} \over 4} = {{{a^2}} \over 2} \Rightarrow MN = {{a\sqrt 2 } \over 2} \Rightarrow R = {{a\sqrt 2 } \over 4}\).</p>
-// <p>Chọn (B).</p>
-// <p><strong>Bài 7. </strong>Trong số các mệnh đề sau, mệnh đề nào đúng?</p>
-// <p>(A) Có duy nhất một măt cầu đi qua hai đường tròn nằm trong hai mặt phẳng cắt nhau.</p>
-// <p>(B) Có duy nhất một măt cầu đi qua hai đường tròn nằm trong hai mặt phẳng song song.</p>
-// <p>(C) Có duy nhất một măt cầu đi qua hai đường tròn cắt nhau.</p>
-// <p>(D) Có duy nhất một măt cầu đi qua hai đường tròn cắt nhau tại hai điểm phân biệt và không cùng nằm trong một mặt phẳng.</p>
-// <p><strong>Giải\&nbsp;</strong></p>
-// <p>Chon D.</p>
-// <p><strong>Bài 8. </strong>Cho hai điểm \(A, B\) phân biệt. Tập hợp các điểm \(M\) sao cho diện tích tam giác \(MAB\) không đổi là:</p>
-// <p>(A) Hai đường thẳng song song;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) Một mặt cầu;</p>
-// <p>(C) Một mặt trụ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Một mặt nón.</p>
-// <p><strong>Giải</strong></p>
-// <p>Tập hợp các điểm \(M\) sao cho khoảng cách từ \(M\) đến \(AB\) không đổi.</p>
-// <p>Chọn (C).</p>
-// <p><strong>Bài 9. </strong>Cho hai điểm phân biệt \(A, B\) cố định và phân biệt. Một đường thẳng \(l\) thay đổi luôn đi qua \(A\)\&nbsp;</p>
-// <p>và cách \(B\) một khoảng \({{AB} \over 2}\). Gọi \(H\) là hình chiếu của \(B\) trên \(l\). Tập hợp điểm \(H\) là:</p>
-// <p>(A) Một mặt phẳng;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) Một mặt trụ;</p>
-// <p>(C) Một mặt nón;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Một đường tròn.</p>
-// <p><strong>Giải</strong></p>
-// <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_6.jpg" alt="" width="327" height="207"></p>
-// <p>\(\sin \widehat {HAB} = {{BH} \over {AB}} = {1 \over 2} \Rightarrow \widehat {HAB} = {30^0}\)</p>
-// <p>Tập hợp \(l\) là mặt nón có trục AB, đường sinh \(l\), góc ở đỉnh là \({60^0}\). Gọi \(I\) là hình chiếu của H lên AB.</p>
-// <p>Ta có: \(BI = BH.cos{60^0} = {{AB} \over 4} \Rightarrow I\) cố định.</p>
-// <p>\( \Rightarrow H\) thuộc mặt phẳng qua \(I\) vuông góc với \(AB\). Vậy tâp hợp \(H\) là đường tròn.</p>
-// <p>Chọn (D).</p>
-// <p><strong>Bài 10. </strong>Với điểm \(O\) cố định thuộc mặt phẳng \((P)\) cho trước, xét đường thẳng \(l\)<em>\&nbsp;</em>thay đổi đi qua \(O\) và tạo với \((P)\) góc \(30^0\)\&nbsp;Tập hợp các đường thẳng \(l\)<em>\&nbsp;</em>trong không gian là:</p>
-// <p>(A) Một mặt phẳng;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) Hai đường thẳng;</p>
-// <p>(C) Một mặt trụ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) Một mặt nón.</p>
-// <p><strong>Giải</strong></p>
-// <p>Chọn D.</p>
-// <p><strong>Bài 11.</strong> Một hình trụ có bán kính đáy bằng \(a\), đường cao \({\rm{OO}}' = a\sqrt 3 \). Một đoạn thẳng \(AB\) thay đổi sao cho góc giữa \(AB\) và trục hình trụ bằng \(30^0\). \(A, B\) thuộc hai đường tròn đáy của hình trụ. Tập hợp các trung điểm \(I\) của \(AB\) là:</p>
-// <p>(A) Một mặt trụ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) Một mặt cầu;</p>
-// <p>(C) Một đường tròn;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Một mặt phẳng.</p>
-// <p><strong>Giải</strong></p>
-// <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_7.jpg" alt="" width="235" height="275"></strong></p>
-// <p>Gọi \(A’\) là hình chiếu của \(A\) xuống mặt phẳng đáy thì \(AA’ = OO’\). Gọi \(I, M, N\) lần lượt là trung điểm của \(OO’, AB\) và \(AA’\).</p>
-// <p>Ta có: \(IA = IB\) và \(IM \bot AB\).</p>
-// <p>Mp(IMN) qua \(I\) và song song với hai mặt phẳng đáy.</p>
-// <p>Ta có: \(MN = AN.\tan {30^0} = {{a\sqrt 3 } \over 2}.{1 \over {\sqrt 3 }} = {a \over 2}\)</p>
-// <p>\( \Rightarrow MI = \sqrt {N{I^2} - M{N^2}}\&nbsp; = \sqrt {{a^2} - {{{a^2}} \over 4}}\&nbsp; = {{a\sqrt 3 } \over 2}\)</p>
-// <p>Vậy tập hợp trung điểm \(M\) của \(AB\) là đường tròn tâm \(I\) bán kính \({{a\sqrt 3 } \over 2}\) nằm trong mp\((IMN)\).<br>Chọn (C).</p>
-// <p><strong>Bài 12.</strong> Trong mặt phẳng (P) cho góc xOy. Một mặt phẳng (Q) thay đổi và vuông góc với đường phân giác trong của góc xOy, cắt Ox, Oy tại A, B. Trong (Q) lấy điểm M sao cho \(\widehat {AMB} = {90^0}\). Khi ấy, tập hợp điểm M là:</p>
-// <p>(A) Một đường tròn;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) Một mặt trụ;</p>
-// <p>(C) Một mặt nón;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) Một mặt cầu.</p>
-// <p><strong>Giải</strong></p>
-// <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-81_1.jpg" alt="" width="300" height="317"></strong></p>
-// <p>Tập hợp M là một mặt nón đỉnh O.</p>
-// <p>Chọn (C).</p>
-// <p><strong>Bài 13.</strong> Cho hình lập phương ABCD.A’B’C’D’ có cạnh a. Diện tích xung quanh của hình nón tròn xoay sinh bởi đường gấp khúc AC’A’ khi quay quanh AA’ bằng:</p>
-// <p>(A) \(\pi {a^2}\sqrt 6 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \(\pi {a^2}\sqrt 3 \)\&nbsp;</p>
-// <p>(C) \(\pi {a^2}\sqrt 2 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \(\pi {a^2}\sqrt 5 \)</p>
-// <p><strong>Giải</strong></p>
-// <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_8.jpg" alt="" width="245" height="251"></p>
-// <p>Hình nón tròn xoay sinh bởi đường gấp khúc AC’A’ khi quay quanh \(AA' \) có bán kính đáy \(A'C'=a\sqrt 2\) và độ dài đường sinh \(AC' = a\sqrt 3 \) nên diện tích xung quanh của hình nón là: \({S_{xq}} = {1 \over 2}2\pi a\sqrt 2 .a\sqrt 3\&nbsp; = \pi {a^2}\sqrt 6 \)</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 14.</strong> Cho hình nón có bán kính đáy bằng a. Một dây cung thay đổi của đường tròn đáy có độ dài không đổi bằng a. Tập hợp các trung điểm của đoạn thẳng nối đỉnh hình nón với trung điểm của dây cung đó là:</p>
-// <p>(A) Một mặt nón cố đinh;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) Một mặt phẳng cố đinh;</p>
-// <p>(C) Một mặt trụ cố định;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Một đường tròn cố đinh.</p>
-// <p>Giải</p>
-// <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_9.jpg" alt="" width="243" height="288"></p>
-// <p>Gọi I là trung điểm AB ta có \(OI = \sqrt {O{B^2} - I{B^2}}\&nbsp; = \sqrt {{a^2} - {{{a^2}} \over 4}}\&nbsp; = {{a\sqrt 3 } \over 2}\)</p>
-// <p>Tập hợp I là đường tròn tâm O bán kính \({{a\sqrt 3 } \over 2}\)\&nbsp;trong mặt phẳng đáy hình nón. Gọi O’ là trung điểm SO và M là trung điểm của SI thì \(MO' = {1 \over 2}OI = {{a\sqrt 3 } \over 4}\)</p>
-// <p>Tập hợp các điểm M là đường tròn tâm O’ bán kính \({{a\sqrt 3 } \over 4}\) nằm trong mặt phẳng qua O’ và song song với mặt phẳng đáy.</p>
-// <p>Chọn (D).</p>
-// <p><strong>Bài 15.</strong> Cho hình trụ có bán kính đáy bằng R, chiều cao OO’. Cắt hình trụ đó bằng \(mp\left( \alpha\&nbsp; \right)\)\&nbsp;vuông góc với đáy và cách điểm O một khoảng bằng h cho trước (h&lt;R). Khi ấy, \(mp\left( \alpha\&nbsp; \right)\)\&nbsp;có tính chất:</p>
-// <p>(A) Luôn tiếp xúc với một mặt trụ cố định;</p>
-// <p>(B) Luôn cách một mặt phẳng cho trước qua trục hình trụ một khoáng h ;</p>
-// <p>(C) Cắt hình trụ theo thiết diện là hình vuông ;</p>
-// <p>(D) Cả ba tính chất trên đều sai.</p>
-// <p><strong>Giải</strong></p>
-// <p>\(mp\left( \alpha\&nbsp; \right)\)\&nbsp;luôn tiếp xúc với một mặt trụ cố định đường cao OO’ bán kính đáy h.</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 16.</strong> Một khối trụ có bán kính đáy \(a\sqrt 3 \), chiều cao \(2a\sqrt 3 \). Thể tích của khối cầu ngoại tiếp khối trụ là:</p>
-// <p>(A) \(8\sqrt 6 \pi {a^3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \(6\sqrt 6 \pi {a^3}\)\&nbsp;</p>
-// <p>(C) \({4 \over 3}\sqrt 6 \pi {a^3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) \(4\sqrt 3 \pi {a^3}\)</p>
-// <p><strong>Giải</strong></p>
-// <p>Đường kính khối cầu ngoại tiếp khối trụ là \(d = 2R = \sqrt {{{\left( {2a\sqrt 3 } \right)}^2} + {{\left( {2a\sqrt 3 } \right)}^2}}\&nbsp; = 2a\sqrt 6\&nbsp; \Rightarrow R = a\sqrt 6 \)<br><br>Thể tích khối cầu là \(V = {4 \over 3}\pi {\left( {a\sqrt 6 } \right)^3} = 8\pi {a^3}\sqrt 6 \).</p>
-// <p>Chọn (A).<br><strong>Bài 17.</strong>Cho hình nón có đường sinh bằng đường kính đáy và bằng 2. Bán kính mặt cầu ngoại tiếp hình nón đó là</p>
-// <p>(A) \(\sqrt 3 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \(2\sqrt 3 \)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(C) \({{\sqrt 3 } \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({{2\sqrt 3 } \over 3}\)</p>
-// <p><strong>Giải</strong></p>
-// <p><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_10.jpg" alt="" width="237" height="258"></p>
-// <p>Gọi AB là đường kính của mặt cầu ngoại tiếp hình nón, I là tâm đường tròn đáy của hình nón \(AI = \sqrt {A{C^2} - C{I^2}}\&nbsp; = \sqrt 3 \)</p>
-// <p>\(\Delta ABC\) vuông tại C nên \(A{C^2} = AI.AB \Rightarrow AB = {{A{C^2}} \over {AI}} = {4 \over {\sqrt 3 }} = {{4\sqrt 3 } \over 3}\)</p>
-// <p>\( \Rightarrow R = {{AB} \over 2} = {{2\sqrt 3 } \over 3}\). Chọn (D).</p>
-// <p><strong>Bài 18.</strong> Cho hình nón sinh bởi một tam giác đều cạnh a khi quay quanh một đường cao. Một mặt cầu có diện tích bằng diện tích toàn phần của hình nón thì có bán kính là</p>
-// <p>(A) \({{a\sqrt 3 } \over 4}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{a\sqrt 2 } \over 4}\)\&nbsp;</p>
-// <p>(C) \({{a\sqrt 2 } \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({{a\sqrt 3 } \over 2}\)</p>
-// <p><strong>Giải</strong></p>
-// <p>Diện tích toàn phần của hình nón là \({S_{tp}} = {S_{xq}} + {S_d} = \pi rl + \pi {r^2} = \pi {{{a^2}} \over 2} + \pi {{{a^2}} \over 4} = \pi {a^2}{3 \over 4}\)</p>
-// <p>Diện tích mặt cầu bán kính R là \(4\pi {R^2}\).</p>
-// <p>Suy ra \(4\pi {R^2} = \pi {a^2}{3 \over 4} \Rightarrow R = {{a\sqrt 3 } \over 4}\).</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 19.</strong> Cho một hình nón sinh bởi một tam giác đều cạnh a khi quay quanh một đường cao. Một khối cầu có thể tích bằng thể tích của khối nón thì có bán kính bằng</p>
-// <p>(A) \({{a\root 3 \of {2\sqrt 3 } } \over 4}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{a\root 3 \of 3 } \over 8}\)\&nbsp;</p>
-// <p>(C) \({{a\root 3 \of {2\sqrt 3 } } \over 8}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) \({{a\root 3 \of {2\sqrt 3 } } \over 2}\)</p>
-// <p><strong>Giải</strong></p>
-// <p>Chiều cao của khối nón là \({{a\sqrt 3 } \over 2}\)\&nbsp;và bán kính đáy bằng \({a \over 2}\) nên</p>
-// <p>\({V_n} = {1 \over 3}\pi {r^2}h = {1 \over 3}\pi {{{a^2}} \over 4}.{{a\sqrt 3 } \over 2} = {{\pi {a^3}\sqrt 3 } \over {24}}\)</p>
-// <p>Thể tích khối cầu bán kính R là \({V_c} = {4 \over 3}\pi {R^3}\).</p>
-// <p>Do đó \({{\pi {a^3}\sqrt 3 } \over {24}} = {4 \over 3}\pi {R^3} \Leftrightarrow {R^3} = {{{a^3}\sqrt 3 } \over {32}} \Rightarrow R = {{a\root 3 \of {\sqrt 3 } } \over {\root 3 \of {32} }} = {{a\root 3 \of {2\sqrt 3 } } \over 4}\)</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 20.</strong> Một hình nón có đường sinh bằng a và góc ở đỉnh bằng \(90^0\). cắt hình nón bằng mặt phẳng (a) đi qua đỉnh sao cho góc giữa (a) và mặt đáy hình nón bằng \(60^0\) . Khi đó diện tích thiết diện là</p>
-// <p>(A) \({{\sqrt 2 } \over 3}{a^2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{\sqrt 3 } \over 2}{a^2}\)\&nbsp;</p>
-// <p>(C) \({2 \over 3}{a^2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({3 \over 2}{a^2}\)</p>
-// <p><strong>Giải</strong></p>
-// <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_11.jpg" alt="" width="279" height="292"></strong></p>
-// <p>\(\eqalign{<br>&amp; OS = {1 \over 2}AB = {{a\sqrt 2 } \over 2} \cr\&nbsp;<br>&amp; SI = {{SO} \over {\sin {{60}^0}}} = {{a\sqrt 2 } \over {\sqrt 3 }} \cr\&nbsp;<br>&amp; OI = SO.\cot {60^0} = {{a\sqrt 2 } \over {2\sqrt 3 }} \cr\&nbsp;<br>&amp; \Rightarrow IC = \sqrt {O{C^2} - I{O^2}} = \sqrt {{{{a^2}} \over 2} - {{{a^2}} \over 6}} = {a \over {\sqrt 3 }} \cr\&nbsp;<br>&amp; S = {1 \over 2}SI.2IC = {{a\sqrt 2 } \over {\sqrt 3 }}.{a \over {\sqrt 3 }} = {{\sqrt 2 } \over 3}{a^2} \cr} \)</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 21.</strong> Cho hình chóp tứ giác đều có cạnh đáy bằng a, cạnh bên tạo với mặt đáy góc \(60^0\). Diện tích toàn phần của hình nón ngoại tiếp hình chóp là</p>
-// <p>(A) \({{3\pi {a^2}} \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) \({{3\pi {a^2}} \over 4}\)\&nbsp;</p>
-// <p>(C) \({{3\pi {a^2}} \over 6}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(D) \({{3\pi {a^2}} \over 8}\)</p>
-// <p><strong>Giải</strong></p>
-// <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_12.jpg" alt="" width="290" height="280"></strong></p>
-// <p>Bán kính đường tròn đáy của hình nón ngoại tiếp hình chóp là</p>
-// <p>\(\eqalign{<br>&amp; R = {{a\sqrt 2 } \over 2} \cr\&nbsp;<br>&amp; \cos {60^0} = {{BO} \over {SB}} \cr\&nbsp;<br>&amp; \Rightarrow SB = {{BO} \over {\cos {{60}^0}}} = 2{{a\sqrt 2 } \over 2} = a\sqrt 2 \cr} \)</p>
-// <p>Diện tích xung quanh hình nón \({S_{xq}} = {1 \over 2}.2\pi Rl = \pi {{a\sqrt 2 } \over 2}a\sqrt 2\&nbsp; = \pi {a^2}\)</p>
-// <p>Diện tích hình tròn đáy hình nón là \({S_d} = \pi {R^2} = \pi {{{a^2}} \over 2}\)</p>
-// <p>Diện tích toàn phần \({S_{tp}} = {S_{xq}} + {S_d} = \pi {a^2} + {{\pi {a^2}} \over 2} = {{3\pi {a^2}} \over 2}\)</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 22.</strong> Cho mặt cầu bán kính R và một hình trụ có bán kính đáy R và chiều cao 2R. Tỉ số thể tích khối cầu và khối trụ là</p>
-// <p>(A) \({2 \over 3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) \({3 \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(C) 2\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({1 \over 2}\)</p>
-// <p><strong>Giải</strong></p>
-// <p>Thể tích khối cầu bán kính R là \({V_c} = {4 \over 3}\pi {R^3}\)</p>
-// <p>Thể tích khối trụ \({V_t} = \pi {R^2}.2R = 2\pi {R^3} \Rightarrow {{{V_c}} \over {{V_t}}} = {2 \over 3}\).</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 23.</strong> Cho hình trụ có bán kính đáy bằng R, chiều cao cũng bằng R. Một hình vuông ABCD có hai cạnh AB và CD lần lượt là các dây cung của hai đường tròn đáy, mp(ABCD) không vuông góc với mặt phẳng đáy của hình trụ. Diện tích hình vuông đó là</p>
-// <p>(A) \({{5{R^2}} \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \(5{R^2}\)</p>
-// <p>(C) \({{5{R^2}\sqrt 2 } \over 2}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \(5{R^2}\sqrt 2 \)</p>
-// <p><strong>Giải</strong></p>
-// <p><strong><img src="https://img.loigiaihay.com/picture/2017/1108/toan-8_13.jpg" alt="" width="309" height="262"></strong></p>
-// <p>Gọi C’ là hình chiếu của C trên đáy hình trụ. Khi đó ta có \(AB \bot BC'\)\&nbsp;(vì \(AB \bot BC\)).</p>
-// <p>Vậy \(AC’ = 2R\).</p>
-// <p>Ta có: \(BC{'^2} = 4{R^2} - A{B^2} = A{B^2} - {R^2} \Rightarrow A{B^2} = {5 \over 2}{R^2}.\)</p>
-// <p>Chọn (A).</p>
-// <p><strong>Bài 24.</strong>\&nbsp;Một khối hộp chữ nhật nội tiếp trong một khối trụ. Ba kích thước của khối hộp chữ nhật là a, b, c.. Thể tích của khối trụ là</p>
-// <p>(A) \({1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;</p>
-// <p>(B) \({1 \over 4}\pi \left( {{b^2} + {c^2}} \right)a\)</p>
-// <p>(C) \({1 \over 4}\pi \left( {{c^2} + {a^2}} \right)b\)</p>
-// <p>(D) \({1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\)\&nbsp;hoặc \({1 \over 4}\pi \left( {{b^2} + {c^2}} \right)a\)\&nbsp;hoặc \({1 \over 4}\pi \left( {{c^2} + {a^2}} \right)b\)</p>
-// <p><strong>Giải</strong></p>
-// <p>\&nbsp;Nếu khối trụ có bán kính đáy là \(R = {1 \over 2}\sqrt {{a^2} + {b^2}} \) và chiều cao là c thì có thể tích \(V = {1 \over 4}\pi \left( {{a^2} + {b^2}} \right)c\). Vai trò của a, b, c như nhau nên chọn (D).</p>
-// <p><strong>Bài 25.</strong> Một khối tứ diện đều có cạnh a nội tiếp một khối nón. Thể tích khối nón là</p>
-// <p>(A) \({{\sqrt 3 } \over {27}}\pi {a^3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp;(B) \({{\sqrt 6 } \over {27}}\pi {a^3}\)\&nbsp;</p>
-// <p>(C) \({{\sqrt 3 } \over 9}\pi {a^3}\)\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) \({{\sqrt 6 } \over 9}\pi {a^3}\)</p>
-// <p><strong>Giải</strong></p>
-// <p>Khối nón có bán kính đường tròn đáy \(R = {{a\sqrt 3 } \over 3}\)\&nbsp;và chiều cao \(h = \sqrt {{a^2} - {{{a^2}} \over 3}}\&nbsp; = {a \over 3}\sqrt 6 \)\&nbsp;nên có thể tích \(V = {1 \over 3}\pi {{{a^2}} \over 3}.{{a\sqrt 6 } \over 3} = {{\sqrt 6 } \over {27}}\pi {a^3}\).</p>
-// <p>Chọn (B).</p>
-// <p><strong>Bài 26.</strong> Cho hình nón đỉnh S, đáy là hình tròn tâm O, góc ở đỉnh bằng \(120^0\). Trên đường tròn đáy, lấy một điểm A cố định và điểm M di động. Có bao nhiêu vị trí của M để diện tích tam giác SAM đạt giá trị lớn nhất ?</p>
-// <p>(A) Có 1 vị trí ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (B) Có 2 vị trí ;</p>
-// <p>(C) Có 3 vị trí ;\&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; \&nbsp; (D) Có vô số vị trí.</p>
-// <p><strong>Giải</strong></p>
-// <p>Gọi \(l\) là độ dài đường sinh của hình nón ta có \(SA = SM = l\).</p>
-// <p>Ta có: \({S_{\Delta SAM}} = {1 \over 2}SA.SM.\sin \widehat {ASM} = {1 \over 2}{l^2}\sin \widehat {ASM}\)</p>
-// <p>Để diện tích tam giác SAM lớn nhất thì \(\sin \widehat {ASM} = 1 \Rightarrow \widehat {ASM} = {90^0}\).</p>
-// <p>Vì góc ở đỉnh bằng \({120^0}\) nên có 2 vị trí thỏa mãn \(\widehat {ASM} = {90^0}\).</p>
-// <p>Chọn (B).</p>
-// <p style="text-align: right;"><strong>loigiaihay.com</strong></p>
-// <div class="clearfix"></div>`
-
-// string_inner_html = `<h2 class="s14 lineheight"></h2>
-// <p style="text-align: justify;">Tố Hữu có cả một dòng thơ viết về người mẹ. Trong tập thơ “Từ ấy” có bài ” Bà má Hậu Giang”; trong tập thơ “Việt Bắc” có “Bầm ơi!” “Bà Bủ”, “Bà mẹ Việt Bắc”, trong tập thơ “Gió lộng” có “Quê mẹ”, “Mẹ Tơm”; trong tập thơ”Ra trận” có “Mẹ Suốt”… Ông viết về người mẹ với tấm lòng thương yêu, kính trọng, ngợi ca.</p>
-// <p style="text-align: justify;">Bài thơ “Mẹ Tơm” cũng được tác giả viết với dòng cảm xúc cao quý ấy và gửi gắm lòng biết ơn người mẹ đã nuôi dưỡng nhà thơ trong những ngày vượt ngục. Từ xúc cảm cụ thể, bài thơ vươn lên triết lí, để cao dạo lí ân nghĩa của dân tộc.Tác giả đã chọn thể loại thơ trữ tình kết hợp với tự sự thích hợp với giọng điệu tâm tình. Kết cấu<br>\&nbsp;của bài thơ theo diễn biến của cuộc hành trình và theo sự vận động nội tâm của tác giả.</p>
-// <p style="text-align: justify;">Cái tôi trữ tình hiện diện ngay ở đầu bài thơ với cảm xúc dào dạt khi nhà thơ trở về miền biển Hậu Lộc, quê hương của mẹ Tơm, sau mười chún năm xa cách:</p>
-// <p style="text-align: center;">“Tôi lại về quê mẹ nuôi xưa<br>Một buổi trưa, nắg dài bãi cát<br>Gió lộng xôn xao, sóng biển đu đưa<br>Mát rượi lòng ta ngân nga tiếng hát…”</p>
-// <p style="text-align: justify;">Nhà thơ đi trong không gian thoáng đãng, dưới trưa nắng sáng, trong âm vang của sóng biển (hay sóng lòng?). Những từ láy phụ âm đầu như “xôn xao”. “đu đưa”. “ngân nga” đã cộng hưởng thành một hòa âm xao động mà êm ái du dương.</p>
-// <p style="text-align: justify;">Nhà thơ trửo nên hồn nhiên, trò chuyện với những cái không thể trò chuyện được, chào hỏi những vật vô tri như chào hỏi cố nhân:</p>
-// <p style="text-align: center;">“Hòn Nẹ ta ơi! Mảng về chưa đó<br>Có nhiều không con nục, con thu?<br>Cho những buồm nâu thuyền câu Diêm Phố!<br>Nhớ nhau chăng, hỡi Hanh Cát, Hanh Cù?”</p>
-// <p style="text-align: justify;">Màu sắc cũng được gợi lên thật đẹp. Màu xanh của “dừa xanh” đầy sức sống, nổi bật trên màu trắng của “cát trắng” tinh anh và điểm xuyết nét dỏ của “dưa đỏ ngọt lành”. Nhưng hay nhất của khúc tâm tình này là âm nhạc. Những từ láy và những vần lưng cộng hưởng thành những hòa âm phong phú”</p>
-// <p style="text-align: center;">“Mát rượi lòng ta ngân nga tiếng hát”<br>“Chào những buồm nâu thuyền câu Diêm Phố”<br>“Hỡi đồi cát trắng rung rinh nắng”</p>
-// <p style="text-align: justify;">Trong điệu nhạc ân tình, nhà thơ tưởng nhớ đến người mẹ nuôi xưa.</p>
-// <p style="text-align: center;">“Con đã về đây, ơi mẹ Tơm<br>Hỡi người mẹ khổ đã dành cơm<br>Cho con, cho Đảng ngày xưa ấy<br>Không sợ tù gông, chấp súng gươm”</p>
-// <p style="text-align: justify;">Tố Hữu nhớ đến mẹ Tơm là nhớ đến một người mẹ giàu lòng thương yêu, có lí tưởng cao quý. Chính mẹ Tơm mười chín năm về trước đã nuôi dưỡng, che chở, bảo vệ cho Tố Hữu trong những ngày vượt ngục đầy gian nan, bất chấp bạo lực của kẻ thù. Mẹ Tơm tình nghĩa mà anh hùng!<br>Nhà thơ ngạc nhiên, vui mừng trước sự đổi thay của quê hương Hậu Lộc :</p>
-// <p style="text-align: center;">“Nhà ai mới nhỉ, tường vôi trắng<br>Thơm phức mùi tôm nặng mấy nong<br>Ngồn ngộn sân phơi khoai dát nắng<br>Giếng vườn ai vậy , nước khơi trong ? “</p>
-// <p style="text-align: justify;">Màu sắc mới mẻ ( tường vôi trắng ) , hương vị miện biển ( thơm phức mùi tôm ) , hình ảnh “ ngồn ngộn sân phơi khoai dát nắng “ đã nói lên sự thay da đổi thịt của miền quê Hậu Lộc – một miền quê biển thanh bình , sung túc.</p>
-// <p style="text-align: justify;">Nhà thơ ngơ ngác trước cuộc sống lạ lùng hôm nay. “Cô gái má bồ quân “ , “ Mái đầu tóc xoã xanh bên giếng “ , mười chín năm trước đã quen thân , vậy mà giờ đây cả hai đều bỡ ngỡ . Lời thoại giữa cô gái và nhà thơ tạo ra không khí sôi nổi , trẻ trung cho thơ :</p>
-// <p style="text-align: center;">“Nhiều đấy ư em , mấy tuổi rồi ?<br>- Hai mươi.<br>- Ờ nhỉ , tháng năm trôi<br>Sóng bồi thêm bãi , thiền thêm bến<br>Gió lộng đường khơi , rộng đất trời ! “</p>
-// <p style="text-align: justify;">Rồi giọng thơ lại bùi ngùi trước hai tin buồn :</p>
-// <p style="text-align: center;">Ông mất năm nao ngày độc lập<br>“Bà về năm đói , làng treo lưới<br>Biển động : Hòn Mê , giặc bắn vào … “</p>
-// <p style="text-align: justify;">Nhà thơ lại “ bâng khuâng” nhớ lại chuyện cũ. Mười chín năm trước , Tố Hữu và một số bạn tù đã vượt ngục\&nbsp; Đắc Lay về Thanh Hoá và “ Duyên may dây nối , đất Hanh Cù”. Nhà thơ và các bạn tù đã tìm đến bà mẹ nghèo ở đất Hanh Cù :</p>
-// <p style="text-align: center;">“Đầu thôn , cồn vắng , túp lếu rơm :<br>Tổ ấm chim về . Có mẹ Tơm<br>Hai đứa trai ngày đi cúp dạo<br>Nồi khoai sớm tôi lót thay cơm”</p>
-// <p style="text-align: justify;">Mẹ Tơm nghèo nhưng tình nghĩa “thương người cộng sản, căm Tây , Nhật “ , trung thành , thuỷ chung với cách mạng :</p>
-// <p style="text-align: center;">“Buồng Mẹ – buồng tim – giấu chúng con”</p>
-// <p style="text-align: justify;">Thật không còn hình ảnh nào xác thực hơn để ngợi ca lòng trung thành của mẹ Tơm đối với Đảng , với cách mạng ! Hình tượng người Mẹ cứ lớn dần lên hoà lẫn với non nước thật là cao đẹp.</p>
-// <p style="text-align: center;">…”Bóng Mẹ ngồi canh lẩn bóng cồn “</p>
-// <p style="text-align: center;">…”Bóng Mẹ ngồi trông , vọng nước non !”</p>
-// <p style="text-align: justify;">Mẹ Tơm từ người mẹ nuôi dưỡng , đã trở thành người mẹ tranh đấu. Từ những việc làm âm thầm như nuôi giấu cán bộ , ngồi canh cho những hoạt động của chiến sĩ cách mạng , dần dần Mẹ đã tham gia trực tiếp vào cuộc chiến tranh :</p>
-// <p style="text-align: center;">“Chợ xa , Mẹ gánh mớ rau xanh<br>Thêm bó truyền đơn gọi đấu tranh<br>Bãi cát vàng thau in bóng mẹ<br>Chiều về…Hòn Nẹ…biển reo quanh! “</p>
-// <p style="text-align: justify;">Mẹ Tơm gợi nhớ đến nhân vật Nilôpna trong tiểu thuyết “ Người mẹ “ của Macxim Go-rơ-ki. Hai người Mẹ đều bắt đầu từ tự phát đến tự giác đấu tranh .Và đều có những hành động anh hùng , bất khuất.</p>
-// <p style="text-align: justify;">Nhà thơ tưởng niệm mẹ Tơm bằng một “ nén hương thơm “ và triết lí sâu sắc ngợi ca người Mẹ tình nghĩa mà anh hùng :</p>
-// <p style="text-align: center;">“Ôi bóng người xưa , đã khuất rồi<br>Tròn đôi nấm đất trắng chân đồi<br>Sống trong cát , chết vùi trong cát<br>Những trái tim như ngọc sáng ngời !<br>Đốt nén hương thơm , mát dạ Người<br>Hãy về vui chút , mẹ Tơm ơi!<br>Nắng tươi xóm ngói , tường vôi mới<br>Phấp phới buồm giong , nắng biển khơi “</p>
-// <p style="text-align: justify;">Thành công lớn nhất của bài thơ là đã tái hiện được hình ảnh mẹ Tơm . Người mẹ nghèo khổ sống lặng lẽ âm thầm nhưng giàu lòng thương yêu và son sắt thuỷ chung với cách mạng . Từ người mẹ thật ngoài đời đã bước vào trong thơ thành nhân vật lí tưởng của thi nhân . Tượng đài người mẹ anh hùng mà tình nghĩa dược hiện lên trong âm nhạc hoài niệm và ngợi ca nên có sức ngân vang mãi trong lòng người đọc.</p>
-// <p style="text-align: right;"><strong></strong></p>
-// <p style="text-align: justify;">C. Biểu cảm\&nbsp;D. Thuyết minh.</p>
-// <div class="clearfix"></div>`;
-
-
-let question_default = ''//'I. ĐỀ BÀI THAM KHẢO, Đề 1: Trong vai Lạc Long Quân, kể lại câu chuyện truyền thuyết Con Rồng cháu Tiên. Đề 2: Kể lại một câu chuyện cổ tích bằng lời văn của em (Sọ Dừa). A. asdsadsa    B.asdsadasd';
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-let dom = new JSDOM('<!doctype html><html><body></body></html>');
-let document = dom.window.document;
-var build = new Build(document, null);
-build.init(string_inner_html, question_default, 'wqeqwe')

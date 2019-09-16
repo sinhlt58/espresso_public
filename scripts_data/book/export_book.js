@@ -58,7 +58,6 @@ async function validate(dom) {
 
 const domain = "loigiaihay.com"
 const tree = new TreeModel()
-const build = new Build(document, logger);
 
 reqES.searchBookByKeyWithDomain(grade, domain).then(async data => {
     const hits = data.hits.hits;
@@ -90,6 +89,7 @@ reqES.searchBookByKeyWithDomain(grade, domain).then(async data => {
 
         const dom = new JSDOM('<!doctype html><html><body></body></html>');
         const document = dom.window.document;
+        const build = new Build(document, logger);
         const style = document.createElement('style');
         style.type = 'text/css';
         style.innerHTML = '.titleBlue { color: blue; } .subTitle { color: grey; font-size:24px; font-style: italic;} .error { color: red; }';
@@ -104,26 +104,31 @@ reqES.searchBookByKeyWithDomain(grade, domain).then(async data => {
         for (let index = 0; index < list.length; index++) {
             const sub_list = list[index];
             const root = tree.parse(sub_list);
-            root.walk(node => {
+            // root.walk(node => {
+            //     console.log(" ".repeat(node.getPath().length*2), node.model.name, node.hasChildren())
+            // })
+            const nodes = await root.all()
+            for (let i = 0; i < nodes.length; i++) {
+                const node = nodes[i];
                 let path_length = node.getPath().length;
-                if (node.hasChildren()) {
-                    current_index = await exportUnits(dom, node, book_name, true, current_index, path_length);
-                    current_index = await exportUnits(dom, node, book_name, false, current_index, path_length);
+                if (!node.hasChildren()) {
+                    current_index = await exportUnits(build, dom, node, source.ten_sach, true, current_index, path_length, start_element, end_element, style);
+                    current_index = await exportUnits(build, dom, node, source.ten_sach, false, current_index, path_length, start_element, end_element, style);
                 } else {
-                    appendHeader(document, path_length, node.model.data) 
+                    appendHeader(document, path_length, node.model.name)
                 }
-            })
+            }
         }
 
         if (document.body.children.length > 0) {
-            write(source.ten_sach, current_index, dom, start_element, end_element);
+            await write(source.ten_sach, current_index, dom, start_element, end_element, style);
         }
 
     }
 
 })
 
-function checkMaxDepth(document, depth) {
+function checkMaxDepth(document, depth, is_theory) {
     if (depth <= max_depth) {
         let title = "Bài tập";
         if (is_theory) {
@@ -158,7 +163,7 @@ function insertCheckError(document, build, book, unit, current_index) {
     }
 }
 
-function write(book, current_index, dom, start_element, end_element) {
+async function write(book, current_index, dom, start_element, end_element, style) {
     const book_name = book.trim().replace(' ', '_') + '_' + current_index + '.html';
     logger_validate.log("!!!Validating: " + book_name)
     dom = await validate(dom);
@@ -172,13 +177,13 @@ function write(book, current_index, dom, start_element, end_element) {
     logger.log('!!!!!!Done export: ' + book_name + ", number: " + current_index + '\n===========\n');
 }
 
-async function exportUnits(dom, node, book, is_theory, current_index, path_length, start_element, end_element) {
+async function exportUnits(build, dom, node, book, is_theory, current_index, path_length, start_element, end_element, style) {
     const document = dom.window.document;
-    checkMaxDepth(document, path_length);
+    checkMaxDepth(document, path_length, is_theory);
 
     // do tieu_de bij overflow thanh '..' va
     // can loai bo cac chu khong co nghia khi lay substring
-    let unit = node.model.data;
+    let unit = node.model.name;
     const max_lengt_unit = 54;
     if (unit.length > max_lengt_unit) {
         unit = unit.trim();
@@ -211,8 +216,8 @@ async function exportUnits(dom, node, book, is_theory, current_index, path_lengt
         insertCheckError(document, build, book, unit, current_index)
 
         let size = sizeof(document.body.innerHTML);
-        if (size >= 262144000) {
-            write(book, current_index, dom, start_element, end_element)
+        if (size >= 1048576) {
+            await write(book, current_index, dom, start_element, end_element, style)
             document.body.innerHTML = ''
             current_index++;
             if (index < hits.length - 1) {
@@ -220,9 +225,9 @@ async function exportUnits(dom, node, book, is_theory, current_index, path_lengt
                 for (let i = 0; i < parents_node.length; i++) {
                     const parent_node = parents_node[i];
                     const number = i + 1;
-                    appendHeader(document, number, parent_node.model.data)
+                    appendHeader(document, number, parent_node.model.name)
                 }
-                checkMaxDepth(document, path_length);
+                checkMaxDepth(document, path_length, is_theory);
             }
         }
     }
