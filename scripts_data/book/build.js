@@ -245,7 +245,7 @@ class Build {
     }
 
     isSiblingsSameType() {
-        return this._is_siblings_same_type.length;
+        return this._is_siblings_same_type;
     }
 
     isAllHaveSolution() {
@@ -498,7 +498,7 @@ class Build {
     }
 
 
-    init(string_inner_html, question_default, title, book) {
+    init(string_inner_html, question_default, title, book, is_theory) {
 
         this._element = this._document.createElement("div");
 
@@ -507,44 +507,32 @@ class Build {
         this._title = title;
         this._book = book;
 
-        try {
+        if (this._tree) delete this._tree
+        if (this._root_problem) delete this._root_problem;
+        if (this._root_solution) delete this._root_solution;
+        if (this._index_unexported) delete this._index_unexported;
+        if (this._result) delete this._result;
+        this._index_unexported = [];
+        this._is_siblings_same_type = true;
+        this._is_all_have_solution = true;
+
+        if (is_theory) {
             this._cleanRedundantString()
             this._element.innerHTML = this._string_inner_html;
-            this._cleanRedundantNode();
-            this._standardizedStructElement()
-            this._string_inner_html = this._element.innerHTML;
+            this._result = this._element.cloneNode(true);
+        } else {
+            try {
+                this._cleanRedundantString();
+                this._element.innerHTML = this._string_inner_html;
+                this._cleanRedundantNode();
+                this._standardizedStructElement()
+                this._string_inner_html = this._element.innerHTML;
 
-            this._abstract_problem_index = this._findStartAbstractProblem();
-            this._abstract_solution_index = this._findStartAbstractSolution();
+                this._abstract_problem_index = this._findStartAbstractProblem();
+                this._abstract_solution_index = this._findStartAbstractSolution();
 
-            if (this._tree) delete this._tree
-            if (this._root_problem) delete this._root_problem;
-            if (this._root_solution) delete this._root_solution;
-            if (this._index_unexported) delete this._index_unexported;
-            if (this._result) delete this._result;
-
-            this._index_unexported = [];
-            this._is_siblings_same_type = true;
-            this._is_all_have_solution = true;
-            this._tree = new TreeModel()
-            this._root_problem = this._tree.parse({
-                numerical_order: -1,
-                text: "root",
-                is_one_line: false,
-                indexs: [],
-                sub_indexs: [],
-                plan_indexs: [],
-                solution_indexs: [],
-                solution_detail_indexs: [],
-                answer_multiple_choises: [],
-                group: "root",
-                label: "root",
-                type: "root",
-                answer: {},
-            });
-
-            if (this._abstract_solution_index > -1 && this._abstract_solution_index < this._element.children.length) {
-                this._root_solution = this._tree.parse({
+                this._tree = new TreeModel()
+                this._root_problem = this._tree.parse({
                     numerical_order: -1,
                     text: "root",
                     is_one_line: false,
@@ -559,31 +547,49 @@ class Build {
                     type: "root",
                     answer: {},
                 });
+
+                if (this._abstract_solution_index > -1 && this._abstract_solution_index < this._element.children.length) {
+                    this._root_solution = this._tree.parse({
+                        numerical_order: -1,
+                        text: "root",
+                        is_one_line: false,
+                        indexs: [],
+                        sub_indexs: [],
+                        plan_indexs: [],
+                        solution_indexs: [],
+                        solution_detail_indexs: [],
+                        answer_multiple_choises: [],
+                        group: "root",
+                        label: "root",
+                        type: "root",
+                        answer: {},
+                    });
+                }
+
+                this._buildTree();
+                this._buildResult();
+            } catch (error) {
+                console.log(error)
             }
 
-            this._buildTree();
-            this._buildResult();
-        } catch (error) {
-            console.log(error)
+            this._root_problem.all(node => {
+                console.log(" ".repeat(node.getPath().length * 2) + node.model.text,
+                    node.model.indexs, node.model.sub_indexs, node.model.plan_indexs,
+                    node.model.solution_indexs, node.model.solution_detail_indexs,
+                    node.model.group, node.model.label, node.model.type, node.model.is_merge_wrong, node.model.answer, node.model.tag)
+            })
+            // if (this._root_solution) {
+            //     console.log('\n')
+            //     this._root_solution.all(node => {
+            //         console.log(" ".repeat(node.getPath().length * 2) + node.model.text,
+            //             node.model.indexs, node.model.sub_indexs, node.model.plan_indexs,
+            //             node.model.solution_indexs, node.model.solution_detail_indexs,
+            //             node.model.group, node.model.label, node.model.type)
+            //     })
+            // }
+            // console.log(this._index_unexported, this._is_siblings_same_type, this._is_all_have_solution)
+            console.log(this._result.innerHTML)
         }
-
-        this._root_problem.all(node => {
-            console.log(" ".repeat(node.getPath().length * 2) + node.model.text,
-                node.model.indexs, node.model.sub_indexs, node.model.plan_indexs,
-                node.model.solution_indexs, node.model.solution_detail_indexs,
-                node.model.group, node.model.label, node.model.type, node.model.is_merge_wrong, node.model.answer, node.model.tag)
-        })
-        // if (this._root_solution) {
-        //     console.log('\n')
-        //     this._root_solution.all(node => {
-        //         console.log(" ".repeat(node.getPath().length * 2) + node.model.text,
-        //             node.model.indexs, node.model.sub_indexs, node.model.plan_indexs,
-        //             node.model.solution_indexs, node.model.solution_detail_indexs,
-        //             node.model.group, node.model.label, node.model.type)
-        //     })
-        // }
-        // console.log(this._index_unexported, this._is_siblings_same_type, this._is_all_have_solution)
-        console.log(this._result.innerHTML)
     }
 
     _insertHeading5(model) {
@@ -722,7 +728,7 @@ class Build {
                     }
                 }
                 let inner_html = this._convertSpecCharacter(sub_plant_element.innerHTML);
-                
+
                 list_sub_plan.push(this._document.createTextNode(inner_html.replace(/&nbsp;/g, '')))
             }
             if (list_sub_plan.length > 0) {
@@ -833,6 +839,7 @@ class Build {
 
                     let tmp_child_element_text = child_element_text;
                     if (child_priority.is_lower_case) tmp_child_element_text = child_element_text.toLowerCase();
+                    else if (child_priority.is_inner_html) tmp_child_element_text = child_element.innerHTML;
                     let check = tmp_child_element_text.match(child_priority.regex);
                     if (check == null) continue;
 

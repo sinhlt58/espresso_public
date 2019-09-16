@@ -16,6 +16,7 @@
     "mathjax-node-page": "^3.2.0",
     "mathjax-node-svg2png": "^2.0.0",
     "node-fetch": "^2.6.0",
+    "object-sizeof": "^1.5.1",
     "sharp": "^0.22.1",
     "tree-model": "^1.0.7"
   }
