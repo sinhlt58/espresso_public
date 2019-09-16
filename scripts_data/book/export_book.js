@@ -159,7 +159,7 @@ function insertCheckError(document, build, book, unit, current_index) {
     }
     if (!build.isAllHaveSolution()) {
         check_error_element.appendChild(document.createTextNode('Cảnh báo: có lỗi trong phân tích - các phần chưa có hết các lời giải\n'))
-        logger.warn('Cảnh báo: có lỗi trong phân tích - các phần chưa có hết các lời giải: "' + unit + '" trong sách: "' + book + '" số: ' + current_index)
+        logger.warn('Cảnh báo: có lỗi trong phân tích - các phần chưa có hết các lời giải hoặc đáp án: "' + unit + '" trong sách: "' + book + '" số: ' + current_index)
     }
 }
 
