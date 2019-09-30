@@ -48,11 +48,11 @@ app.use(express.json());
 import routes from "./routes";
 app.use("/api", routes);
 
-// app.get("/*", function(req, res) {
-//   res.sendFile(
-//     path.join(__dirname, "../..", "expresso-client", "build", "index.html")
-//   );
-// });
+app.get("/*", function(req, res) {
+  res.sendFile(
+    path.join(__dirname, "../..", "expresso-client", "build", "index.html")
+  );
+});
 
 // In the most basic sense, the ApolloServer can be started
 // by passing type definitions (typeDefs) and the resolvers
