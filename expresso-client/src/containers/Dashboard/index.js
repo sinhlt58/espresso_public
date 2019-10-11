@@ -89,7 +89,7 @@ class Dashboard extends Component {
 
     if (res.data.brandCompletion.length === 0) {
       const botRes = await axios.post(
-        "https://botcuaban.com/api/v1/bots/data_espresso/chat",
+        "https://botcuaban.com/api/v1/bots/5d71dcef30011bb759ec3111/chat",
         {
           text: value
         }
