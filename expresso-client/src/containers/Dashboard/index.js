@@ -91,7 +91,8 @@ class Dashboard extends Component {
       const botRes = await axios.post(
         "https://botcuaban.com/api/v1/bots/5d71dcef30011bb759ec3111/chat",
         {
-          text: value
+          text: value,
+          secret_token: "079fc32199e15a516072221dd09fb2b2162e4c43c8454ac81d8d199d2e1bdf2d"
         }
       );
 
